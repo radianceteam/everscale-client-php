@@ -1,0 +1,39 @@
+{
+  "name": "radianceteam/ton-client-php",
+  "description": "TON Client Wrapper for PHP",
+  "autoload": {
+    "psr-4": {
+      "\\": "src/"
+    },
+    "classmap": [
+      "src/"
+    ]
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "\\": "tests/"
+    },
+    "classmap": [
+      "src/",
+      "tests/"
+    ]
+  },
+  "config": {
+    "platform": {
+      "php": "7.4"
+    }
+  },
+  "minimum-stability": "stable",
+  "require": {
+    "php": ">=7.4",
+    "ext-json": "*",
+    "ext-ton_client": "*"
+  },
+  "scripts": {
+    "test": "phpunit",
+    "generate": "php gen.php"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^9.4"
+  }
+}
