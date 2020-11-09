@@ -34,6 +34,7 @@
     "generate": "php gen.php"
   },
   "require-dev": {
-    "phpunit/phpunit": "^9.4"
+    "phpunit/phpunit": "^9.4",
+    "nette/php-generator": "^3.5"
   }
 }

@@ -12,7 +12,7 @@
 2. Copy `ton_client.dll` into `C:\php`.
 3. Copy `ext\php_ton_client.dll` directory into `C:\php\ext`.
 4. Copy `C:\php\php-ini.production` to `C:\php\php.ini`
-5. Add the following to `C:\php\php-ini`: `extension="C:\php\ext\php_ton_client.dll"`
+5. Add the following to `C:\php\php-ini`: `extension=".\ext\php_ton_client.dll"`
 6. Verify `ton_client` extension is enabled by inspecting output of `php --info`:
 
 ```
@@ -28,6 +28,12 @@ ton_client support => enabled
 
 ```
 composer test
+```
+
+## Re-generate classes
+
+```
+composer generate
 ```
 
 ## Notes
