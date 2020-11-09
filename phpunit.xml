@@ -1,0 +1,22 @@
+﻿<phpunit bootstrap="vendor/autoload.php"
+         backupGlobals="false"
+         backupStaticAttributes="false"
+         colors="true"
+         convertErrorsToExceptions="true"
+         convertNoticesToExceptions="true"
+         convertWarningsToExceptions="true"
+         processIsolation="false"
+         stopOnFailure="false"
+         syntaxCheck="true">
+
+    <testsuites>
+        <testsuite name="Project Test Suite">
+            <directory suffix="Tests.php">tests</directory>
+        </testsuite>
+    </testsuites>
+
+    <php>
+        <ini name="error_reporting" value="E_ALL"/>
+    </php>
+
+</phpunit>

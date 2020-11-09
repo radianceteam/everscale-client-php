@@ -32,13 +32,14 @@ composer test
 
 ## Notes
 
-It's imporant to note that *only synchronous functions/methods are implemented* due to the sync nature of PHP. 
+It's important to note that *only synchronous functions/methods are implemented* due to the sync nature of PHP. 
 There is a possibility of making it async by using third-party lib like [Amp](https://github.com/amphp/amp)
 but it requires the full SDK implementation in PHP, without `ton_client.dll` calls, which is out of scope currently.
 (It may be done in the future versions of the wrapper, and it can't be called a wrapper in such case :)).
 
 ## TODO
 
-## 100% function coverage (sync only).
-## Remove binaries from the repo, download them from `ton-client-php-ext` GitHub repo (requires some CI/CD setup).
-## Linux and Mac readme.
+ - 100% function coverage (sync only).
+ - Remove binaries from the repo, download them from `ton-client-php-ext` GitHub repo (requires some CI/CD setup).
+ - Linux and Mac readme.
+ - Separate Development/usage readme.
