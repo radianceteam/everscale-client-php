@@ -39,7 +39,7 @@ class ResultOfRunExecutor implements JsonSerializable
     public function __construct(?array $dto = null)
     {
         if (!$dto) return;
-        $this->_transaction = new ($dto['transaction']);
+        $this->_transaction = $dto['transaction'];
         $this->_outMessages = $dto['out_messages'];
         $this->_decoded = new DecodedOutput($dto['decoded']);
         $this->_account = $dto['account'];

@@ -10,10 +10,15 @@
 
 1. Unpack PHP distribution into some directory (let's call it `C:\php` for brevity).
 2. Copy `ton_client.dll` into `C:\php`.
-3. Copy `ext\php_ton_client.dll` directory into `C:\php\ext`.
+3. Copy `ext\php_ton_client.dll` into `C:\php\ext`.
 4. Copy `C:\php\php-ini.production` to `C:\php\php.ini`
-5. Add the following to `C:\php\php-ini`: `extension=".\ext\php_ton_client.dll"`
-6. Verify `ton_client` extension is enabled by inspecting output of `php --info`:
+5. Add the following to `C:\php\php-ini`: 
+
+```
+extension=".\ext\php_ton_client.dll"`
+```
+
+6. Verify that `ton_client` extension is enabled by inspecting output of `php --info`:
 
 ```
 ton_client

@@ -18,7 +18,7 @@ class ResultOfWaitForCollection implements JsonSerializable
     public function __construct(?array $dto = null)
     {
         if (!$dto) return;
-        $this->_result = new ($dto['result']);
+        $this->_result = $dto['result'];
     }
 
     /**

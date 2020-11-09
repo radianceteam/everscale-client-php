@@ -18,7 +18,7 @@ class ResultOfRunGet implements JsonSerializable
     public function __construct(?array $dto = null)
     {
         if (!$dto) return;
-        $this->_output = new ($dto['output']);
+        $this->_output = $dto['output'];
     }
 
     /**

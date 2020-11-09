@@ -31,7 +31,7 @@ class ParamsOfQueryCollection implements JsonSerializable
     {
         if (!$dto) return;
         $this->_collection = $dto['collection'];
-        $this->_filter = new ($dto['filter']);
+        $this->_filter = $dto['filter'];
         $this->_result = $dto['result'];
         $this->_order = $dto['order'];
         $this->_limit = $dto['limit'];

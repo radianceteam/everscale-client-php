@@ -26,7 +26,7 @@ class DeploySet implements JsonSerializable
         if (!$dto) return;
         $this->_tvc = $dto['tvc'];
         $this->_workchainId = $dto['workchain_id'];
-        $this->_initialData = new ($dto['initial_data']);
+        $this->_initialData = $dto['initial_data'];
     }
 
     /**

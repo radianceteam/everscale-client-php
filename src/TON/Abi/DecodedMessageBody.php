@@ -29,7 +29,7 @@ class DecodedMessageBody implements JsonSerializable
         if (!$dto) return;
         $this->_bodyType = new MessageBodyType($dto['body_type']);
         $this->_name = $dto['name'];
-        $this->_value = new ($dto['value']);
+        $this->_value = $dto['value'];
         $this->_header = new FunctionHeader($dto['header']);
     }
 

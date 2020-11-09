@@ -27,7 +27,7 @@ class DecodedOutput implements JsonSerializable
     {
         if (!$dto) return;
         $this->_outMessages = $dto['out_messages'];
-        $this->_output = new ($dto['output']);
+        $this->_output = $dto['output'];
     }
 
     /**

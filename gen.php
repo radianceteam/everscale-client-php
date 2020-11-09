@@ -207,6 +207,7 @@ function add_type_constructor(array $type, ClassType $class)
             case 'string':
             case 'array':
             case 'bool':
+            case '':
                 $constructor->addBody("\$this->${private_field_name} = \$dto['${field_name}'];");
                 break;
 
@@ -227,11 +228,6 @@ function add_type_serialization_method(array $type, ClassType $class)
         $jsonSerialize->addBody("if (\$this->${private_property_name} !== null) \$result['${field_name}'] = \$this->${private_property_name};");
     }
     $jsonSerialize->addBody('return $result;');
-}
-
-function is_simple_type(array $type)
-{
-    return 'Number' === $type['type'] || 'String' === $type['type'];
 }
 
 function is_struct_type(array $type)

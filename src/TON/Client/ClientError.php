@@ -21,7 +21,7 @@ class ClientError implements JsonSerializable
         if (!$dto) return;
         $this->_code = $dto['code'];
         $this->_message = $dto['message'];
-        $this->_data = new ($dto['data']);
+        $this->_data = $dto['data'];
     }
 
     public function getCode(): int

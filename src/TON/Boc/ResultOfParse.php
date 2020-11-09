@@ -18,7 +18,7 @@ class ResultOfParse implements JsonSerializable
     public function __construct(?array $dto = null)
     {
         if (!$dto) return;
-        $this->_parsed = new ($dto['parsed']);
+        $this->_parsed = $dto['parsed'];
     }
 
     /**

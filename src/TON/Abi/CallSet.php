@@ -32,7 +32,7 @@ class CallSet implements JsonSerializable
         if (!$dto) return;
         $this->_functionName = $dto['function_name'];
         $this->_header = new FunctionHeader($dto['header']);
-        $this->_input = new ($dto['input']);
+        $this->_input = $dto['input'];
     }
 
     /**

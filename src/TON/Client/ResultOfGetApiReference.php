@@ -17,7 +17,7 @@ class ResultOfGetApiReference implements JsonSerializable
     public function __construct(?array $dto = null)
     {
         if (!$dto) return;
-        $this->_api = new ($dto['api']);
+        $this->_api = $dto['api'];
     }
 
     public function getApi()

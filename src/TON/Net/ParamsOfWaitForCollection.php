@@ -28,7 +28,7 @@ class ParamsOfWaitForCollection implements JsonSerializable
     {
         if (!$dto) return;
         $this->_collection = $dto['collection'];
-        $this->_filter = new ($dto['filter']);
+        $this->_filter = $dto['filter'];
         $this->_result = $dto['result'];
         $this->_timeout = $dto['timeout'];
     }
