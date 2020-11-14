@@ -30,7 +30,7 @@ class AbiContract implements JsonSerializable
         $this->_data = $dto['data'];
     }
 
-    public function getABIVersion(): int
+    public function getABIVersion(): ?int
     {
         return $this->_ABIVersion;
     }
@@ -60,7 +60,7 @@ class AbiContract implements JsonSerializable
         return $this->_data;
     }
 
-    public function setABIVersion(int $ABIVersion): self
+    public function setABIVersion(?int $ABIVersion): self
     {
         $this->_ABIVersion = $ABIVersion;
         return $this;

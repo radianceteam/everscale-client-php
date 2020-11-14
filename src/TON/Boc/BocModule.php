@@ -76,4 +76,12 @@ class BocModule
     {
         return new ResultOfGetBlockchainConfig($this->_context->callFunction('boc.get_blockchain_config', $params));
     }
+
+    /**
+     * Calculates BOC root hash
+     */
+    public function getBocHash(ParamsOfGetBocHash $params): ResultOfGetBocHash
+    {
+        return new ResultOfGetBocHash($this->_context->callFunction('boc.get_boc_hash', $params));
+    }
 }
