@@ -22,7 +22,7 @@ class ResultOfEncodeMessage implements JsonSerializable
      *  message signing. Is this case you need to use this data to create signature and
      *  then produce signed message using `abi.attach_signature`.
      */
-    private string $_dataToSign;
+    private ?string $_dataToSign;
 
     /** Destination address. */
     private string $_address;
@@ -32,11 +32,11 @@ class ResultOfEncodeMessage implements JsonSerializable
 
     public function __construct(?array $dto = null)
     {
-        if (!$dto) return;
-        $this->_message = $dto['message'];
-        $this->_dataToSign = $dto['data_to_sign'];
-        $this->_address = $dto['address'];
-        $this->_messageId = $dto['message_id'];
+        if (!$dto) $dto = [];
+        $this->_message = $dto['message'] ?? '';
+        $this->_dataToSign = $dto['data_to_sign'] ?? null;
+        $this->_address = $dto['address'] ?? '';
+        $this->_messageId = $dto['message_id'] ?? '';
     }
 
     /**

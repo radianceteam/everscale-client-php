@@ -17,8 +17,8 @@ class ParamsOfTonCrc16 implements JsonSerializable
 
     public function __construct(?array $dto = null)
     {
-        if (!$dto) return;
-        $this->_data = $dto['data'];
+        if (!$dto) $dto = [];
+        $this->_data = $dto['data'] ?? '';
     }
 
     /**

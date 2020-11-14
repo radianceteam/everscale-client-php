@@ -22,15 +22,15 @@ class DecodedMessageBody implements JsonSerializable
     private $_value;
 
     /** Function header. */
-    private FunctionHeader $_header;
+    private ?FunctionHeader $_header;
 
     public function __construct(?array $dto = null)
     {
-        if (!$dto) return;
-        $this->_bodyType = new MessageBodyType($dto['body_type']);
-        $this->_name = $dto['name'];
-        $this->_value = $dto['value'];
-        $this->_header = new FunctionHeader($dto['header']);
+        if (!$dto) $dto = [];
+        $this->_bodyType = new MessageBodyType($dto['body_type'] ?? []);
+        $this->_name = $dto['name'] ?? '';
+        $this->_value = $dto['value'] ?? null;
+        $this->_header = new FunctionHeader($dto['header'] ?? []);
     }
 
     /**

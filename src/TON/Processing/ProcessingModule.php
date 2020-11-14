@@ -16,7 +16,7 @@ use TON\TonContext;
  *  This module incorporates functions related to complex message
  *  processing scenarios.
  */
-class ProcessingModule
+class ProcessingModule implements ProcessingModuleInterface
 {
     private TonContext $_context;
 

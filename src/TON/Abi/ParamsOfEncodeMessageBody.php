@@ -42,16 +42,16 @@ class ParamsOfEncodeMessageBody implements JsonSerializable
      *
      *  Default value is 0.
      */
-    private int $_processingTryIndex;
+    private ?int $_processingTryIndex;
 
     public function __construct(?array $dto = null)
     {
-        if (!$dto) return;
-        $this->_abi = new Abi($dto['abi']);
-        $this->_callSet = new CallSet($dto['call_set']);
-        $this->_isInternal = $dto['is_internal'];
-        $this->_signer = new Signer($dto['signer']);
-        $this->_processingTryIndex = $dto['processing_try_index'];
+        if (!$dto) $dto = [];
+        $this->_abi = new Abi($dto['abi'] ?? []);
+        $this->_callSet = new CallSet($dto['call_set'] ?? []);
+        $this->_isInternal = $dto['is_internal'] ?? false;
+        $this->_signer = new Signer($dto['signer'] ?? []);
+        $this->_processingTryIndex = $dto['processing_try_index'] ?? null;
     }
 
     /**
@@ -77,7 +77,7 @@ class ParamsOfEncodeMessageBody implements JsonSerializable
     /**
      * True if internal message body must be encoded.
      */
-    public function getIsInternal(): bool
+    public function isIsInternal(): bool
     {
         return $this->_isInternal;
     }

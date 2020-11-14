@@ -17,8 +17,8 @@ class ResultOfModularPower implements JsonSerializable
 
     public function __construct(?array $dto = null)
     {
-        if (!$dto) return;
-        $this->_modularPower = $dto['modular_power'];
+        if (!$dto) $dto = [];
+        $this->_modularPower = $dto['modular_power'] ?? '';
     }
 
     /**

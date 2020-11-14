@@ -17,8 +17,8 @@ class ParamsOfGetBocHash implements JsonSerializable
 
     public function __construct(?array $dto = null)
     {
-        if (!$dto) return;
-        $this->_boc = $dto['boc'];
+        if (!$dto) $dto = [];
+        $this->_boc = $dto['boc'] ?? '';
     }
 
     /**

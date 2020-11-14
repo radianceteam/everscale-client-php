@@ -18,10 +18,10 @@ class ClientError implements JsonSerializable
 
     public function __construct(?array $dto = null)
     {
-        if (!$dto) return;
-        $this->_code = $dto['code'];
-        $this->_message = $dto['message'];
-        $this->_data = $dto['data'];
+        if (!$dto) $dto = [];
+        $this->_code = $dto['code'] ?? 0;
+        $this->_message = $dto['message'] ?? '';
+        $this->_data = $dto['data'] ?? null;
     }
 
     public function getCode(): int

@@ -22,19 +22,19 @@ class ParamsOfQueryCollection implements JsonSerializable
     private string $_result;
 
     /** Sorting order */
-    private array $_order;
+    private ?array $_order;
 
     /** Number of documents to return */
-    private int $_limit;
+    private ?int $_limit;
 
     public function __construct(?array $dto = null)
     {
-        if (!$dto) return;
-        $this->_collection = $dto['collection'];
-        $this->_filter = $dto['filter'];
-        $this->_result = $dto['result'];
-        $this->_order = $dto['order'];
-        $this->_limit = $dto['limit'];
+        if (!$dto) $dto = [];
+        $this->_collection = $dto['collection'] ?? '';
+        $this->_filter = $dto['filter'] ?? null;
+        $this->_result = $dto['result'] ?? '';
+        $this->_order = $dto['order'] ?? null;
+        $this->_limit = $dto['limit'] ?? null;
     }
 
     /**

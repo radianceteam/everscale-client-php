@@ -26,11 +26,11 @@ class ParamsOfNaclBox implements JsonSerializable
 
     public function __construct(?array $dto = null)
     {
-        if (!$dto) return;
-        $this->_decrypted = $dto['decrypted'];
-        $this->_nonce = $dto['nonce'];
-        $this->_theirPublic = $dto['their_public'];
-        $this->_secret = $dto['secret'];
+        if (!$dto) $dto = [];
+        $this->_decrypted = $dto['decrypted'] ?? '';
+        $this->_nonce = $dto['nonce'] ?? '';
+        $this->_theirPublic = $dto['their_public'] ?? '';
+        $this->_secret = $dto['secret'] ?? '';
     }
 
     /**

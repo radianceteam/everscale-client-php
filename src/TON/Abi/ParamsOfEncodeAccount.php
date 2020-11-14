@@ -16,21 +16,21 @@ class ParamsOfEncodeAccount implements JsonSerializable
     private StateInitSource $_stateInit;
 
     /** Initial balance. */
-    private BigInt $_balance;
+    private ?BigInt $_balance;
 
     /** Initial value for the `last_trans_lt`. */
-    private BigInt $_lastTransLt;
+    private ?BigInt $_lastTransLt;
 
     /** Initial value for the `last_paid`. */
-    private int $_lastPaid;
+    private ?int $_lastPaid;
 
     public function __construct(?array $dto = null)
     {
-        if (!$dto) return;
-        $this->_stateInit = new StateInitSource($dto['state_init']);
-        $this->_balance = new BigInt($dto['balance']);
-        $this->_lastTransLt = new BigInt($dto['last_trans_lt']);
-        $this->_lastPaid = $dto['last_paid'];
+        if (!$dto) $dto = [];
+        $this->_stateInit = new StateInitSource($dto['state_init'] ?? []);
+        $this->_balance = new BigInt($dto['balance'] ?? []);
+        $this->_lastTransLt = new BigInt($dto['last_trans_lt'] ?? []);
+        $this->_lastPaid = $dto['last_paid'] ?? null;
     }
 
     /**

@@ -10,7 +10,7 @@ namespace TON\Tvm;
 
 use TON\TonContext;
 
-class TvmModule
+class TvmModule implements TvmModuleInterface
 {
     private TonContext $_context;
 

@@ -13,7 +13,7 @@ use TON\TonContext;
 /**
  * BOC manipulation module.
  */
-class BocModule
+class BocModule implements BocModuleInterface
 {
     private TonContext $_context;
 

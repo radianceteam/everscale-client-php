@@ -17,8 +17,8 @@ class ResultOfConvertAddress implements JsonSerializable
 
     public function __construct(?array $dto = null)
     {
-        if (!$dto) return;
-        $this->_address = $dto['address'];
+        if (!$dto) $dto = [];
+        $this->_address = $dto['address'] ?? '';
     }
 
     /**

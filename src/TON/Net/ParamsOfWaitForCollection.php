@@ -22,15 +22,15 @@ class ParamsOfWaitForCollection implements JsonSerializable
     private string $_result;
 
     /** Query timeout */
-    private int $_timeout;
+    private ?int $_timeout;
 
     public function __construct(?array $dto = null)
     {
-        if (!$dto) return;
-        $this->_collection = $dto['collection'];
-        $this->_filter = $dto['filter'];
-        $this->_result = $dto['result'];
-        $this->_timeout = $dto['timeout'];
+        if (!$dto) $dto = [];
+        $this->_collection = $dto['collection'] ?? '';
+        $this->_filter = $dto['filter'] ?? null;
+        $this->_result = $dto['result'] ?? '';
+        $this->_timeout = $dto['timeout'] ?? null;
     }
 
     /**

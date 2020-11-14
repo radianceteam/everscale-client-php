@@ -16,8 +16,8 @@ class ResultOfAttachSignatureToMessageBody implements JsonSerializable
 
     public function __construct(?array $dto = null)
     {
-        if (!$dto) return;
-        $this->_body = $dto['body'];
+        if (!$dto) $dto = [];
+        $this->_body = $dto['body'] ?? '';
     }
 
     public function getBody(): string

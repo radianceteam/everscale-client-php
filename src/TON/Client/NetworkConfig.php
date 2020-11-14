@@ -13,23 +13,23 @@ use JsonSerializable;
 class NetworkConfig implements JsonSerializable
 {
     private string $_serverAddress;
-    private int $_networkRetriesCount;
-    private int $_messageRetriesCount;
-    private int $_messageProcessingTimeout;
-    private int $_waitForTimeout;
-    private int $_outOfSyncThreshold;
-    private string $_accessKey;
+    private ?int $_networkRetriesCount;
+    private ?int $_messageRetriesCount;
+    private ?int $_messageProcessingTimeout;
+    private ?int $_waitForTimeout;
+    private ?int $_outOfSyncThreshold;
+    private ?string $_accessKey;
 
     public function __construct(?array $dto = null)
     {
-        if (!$dto) return;
-        $this->_serverAddress = $dto['server_address'];
-        $this->_networkRetriesCount = $dto['network_retries_count'];
-        $this->_messageRetriesCount = $dto['message_retries_count'];
-        $this->_messageProcessingTimeout = $dto['message_processing_timeout'];
-        $this->_waitForTimeout = $dto['wait_for_timeout'];
-        $this->_outOfSyncThreshold = $dto['out_of_sync_threshold'];
-        $this->_accessKey = $dto['access_key'];
+        if (!$dto) $dto = [];
+        $this->_serverAddress = $dto['server_address'] ?? '';
+        $this->_networkRetriesCount = $dto['network_retries_count'] ?? null;
+        $this->_messageRetriesCount = $dto['message_retries_count'] ?? null;
+        $this->_messageProcessingTimeout = $dto['message_processing_timeout'] ?? null;
+        $this->_waitForTimeout = $dto['wait_for_timeout'] ?? null;
+        $this->_outOfSyncThreshold = $dto['out_of_sync_threshold'] ?? null;
+        $this->_accessKey = $dto['access_key'] ?? null;
     }
 
     public function getServerAddress(): string

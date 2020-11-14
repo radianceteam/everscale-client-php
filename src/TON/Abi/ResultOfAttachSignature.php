@@ -20,9 +20,9 @@ class ResultOfAttachSignature implements JsonSerializable
 
     public function __construct(?array $dto = null)
     {
-        if (!$dto) return;
-        $this->_message = $dto['message'];
-        $this->_messageId = $dto['message_id'];
+        if (!$dto) $dto = [];
+        $this->_message = $dto['message'] ?? '';
+        $this->_messageId = $dto['message_id'] ?? '';
     }
 
     /**

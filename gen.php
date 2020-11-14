@@ -1,14 +1,20 @@
 ﻿<?php
 
 use Nette\PhpGenerator\ClassType;
+use Nette\PhpGenerator\Method;
 use Nette\PhpGenerator\PhpFile;
 use Nette\PhpGenerator\PsrPrinter;
+use Psr\Log\LoggerInterface;
 use TON\TonContext;
 
 require __DIR__ . '/vendor/autoload.php';
 
-define('TON_SRC_DIR', 'src/TON');
-define('TON_NS', 'TON');
+const AUTO_GENERATED_NOTE = 'This file is auto-generated.';
+const TON_CLIENT_INTERFACE = 'TonClientInterface';
+const TON_CLIENT = 'TonClient';
+const TON_CONTEXT = 'TonContext';
+const TON_SRC_DIR = 'src/TON';
+const TON_NS = 'TON';
 
 function gen_log(string $message)
 {
@@ -28,6 +34,11 @@ function get_php_module_dir(array $module): string
 function get_module_impl_name(array $module): string
 {
     return get_php_module_name($module) . 'Module';
+}
+
+function get_module_interface_name(array $module): string
+{
+    return get_php_module_name($module) . 'ModuleInterface';
 }
 
 function get_php_class_file(array $module, string $type_name): string
@@ -57,14 +68,19 @@ function get_php_method_name(string $function_name): string
     return get_php_identifier_name($function_name);
 }
 
+function get_php_module_method_name(string $module_name): string
+{
+    return $module_name;
+}
+
 function get_php_private_field_name(string $name): string
 {
     return '_' . get_php_identifier_name($name);
 }
 
-function get_php_getter_name(string $name): string
+function get_php_getter_name(string $name, bool $bool = false): string
 {
-    return 'get' . ucfirst(get_php_identifier_name($name));
+    return ($bool ? 'is' : 'get') . ucfirst(get_php_identifier_name($name));
 }
 
 function get_php_setter_name(string $name): string
@@ -90,6 +106,19 @@ function is_unknown_type_name(string $type_name): bool
 function is_php_nullable_type(array $type): bool
 {
     return ('Optional' === $type['type']);
+}
+
+function is_php_builtin_type(string $name): bool
+{
+    switch ($name) {
+        case 'int':
+        case 'float':
+        case 'string':
+        case 'array':
+        case 'bool':
+            return true;
+    }
+    return false;
 }
 
 function get_php_type_name($type): string
@@ -136,6 +165,7 @@ function add_type_private_fields(array $type, ClassType $class)
         $private_field_name = get_php_private_field_name($field_name);
         $property = $class->addProperty($private_field_name)
             ->setType(get_php_type_name($field))
+            ->setNullable(is_php_nullable_type($field))
             ->setPrivate();
         if (!empty($field['description'])) {
             $property->addComment($field['description']);
@@ -150,9 +180,10 @@ function add_type_getters(array $type, ClassType $class)
         if (empty($field_name)) {
             continue;
         }
-        $getter_name = get_php_getter_name($field_name);
+        $return_type = get_php_type_name($field);
+        $getter_name = get_php_getter_name($field_name, $return_type === 'bool');
         $getter = $class->addMethod($getter_name)
-            ->setReturnType(get_php_type_name($field))
+            ->setReturnType($return_type)
             ->setReturnNullable(is_php_nullable_type($field));
         if (!empty($field['description'])) {
             $getter->addComment($field['description']);
@@ -193,27 +224,47 @@ function add_type_constructor(array $type, ClassType $class)
         ->setType('array')
         ->setNullable(true);
 
-    $constructor->addBody('if (!$dto) return;');
+    $constructor->addBody('if (!$dto) $dto = [];');
     foreach ($type['struct_fields'] as $field) {
         $field_name = $field['name'];
         if (empty($field_name)) {
             continue;
         }
+
         $private_field_name = get_php_private_field_name($field_name);
         $field_type = get_php_type_name($field);
-        switch ($field_type) {
-            case 'int':
-            case 'float':
-            case 'string':
-            case 'array':
-            case 'bool':
-            case '':
-                $constructor->addBody("\$this->${private_field_name} = \$dto['${field_name}'];");
-                break;
 
-            default:
-                $constructor->addBody("\$this->${private_field_name} = new ${field_type}(\$dto['${field_name}']);");
-                break;
+        if (is_php_builtin_type($field_type)) {
+
+            if (is_php_nullable_type($field)) {
+                $constructor->addBody("\$this->${private_field_name} = \$dto['${field_name}'] ?? null;");
+                continue;
+            }
+
+            $default_value = '';
+            switch ($field_type) {
+                case 'int':
+                case 'float':
+                    $default_value = '0';
+                    break;
+                case 'string':
+                    $default_value = "''";
+                    break;
+                case 'array':
+                    $default_value = '[]';
+                    break;
+                case 'bool':
+                    $default_value = 'false';
+                    break;
+            }
+            $constructor->addBody("\$this->${private_field_name} = \$dto['${field_name}'] ?? ${default_value};");
+            continue;
+        }
+
+        if ($field_type) {
+            $constructor->addBody("\$this->${private_field_name} = new ${field_type}(\$dto['${field_name}'] ?? []);");
+        } else {
+            $constructor->addBody("\$this->${private_field_name} = \$dto['${field_name}'] ?? null;");
         }
     }
 }
@@ -245,7 +296,7 @@ function generate_module_type(array $module, array $type)
     gen_log("Generate type ${type_name} for module ${module['name']}");
 
     $file = (new PhpFile())
-        ->addComment('This file is auto-generated.')
+        ->addComment(AUTO_GENERATED_NOTE)
         ->setStrictTypes();
 
     $namespace = $file
@@ -279,7 +330,7 @@ function add_module_constructor(array $module, ClassType $class)
     $constructor = $class->addMethod('__construct');
 
     $constructor->addParameter('context')
-        ->setType('TonContext');
+        ->setType(TON_CONTEXT);
 
     $constructor->addBody('$this->_context = $context;');
 }
@@ -293,7 +344,7 @@ function get_function_return_type(array $type): string
     return $return_type;
 }
 
-function add_module_functions(array $module, ClassType $class)
+function add_module_functions(array $module, ClassType $class, callable $body_callback = null)
 {
     foreach ($module['functions'] as $function) {
         gen_log("Generate function ${function['name']} for module ${module['name']}");
@@ -316,6 +367,63 @@ function add_module_functions(array $module, ClassType $class)
         if (!empty($function['description'])) {
             $method->addComment($function['description']);
         }
+        if ($body_callback) {
+            $body_callback($method, $function, $params, $php_return_type);
+        }
+    }
+}
+
+function generate_module_interface(array $module)
+{
+    $interface_name = get_module_interface_name($module);
+    gen_log("Generate ${interface_name}");
+
+    $file = (new PhpFile())
+        ->addComment(AUTO_GENERATED_NOTE)
+        ->setStrictTypes();
+
+    $namespace = $file
+        ->addNamespace(get_php_namespace_name($module));
+
+    $interface = $namespace->addInterface($interface_name);
+    if (!empty($module['description'])) {
+        $interface->addComment($module['description']);
+    }
+
+    add_module_functions($module, $interface);
+
+    file_put_contents(get_php_class_file($module, $interface_name),
+        (new PsrPrinter())
+            ->setTypeResolving(false)
+            ->printFile($file));
+}
+
+function generate_module_impl(array $module)
+{
+    $impl_name = get_module_impl_name($module);
+    gen_log("Generate ${impl_name}");
+
+    $file = (new PhpFile())
+        ->addComment(AUTO_GENERATED_NOTE)
+        ->setStrictTypes();
+
+    $namespace = $file
+        ->addNamespace(get_php_namespace_name($module))
+        ->addUse(TonContext::class);
+
+    $class = $namespace->addClass($impl_name)
+        ->addImplement(get_module_interface_name($module));
+
+    if (!empty($module['description'])) {
+        $class->addComment($module['description']);
+    }
+
+    $class->addProperty('_context')
+        ->setType(TON_CONTEXT)
+        ->setPrivate();
+
+    add_module_constructor($module, $class);
+    add_module_functions($module, $class, function (Method $method, array $function, array $params, string $php_return_type) use ($module) {
         if (!empty($params)) {
             $param_names = array_keys($params);
             if ('void' !== $php_return_type) {
@@ -330,34 +438,7 @@ function add_module_functions(array $module, ClassType $class)
                 $method->addBody("\$this->_context->callFunction('${module['name']}.${function['name']}');");
             }
         }
-
-    }
-}
-
-function generate_module_impl(array $module)
-{
-    $impl_name = get_module_impl_name($module);
-    gen_log("Generate ${impl_name}");
-
-    $file = (new PhpFile())
-        ->addComment('This file is auto-generated.')
-        ->setStrictTypes();
-
-    $namespace = $file
-        ->addNamespace(get_php_namespace_name($module))
-        ->addUse(TonContext::class);
-
-    $class = $namespace->addClass($impl_name);
-    if (!empty($module['description'])) {
-        $class->addComment($module['description']);
-    }
-
-    $class->addProperty('_context')
-        ->setType('TonContext')
-        ->setPrivate();
-
-    add_module_constructor($module, $class);
-    add_module_functions($module, $class);
+    });
 
     file_put_contents(get_php_class_file($module, $impl_name),
         (new PsrPrinter())
@@ -375,15 +456,124 @@ function generate_module(array $module)
     }
 
     generate_module_types($module);
+    generate_module_interface($module);
     generate_module_impl($module);
 }
 
-function generate_modules()
+function add_client_functions(array $modules, ClassType $class, callable $body_callback = null)
 {
-    $api = load_api_json();
+    foreach ($modules as $module) {
+        $return_type = get_module_interface_name($module);
+        $method = $class->addMethod(get_php_module_method_name($module['name']))
+            ->setReturnType($return_type);
+        if (!empty($module['description'])) {
+            $method->addComment($module['description']);
+        }
+        if ($body_callback) {
+            $body_callback($method, $module, $return_type);
+        }
+    }
+}
+
+function generate_client_interface(array $api)
+{
+    $interface_name = TON_CLIENT_INTERFACE;
+
+    gen_log("Generate ${interface_name}");
+
+    $file = (new PhpFile())
+        ->addComment(AUTO_GENERATED_NOTE)
+        ->setStrictTypes();
+
+    $namespace = $file
+        ->addNamespace(TON_NS)
+        ->addUse(TonContext::class);
+
+    $modules = $api['modules'];
+    foreach ($modules as $module) {
+        $namespace->addUse(get_php_namespace_name($module) . '\\' . get_module_interface_name($module));
+    }
+
+    $interface = $namespace->addInterface($interface_name);
+
+    add_client_functions($modules, $interface);
+
+    file_put_contents(TON_SRC_DIR . '/' . $interface_name . '.php',
+        (new PsrPrinter())
+            ->setTypeResolving(false)
+            ->printFile($file));
+}
+
+function generate_client_impl(array $api)
+{
+    $class_name = TON_CLIENT;
+
+    gen_log("Generate ${class_name}");
+
+    $file = (new PhpFile())
+        ->addComment(AUTO_GENERATED_NOTE)
+        ->setStrictTypes();
+
+    $namespace = $file
+        ->addNamespace(TON_NS)
+        ->addUse(TonContext::class)
+        ->addUse(LoggerInterface::class);
+
+    $class = $namespace->addClass($class_name)
+        ->addImplement(TON_CLIENT_INTERFACE);
+
+    $class->addProperty('_context')
+        ->setType(TON_CONTEXT)
+        ->setPrivate();
+
+    $constructor = $class->addMethod('__construct')
+        ->addBody('$this->_context = new TonContext();');
+
+    $class->addMethod('setLogger')
+        ->addBody('$this->_context->setLogger($logger);')
+        ->addParameter('logger')
+        ->setType('LoggerInterface');
+
+    $modules = $api['modules'];
+    foreach ($modules as $module) {
+        $module_interface_name = get_module_interface_name($module);
+        $module_impl_name = get_module_impl_name($module);
+        $namespace->addUse(get_php_namespace_name($module) . '\\' . $module_interface_name);
+        $namespace->addUse(get_php_namespace_name($module) . '\\' . $module_impl_name);
+        $class->addProperty("_${module['name']}")
+            ->setType($module_interface_name)
+            ->setPrivate();
+        $constructor->addBody("\$this->_${module['name']} = new ${module_impl_name}(\$this->_context);");
+    }
+
+    add_client_functions($modules, $class, function (Method $method, array $module) {
+        $method->addBody("return \$this->_${module['name']};");
+    });
+
+    file_put_contents(TON_SRC_DIR . '/' . $class_name . '.php',
+        (new PsrPrinter())
+            ->setTypeResolving(false)
+            ->printFile($file));
+}
+
+function generate_client(array $api)
+{
+    generate_client_interface($api);
+    generate_client_impl($api);
+}
+
+function generate_modules(array $api)
+{
     foreach ($api['modules'] as $module) {
         generate_module($module);
     }
 }
 
-generate_modules();
+function generate()
+{
+    $api = load_api_json();
+    generate_client($api);
+    generate_modules($api);
+}
+
+generate();

@@ -21,13 +21,13 @@ class TransactionFees implements JsonSerializable
 
     public function __construct(?array $dto = null)
     {
-        if (!$dto) return;
-        $this->_inMsgFwdFee = new BigInt($dto['in_msg_fwd_fee']);
-        $this->_storageFee = new BigInt($dto['storage_fee']);
-        $this->_gasFee = new BigInt($dto['gas_fee']);
-        $this->_outMsgsFwdFee = new BigInt($dto['out_msgs_fwd_fee']);
-        $this->_totalAccountFees = new BigInt($dto['total_account_fees']);
-        $this->_totalOutput = new BigInt($dto['total_output']);
+        if (!$dto) $dto = [];
+        $this->_inMsgFwdFee = new BigInt($dto['in_msg_fwd_fee'] ?? []);
+        $this->_storageFee = new BigInt($dto['storage_fee'] ?? []);
+        $this->_gasFee = new BigInt($dto['gas_fee'] ?? []);
+        $this->_outMsgsFwdFee = new BigInt($dto['out_msgs_fwd_fee'] ?? []);
+        $this->_totalAccountFees = new BigInt($dto['total_account_fees'] ?? []);
+        $this->_totalOutput = new BigInt($dto['total_output'] ?? []);
     }
 
     public function getInMsgFwdFee(): BigInt

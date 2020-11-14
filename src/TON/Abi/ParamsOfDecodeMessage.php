@@ -20,9 +20,9 @@ class ParamsOfDecodeMessage implements JsonSerializable
 
     public function __construct(?array $dto = null)
     {
-        if (!$dto) return;
-        $this->_abi = new Abi($dto['abi']);
-        $this->_message = $dto['message'];
+        if (!$dto) $dto = [];
+        $this->_abi = new Abi($dto['abi'] ?? []);
+        $this->_message = $dto['message'] ?? '';
     }
 
     /**

@@ -13,7 +13,7 @@ use TON\TonContext;
 /**
  * Crypto functions.
  */
-class CryptoModule
+class CryptoModule implements CryptoModuleInterface
 {
     private TonContext $_context;
 

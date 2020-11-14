@@ -23,10 +23,10 @@ class ParamsOfHDKeyDeriveFromXPrv implements JsonSerializable
 
     public function __construct(?array $dto = null)
     {
-        if (!$dto) return;
-        $this->_xprv = $dto['xprv'];
-        $this->_childIndex = $dto['child_index'];
-        $this->_hardened = $dto['hardened'];
+        if (!$dto) $dto = [];
+        $this->_xprv = $dto['xprv'] ?? '';
+        $this->_childIndex = $dto['child_index'] ?? 0;
+        $this->_hardened = $dto['hardened'] ?? false;
     }
 
     /**
@@ -48,7 +48,7 @@ class ParamsOfHDKeyDeriveFromXPrv implements JsonSerializable
     /**
      * Indicates the derivation of hardened/not-hardened key (see BIP-0032)
      */
-    public function getHardened(): bool
+    public function isHardened(): bool
     {
         return $this->_hardened;
     }

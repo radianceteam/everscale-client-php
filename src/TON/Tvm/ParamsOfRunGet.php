@@ -20,15 +20,15 @@ class ParamsOfRunGet implements JsonSerializable
 
     /** Input parameters */
     private $_input;
-    private ExecutionOptions $_executionOptions;
+    private ?ExecutionOptions $_executionOptions;
 
     public function __construct(?array $dto = null)
     {
-        if (!$dto) return;
-        $this->_account = $dto['account'];
-        $this->_functionName = $dto['function_name'];
-        $this->_input = $dto['input'];
-        $this->_executionOptions = new ExecutionOptions($dto['execution_options']);
+        if (!$dto) $dto = [];
+        $this->_account = $dto['account'] ?? '';
+        $this->_functionName = $dto['function_name'] ?? '';
+        $this->_input = $dto['input'] ?? null;
+        $this->_executionOptions = new ExecutionOptions($dto['execution_options'] ?? []);
     }
 
     /**

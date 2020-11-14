@@ -13,16 +13,16 @@ use JsonSerializable;
 class ParamsOfMnemonicFromRandom implements JsonSerializable
 {
     /** Dictionary identifier */
-    private int $_dictionary;
+    private ?int $_dictionary;
 
     /** Mnemonic word count */
-    private int $_wordCount;
+    private ?int $_wordCount;
 
     public function __construct(?array $dto = null)
     {
-        if (!$dto) return;
-        $this->_dictionary = $dto['dictionary'];
-        $this->_wordCount = $dto['word_count'];
+        if (!$dto) $dto = [];
+        $this->_dictionary = $dto['dictionary'] ?? null;
+        $this->_wordCount = $dto['word_count'] ?? null;
     }
 
     /**

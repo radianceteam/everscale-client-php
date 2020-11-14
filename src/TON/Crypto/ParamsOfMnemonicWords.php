@@ -13,12 +13,12 @@ use JsonSerializable;
 class ParamsOfMnemonicWords implements JsonSerializable
 {
     /** Dictionary identifier */
-    private int $_dictionary;
+    private ?int $_dictionary;
 
     public function __construct(?array $dto = null)
     {
-        if (!$dto) return;
-        $this->_dictionary = $dto['dictionary'];
+        if (!$dto) $dto = [];
+        $this->_dictionary = $dto['dictionary'] ?? null;
     }
 
     /**

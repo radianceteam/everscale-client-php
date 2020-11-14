@@ -17,8 +17,8 @@ class ResultOfNaclBox implements JsonSerializable
 
     public function __construct(?array $dto = null)
     {
-        if (!$dto) return;
-        $this->_encrypted = $dto['encrypted'];
+        if (!$dto) $dto = [];
+        $this->_encrypted = $dto['encrypted'] ?? '';
     }
 
     /**

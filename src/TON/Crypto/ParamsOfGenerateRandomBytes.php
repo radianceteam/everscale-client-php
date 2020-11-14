@@ -17,8 +17,8 @@ class ParamsOfGenerateRandomBytes implements JsonSerializable
 
     public function __construct(?array $dto = null)
     {
-        if (!$dto) return;
-        $this->_length = $dto['length'];
+        if (!$dto) $dto = [];
+        $this->_length = $dto['length'] ?? 0;
     }
 
     /**

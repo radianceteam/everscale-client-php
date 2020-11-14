@@ -17,9 +17,9 @@ class OrderBy implements JsonSerializable
 
     public function __construct(?array $dto = null)
     {
-        if (!$dto) return;
-        $this->_path = $dto['path'];
-        $this->_direction = new SortDirection($dto['direction']);
+        if (!$dto) $dto = [];
+        $this->_path = $dto['path'] ?? '';
+        $this->_direction = new SortDirection($dto['direction'] ?? []);
     }
 
     public function getPath(): string

@@ -29,17 +29,17 @@ class ParamsOfSendMessage implements JsonSerializable
      *  strongly recommended, so that proper processing strategy can be
      *  chosen.
      */
-    private Abi $_abi;
+    private ?Abi $_abi;
 
     /** Flag for requesting events sending */
     private bool $_sendEvents;
 
     public function __construct(?array $dto = null)
     {
-        if (!$dto) return;
-        $this->_message = $dto['message'];
-        $this->_abi = new Abi($dto['abi']);
-        $this->_sendEvents = $dto['send_events'];
+        if (!$dto) $dto = [];
+        $this->_message = $dto['message'] ?? '';
+        $this->_abi = new Abi($dto['abi'] ?? []);
+        $this->_sendEvents = $dto['send_events'] ?? false;
     }
 
     /**
@@ -72,7 +72,7 @@ class ParamsOfSendMessage implements JsonSerializable
     /**
      * Flag for requesting events sending
      */
-    public function getSendEvents(): bool
+    public function isSendEvents(): bool
     {
         return $this->_sendEvents;
     }

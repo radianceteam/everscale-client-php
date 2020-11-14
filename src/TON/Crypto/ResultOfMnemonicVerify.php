@@ -17,14 +17,14 @@ class ResultOfMnemonicVerify implements JsonSerializable
 
     public function __construct(?array $dto = null)
     {
-        if (!$dto) return;
-        $this->_valid = $dto['valid'];
+        if (!$dto) $dto = [];
+        $this->_valid = $dto['valid'] ?? false;
     }
 
     /**
      * Flag indicating if the mnemonic is valid or not
      */
-    public function getValid(): bool
+    public function isValid(): bool
     {
         return $this->_valid;
     }

@@ -17,8 +17,8 @@ class ResultOfHDKeySecretFromXPrv implements JsonSerializable
 
     public function __construct(?array $dto = null)
     {
-        if (!$dto) return;
-        $this->_secret = $dto['secret'];
+        if (!$dto) $dto = [];
+        $this->_secret = $dto['secret'] ?? '';
     }
 
     /**

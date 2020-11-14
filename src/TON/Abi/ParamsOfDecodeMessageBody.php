@@ -23,10 +23,10 @@ class ParamsOfDecodeMessageBody implements JsonSerializable
 
     public function __construct(?array $dto = null)
     {
-        if (!$dto) return;
-        $this->_abi = new Abi($dto['abi']);
-        $this->_body = $dto['body'];
-        $this->_isInternal = $dto['is_internal'];
+        if (!$dto) $dto = [];
+        $this->_abi = new Abi($dto['abi'] ?? []);
+        $this->_body = $dto['body'] ?? '';
+        $this->_isInternal = $dto['is_internal'] ?? false;
     }
 
     /**
@@ -48,7 +48,7 @@ class ParamsOfDecodeMessageBody implements JsonSerializable
     /**
      * True if the body belongs to the internal message.
      */
-    public function getIsInternal(): bool
+    public function isIsInternal(): bool
     {
         return $this->_isInternal;
     }

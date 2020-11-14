@@ -17,8 +17,8 @@ class ResultOfFactorize implements JsonSerializable
 
     public function __construct(?array $dto = null)
     {
-        if (!$dto) return;
-        $this->_factors = $dto['factors'];
+        if (!$dto) $dto = [];
+        $this->_factors = $dto['factors'] ?? [];
     }
 
     /**

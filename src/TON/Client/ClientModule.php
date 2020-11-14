@@ -13,7 +13,7 @@ use TON\TonContext;
 /**
  * Provides information about library.
  */
-class ClientModule
+class ClientModule implements ClientModuleInterface
 {
     private TonContext $_context;
 

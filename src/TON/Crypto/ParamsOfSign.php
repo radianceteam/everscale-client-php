@@ -20,9 +20,9 @@ class ParamsOfSign implements JsonSerializable
 
     public function __construct(?array $dto = null)
     {
-        if (!$dto) return;
-        $this->_unsigned = $dto['unsigned'];
-        $this->_keys = new KeyPair($dto['keys']);
+        if (!$dto) $dto = [];
+        $this->_unsigned = $dto['unsigned'] ?? '';
+        $this->_keys = new KeyPair($dto['keys'] ?? []);
     }
 
     /**

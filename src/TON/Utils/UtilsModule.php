@@ -13,7 +13,7 @@ use TON\TonContext;
 /**
  * Misc utility Functions.
  */
-class UtilsModule
+class UtilsModule implements UtilsModuleInterface
 {
     private TonContext $_context;
 

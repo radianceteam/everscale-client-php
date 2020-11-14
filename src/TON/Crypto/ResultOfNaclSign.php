@@ -17,8 +17,8 @@ class ResultOfNaclSign implements JsonSerializable
 
     public function __construct(?array $dto = null)
     {
-        if (!$dto) return;
-        $this->_signed = $dto['signed'];
+        if (!$dto) $dto = [];
+        $this->_signed = $dto['signed'] ?? '';
     }
 
     /**

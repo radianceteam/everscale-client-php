@@ -2,3 +2,4 @@ vendor/
 .idea
 coverage/
 .phpunit.*
+*.log

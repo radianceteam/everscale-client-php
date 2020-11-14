@@ -17,8 +17,8 @@ class ParamsOfFactorize implements JsonSerializable
 
     public function __construct(?array $dto = null)
     {
-        if (!$dto) return;
-        $this->_composite = $dto['composite'];
+        if (!$dto) $dto = [];
+        $this->_composite = $dto['composite'] ?? '';
     }
 
     /**

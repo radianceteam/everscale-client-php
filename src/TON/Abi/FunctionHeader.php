@@ -17,26 +17,26 @@ class FunctionHeader implements JsonSerializable
      *  If not specified - calculated automatically from message_expiration_timeout(),
      *  try_index and message_expiration_timeout_grow_factor() (if ABI includes `expire` header).
      */
-    private int $_expire;
+    private ?int $_expire;
 
     /**
      * Message creation time in milliseconds. If not specified, `now` is used
      *  (if ABI includes `time` header).
      */
-    private BigInt $_time;
+    private ?BigInt $_time;
 
     /**
      * Public key is used by the contract to check the signature. Encoded in `hex`.
      *  If not specified, method fails with exception (if ABI includes `pubkey` header)..
      */
-    private string $_pubkey;
+    private ?string $_pubkey;
 
     public function __construct(?array $dto = null)
     {
-        if (!$dto) return;
-        $this->_expire = $dto['expire'];
-        $this->_time = new BigInt($dto['time']);
-        $this->_pubkey = $dto['pubkey'];
+        if (!$dto) $dto = [];
+        $this->_expire = $dto['expire'] ?? null;
+        $this->_time = new BigInt($dto['time'] ?? []);
+        $this->_pubkey = $dto['pubkey'] ?? null;
     }
 
     /**

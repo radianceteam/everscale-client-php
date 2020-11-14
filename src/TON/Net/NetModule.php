@@ -13,7 +13,7 @@ use TON\TonContext;
 /**
  * Network access.
  */
-class NetModule
+class NetModule implements NetModuleInterface
 {
     private TonContext $_context;
 

@@ -20,9 +20,9 @@ class ParamsOfConvertAddress implements JsonSerializable
 
     public function __construct(?array $dto = null)
     {
-        if (!$dto) return;
-        $this->_address = $dto['address'];
-        $this->_outputFormat = new AddressStringFormat($dto['output_format']);
+        if (!$dto) $dto = [];
+        $this->_address = $dto['address'] ?? '';
+        $this->_outputFormat = new AddressStringFormat($dto['output_format'] ?? []);
     }
 
     /**

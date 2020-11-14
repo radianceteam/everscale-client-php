@@ -20,9 +20,9 @@ class ResultOfEncodeAccount implements JsonSerializable
 
     public function __construct(?array $dto = null)
     {
-        if (!$dto) return;
-        $this->_account = $dto['account'];
-        $this->_id = $dto['id'];
+        if (!$dto) $dto = [];
+        $this->_account = $dto['account'] ?? '';
+        $this->_id = $dto['id'] ?? '';
     }
 
     /**

@@ -14,7 +14,7 @@ use TON\TonContext;
  * Provides message encoding and decoding according to the ABI
  *  specification.
  */
-class AbiModule
+class AbiModule implements AbiModuleInterface
 {
     private TonContext $_context;
 

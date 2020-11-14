@@ -17,8 +17,8 @@ class ResultOfMnemonicFromRandom implements JsonSerializable
 
     public function __construct(?array $dto = null)
     {
-        if (!$dto) return;
-        $this->_phrase = $dto['phrase'];
+        if (!$dto) $dto = [];
+        $this->_phrase = $dto['phrase'] ?? '';
     }
 
     /**

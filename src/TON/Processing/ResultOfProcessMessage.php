@@ -28,18 +28,18 @@ class ResultOfProcessMessage implements JsonSerializable
      * Optional decoded message bodies according to the optional
      *  `abi` parameter.
      */
-    private DecodedOutput $_decoded;
+    private ?DecodedOutput $_decoded;
 
     /** Transaction fees */
     private TransactionFees $_fees;
 
     public function __construct(?array $dto = null)
     {
-        if (!$dto) return;
-        $this->_transaction = $dto['transaction'];
-        $this->_outMessages = $dto['out_messages'];
-        $this->_decoded = new DecodedOutput($dto['decoded']);
-        $this->_fees = new TransactionFees($dto['fees']);
+        if (!$dto) $dto = [];
+        $this->_transaction = $dto['transaction'] ?? null;
+        $this->_outMessages = $dto['out_messages'] ?? [];
+        $this->_decoded = new DecodedOutput($dto['decoded'] ?? []);
+        $this->_fees = new TransactionFees($dto['fees'] ?? []);
     }
 
     /**

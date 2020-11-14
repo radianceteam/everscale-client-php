@@ -19,22 +19,22 @@ class ParamsOfRunExecutor implements JsonSerializable
     private AccountForExecutor $_account;
 
     /** Execution options. */
-    private ExecutionOptions $_executionOptions;
+    private ?ExecutionOptions $_executionOptions;
 
     /** Contract ABI for decoding output messages */
-    private Abi $_abi;
+    private ?Abi $_abi;
 
     /** Skip transaction check flag */
-    private bool $_skipTransactionCheck;
+    private ?bool $_skipTransactionCheck;
 
     public function __construct(?array $dto = null)
     {
-        if (!$dto) return;
-        $this->_message = $dto['message'];
-        $this->_account = new AccountForExecutor($dto['account']);
-        $this->_executionOptions = new ExecutionOptions($dto['execution_options']);
-        $this->_abi = new Abi($dto['abi']);
-        $this->_skipTransactionCheck = $dto['skip_transaction_check'];
+        if (!$dto) $dto = [];
+        $this->_message = $dto['message'] ?? '';
+        $this->_account = new AccountForExecutor($dto['account'] ?? []);
+        $this->_executionOptions = new ExecutionOptions($dto['execution_options'] ?? []);
+        $this->_abi = new Abi($dto['abi'] ?? []);
+        $this->_skipTransactionCheck = $dto['skip_transaction_check'] ?? null;
     }
 
     /**
@@ -72,7 +72,7 @@ class ParamsOfRunExecutor implements JsonSerializable
     /**
      * Skip transaction check flag
      */
-    public function getSkipTransactionCheck(): ?bool
+    public function isSkipTransactionCheck(): ?bool
     {
         return $this->_skipTransactionCheck;
     }

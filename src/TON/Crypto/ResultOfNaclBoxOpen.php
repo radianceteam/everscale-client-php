@@ -17,8 +17,8 @@ class ResultOfNaclBoxOpen implements JsonSerializable
 
     public function __construct(?array $dto = null)
     {
-        if (!$dto) return;
-        $this->_decrypted = $dto['decrypted'];
+        if (!$dto) $dto = [];
+        $this->_decrypted = $dto['decrypted'] ?? '';
     }
 
     /**

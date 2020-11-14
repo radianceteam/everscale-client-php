@@ -20,9 +20,9 @@ class ParamsOfNaclSign implements JsonSerializable
 
     public function __construct(?array $dto = null)
     {
-        if (!$dto) return;
-        $this->_unsigned = $dto['unsigned'];
-        $this->_secret = $dto['secret'];
+        if (!$dto) $dto = [];
+        $this->_unsigned = $dto['unsigned'] ?? '';
+        $this->_secret = $dto['secret'] ?? '';
     }
 
     /**

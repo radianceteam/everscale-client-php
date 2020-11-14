@@ -17,8 +17,8 @@ class ParamsOfGetBlockchainConfig implements JsonSerializable
 
     public function __construct(?array $dto = null)
     {
-        if (!$dto) return;
-        $this->_blockBoc = $dto['block_boc'];
+        if (!$dto) $dto = [];
+        $this->_blockBoc = $dto['block_boc'] ?? '';
     }
 
     /**

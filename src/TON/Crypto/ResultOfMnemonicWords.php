@@ -17,8 +17,8 @@ class ResultOfMnemonicWords implements JsonSerializable
 
     public function __construct(?array $dto = null)
     {
-        if (!$dto) return;
-        $this->_words = $dto['words'];
+        if (!$dto) $dto = [];
+        $this->_words = $dto['words'] ?? '';
     }
 
     /**

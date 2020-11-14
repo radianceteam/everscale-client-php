@@ -17,8 +17,8 @@ class ResultOfVersion implements JsonSerializable
 
     public function __construct(?array $dto = null)
     {
-        if (!$dto) return;
-        $this->_version = $dto['version'];
+        if (!$dto) $dto = [];
+        $this->_version = $dto['version'] ?? '';
     }
 
     /**

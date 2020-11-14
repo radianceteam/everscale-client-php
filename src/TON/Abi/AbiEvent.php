@@ -14,14 +14,14 @@ class AbiEvent implements JsonSerializable
 {
     private string $_name;
     private array $_inputs;
-    private int $_id;
+    private ?int $_id;
 
     public function __construct(?array $dto = null)
     {
-        if (!$dto) return;
-        $this->_name = $dto['name'];
-        $this->_inputs = $dto['inputs'];
-        $this->_id = $dto['id'];
+        if (!$dto) $dto = [];
+        $this->_name = $dto['name'] ?? '';
+        $this->_inputs = $dto['inputs'] ?? [];
+        $this->_id = $dto['id'] ?? null;
     }
 
     public function getName(): string

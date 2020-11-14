@@ -17,8 +17,8 @@ class ResultOfGetBlockchainConfig implements JsonSerializable
 
     public function __construct(?array $dto = null)
     {
-        if (!$dto) return;
-        $this->_configBoc = $dto['config_boc'];
+        if (!$dto) $dto = [];
+        $this->_configBoc = $dto['config_boc'] ?? '';
     }
 
     /**

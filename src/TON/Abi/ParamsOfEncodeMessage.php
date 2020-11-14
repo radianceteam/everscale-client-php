@@ -20,14 +20,14 @@ class ParamsOfEncodeMessage implements JsonSerializable
      *
      *  Must be specified in case of non-deploy message.
      */
-    private string $_address;
+    private ?string $_address;
 
     /**
      * Deploy parameters.
      *
      *  Must be specified in case of deploy message.
      */
-    private DeploySet $_deploySet;
+    private ?DeploySet $_deploySet;
 
     /**
      * Function call parameters.
@@ -37,7 +37,7 @@ class ParamsOfEncodeMessage implements JsonSerializable
      *  In case of deploy message it is optional and contains parameters
      *  of the functions that will to be called upon deploy transaction.
      */
-    private CallSet $_callSet;
+    private ?CallSet $_callSet;
 
     /** Signing parameters. */
     private Signer $_signer;
@@ -57,17 +57,17 @@ class ParamsOfEncodeMessage implements JsonSerializable
      *
      *  Default value is 0.
      */
-    private int $_processingTryIndex;
+    private ?int $_processingTryIndex;
 
     public function __construct(?array $dto = null)
     {
-        if (!$dto) return;
-        $this->_abi = new Abi($dto['abi']);
-        $this->_address = $dto['address'];
-        $this->_deploySet = new DeploySet($dto['deploy_set']);
-        $this->_callSet = new CallSet($dto['call_set']);
-        $this->_signer = new Signer($dto['signer']);
-        $this->_processingTryIndex = $dto['processing_try_index'];
+        if (!$dto) $dto = [];
+        $this->_abi = new Abi($dto['abi'] ?? []);
+        $this->_address = $dto['address'] ?? null;
+        $this->_deploySet = new DeploySet($dto['deploy_set'] ?? []);
+        $this->_callSet = new CallSet($dto['call_set'] ?? []);
+        $this->_signer = new Signer($dto['signer'] ?? []);
+        $this->_processingTryIndex = $dto['processing_try_index'] ?? null;
     }
 
     /**

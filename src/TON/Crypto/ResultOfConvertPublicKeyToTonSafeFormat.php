@@ -17,8 +17,8 @@ class ResultOfConvertPublicKeyToTonSafeFormat implements JsonSerializable
 
     public function __construct(?array $dto = null)
     {
-        if (!$dto) return;
-        $this->_tonPublicKey = $dto['ton_public_key'];
+        if (!$dto) $dto = [];
+        $this->_tonPublicKey = $dto['ton_public_key'] ?? '';
     }
 
     /**

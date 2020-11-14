@@ -17,8 +17,8 @@ class ResultOfGenerateRandomBytes implements JsonSerializable
 
     public function __construct(?array $dto = null)
     {
-        if (!$dto) return;
-        $this->_bytes = $dto['bytes'];
+        if (!$dto) $dto = [];
+        $this->_bytes = $dto['bytes'] ?? '';
     }
 
     /**

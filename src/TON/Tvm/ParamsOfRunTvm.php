@@ -19,18 +19,18 @@ class ParamsOfRunTvm implements JsonSerializable
     private string $_account;
 
     /** Execution options. */
-    private ExecutionOptions $_executionOptions;
+    private ?ExecutionOptions $_executionOptions;
 
     /** Contract ABI for dedcoding output messages */
-    private Abi $_abi;
+    private ?Abi $_abi;
 
     public function __construct(?array $dto = null)
     {
-        if (!$dto) return;
-        $this->_message = $dto['message'];
-        $this->_account = $dto['account'];
-        $this->_executionOptions = new ExecutionOptions($dto['execution_options']);
-        $this->_abi = new Abi($dto['abi']);
+        if (!$dto) $dto = [];
+        $this->_message = $dto['message'] ?? '';
+        $this->_account = $dto['account'] ?? '';
+        $this->_executionOptions = new ExecutionOptions($dto['execution_options'] ?? []);
+        $this->_abi = new Abi($dto['abi'] ?? []);
     }
 
     /**

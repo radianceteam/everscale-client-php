@@ -20,9 +20,9 @@ class ResultOfBuildInfo implements JsonSerializable
 
     public function __construct(?array $dto = null)
     {
-        if (!$dto) return;
-        $this->_buildNumber = $dto['build_number'];
-        $this->_dependencies = $dto['dependencies'];
+        if (!$dto) $dto = [];
+        $this->_buildNumber = $dto['build_number'] ?? 0;
+        $this->_dependencies = $dto['dependencies'] ?? [];
     }
 
     /**

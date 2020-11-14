@@ -25,9 +25,9 @@ class DecodedOutput implements JsonSerializable
 
     public function __construct(?array $dto = null)
     {
-        if (!$dto) return;
-        $this->_outMessages = $dto['out_messages'];
-        $this->_output = $dto['output'];
+        if (!$dto) $dto = [];
+        $this->_outMessages = $dto['out_messages'] ?? [];
+        $this->_output = $dto['output'] ?? null;
     }
 
     /**

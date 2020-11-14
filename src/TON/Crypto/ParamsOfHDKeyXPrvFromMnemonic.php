@@ -16,17 +16,17 @@ class ParamsOfHDKeyXPrvFromMnemonic implements JsonSerializable
     private string $_phrase;
 
     /** Dictionary identifier */
-    private int $_dictionary;
+    private ?int $_dictionary;
 
     /** Mnemonic word count */
-    private int $_wordCount;
+    private ?int $_wordCount;
 
     public function __construct(?array $dto = null)
     {
-        if (!$dto) return;
-        $this->_phrase = $dto['phrase'];
-        $this->_dictionary = $dto['dictionary'];
-        $this->_wordCount = $dto['word_count'];
+        if (!$dto) $dto = [];
+        $this->_phrase = $dto['phrase'] ?? '';
+        $this->_dictionary = $dto['dictionary'] ?? null;
+        $this->_wordCount = $dto['word_count'] ?? null;
     }
 
     /**

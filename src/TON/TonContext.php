@@ -4,10 +4,14 @@ namespace TON;
 
 use InvalidArgumentException;
 use JsonSerializable;
+use Psr\Log\LoggerInterface;
+use Psr\Log\NullLogger;
 
 class TonContext
 {
-    private int $_id = -1;
+    private int $_id;
+
+    private LoggerInterface $_logger;
 
     /**
      * TonContext constructor.
@@ -18,6 +22,19 @@ class TonContext
     {
         $json = ton_create_context($config ? json_encode($config) : "");
         $this->_id = $this->_handleResponseJson($json);
+        $this->_logger = new NullLogger();
+    }
+
+    /**
+     * @param LoggerInterface $logger
+     */
+    public function setLogger(LoggerInterface $logger): self
+    {
+        if ($logger == null) {
+            throw new InvalidArgumentException("logger cannot be null");
+        }
+        $this->_logger = $logger;
+        return $this;
     }
 
     /**
@@ -34,8 +51,10 @@ class TonContext
         if ($this->_id === -1) {
             throw new TonClientException("TON context is destroyed.");
         }
-        $params_json = $args ? json_encode($args) : '{}';
+        $params_json = $args ? json_encode($args, JSON_FORCE_OBJECT) : '{}';
+        $this->_logger->debug("Calling function ${function_name} with parameters ${params_json}");
         $response_json = ton_request($this->_id, $function_name, $params_json);
+        $this->_logger->debug("Response JSON: ${response_json}");
         return $this->_handleResponseJson($response_json);
     }
 

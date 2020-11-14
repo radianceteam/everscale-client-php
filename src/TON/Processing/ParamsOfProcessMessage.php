@@ -20,9 +20,9 @@ class ParamsOfProcessMessage implements JsonSerializable
 
     public function __construct(?array $dto = null)
     {
-        if (!$dto) return;
-        $this->_messageEncodeParams = new ParamsOfEncodeMessage($dto['message_encode_params']);
-        $this->_sendEvents = $dto['send_events'];
+        if (!$dto) $dto = [];
+        $this->_messageEncodeParams = new ParamsOfEncodeMessage($dto['message_encode_params'] ?? []);
+        $this->_sendEvents = $dto['send_events'] ?? false;
     }
 
     /**
@@ -36,7 +36,7 @@ class ParamsOfProcessMessage implements JsonSerializable
     /**
      * Flag for requesting events sending
      */
-    public function getSendEvents(): bool
+    public function isSendEvents(): bool
     {
         return $this->_sendEvents;
     }

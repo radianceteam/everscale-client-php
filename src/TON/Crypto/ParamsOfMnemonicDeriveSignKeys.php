@@ -16,21 +16,21 @@ class ParamsOfMnemonicDeriveSignKeys implements JsonSerializable
     private string $_phrase;
 
     /** Derivation path, for instance "m/44'/396'/0'/0/0" */
-    private string $_path;
+    private ?string $_path;
 
     /** Dictionary identifier */
-    private int $_dictionary;
+    private ?int $_dictionary;
 
     /** Word count */
-    private int $_wordCount;
+    private ?int $_wordCount;
 
     public function __construct(?array $dto = null)
     {
-        if (!$dto) return;
-        $this->_phrase = $dto['phrase'];
-        $this->_path = $dto['path'];
-        $this->_dictionary = $dto['dictionary'];
-        $this->_wordCount = $dto['word_count'];
+        if (!$dto) $dto = [];
+        $this->_phrase = $dto['phrase'] ?? '';
+        $this->_path = $dto['path'] ?? null;
+        $this->_dictionary = $dto['dictionary'] ?? null;
+        $this->_wordCount = $dto['word_count'] ?? null;
     }
 
     /**

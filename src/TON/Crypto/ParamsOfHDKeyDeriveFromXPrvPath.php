@@ -20,9 +20,9 @@ class ParamsOfHDKeyDeriveFromXPrvPath implements JsonSerializable
 
     public function __construct(?array $dto = null)
     {
-        if (!$dto) return;
-        $this->_xprv = $dto['xprv'];
-        $this->_path = $dto['path'];
+        if (!$dto) $dto = [];
+        $this->_xprv = $dto['xprv'] ?? '';
+        $this->_path = $dto['path'] ?? '';
     }
 
     /**

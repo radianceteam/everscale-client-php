@@ -23,10 +23,10 @@ class ParamsOfParseShardstate implements JsonSerializable
 
     public function __construct(?array $dto = null)
     {
-        if (!$dto) return;
-        $this->_boc = $dto['boc'];
-        $this->_id = $dto['id'];
-        $this->_workchainId = $dto['workchain_id'];
+        if (!$dto) $dto = [];
+        $this->_boc = $dto['boc'] ?? '';
+        $this->_id = $dto['id'] ?? '';
+        $this->_workchainId = $dto['workchain_id'] ?? 0;
     }
 
     /**

@@ -12,16 +12,16 @@ use JsonSerializable;
 
 class AbiConfig implements JsonSerializable
 {
-    private int $_workchain;
-    private int $_messageExpirationTimeout;
-    private float $_messageExpirationTimeoutGrowFactor;
+    private ?int $_workchain;
+    private ?int $_messageExpirationTimeout;
+    private ?float $_messageExpirationTimeoutGrowFactor;
 
     public function __construct(?array $dto = null)
     {
-        if (!$dto) return;
-        $this->_workchain = $dto['workchain'];
-        $this->_messageExpirationTimeout = $dto['message_expiration_timeout'];
-        $this->_messageExpirationTimeoutGrowFactor = $dto['message_expiration_timeout_grow_factor'];
+        if (!$dto) $dto = [];
+        $this->_workchain = $dto['workchain'] ?? null;
+        $this->_messageExpirationTimeout = $dto['message_expiration_timeout'] ?? null;
+        $this->_messageExpirationTimeoutGrowFactor = $dto['message_expiration_timeout_grow_factor'] ?? null;
     }
 
     public function getWorkchain(): ?int

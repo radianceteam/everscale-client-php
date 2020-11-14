@@ -12,22 +12,22 @@ use JsonSerializable;
 
 class AbiContract implements JsonSerializable
 {
-    private int $_ABIVersion;
-    private int $_abiVersion;
-    private array $_header;
-    private array $_functions;
-    private array $_events;
-    private array $_data;
+    private ?int $_ABIVersion;
+    private ?int $_abiVersion;
+    private ?array $_header;
+    private ?array $_functions;
+    private ?array $_events;
+    private ?array $_data;
 
     public function __construct(?array $dto = null)
     {
-        if (!$dto) return;
-        $this->_ABIVersion = $dto['ABI version'];
-        $this->_abiVersion = $dto['abi_version'];
-        $this->_header = $dto['header'];
-        $this->_functions = $dto['functions'];
-        $this->_events = $dto['events'];
-        $this->_data = $dto['data'];
+        if (!$dto) $dto = [];
+        $this->_ABIVersion = $dto['ABI version'] ?? null;
+        $this->_abiVersion = $dto['abi_version'] ?? null;
+        $this->_header = $dto['header'] ?? null;
+        $this->_functions = $dto['functions'] ?? null;
+        $this->_events = $dto['events'] ?? null;
+        $this->_data = $dto['data'] ?? null;
     }
 
     public function getABIVersion(): ?int

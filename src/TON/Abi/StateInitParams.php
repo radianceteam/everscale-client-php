@@ -17,9 +17,9 @@ class StateInitParams implements JsonSerializable
 
     public function __construct(?array $dto = null)
     {
-        if (!$dto) return;
-        $this->_abi = new Abi($dto['abi']);
-        $this->_value = $dto['value'];
+        if (!$dto) $dto = [];
+        $this->_abi = new Abi($dto['abi'] ?? []);
+        $this->_value = $dto['value'] ?? null;
     }
 
     public function getAbi(): Abi

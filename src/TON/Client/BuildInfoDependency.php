@@ -20,9 +20,9 @@ class BuildInfoDependency implements JsonSerializable
 
     public function __construct(?array $dto = null)
     {
-        if (!$dto) return;
-        $this->_name = $dto['name'];
-        $this->_gitCommit = $dto['git_commit'];
+        if (!$dto) $dto = [];
+        $this->_name = $dto['name'] ?? '';
+        $this->_gitCommit = $dto['git_commit'] ?? '';
     }
 
     /**

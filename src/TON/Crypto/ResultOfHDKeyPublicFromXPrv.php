@@ -17,8 +17,8 @@ class ResultOfHDKeyPublicFromXPrv implements JsonSerializable
 
     public function __construct(?array $dto = null)
     {
-        if (!$dto) return;
-        $this->_public = $dto['public'];
+        if (!$dto) $dto = [];
+        $this->_public = $dto['public'] ?? '';
     }
 
     /**

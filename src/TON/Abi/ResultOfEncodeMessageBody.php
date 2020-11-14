@@ -22,13 +22,13 @@ class ResultOfEncodeMessageBody implements JsonSerializable
      *  message signing. Is this case you need to sing this data and
      *  produce signed message using `abi.attach_signature`.
      */
-    private string $_dataToSign;
+    private ?string $_dataToSign;
 
     public function __construct(?array $dto = null)
     {
-        if (!$dto) return;
-        $this->_body = $dto['body'];
-        $this->_dataToSign = $dto['data_to_sign'];
+        if (!$dto) $dto = [];
+        $this->_body = $dto['body'] ?? '';
+        $this->_dataToSign = $dto['data_to_sign'] ?? null;
     }
 
     /**

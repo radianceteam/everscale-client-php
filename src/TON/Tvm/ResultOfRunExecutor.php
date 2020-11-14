@@ -28,7 +28,7 @@ class ResultOfRunExecutor implements JsonSerializable
      * Optional decoded message bodies according to the optional
      *  `abi` parameter.
      */
-    private DecodedOutput $_decoded;
+    private ?DecodedOutput $_decoded;
 
     /** Updated account state BOC. Encoded as `base64` */
     private string $_account;
@@ -38,12 +38,12 @@ class ResultOfRunExecutor implements JsonSerializable
 
     public function __construct(?array $dto = null)
     {
-        if (!$dto) return;
-        $this->_transaction = $dto['transaction'];
-        $this->_outMessages = $dto['out_messages'];
-        $this->_decoded = new DecodedOutput($dto['decoded']);
-        $this->_account = $dto['account'];
-        $this->_fees = new TransactionFees($dto['fees']);
+        if (!$dto) $dto = [];
+        $this->_transaction = $dto['transaction'] ?? null;
+        $this->_outMessages = $dto['out_messages'] ?? [];
+        $this->_decoded = new DecodedOutput($dto['decoded'] ?? []);
+        $this->_account = $dto['account'] ?? '';
+        $this->_fees = new TransactionFees($dto['fees'] ?? []);
     }
 
     /**

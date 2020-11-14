@@ -23,10 +23,10 @@ class ParamsOfNaclSecretBoxOpen implements JsonSerializable
 
     public function __construct(?array $dto = null)
     {
-        if (!$dto) return;
-        $this->_encrypted = $dto['encrypted'];
-        $this->_nonce = $dto['nonce'];
-        $this->_key = $dto['key'];
+        if (!$dto) $dto = [];
+        $this->_encrypted = $dto['encrypted'] ?? '';
+        $this->_nonce = $dto['nonce'] ?? '';
+        $this->_key = $dto['key'] ?? '';
     }
 
     /**

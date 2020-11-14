@@ -17,8 +17,8 @@ class ResultOfGetBocHash implements JsonSerializable
 
     public function __construct(?array $dto = null)
     {
-        if (!$dto) return;
-        $this->_hash = $dto['hash'];
+        if (!$dto) $dto = [];
+        $this->_hash = $dto['hash'] ?? '';
     }
 
     /**

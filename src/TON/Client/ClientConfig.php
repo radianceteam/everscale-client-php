@@ -12,16 +12,16 @@ use JsonSerializable;
 
 class ClientConfig implements JsonSerializable
 {
-    private NetworkConfig $_network;
-    private CryptoConfig $_crypto;
-    private AbiConfig $_abi;
+    private ?NetworkConfig $_network;
+    private ?CryptoConfig $_crypto;
+    private ?AbiConfig $_abi;
 
     public function __construct(?array $dto = null)
     {
-        if (!$dto) return;
-        $this->_network = new NetworkConfig($dto['network']);
-        $this->_crypto = new CryptoConfig($dto['crypto']);
-        $this->_abi = new AbiConfig($dto['abi']);
+        if (!$dto) $dto = [];
+        $this->_network = new NetworkConfig($dto['network'] ?? []);
+        $this->_crypto = new CryptoConfig($dto['crypto'] ?? []);
+        $this->_abi = new AbiConfig($dto['abi'] ?? []);
     }
 
     public function getNetwork(): ?NetworkConfig

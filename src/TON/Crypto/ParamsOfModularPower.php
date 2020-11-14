@@ -23,10 +23,10 @@ class ParamsOfModularPower implements JsonSerializable
 
     public function __construct(?array $dto = null)
     {
-        if (!$dto) return;
-        $this->_base = $dto['base'];
-        $this->_exponent = $dto['exponent'];
-        $this->_modulus = $dto['modulus'];
+        if (!$dto) $dto = [];
+        $this->_base = $dto['base'] ?? '';
+        $this->_exponent = $dto['exponent'] ?? '';
+        $this->_modulus = $dto['modulus'] ?? '';
     }
 
     /**

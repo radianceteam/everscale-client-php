@@ -22,17 +22,17 @@ class CallSet implements JsonSerializable
      *  contract's ABI, the library will set the default values for
      *  them.
      */
-    private FunctionHeader $_header;
+    private ?FunctionHeader $_header;
 
     /** Function input parameters according to ABI. */
     private $_input;
 
     public function __construct(?array $dto = null)
     {
-        if (!$dto) return;
-        $this->_functionName = $dto['function_name'];
-        $this->_header = new FunctionHeader($dto['header']);
-        $this->_input = $dto['input'];
+        if (!$dto) $dto = [];
+        $this->_functionName = $dto['function_name'] ?? '';
+        $this->_header = new FunctionHeader($dto['header'] ?? []);
+        $this->_input = $dto['input'] ?? null;
     }
 
     /**

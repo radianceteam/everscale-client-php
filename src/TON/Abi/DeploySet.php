@@ -16,17 +16,17 @@ class DeploySet implements JsonSerializable
     private string $_tvc;
 
     /** Target workchain for destination address. Default is `0`. */
-    private int $_workchainId;
+    private ?int $_workchainId;
 
     /** List of initial values for contract's public variables. */
     private $_initialData;
 
     public function __construct(?array $dto = null)
     {
-        if (!$dto) return;
-        $this->_tvc = $dto['tvc'];
-        $this->_workchainId = $dto['workchain_id'];
-        $this->_initialData = $dto['initial_data'];
+        if (!$dto) $dto = [];
+        $this->_tvc = $dto['tvc'] ?? '';
+        $this->_workchainId = $dto['workchain_id'] ?? null;
+        $this->_initialData = $dto['initial_data'] ?? null;
     }
 
     /**

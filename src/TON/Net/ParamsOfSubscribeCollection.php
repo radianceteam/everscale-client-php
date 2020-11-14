@@ -23,10 +23,10 @@ class ParamsOfSubscribeCollection implements JsonSerializable
 
     public function __construct(?array $dto = null)
     {
-        if (!$dto) return;
-        $this->_collection = $dto['collection'];
-        $this->_filter = $dto['filter'];
-        $this->_result = $dto['result'];
+        if (!$dto) $dto = [];
+        $this->_collection = $dto['collection'] ?? '';
+        $this->_filter = $dto['filter'] ?? null;
+        $this->_result = $dto['result'] ?? '';
     }
 
     /**

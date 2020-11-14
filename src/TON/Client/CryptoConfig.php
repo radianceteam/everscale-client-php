@@ -12,18 +12,18 @@ use JsonSerializable;
 
 class CryptoConfig implements JsonSerializable
 {
-    private int $_mnemonicDictionary;
-    private int $_mnemonicWordCount;
-    private string $_hdkeyDerivationPath;
-    private bool $_hdkeyCompliant;
+    private ?int $_mnemonicDictionary;
+    private ?int $_mnemonicWordCount;
+    private ?string $_hdkeyDerivationPath;
+    private ?bool $_hdkeyCompliant;
 
     public function __construct(?array $dto = null)
     {
-        if (!$dto) return;
-        $this->_mnemonicDictionary = $dto['mnemonic_dictionary'];
-        $this->_mnemonicWordCount = $dto['mnemonic_word_count'];
-        $this->_hdkeyDerivationPath = $dto['hdkey_derivation_path'];
-        $this->_hdkeyCompliant = $dto['hdkey_compliant'];
+        if (!$dto) $dto = [];
+        $this->_mnemonicDictionary = $dto['mnemonic_dictionary'] ?? null;
+        $this->_mnemonicWordCount = $dto['mnemonic_word_count'] ?? null;
+        $this->_hdkeyDerivationPath = $dto['hdkey_derivation_path'] ?? null;
+        $this->_hdkeyCompliant = $dto['hdkey_compliant'] ?? null;
     }
 
     public function getMnemonicDictionary(): ?int
@@ -41,7 +41,7 @@ class CryptoConfig implements JsonSerializable
         return $this->_hdkeyDerivationPath;
     }
 
-    public function getHdkeyCompliant(): ?bool
+    public function isHdkeyCompliant(): ?bool
     {
         return $this->_hdkeyCompliant;
     }

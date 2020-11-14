@@ -20,7 +20,7 @@ class ParamsOfWaitForTransaction implements JsonSerializable
      *
      *  The `abi_decoded` result field will be filled out.
      */
-    private Abi $_abi;
+    private ?Abi $_abi;
 
     /** Message BOC. Encoded with `base64`. */
     private string $_message;
@@ -37,11 +37,11 @@ class ParamsOfWaitForTransaction implements JsonSerializable
 
     public function __construct(?array $dto = null)
     {
-        if (!$dto) return;
-        $this->_abi = new Abi($dto['abi']);
-        $this->_message = $dto['message'];
-        $this->_shardBlockId = $dto['shard_block_id'];
-        $this->_sendEvents = $dto['send_events'];
+        if (!$dto) $dto = [];
+        $this->_abi = new Abi($dto['abi'] ?? []);
+        $this->_message = $dto['message'] ?? '';
+        $this->_shardBlockId = $dto['shard_block_id'] ?? '';
+        $this->_sendEvents = $dto['send_events'] ?? false;
     }
 
     /**
@@ -78,7 +78,7 @@ class ParamsOfWaitForTransaction implements JsonSerializable
     /**
      * Flag that enables/disables intermediate events
      */
-    public function getSendEvents(): bool
+    public function isSendEvents(): bool
     {
         return $this->_sendEvents;
     }

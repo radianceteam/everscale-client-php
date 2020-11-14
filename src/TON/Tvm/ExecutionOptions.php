@@ -13,24 +13,24 @@ use JsonSerializable;
 class ExecutionOptions implements JsonSerializable
 {
     /** boc with config */
-    private string $_blockchainConfig;
+    private ?string $_blockchainConfig;
 
     /** time that is used as transaction time */
-    private int $_blockTime;
+    private ?int $_blockTime;
 
     /** block logical time */
-    private BigInt $_blockLt;
+    private ?BigInt $_blockLt;
 
     /** transaction logical time */
-    private BigInt $_transactionLt;
+    private ?BigInt $_transactionLt;
 
     public function __construct(?array $dto = null)
     {
-        if (!$dto) return;
-        $this->_blockchainConfig = $dto['blockchain_config'];
-        $this->_blockTime = $dto['block_time'];
-        $this->_blockLt = new BigInt($dto['block_lt']);
-        $this->_transactionLt = new BigInt($dto['transaction_lt']);
+        if (!$dto) $dto = [];
+        $this->_blockchainConfig = $dto['blockchain_config'] ?? null;
+        $this->_blockTime = $dto['block_time'] ?? null;
+        $this->_blockLt = new BigInt($dto['block_lt'] ?? []);
+        $this->_transactionLt = new BigInt($dto['transaction_lt'] ?? []);
     }
 
     /**

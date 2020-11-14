@@ -23,8 +23,8 @@ class ResultOfSendMessage implements JsonSerializable
 
     public function __construct(?array $dto = null)
     {
-        if (!$dto) return;
-        $this->_shardBlockId = $dto['shard_block_id'];
+        if (!$dto) $dto = [];
+        $this->_shardBlockId = $dto['shard_block_id'] ?? '';
     }
 
     /**

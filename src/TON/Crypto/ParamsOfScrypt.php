@@ -38,13 +38,13 @@ class ParamsOfScrypt implements JsonSerializable
 
     public function __construct(?array $dto = null)
     {
-        if (!$dto) return;
-        $this->_password = $dto['password'];
-        $this->_salt = $dto['salt'];
-        $this->_logN = $dto['log_n'];
-        $this->_r = $dto['r'];
-        $this->_p = $dto['p'];
-        $this->_dkLen = $dto['dk_len'];
+        if (!$dto) $dto = [];
+        $this->_password = $dto['password'] ?? '';
+        $this->_salt = $dto['salt'] ?? '';
+        $this->_logN = $dto['log_n'] ?? 0;
+        $this->_r = $dto['r'] ?? 0;
+        $this->_p = $dto['p'] ?? 0;
+        $this->_dkLen = $dto['dk_len'] ?? 0;
     }
 
     /**

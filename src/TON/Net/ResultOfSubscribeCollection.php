@@ -17,8 +17,8 @@ class ResultOfSubscribeCollection implements JsonSerializable
 
     public function __construct(?array $dto = null)
     {
-        if (!$dto) return;
-        $this->_handle = $dto['handle'];
+        if (!$dto) $dto = [];
+        $this->_handle = $dto['handle'] ?? 0;
     }
 
     /**

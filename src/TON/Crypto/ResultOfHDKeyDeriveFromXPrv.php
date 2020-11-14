@@ -17,8 +17,8 @@ class ResultOfHDKeyDeriveFromXPrv implements JsonSerializable
 
     public function __construct(?array $dto = null)
     {
-        if (!$dto) return;
-        $this->_xprv = $dto['xprv'];
+        if (!$dto) $dto = [];
+        $this->_xprv = $dto['xprv'] ?? '';
     }
 
     /**

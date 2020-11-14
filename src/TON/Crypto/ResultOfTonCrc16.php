@@ -17,8 +17,8 @@ class ResultOfTonCrc16 implements JsonSerializable
 
     public function __construct(?array $dto = null)
     {
-        if (!$dto) return;
-        $this->_crc = $dto['crc'];
+        if (!$dto) $dto = [];
+        $this->_crc = $dto['crc'] ?? 0;
     }
 
     /**

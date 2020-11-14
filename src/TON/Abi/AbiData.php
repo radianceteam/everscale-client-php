@@ -15,15 +15,15 @@ class AbiData implements JsonSerializable
     private BigInt $_key;
     private string $_name;
     private string $_type;
-    private array $_components;
+    private ?array $_components;
 
     public function __construct(?array $dto = null)
     {
-        if (!$dto) return;
-        $this->_key = new BigInt($dto['key']);
-        $this->_name = $dto['name'];
-        $this->_type = $dto['type'];
-        $this->_components = $dto['components'];
+        if (!$dto) $dto = [];
+        $this->_key = new BigInt($dto['key'] ?? []);
+        $this->_name = $dto['name'] ?? '';
+        $this->_type = $dto['type'] ?? '';
+        $this->_components = $dto['components'] ?? null;
     }
 
     public function getKey(): BigInt
