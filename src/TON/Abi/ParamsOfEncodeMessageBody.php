@@ -47,10 +47,10 @@ class ParamsOfEncodeMessageBody implements JsonSerializable
     public function __construct(?array $dto = null)
     {
         if (!$dto) $dto = [];
-        $this->_abi = new Abi($dto['abi'] ?? []);
+        $this->_abi = Abi::create($dto['abi'] ?? []);
         $this->_callSet = new CallSet($dto['call_set'] ?? []);
         $this->_isInternal = $dto['is_internal'] ?? false;
-        $this->_signer = new Signer($dto['signer'] ?? []);
+        $this->_signer = Signer::create($dto['signer'] ?? []);
         $this->_processingTryIndex = $dto['processing_try_index'] ?? null;
     }
 

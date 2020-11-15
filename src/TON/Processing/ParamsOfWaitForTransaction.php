@@ -38,7 +38,7 @@ class ParamsOfWaitForTransaction implements JsonSerializable
     public function __construct(?array $dto = null)
     {
         if (!$dto) $dto = [];
-        $this->_abi = new Abi($dto['abi'] ?? []);
+        $this->_abi = Abi::create($dto['abi'] ?? []);
         $this->_message = $dto['message'] ?? '';
         $this->_shardBlockId = $dto['shard_block_id'] ?? '';
         $this->_sendEvents = $dto['send_events'] ?? false;

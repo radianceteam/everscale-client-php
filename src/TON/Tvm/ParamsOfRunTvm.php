@@ -30,7 +30,7 @@ class ParamsOfRunTvm implements JsonSerializable
         $this->_message = $dto['message'] ?? '';
         $this->_account = $dto['account'] ?? '';
         $this->_executionOptions = new ExecutionOptions($dto['execution_options'] ?? []);
-        $this->_abi = new Abi($dto['abi'] ?? []);
+        $this->_abi = Abi::create($dto['abi'] ?? []);
     }
 
     /**

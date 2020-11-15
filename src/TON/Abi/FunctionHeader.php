@@ -23,7 +23,7 @@ class FunctionHeader implements JsonSerializable
      * Message creation time in milliseconds. If not specified, `now` is used
      *  (if ABI includes `time` header).
      */
-    private ?BigInt $_time;
+    private ?int $_time;
 
     /**
      * Public key is used by the contract to check the signature. Encoded in `hex`.
@@ -35,7 +35,7 @@ class FunctionHeader implements JsonSerializable
     {
         if (!$dto) $dto = [];
         $this->_expire = $dto['expire'] ?? null;
-        $this->_time = new BigInt($dto['time'] ?? []);
+        $this->_time = $dto['time'] ?? null;
         $this->_pubkey = $dto['pubkey'] ?? null;
     }
 
@@ -53,7 +53,7 @@ class FunctionHeader implements JsonSerializable
      * Message creation time in milliseconds. If not specified, `now` is used
      *  (if ABI includes `time` header).
      */
-    public function getTime(): ?BigInt
+    public function getTime(): ?int
     {
         return $this->_time;
     }
@@ -82,7 +82,7 @@ class FunctionHeader implements JsonSerializable
      * Message creation time in milliseconds. If not specified, `now` is used
      *  (if ABI includes `time` header).
      */
-    public function setTime(?BigInt $time): self
+    public function setTime(?int $time): self
     {
         $this->_time = $time;
         return $this;

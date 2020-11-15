@@ -12,7 +12,7 @@ use JsonSerializable;
 
 class AbiContract implements JsonSerializable
 {
-    private ?int $_ABIVersion;
+    private ?int $_ABI_version;
     private ?int $_abiVersion;
     private ?array $_header;
     private ?array $_functions;
@@ -22,7 +22,7 @@ class AbiContract implements JsonSerializable
     public function __construct(?array $dto = null)
     {
         if (!$dto) $dto = [];
-        $this->_ABIVersion = $dto['ABI version'] ?? null;
+        $this->_ABI_version = $dto['ABI version'] ?? null;
         $this->_abiVersion = $dto['abi_version'] ?? null;
         $this->_header = $dto['header'] ?? null;
         $this->_functions = $dto['functions'] ?? null;
@@ -30,9 +30,9 @@ class AbiContract implements JsonSerializable
         $this->_data = $dto['data'] ?? null;
     }
 
-    public function getABIVersion(): ?int
+    public function getABI_version(): ?int
     {
-        return $this->_ABIVersion;
+        return $this->_ABI_version;
     }
 
     public function getAbiVersion(): ?int
@@ -60,9 +60,9 @@ class AbiContract implements JsonSerializable
         return $this->_data;
     }
 
-    public function setABIVersion(?int $ABIVersion): self
+    public function setABI_version(?int $ABI_version): self
     {
-        $this->_ABIVersion = $ABIVersion;
+        $this->_ABI_version = $ABI_version;
         return $this;
     }
 
@@ -99,7 +99,7 @@ class AbiContract implements JsonSerializable
     public function jsonSerialize()
     {
         $result = [];
-        if ($this->_ABIVersion !== null) $result['ABI version'] = $this->_ABIVersion;
+        if ($this->_ABI_version !== null) $result['ABI version'] = $this->_ABI_version;
         if ($this->_abiVersion !== null) $result['abi_version'] = $this->_abiVersion;
         if ($this->_header !== null) $result['header'] = $this->_header;
         if ($this->_functions !== null) $result['functions'] = $this->_functions;

@@ -38,7 +38,7 @@ class ParamsOfSendMessage implements JsonSerializable
     {
         if (!$dto) $dto = [];
         $this->_message = $dto['message'] ?? '';
-        $this->_abi = new Abi($dto['abi'] ?? []);
+        $this->_abi = Abi::create($dto['abi'] ?? []);
         $this->_sendEvents = $dto['send_events'] ?? false;
     }
 

@@ -22,7 +22,7 @@ class ParamsOfConvertAddress implements JsonSerializable
     {
         if (!$dto) $dto = [];
         $this->_address = $dto['address'] ?? '';
-        $this->_outputFormat = new AddressStringFormat($dto['output_format'] ?? []);
+        $this->_outputFormat = AddressStringFormat::create($dto['output_format'] ?? []);
     }
 
     /**

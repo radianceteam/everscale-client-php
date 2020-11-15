@@ -31,9 +31,9 @@ class ParamsOfRunExecutor implements JsonSerializable
     {
         if (!$dto) $dto = [];
         $this->_message = $dto['message'] ?? '';
-        $this->_account = new AccountForExecutor($dto['account'] ?? []);
+        $this->_account = AccountForExecutor::create($dto['account'] ?? []);
         $this->_executionOptions = new ExecutionOptions($dto['execution_options'] ?? []);
-        $this->_abi = new Abi($dto['abi'] ?? []);
+        $this->_abi = Abi::create($dto['abi'] ?? []);
         $this->_skipTransactionCheck = $dto['skip_transaction_check'] ?? null;
     }
 

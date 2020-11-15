@@ -12,7 +12,7 @@
 2. Copy `ton_client.dll` into `C:\php`.
 3. Copy `ext\php_ton_client.dll` into `C:\php\ext`.
 4. Copy `C:\php\php-ini.production` to `C:\php\php.ini`
-5. Add the following to `C:\php\php-ini`: 
+5. Add the following to `C:\php\php.ini`: 
 
 ```
 extension="C:\php\ext\php_ton_client.dll"

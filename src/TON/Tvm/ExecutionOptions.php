@@ -19,18 +19,18 @@ class ExecutionOptions implements JsonSerializable
     private ?int $_blockTime;
 
     /** block logical time */
-    private ?BigInt $_blockLt;
+    private ?int $_blockLt;
 
     /** transaction logical time */
-    private ?BigInt $_transactionLt;
+    private ?int $_transactionLt;
 
     public function __construct(?array $dto = null)
     {
         if (!$dto) $dto = [];
         $this->_blockchainConfig = $dto['blockchain_config'] ?? null;
         $this->_blockTime = $dto['block_time'] ?? null;
-        $this->_blockLt = new BigInt($dto['block_lt'] ?? []);
-        $this->_transactionLt = new BigInt($dto['transaction_lt'] ?? []);
+        $this->_blockLt = $dto['block_lt'] ?? null;
+        $this->_transactionLt = $dto['transaction_lt'] ?? null;
     }
 
     /**
@@ -52,7 +52,7 @@ class ExecutionOptions implements JsonSerializable
     /**
      * block logical time
      */
-    public function getBlockLt(): ?BigInt
+    public function getBlockLt(): ?int
     {
         return $this->_blockLt;
     }
@@ -60,7 +60,7 @@ class ExecutionOptions implements JsonSerializable
     /**
      * transaction logical time
      */
-    public function getTransactionLt(): ?BigInt
+    public function getTransactionLt(): ?int
     {
         return $this->_transactionLt;
     }
@@ -86,7 +86,7 @@ class ExecutionOptions implements JsonSerializable
     /**
      * block logical time
      */
-    public function setBlockLt(?BigInt $blockLt): self
+    public function setBlockLt(?int $blockLt): self
     {
         $this->_blockLt = $blockLt;
         return $this;
@@ -95,7 +95,7 @@ class ExecutionOptions implements JsonSerializable
     /**
      * transaction logical time
      */
-    public function setTransactionLt(?BigInt $transactionLt): self
+    public function setTransactionLt(?int $transactionLt): self
     {
         $this->_transactionLt = $transactionLt;
         return $this;

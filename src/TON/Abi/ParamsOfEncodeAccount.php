@@ -16,10 +16,10 @@ class ParamsOfEncodeAccount implements JsonSerializable
     private StateInitSource $_stateInit;
 
     /** Initial balance. */
-    private ?BigInt $_balance;
+    private ?int $_balance;
 
     /** Initial value for the `last_trans_lt`. */
-    private ?BigInt $_lastTransLt;
+    private ?int $_lastTransLt;
 
     /** Initial value for the `last_paid`. */
     private ?int $_lastPaid;
@@ -27,9 +27,9 @@ class ParamsOfEncodeAccount implements JsonSerializable
     public function __construct(?array $dto = null)
     {
         if (!$dto) $dto = [];
-        $this->_stateInit = new StateInitSource($dto['state_init'] ?? []);
-        $this->_balance = new BigInt($dto['balance'] ?? []);
-        $this->_lastTransLt = new BigInt($dto['last_trans_lt'] ?? []);
+        $this->_stateInit = StateInitSource::create($dto['state_init'] ?? []);
+        $this->_balance = $dto['balance'] ?? null;
+        $this->_lastTransLt = $dto['last_trans_lt'] ?? null;
         $this->_lastPaid = $dto['last_paid'] ?? null;
     }
 
@@ -44,7 +44,7 @@ class ParamsOfEncodeAccount implements JsonSerializable
     /**
      * Initial balance.
      */
-    public function getBalance(): ?BigInt
+    public function getBalance(): ?int
     {
         return $this->_balance;
     }
@@ -52,7 +52,7 @@ class ParamsOfEncodeAccount implements JsonSerializable
     /**
      * Initial value for the `last_trans_lt`.
      */
-    public function getLastTransLt(): ?BigInt
+    public function getLastTransLt(): ?int
     {
         return $this->_lastTransLt;
     }
@@ -77,7 +77,7 @@ class ParamsOfEncodeAccount implements JsonSerializable
     /**
      * Initial balance.
      */
-    public function setBalance(?BigInt $balance): self
+    public function setBalance(?int $balance): self
     {
         $this->_balance = $balance;
         return $this;
@@ -86,7 +86,7 @@ class ParamsOfEncodeAccount implements JsonSerializable
     /**
      * Initial value for the `last_trans_lt`.
      */
-    public function setLastTransLt(?BigInt $lastTransLt): self
+    public function setLastTransLt(?int $lastTransLt): self
     {
         $this->_lastTransLt = $lastTransLt;
         return $this;

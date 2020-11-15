@@ -12,85 +12,85 @@ use JsonSerializable;
 
 class TransactionFees implements JsonSerializable
 {
-    private BigInt $_inMsgFwdFee;
-    private BigInt $_storageFee;
-    private BigInt $_gasFee;
-    private BigInt $_outMsgsFwdFee;
-    private BigInt $_totalAccountFees;
-    private BigInt $_totalOutput;
+    private int $_inMsgFwdFee;
+    private int $_storageFee;
+    private int $_gasFee;
+    private int $_outMsgsFwdFee;
+    private int $_totalAccountFees;
+    private int $_totalOutput;
 
     public function __construct(?array $dto = null)
     {
         if (!$dto) $dto = [];
-        $this->_inMsgFwdFee = new BigInt($dto['in_msg_fwd_fee'] ?? []);
-        $this->_storageFee = new BigInt($dto['storage_fee'] ?? []);
-        $this->_gasFee = new BigInt($dto['gas_fee'] ?? []);
-        $this->_outMsgsFwdFee = new BigInt($dto['out_msgs_fwd_fee'] ?? []);
-        $this->_totalAccountFees = new BigInt($dto['total_account_fees'] ?? []);
-        $this->_totalOutput = new BigInt($dto['total_output'] ?? []);
+        $this->_inMsgFwdFee = $dto['in_msg_fwd_fee'] ?? 0;
+        $this->_storageFee = $dto['storage_fee'] ?? 0;
+        $this->_gasFee = $dto['gas_fee'] ?? 0;
+        $this->_outMsgsFwdFee = $dto['out_msgs_fwd_fee'] ?? 0;
+        $this->_totalAccountFees = $dto['total_account_fees'] ?? 0;
+        $this->_totalOutput = $dto['total_output'] ?? 0;
     }
 
-    public function getInMsgFwdFee(): BigInt
+    public function getInMsgFwdFee(): int
     {
         return $this->_inMsgFwdFee;
     }
 
-    public function getStorageFee(): BigInt
+    public function getStorageFee(): int
     {
         return $this->_storageFee;
     }
 
-    public function getGasFee(): BigInt
+    public function getGasFee(): int
     {
         return $this->_gasFee;
     }
 
-    public function getOutMsgsFwdFee(): BigInt
+    public function getOutMsgsFwdFee(): int
     {
         return $this->_outMsgsFwdFee;
     }
 
-    public function getTotalAccountFees(): BigInt
+    public function getTotalAccountFees(): int
     {
         return $this->_totalAccountFees;
     }
 
-    public function getTotalOutput(): BigInt
+    public function getTotalOutput(): int
     {
         return $this->_totalOutput;
     }
 
-    public function setInMsgFwdFee(BigInt $inMsgFwdFee): self
+    public function setInMsgFwdFee(int $inMsgFwdFee): self
     {
         $this->_inMsgFwdFee = $inMsgFwdFee;
         return $this;
     }
 
-    public function setStorageFee(BigInt $storageFee): self
+    public function setStorageFee(int $storageFee): self
     {
         $this->_storageFee = $storageFee;
         return $this;
     }
 
-    public function setGasFee(BigInt $gasFee): self
+    public function setGasFee(int $gasFee): self
     {
         $this->_gasFee = $gasFee;
         return $this;
     }
 
-    public function setOutMsgsFwdFee(BigInt $outMsgsFwdFee): self
+    public function setOutMsgsFwdFee(int $outMsgsFwdFee): self
     {
         $this->_outMsgsFwdFee = $outMsgsFwdFee;
         return $this;
     }
 
-    public function setTotalAccountFees(BigInt $totalAccountFees): self
+    public function setTotalAccountFees(int $totalAccountFees): self
     {
         $this->_totalAccountFees = $totalAccountFees;
         return $this;
     }
 
-    public function setTotalOutput(BigInt $totalOutput): self
+    public function setTotalOutput(int $totalOutput): self
     {
         $this->_totalOutput = $totalOutput;
         return $this;

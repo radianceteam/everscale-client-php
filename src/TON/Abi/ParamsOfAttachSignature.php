@@ -27,7 +27,7 @@ class ParamsOfAttachSignature implements JsonSerializable
     public function __construct(?array $dto = null)
     {
         if (!$dto) $dto = [];
-        $this->_abi = new Abi($dto['abi'] ?? []);
+        $this->_abi = Abi::create($dto['abi'] ?? []);
         $this->_publicKey = $dto['public_key'] ?? '';
         $this->_message = $dto['message'] ?? '';
         $this->_signature = $dto['signature'] ?? '';
