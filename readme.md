@@ -15,7 +15,7 @@
 5. Add the following to `C:\php\php-ini`: 
 
 ```
-extension=".\ext\php_ton_client.dll"`
+extension="C:\php\ext\php_ton_client.dll"
 ```
 
 6. Verify that `ton_client` extension is enabled by inspecting output of `php --info`:
