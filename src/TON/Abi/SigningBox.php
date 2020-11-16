@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace TON\Abi;
 
 use JsonSerializable;
+use stdClass;
 
 class SigningBox extends Signer implements JsonSerializable
 {
@@ -35,6 +36,6 @@ class SigningBox extends Signer implements JsonSerializable
     {
         $result = ['type' => 'SigningBox'];
         if ($this->_handle !== null) $result['handle'] = $this->_handle;
-        return $result;
+        return !empty($result) ? $result : new stdClass();
     }
 }

@@ -9,6 +9,8 @@ declare(strict_types=1);
 namespace TON\Tvm;
 
 use JsonSerializable;
+use TON\Abi\Abi;
+use stdClass;
 
 class ParamsOfRunTvm implements JsonSerializable
 {
@@ -29,8 +31,8 @@ class ParamsOfRunTvm implements JsonSerializable
         if (!$dto) $dto = [];
         $this->_message = $dto['message'] ?? '';
         $this->_account = $dto['account'] ?? '';
-        $this->_executionOptions = new ExecutionOptions($dto['execution_options'] ?? []);
-        $this->_abi = Abi::create($dto['abi'] ?? []);
+        $this->_executionOptions = isset($dto['execution_options']) ? new ExecutionOptions($dto['execution_options']) : null;
+        $this->_abi = isset($dto['abi']) ? Abi::create($dto['abi']) : null;
     }
 
     /**
@@ -108,6 +110,6 @@ class ParamsOfRunTvm implements JsonSerializable
         if ($this->_account !== null) $result['account'] = $this->_account;
         if ($this->_executionOptions !== null) $result['execution_options'] = $this->_executionOptions;
         if ($this->_abi !== null) $result['abi'] = $this->_abi;
-        return $result;
+        return !empty($result) ? $result : new stdClass();
     }
 }

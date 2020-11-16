@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace TON\Client;
 
 use JsonSerializable;
+use stdClass;
 
 class ClientError implements JsonSerializable
 {
@@ -63,6 +64,6 @@ class ClientError implements JsonSerializable
         if ($this->_code !== null) $result['code'] = $this->_code;
         if ($this->_message !== null) $result['message'] = $this->_message;
         if ($this->_data !== null) $result['data'] = $this->_data;
-        return $result;
+        return !empty($result) ? $result : new stdClass();
     }
 }

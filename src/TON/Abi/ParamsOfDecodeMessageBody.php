@@ -9,11 +9,12 @@ declare(strict_types=1);
 namespace TON\Abi;
 
 use JsonSerializable;
+use stdClass;
 
 class ParamsOfDecodeMessageBody implements JsonSerializable
 {
     /** Contract ABI used to decode. */
-    private Abi $_abi;
+    private ?Abi $_abi;
 
     /** Message body BOC encoded in `base64`. */
     private string $_body;
@@ -24,7 +25,7 @@ class ParamsOfDecodeMessageBody implements JsonSerializable
     public function __construct(?array $dto = null)
     {
         if (!$dto) $dto = [];
-        $this->_abi = Abi::create($dto['abi'] ?? []);
+        $this->_abi = isset($dto['abi']) ? Abi::create($dto['abi']) : null;
         $this->_body = $dto['body'] ?? '';
         $this->_isInternal = $dto['is_internal'] ?? false;
     }
@@ -32,7 +33,7 @@ class ParamsOfDecodeMessageBody implements JsonSerializable
     /**
      * Contract ABI used to decode.
      */
-    public function getAbi(): Abi
+    public function getAbi(): ?Abi
     {
         return $this->_abi;
     }
@@ -56,7 +57,7 @@ class ParamsOfDecodeMessageBody implements JsonSerializable
     /**
      * Contract ABI used to decode.
      */
-    public function setAbi(Abi $abi): self
+    public function setAbi(?Abi $abi): self
     {
         $this->_abi = $abi;
         return $this;
@@ -86,6 +87,6 @@ class ParamsOfDecodeMessageBody implements JsonSerializable
         if ($this->_abi !== null) $result['abi'] = $this->_abi;
         if ($this->_body !== null) $result['body'] = $this->_body;
         if ($this->_isInternal !== null) $result['is_internal'] = $this->_isInternal;
-        return $result;
+        return !empty($result) ? $result : new stdClass();
     }
 }

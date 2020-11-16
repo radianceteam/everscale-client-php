@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace TON\Abi;
 
 use JsonSerializable;
+use stdClass;
 
 class Tvc extends StateInitSource implements JsonSerializable
 {
@@ -21,7 +22,7 @@ class Tvc extends StateInitSource implements JsonSerializable
         if (!$dto) $dto = [];
         $this->_tvc = $dto['tvc'] ?? '';
         $this->_publicKey = $dto['public_key'] ?? null;
-        $this->_initParams = new StateInitParams($dto['init_params'] ?? []);
+        $this->_initParams = isset($dto['init_params']) ? new StateInitParams($dto['init_params']) : null;
     }
 
     public function getTvc(): string
@@ -63,6 +64,6 @@ class Tvc extends StateInitSource implements JsonSerializable
         if ($this->_tvc !== null) $result['tvc'] = $this->_tvc;
         if ($this->_publicKey !== null) $result['public_key'] = $this->_publicKey;
         if ($this->_initParams !== null) $result['init_params'] = $this->_initParams;
-        return $result;
+        return !empty($result) ? $result : new stdClass();
     }
 }

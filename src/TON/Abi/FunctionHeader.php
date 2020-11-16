@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace TON\Abi;
 
 use JsonSerializable;
+use stdClass;
 
 class FunctionHeader implements JsonSerializable
 {
@@ -104,6 +105,6 @@ class FunctionHeader implements JsonSerializable
         if ($this->_expire !== null) $result['expire'] = $this->_expire;
         if ($this->_time !== null) $result['time'] = $this->_time;
         if ($this->_pubkey !== null) $result['pubkey'] = $this->_pubkey;
-        return $result;
+        return !empty($result) ? $result : new stdClass();
     }
 }

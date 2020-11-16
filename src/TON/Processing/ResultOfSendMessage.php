@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace TON\Processing;
 
 use JsonSerializable;
+use stdClass;
 
 class ResultOfSendMessage implements JsonSerializable
 {
@@ -56,6 +57,6 @@ class ResultOfSendMessage implements JsonSerializable
     {
         $result = [];
         if ($this->_shardBlockId !== null) $result['shard_block_id'] = $this->_shardBlockId;
-        return $result;
+        return !empty($result) ? $result : new stdClass();
     }
 }

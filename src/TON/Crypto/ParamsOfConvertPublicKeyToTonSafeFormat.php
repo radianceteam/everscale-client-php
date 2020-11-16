@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace TON\Crypto;
 
 use JsonSerializable;
+use stdClass;
 
 class ParamsOfConvertPublicKeyToTonSafeFormat implements JsonSerializable
 {
@@ -42,6 +43,6 @@ class ParamsOfConvertPublicKeyToTonSafeFormat implements JsonSerializable
     {
         $result = [];
         if ($this->_publicKey !== null) $result['public_key'] = $this->_publicKey;
-        return $result;
+        return !empty($result) ? $result : new stdClass();
     }
 }

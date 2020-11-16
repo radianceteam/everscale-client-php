@@ -2,25 +2,16 @@
 
 namespace TON;
 
-use PHPUnit\Framework\TestCase;
 use TON\Client\ClientModule;
 
-class ClientTests extends TestCase
+class ClientTests extends AbstractModuleTestCase
 {
-    private TonContext $_context;
     private ClientModule $_client;
 
     protected function setUp(): void
     {
         parent::setUp();
-        $this->_context = new TonContext();
         $this->_client = new ClientModule($this->_context);
-    }
-
-    protected function tearDown(): void
-    {
-        parent::tearDown();
-        $this->_context->destroy();
     }
 
     public function testVersion()

@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace TON\Crypto;
 
 use JsonSerializable;
+use stdClass;
 
 class ResultOfVerifySignature implements JsonSerializable
 {
@@ -42,6 +43,6 @@ class ResultOfVerifySignature implements JsonSerializable
     {
         $result = [];
         if ($this->_unsigned !== null) $result['unsigned'] = $this->_unsigned;
-        return $result;
+        return !empty($result) ? $result : new stdClass();
     }
 }

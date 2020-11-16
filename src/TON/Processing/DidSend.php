@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace TON\Processing;
 
 use JsonSerializable;
+use stdClass;
 
 class DidSend extends ProcessingEvent implements JsonSerializable
 {
@@ -63,6 +64,6 @@ class DidSend extends ProcessingEvent implements JsonSerializable
         if ($this->_shardBlockId !== null) $result['shard_block_id'] = $this->_shardBlockId;
         if ($this->_messageId !== null) $result['message_id'] = $this->_messageId;
         if ($this->_message !== null) $result['message'] = $this->_message;
-        return $result;
+        return !empty($result) ? $result : new stdClass();
     }
 }

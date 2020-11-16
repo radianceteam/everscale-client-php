@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace TON\Crypto;
 
 use JsonSerializable;
+use stdClass;
 
 class ResultOfFactorize implements JsonSerializable
 {
@@ -42,6 +43,6 @@ class ResultOfFactorize implements JsonSerializable
     {
         $result = [];
         if ($this->_factors !== null) $result['factors'] = $this->_factors;
-        return $result;
+        return !empty($result) ? $result : new stdClass();
     }
 }

@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace TON\Crypto;
 
 use JsonSerializable;
+use stdClass;
 
 class ResultOfMnemonicFromRandom implements JsonSerializable
 {
@@ -42,6 +43,6 @@ class ResultOfMnemonicFromRandom implements JsonSerializable
     {
         $result = [];
         if ($this->_phrase !== null) $result['phrase'] = $this->_phrase;
-        return $result;
+        return !empty($result) ? $result : new stdClass();
     }
 }

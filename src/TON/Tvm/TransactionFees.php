@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace TON\Tvm;
 
 use JsonSerializable;
+use stdClass;
 
 class TransactionFees implements JsonSerializable
 {
@@ -105,6 +106,6 @@ class TransactionFees implements JsonSerializable
         if ($this->_outMsgsFwdFee !== null) $result['out_msgs_fwd_fee'] = $this->_outMsgsFwdFee;
         if ($this->_totalAccountFees !== null) $result['total_account_fees'] = $this->_totalAccountFees;
         if ($this->_totalOutput !== null) $result['total_output'] = $this->_totalOutput;
-        return $result;
+        return !empty($result) ? $result : new stdClass();
     }
 }

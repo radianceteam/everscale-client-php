@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace TON\Crypto;
 
 use JsonSerializable;
+use stdClass;
 
 class ResultOfScrypt implements JsonSerializable
 {
@@ -42,6 +43,6 @@ class ResultOfScrypt implements JsonSerializable
     {
         $result = [];
         if ($this->_key !== null) $result['key'] = $this->_key;
-        return $result;
+        return !empty($result) ? $result : new stdClass();
     }
 }

@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace TON\Abi;
 
 use JsonSerializable;
+use stdClass;
 
 class ResultOfEncodeAccount implements JsonSerializable
 {
@@ -64,6 +65,6 @@ class ResultOfEncodeAccount implements JsonSerializable
         $result = [];
         if ($this->_account !== null) $result['account'] = $this->_account;
         if ($this->_id !== null) $result['id'] = $this->_id;
-        return $result;
+        return !empty($result) ? $result : new stdClass();
     }
 }

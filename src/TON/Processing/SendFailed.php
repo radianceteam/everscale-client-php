@@ -9,13 +9,15 @@ declare(strict_types=1);
 namespace TON\Processing;
 
 use JsonSerializable;
+use TON\Client\ClientError;
+use stdClass;
 
 class SendFailed extends ProcessingEvent implements JsonSerializable
 {
     private string $_shardBlockId;
     private string $_messageId;
     private string $_message;
-    private ClientError $_error;
+    private ?ClientError $_error;
 
     public function __construct(?array $dto = null)
     {
@@ -23,7 +25,7 @@ class SendFailed extends ProcessingEvent implements JsonSerializable
         $this->_shardBlockId = $dto['shard_block_id'] ?? '';
         $this->_messageId = $dto['message_id'] ?? '';
         $this->_message = $dto['message'] ?? '';
-        $this->_error = new ClientError($dto['error'] ?? []);
+        $this->_error = isset($dto['error']) ? new ClientError($dto['error']) : null;
     }
 
     public function getShardBlockId(): string
@@ -41,7 +43,7 @@ class SendFailed extends ProcessingEvent implements JsonSerializable
         return $this->_message;
     }
 
-    public function getError(): ClientError
+    public function getError(): ?ClientError
     {
         return $this->_error;
     }
@@ -64,7 +66,7 @@ class SendFailed extends ProcessingEvent implements JsonSerializable
         return $this;
     }
 
-    public function setError(ClientError $error): self
+    public function setError(?ClientError $error): self
     {
         $this->_error = $error;
         return $this;
@@ -77,6 +79,6 @@ class SendFailed extends ProcessingEvent implements JsonSerializable
         if ($this->_messageId !== null) $result['message_id'] = $this->_messageId;
         if ($this->_message !== null) $result['message'] = $this->_message;
         if ($this->_error !== null) $result['error'] = $this->_error;
-        return $result;
+        return !empty($result) ? $result : new stdClass();
     }
 }

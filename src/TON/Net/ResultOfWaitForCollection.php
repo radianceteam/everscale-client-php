@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace TON\Net;
 
 use JsonSerializable;
+use stdClass;
 
 class ResultOfWaitForCollection implements JsonSerializable
 {
@@ -42,6 +43,6 @@ class ResultOfWaitForCollection implements JsonSerializable
     {
         $result = [];
         if ($this->_result !== null) $result['result'] = $this->_result;
-        return $result;
+        return !empty($result) ? $result : new stdClass();
     }
 }

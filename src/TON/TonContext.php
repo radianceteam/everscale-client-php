@@ -51,7 +51,7 @@ class TonContext
         if ($this->_id === -1) {
             throw new TonClientException("TON context is destroyed.");
         }
-        $params_json = $args ? json_encode($args, JSON_FORCE_OBJECT) : '{}';
+        $params_json = json_encode($args);
         $this->_logger->debug("Calling function ${function_name} with parameters ${params_json}");
         $response_json = ton_request($this->_id, $function_name, $params_json);
         $this->_logger->debug("Response JSON: ${response_json}");

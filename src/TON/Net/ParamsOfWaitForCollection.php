@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace TON\Net;
 
 use JsonSerializable;
+use stdClass;
 
 class ParamsOfWaitForCollection implements JsonSerializable
 {
@@ -108,6 +109,6 @@ class ParamsOfWaitForCollection implements JsonSerializable
         if ($this->_filter !== null) $result['filter'] = $this->_filter;
         if ($this->_result !== null) $result['result'] = $this->_result;
         if ($this->_timeout !== null) $result['timeout'] = $this->_timeout;
-        return $result;
+        return !empty($result) ? $result : new stdClass();
     }
 }

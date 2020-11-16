@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace TON\Client;
 
 use JsonSerializable;
+use stdClass;
 
 class NetworkConfig implements JsonSerializable
 {
@@ -119,6 +120,6 @@ class NetworkConfig implements JsonSerializable
         if ($this->_waitForTimeout !== null) $result['wait_for_timeout'] = $this->_waitForTimeout;
         if ($this->_outOfSyncThreshold !== null) $result['out_of_sync_threshold'] = $this->_outOfSyncThreshold;
         if ($this->_accessKey !== null) $result['access_key'] = $this->_accessKey;
-        return $result;
+        return !empty($result) ? $result : new stdClass();
     }
 }

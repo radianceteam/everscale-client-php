@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace TON\Client;
 
 use JsonSerializable;
+use stdClass;
 
 class ResultOfBuildInfo implements JsonSerializable
 {
@@ -64,6 +65,6 @@ class ResultOfBuildInfo implements JsonSerializable
         $result = [];
         if ($this->_buildNumber !== null) $result['build_number'] = $this->_buildNumber;
         if ($this->_dependencies !== null) $result['dependencies'] = $this->_dependencies;
-        return $result;
+        return !empty($result) ? $result : new stdClass();
     }
 }

@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace TON\Utils;
 
 use JsonSerializable;
+use stdClass;
 
 class ResultOfConvertAddress implements JsonSerializable
 {
@@ -42,6 +43,6 @@ class ResultOfConvertAddress implements JsonSerializable
     {
         $result = [];
         if ($this->_address !== null) $result['address'] = $this->_address;
-        return $result;
+        return !empty($result) ? $result : new stdClass();
     }
 }

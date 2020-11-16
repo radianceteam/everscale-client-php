@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace TON\Processing;
 
 use JsonSerializable;
+use stdClass;
 
 class WillFetchFirstBlock extends ProcessingEvent implements JsonSerializable
 {
@@ -20,6 +21,6 @@ class WillFetchFirstBlock extends ProcessingEvent implements JsonSerializable
     public function jsonSerialize()
     {
         $result = ['type' => 'WillFetchFirstBlock'];
-        return $result;
+        return !empty($result) ? $result : new stdClass();
     }
 }

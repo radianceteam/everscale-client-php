@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace TON\Boc;
 
 use JsonSerializable;
+use stdClass;
 
 class ParamsOfGetBlockchainConfig implements JsonSerializable
 {
@@ -42,6 +43,6 @@ class ParamsOfGetBlockchainConfig implements JsonSerializable
     {
         $result = [];
         if ($this->_blockBoc !== null) $result['block_boc'] = $this->_blockBoc;
-        return $result;
+        return !empty($result) ? $result : new stdClass();
     }
 }

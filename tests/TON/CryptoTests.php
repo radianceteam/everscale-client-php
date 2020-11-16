@@ -2,7 +2,6 @@
 
 namespace TON;
 
-use PHPUnit\Framework\TestCase;
 use TON\Crypto\CryptoModule;
 use TON\Crypto\KeyPair;
 use TON\Crypto\ParamsOfChaCha20;
@@ -43,22 +42,14 @@ function hex_to_base64(string $hex): string
     return base64_encode($return);
 }
 
-class CryptoTests extends TestCase
+class CryptoTests extends AbstractModuleTestCase
 {
-    private TonContext $_context;
     private CryptoModule $_crypto;
 
     protected function setUp(): void
     {
         parent::setUp();
-        $this->_context = (new TonContext())->setLogger(new ConsoleLogger());
         $this->_crypto = new CryptoModule($this->_context);
-    }
-
-    protected function tearDown(): void
-    {
-        parent::tearDown();
-        $this->_context->destroy();
     }
 
     public function testFactorize()

@@ -13,8 +13,10 @@ use JsonSerializable;
 
 abstract class Abi implements JsonSerializable
 {
-    public static function create(array $dto): Abi
+    public static function create(?array $dto): ?Abi
     {
+        if ($dto === null) return null;
+        if (!isset($dto['type'])) return null;
         if ($dto['type'] === 'Contract') return new Contract($dto);
         if ($dto['type'] === 'Json') return new Json($dto);
         if ($dto['type'] === 'Handle') return new Handle($dto);

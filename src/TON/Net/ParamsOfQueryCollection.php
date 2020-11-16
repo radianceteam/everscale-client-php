@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace TON\Net;
 
 use JsonSerializable;
+use stdClass;
 
 class ParamsOfQueryCollection implements JsonSerializable
 {
@@ -130,6 +131,6 @@ class ParamsOfQueryCollection implements JsonSerializable
         if ($this->_result !== null) $result['result'] = $this->_result;
         if ($this->_order !== null) $result['order'] = $this->_order;
         if ($this->_limit !== null) $result['limit'] = $this->_limit;
-        return $result;
+        return !empty($result) ? $result : new stdClass();
     }
 }

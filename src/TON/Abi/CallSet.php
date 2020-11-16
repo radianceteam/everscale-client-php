@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace TON\Abi;
 
 use JsonSerializable;
+use stdClass;
 
 class CallSet implements JsonSerializable
 {
@@ -31,7 +32,7 @@ class CallSet implements JsonSerializable
     {
         if (!$dto) $dto = [];
         $this->_functionName = $dto['function_name'] ?? '';
-        $this->_header = new FunctionHeader($dto['header'] ?? []);
+        $this->_header = isset($dto['header']) ? new FunctionHeader($dto['header']) : null;
         $this->_input = $dto['input'] ?? null;
     }
 
@@ -100,6 +101,6 @@ class CallSet implements JsonSerializable
         if ($this->_functionName !== null) $result['function_name'] = $this->_functionName;
         if ($this->_header !== null) $result['header'] = $this->_header;
         if ($this->_input !== null) $result['input'] = $this->_input;
-        return $result;
+        return !empty($result) ? $result : new stdClass();
     }
 }

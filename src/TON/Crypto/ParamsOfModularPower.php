@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace TON\Crypto;
 
 use JsonSerializable;
+use stdClass;
 
 class ParamsOfModularPower implements JsonSerializable
 {
@@ -86,6 +87,6 @@ class ParamsOfModularPower implements JsonSerializable
         if ($this->_base !== null) $result['base'] = $this->_base;
         if ($this->_exponent !== null) $result['exponent'] = $this->_exponent;
         if ($this->_modulus !== null) $result['modulus'] = $this->_modulus;
-        return $result;
+        return !empty($result) ? $result : new stdClass();
     }
 }

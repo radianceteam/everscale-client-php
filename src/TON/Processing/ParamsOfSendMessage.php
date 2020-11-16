@@ -9,6 +9,8 @@ declare(strict_types=1);
 namespace TON\Processing;
 
 use JsonSerializable;
+use TON\Abi\Abi;
+use stdClass;
 
 class ParamsOfSendMessage implements JsonSerializable
 {
@@ -38,7 +40,7 @@ class ParamsOfSendMessage implements JsonSerializable
     {
         if (!$dto) $dto = [];
         $this->_message = $dto['message'] ?? '';
-        $this->_abi = Abi::create($dto['abi'] ?? []);
+        $this->_abi = isset($dto['abi']) ? Abi::create($dto['abi']) : null;
         $this->_sendEvents = $dto['send_events'] ?? false;
     }
 
@@ -121,6 +123,6 @@ class ParamsOfSendMessage implements JsonSerializable
         if ($this->_message !== null) $result['message'] = $this->_message;
         if ($this->_abi !== null) $result['abi'] = $this->_abi;
         if ($this->_sendEvents !== null) $result['send_events'] = $this->_sendEvents;
-        return $result;
+        return !empty($result) ? $result : new stdClass();
     }
 }

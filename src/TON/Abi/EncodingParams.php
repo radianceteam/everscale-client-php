@@ -9,11 +9,12 @@ declare(strict_types=1);
 namespace TON\Abi;
 
 use JsonSerializable;
+use stdClass;
 
 class EncodingParams extends MessageSource implements JsonSerializable
 {
     /** Contract ABI. */
-    private Abi $_abi;
+    private ?Abi $_abi;
 
     /**
      * Target address the message will be sent to.
@@ -40,7 +41,7 @@ class EncodingParams extends MessageSource implements JsonSerializable
     private ?CallSet $_callSet;
 
     /** Signing parameters. */
-    private Signer $_signer;
+    private ?Signer $_signer;
 
     /**
      * Processing try index.
@@ -62,18 +63,18 @@ class EncodingParams extends MessageSource implements JsonSerializable
     public function __construct(?array $dto = null)
     {
         if (!$dto) $dto = [];
-        $this->_abi = Abi::create($dto['abi'] ?? []);
+        $this->_abi = isset($dto['abi']) ? Abi::create($dto['abi']) : null;
         $this->_address = $dto['address'] ?? null;
-        $this->_deploySet = new DeploySet($dto['deploy_set'] ?? []);
-        $this->_callSet = new CallSet($dto['call_set'] ?? []);
-        $this->_signer = Signer::create($dto['signer'] ?? []);
+        $this->_deploySet = isset($dto['deploy_set']) ? new DeploySet($dto['deploy_set']) : null;
+        $this->_callSet = isset($dto['call_set']) ? new CallSet($dto['call_set']) : null;
+        $this->_signer = isset($dto['signer']) ? Signer::create($dto['signer']) : null;
         $this->_processingTryIndex = $dto['processing_try_index'] ?? null;
     }
 
     /**
      * Contract ABI.
      */
-    public function getAbi(): Abi
+    public function getAbi(): ?Abi
     {
         return $this->_abi;
     }
@@ -114,7 +115,7 @@ class EncodingParams extends MessageSource implements JsonSerializable
     /**
      * Signing parameters.
      */
-    public function getSigner(): Signer
+    public function getSigner(): ?Signer
     {
         return $this->_signer;
     }
@@ -142,7 +143,7 @@ class EncodingParams extends MessageSource implements JsonSerializable
     /**
      * Contract ABI.
      */
-    public function setAbi(Abi $abi): self
+    public function setAbi(?Abi $abi): self
     {
         $this->_abi = $abi;
         return $this;
@@ -187,7 +188,7 @@ class EncodingParams extends MessageSource implements JsonSerializable
     /**
      * Signing parameters.
      */
-    public function setSigner(Signer $signer): self
+    public function setSigner(?Signer $signer): self
     {
         $this->_signer = $signer;
         return $this;
@@ -223,6 +224,6 @@ class EncodingParams extends MessageSource implements JsonSerializable
         if ($this->_callSet !== null) $result['call_set'] = $this->_callSet;
         if ($this->_signer !== null) $result['signer'] = $this->_signer;
         if ($this->_processingTryIndex !== null) $result['processing_try_index'] = $this->_processingTryIndex;
-        return $result;
+        return !empty($result) ? $result : new stdClass();
     }
 }

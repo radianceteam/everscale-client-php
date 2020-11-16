@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace TON\Client;
 
 use JsonSerializable;
+use stdClass;
 
 class ClientConfig implements JsonSerializable
 {
@@ -19,9 +20,9 @@ class ClientConfig implements JsonSerializable
     public function __construct(?array $dto = null)
     {
         if (!$dto) $dto = [];
-        $this->_network = new NetworkConfig($dto['network'] ?? []);
-        $this->_crypto = new CryptoConfig($dto['crypto'] ?? []);
-        $this->_abi = new AbiConfig($dto['abi'] ?? []);
+        $this->_network = isset($dto['network']) ? new NetworkConfig($dto['network']) : null;
+        $this->_crypto = isset($dto['crypto']) ? new CryptoConfig($dto['crypto']) : null;
+        $this->_abi = isset($dto['abi']) ? new AbiConfig($dto['abi']) : null;
     }
 
     public function getNetwork(): ?NetworkConfig
@@ -63,6 +64,6 @@ class ClientConfig implements JsonSerializable
         if ($this->_network !== null) $result['network'] = $this->_network;
         if ($this->_crypto !== null) $result['crypto'] = $this->_crypto;
         if ($this->_abi !== null) $result['abi'] = $this->_abi;
-        return $result;
+        return !empty($result) ? $result : new stdClass();
     }
 }

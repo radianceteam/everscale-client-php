@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace TON\Abi;
 
 use JsonSerializable;
+use stdClass;
 
 class AbiData implements JsonSerializable
 {
@@ -77,6 +78,6 @@ class AbiData implements JsonSerializable
         if ($this->_name !== null) $result['name'] = $this->_name;
         if ($this->_type !== null) $result['type'] = $this->_type;
         if ($this->_components !== null) $result['components'] = $this->_components;
-        return $result;
+        return !empty($result) ? $result : new stdClass();
     }
 }

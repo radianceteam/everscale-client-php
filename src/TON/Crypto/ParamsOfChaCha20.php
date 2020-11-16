@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace TON\Crypto;
 
 use JsonSerializable;
+use stdClass;
 
 class ParamsOfChaCha20 implements JsonSerializable
 {
@@ -86,6 +87,6 @@ class ParamsOfChaCha20 implements JsonSerializable
         if ($this->_data !== null) $result['data'] = $this->_data;
         if ($this->_key !== null) $result['key'] = $this->_key;
         if ($this->_nonce !== null) $result['nonce'] = $this->_nonce;
-        return $result;
+        return !empty($result) ? $result : new stdClass();
     }
 }

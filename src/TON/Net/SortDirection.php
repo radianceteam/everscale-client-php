@@ -8,7 +8,7 @@ declare(strict_types=1);
 
 namespace TON\Net;
 
-class SortDirection
+final class SortDirection
 {
     const ASC = 'ASC';
     const DESC = 'DESC';

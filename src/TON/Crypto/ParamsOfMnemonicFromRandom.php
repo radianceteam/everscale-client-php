@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace TON\Crypto;
 
 use JsonSerializable;
+use stdClass;
 
 class ParamsOfMnemonicFromRandom implements JsonSerializable
 {
@@ -64,6 +65,6 @@ class ParamsOfMnemonicFromRandom implements JsonSerializable
         $result = [];
         if ($this->_dictionary !== null) $result['dictionary'] = $this->_dictionary;
         if ($this->_wordCount !== null) $result['word_count'] = $this->_wordCount;
-        return $result;
+        return !empty($result) ? $result : new stdClass();
     }
 }

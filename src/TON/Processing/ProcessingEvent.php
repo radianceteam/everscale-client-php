@@ -13,8 +13,10 @@ use JsonSerializable;
 
 abstract class ProcessingEvent implements JsonSerializable
 {
-    public static function create(array $dto): ProcessingEvent
+    public static function create(?array $dto): ?ProcessingEvent
     {
+        if ($dto === null) return null;
+        if (!isset($dto['type'])) return null;
         if ($dto['type'] === 'WillFetchFirstBlock') return new WillFetchFirstBlock($dto);
         if ($dto['type'] === 'FetchFirstBlockFailed') return new FetchFirstBlockFailed($dto);
         if ($dto['type'] === 'WillSend') return new WillSend($dto);

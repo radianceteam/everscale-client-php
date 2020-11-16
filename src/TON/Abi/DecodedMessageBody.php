@@ -9,11 +9,12 @@ declare(strict_types=1);
 namespace TON\Abi;
 
 use JsonSerializable;
+use stdClass;
 
 class DecodedMessageBody implements JsonSerializable
 {
     /** Type of the message body content. */
-    private MessageBodyType $_bodyType;
+    private string $_bodyType;
 
     /** Function or event name. */
     private string $_name;
@@ -27,16 +28,16 @@ class DecodedMessageBody implements JsonSerializable
     public function __construct(?array $dto = null)
     {
         if (!$dto) $dto = [];
-        $this->_bodyType = new MessageBodyType($dto['body_type'] ?? []);
+        $this->_bodyType = $dto['body_type'] ?? '';
         $this->_name = $dto['name'] ?? '';
         $this->_value = $dto['value'] ?? null;
-        $this->_header = new FunctionHeader($dto['header'] ?? []);
+        $this->_header = isset($dto['header']) ? new FunctionHeader($dto['header']) : null;
     }
 
     /**
      * Type of the message body content.
      */
-    public function getBodyType(): MessageBodyType
+    public function getBodyType(): string
     {
         return $this->_bodyType;
     }
@@ -68,7 +69,7 @@ class DecodedMessageBody implements JsonSerializable
     /**
      * Type of the message body content.
      */
-    public function setBodyType(MessageBodyType $bodyType): self
+    public function setBodyType(string $bodyType): self
     {
         $this->_bodyType = $bodyType;
         return $this;
@@ -108,6 +109,6 @@ class DecodedMessageBody implements JsonSerializable
         if ($this->_name !== null) $result['name'] = $this->_name;
         if ($this->_value !== null) $result['value'] = $this->_value;
         if ($this->_header !== null) $result['header'] = $this->_header;
-        return $result;
+        return !empty($result) ? $result : new stdClass();
     }
 }

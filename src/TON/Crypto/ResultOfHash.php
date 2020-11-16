@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace TON\Crypto;
 
 use JsonSerializable;
+use stdClass;
 
 class ResultOfHash implements JsonSerializable
 {
@@ -42,6 +43,6 @@ class ResultOfHash implements JsonSerializable
     {
         $result = [];
         if ($this->_hash !== null) $result['hash'] = $this->_hash;
-        return $result;
+        return !empty($result) ? $result : new stdClass();
     }
 }

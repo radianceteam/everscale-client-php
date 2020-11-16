@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace TON\Abi;
 
 use JsonSerializable;
+use stdClass;
 
 class Json extends Abi implements JsonSerializable
 {
@@ -35,6 +36,6 @@ class Json extends Abi implements JsonSerializable
     {
         $result = ['type' => 'Json'];
         if ($this->_value !== null) $result['value'] = $this->_value;
-        return $result;
+        return !empty($result) ? $result : new stdClass();
     }
 }

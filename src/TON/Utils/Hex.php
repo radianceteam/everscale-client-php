@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace TON\Utils;
 
 use JsonSerializable;
+use stdClass;
 
 class Hex extends AddressStringFormat implements JsonSerializable
 {
@@ -20,6 +21,6 @@ class Hex extends AddressStringFormat implements JsonSerializable
     public function jsonSerialize()
     {
         $result = ['type' => 'Hex'];
-        return $result;
+        return !empty($result) ? $result : new stdClass();
     }
 }

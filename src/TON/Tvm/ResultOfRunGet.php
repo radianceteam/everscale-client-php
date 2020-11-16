@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace TON\Tvm;
 
 use JsonSerializable;
+use stdClass;
 
 class ResultOfRunGet implements JsonSerializable
 {
@@ -42,6 +43,6 @@ class ResultOfRunGet implements JsonSerializable
     {
         $result = [];
         if ($this->_output !== null) $result['output'] = $this->_output;
-        return $result;
+        return !empty($result) ? $result : new stdClass();
     }
 }

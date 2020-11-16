@@ -9,6 +9,8 @@ declare(strict_types=1);
 namespace TON\Processing;
 
 use JsonSerializable;
+use TON\Tvm\TransactionFees;
+use stdClass;
 
 class ResultOfProcessMessage implements JsonSerializable
 {
@@ -31,15 +33,15 @@ class ResultOfProcessMessage implements JsonSerializable
     private ?DecodedOutput $_decoded;
 
     /** Transaction fees */
-    private TransactionFees $_fees;
+    private ?TransactionFees $_fees;
 
     public function __construct(?array $dto = null)
     {
         if (!$dto) $dto = [];
         $this->_transaction = $dto['transaction'] ?? null;
         $this->_outMessages = $dto['out_messages'] ?? [];
-        $this->_decoded = new DecodedOutput($dto['decoded'] ?? []);
-        $this->_fees = new TransactionFees($dto['fees'] ?? []);
+        $this->_decoded = isset($dto['decoded']) ? new DecodedOutput($dto['decoded']) : null;
+        $this->_fees = isset($dto['fees']) ? new TransactionFees($dto['fees']) : null;
     }
 
     /**
@@ -74,7 +76,7 @@ class ResultOfProcessMessage implements JsonSerializable
     /**
      * Transaction fees
      */
-    public function getFees(): TransactionFees
+    public function getFees(): ?TransactionFees
     {
         return $this->_fees;
     }
@@ -114,7 +116,7 @@ class ResultOfProcessMessage implements JsonSerializable
     /**
      * Transaction fees
      */
-    public function setFees(TransactionFees $fees): self
+    public function setFees(?TransactionFees $fees): self
     {
         $this->_fees = $fees;
         return $this;
@@ -127,6 +129,6 @@ class ResultOfProcessMessage implements JsonSerializable
         if ($this->_outMessages !== null) $result['out_messages'] = $this->_outMessages;
         if ($this->_decoded !== null) $result['decoded'] = $this->_decoded;
         if ($this->_fees !== null) $result['fees'] = $this->_fees;
-        return $result;
+        return !empty($result) ? $result : new stdClass();
     }
 }

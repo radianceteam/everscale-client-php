@@ -9,23 +9,24 @@ declare(strict_types=1);
 namespace TON\Abi;
 
 use JsonSerializable;
+use stdClass;
 
 class Contract extends Abi implements JsonSerializable
 {
-    private AbiContract $_value;
+    private ?AbiContract $_value;
 
     public function __construct(?array $dto = null)
     {
         if (!$dto) $dto = [];
-        $this->_value = new AbiContract($dto['value'] ?? []);
+        $this->_value = isset($dto['value']) ? new AbiContract($dto['value']) : null;
     }
 
-    public function getValue(): AbiContract
+    public function getValue(): ?AbiContract
     {
         return $this->_value;
     }
 
-    public function setValue(AbiContract $value): self
+    public function setValue(?AbiContract $value): self
     {
         $this->_value = $value;
         return $this;
@@ -35,6 +36,6 @@ class Contract extends Abi implements JsonSerializable
     {
         $result = ['type' => 'Contract'];
         if ($this->_value !== null) $result['value'] = $this->_value;
-        return $result;
+        return !empty($result) ? $result : new stdClass();
     }
 }

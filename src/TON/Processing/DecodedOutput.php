@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace TON\Processing;
 
 use JsonSerializable;
+use stdClass;
 
 class DecodedOutput implements JsonSerializable
 {
@@ -75,6 +76,6 @@ class DecodedOutput implements JsonSerializable
         $result = [];
         if ($this->_outMessages !== null) $result['out_messages'] = $this->_outMessages;
         if ($this->_output !== null) $result['output'] = $this->_output;
-        return $result;
+        return !empty($result) ? $result : new stdClass();
     }
 }

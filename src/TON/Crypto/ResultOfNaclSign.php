@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace TON\Crypto;
 
 use JsonSerializable;
+use stdClass;
 
 class ResultOfNaclSign implements JsonSerializable
 {
@@ -42,6 +43,6 @@ class ResultOfNaclSign implements JsonSerializable
     {
         $result = [];
         if ($this->_signed !== null) $result['signed'] = $this->_signed;
-        return $result;
+        return !empty($result) ? $result : new stdClass();
     }
 }

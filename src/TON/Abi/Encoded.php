@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace TON\Abi;
 
 use JsonSerializable;
+use stdClass;
 
 class Encoded extends MessageSource implements JsonSerializable
 {
@@ -19,7 +20,7 @@ class Encoded extends MessageSource implements JsonSerializable
     {
         if (!$dto) $dto = [];
         $this->_message = $dto['message'] ?? '';
-        $this->_abi = Abi::create($dto['abi'] ?? []);
+        $this->_abi = isset($dto['abi']) ? Abi::create($dto['abi']) : null;
     }
 
     public function getMessage(): string
@@ -49,6 +50,6 @@ class Encoded extends MessageSource implements JsonSerializable
         $result = ['type' => 'Encoded'];
         if ($this->_message !== null) $result['message'] = $this->_message;
         if ($this->_abi !== null) $result['abi'] = $this->_abi;
-        return $result;
+        return !empty($result) ? $result : new stdClass();
     }
 }

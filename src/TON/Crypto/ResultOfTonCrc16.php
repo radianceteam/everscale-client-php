@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace TON\Crypto;
 
 use JsonSerializable;
+use stdClass;
 
 class ResultOfTonCrc16 implements JsonSerializable
 {
@@ -42,6 +43,6 @@ class ResultOfTonCrc16 implements JsonSerializable
     {
         $result = [];
         if ($this->_crc !== null) $result['crc'] = $this->_crc;
-        return $result;
+        return !empty($result) ? $result : new stdClass();
     }
 }

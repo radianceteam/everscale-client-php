@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace TON\Crypto;
 
 use JsonSerializable;
+use stdClass;
 
 class ParamsOfGenerateRandomBytes implements JsonSerializable
 {
@@ -42,6 +43,6 @@ class ParamsOfGenerateRandomBytes implements JsonSerializable
     {
         $result = [];
         if ($this->_length !== null) $result['length'] = $this->_length;
-        return $result;
+        return !empty($result) ? $result : new stdClass();
     }
 }

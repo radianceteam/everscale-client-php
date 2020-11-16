@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace TON\Abi;
 
 use JsonSerializable;
+use stdClass;
 
 class ResultOfAttachSignature implements JsonSerializable
 {
@@ -64,6 +65,6 @@ class ResultOfAttachSignature implements JsonSerializable
         $result = [];
         if ($this->_message !== null) $result['message'] = $this->_message;
         if ($this->_messageId !== null) $result['message_id'] = $this->_messageId;
-        return $result;
+        return !empty($result) ? $result : new stdClass();
     }
 }

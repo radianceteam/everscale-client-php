@@ -8,7 +8,7 @@ declare(strict_types=1);
 
 namespace TON\Abi;
 
-class MessageBodyType
+final class MessageBodyType
 {
     /** Message contains the input of the ABI function. */
     const Input = 'Input';

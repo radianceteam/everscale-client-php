@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace TON\Abi;
 
 use JsonSerializable;
+use stdClass;
 
 class DeploySet implements JsonSerializable
 {
@@ -86,6 +87,6 @@ class DeploySet implements JsonSerializable
         if ($this->_tvc !== null) $result['tvc'] = $this->_tvc;
         if ($this->_workchainId !== null) $result['workchain_id'] = $this->_workchainId;
         if ($this->_initialData !== null) $result['initial_data'] = $this->_initialData;
-        return $result;
+        return !empty($result) ? $result : new stdClass();
     }
 }

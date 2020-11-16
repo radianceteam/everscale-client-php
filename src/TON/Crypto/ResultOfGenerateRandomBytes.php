@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace TON\Crypto;
 
 use JsonSerializable;
+use stdClass;
 
 class ResultOfGenerateRandomBytes implements JsonSerializable
 {
@@ -42,6 +43,6 @@ class ResultOfGenerateRandomBytes implements JsonSerializable
     {
         $result = [];
         if ($this->_bytes !== null) $result['bytes'] = $this->_bytes;
-        return $result;
+        return !empty($result) ? $result : new stdClass();
     }
 }

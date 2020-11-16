@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace TON\Boc;
 
 use JsonSerializable;
+use stdClass;
 
 class ResultOfParse implements JsonSerializable
 {
@@ -42,6 +43,6 @@ class ResultOfParse implements JsonSerializable
     {
         $result = [];
         if ($this->_parsed !== null) $result['parsed'] = $this->_parsed;
-        return $result;
+        return !empty($result) ? $result : new stdClass();
     }
 }

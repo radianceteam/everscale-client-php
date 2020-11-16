@@ -208,6 +208,9 @@ function get_php_type_name(array $type, ApiIndex $index): string
                 if (is_numeric_alias($ref_type)) {
                     return $ref_type['number_type'] === 'Float' ? 'float' : 'int';
                 }
+                if (is_enum_of_consts($ref_type)) {
+                    return 'string';
+                }
                 return $ref[1];
             }
 
@@ -229,7 +232,13 @@ function get_php_type_module_name(array $type): ?string
     return null;
 }
 
-function add_type_private_fields(array $type, ClassType $class, ApiIndex $index)
+function is_php_private_field_nullable(array $field, ApiIndex $index): bool
+{
+    return is_php_nullable_type($field) ||
+        !is_php_builtin_type(get_php_type_name($field, $index));
+}
+
+function add_type_private_fields(array $module, array $type, ClassType $class, ApiIndex $index, PhpNamespace $ns)
 {
     foreach ($type['struct_fields'] as $field) {
         $field_name = $field['name'];
@@ -239,7 +248,7 @@ function add_type_private_fields(array $type, ClassType $class, ApiIndex $index)
         $private_field_name = get_php_private_field_name($field_name);
         $property = $class->addProperty($private_field_name)
             ->setType(get_php_type_name($field, $index))
-            ->setNullable(is_php_nullable_type($field))
+            ->setNullable(is_php_private_field_nullable($field, $index))
             ->setPrivate();
         if (!empty($field['description'])) {
             $property->addComment($field['description']);
@@ -258,7 +267,7 @@ function add_type_getters(array $type, ClassType $class, ApiIndex $index)
         $getter_name = get_php_getter_name($field_name, $return_type === 'bool');
         $getter = $class->addMethod($getter_name)
             ->setReturnType($return_type)
-            ->setReturnNullable(is_php_nullable_type($field));
+            ->setReturnNullable(is_php_private_field_nullable($field, $index));
         if (!empty($field['description'])) {
             $getter->addComment($field['description']);
         }
@@ -280,7 +289,7 @@ function add_type_setters(array $type, ClassType $class, ApiIndex $index)
         $parameter_name = get_php_identifier_name($field_name);
         $setter->addParameter($parameter_name)
             ->setType(get_php_type_name($field, $index))
-            ->setNullable(is_php_nullable_type($field));
+            ->setNullable(is_php_private_field_nullable($field, $index));
         if (!empty($field['description'])) {
             $setter->addComment($field['description']);
         }
@@ -336,11 +345,15 @@ function add_type_constructor(array $module, array $type, ApiIndex $index, Class
         }
 
         if ($field_type_name) {
-            $type_module_name = get_php_type_module_name($field);
-            $type_factory_expr = get_php_type_constructor_expr(
-                $type_module_name ?? $module['name'],
-                $field_type_name, "\$dto['${field_name}'] ?? []", $index);
-            $constructor->addBody("\$this->${private_field_name} = $type_factory_expr;");
+            $type_module_name = get_php_type_module_name($field) ?? $module['name'];
+            $type = $index->getTypeSpec($type_module_name, $field_type_name);
+            if (is_enum_of_types($type)) {
+                $constructor->addBody("\$this->${private_field_name} = isset(\$dto['${field_name}']) ? ${field_type_name}::create(\$dto['${field_name}']) : null;");
+            } else if (is_enum_of_consts($type)) {
+                $constructor->addBody("\$this->${private_field_name} = \$dto['${field_name}'] ?? null;");
+            } else {
+                $constructor->addBody("\$this->${private_field_name} = isset(\$dto['${field_name}']) ? new ${field_type_name}(\$dto['${field_name}']) : null;");
+            }
         } else {
             $constructor->addBody("\$this->${private_field_name} = \$dto['${field_name}'] ?? null;");
         }
@@ -360,7 +373,7 @@ function add_type_serialization_method(array $type, ClassType $class, bool $add_
         $private_property_name = get_php_private_field_name($field_name);
         $jsonSerialize->addBody("if (\$this->${private_property_name} !== null) \$result['${field_name}'] = \$this->${private_property_name};");
     }
-    $jsonSerialize->addBody('return $result;');
+    $jsonSerialize->addBody('return !empty($result) ? $result : new stdClass();');
 }
 
 function is_numeric_alias(array $type): bool
@@ -391,19 +404,42 @@ function is_enum_of_consts(array $type): bool
 
 function get_php_type_constructor_expr(string $module_name, string $type_name, string $argSpec, ApiIndex $index): string
 {
-    if (is_enum_of_types($index->getTypeSpec($module_name, $type_name))) {
+    $type = $index->getTypeSpec($module_name, $type_name);
+    if (is_enum_of_types($type)) {
         return "${type_name}::create(${argSpec})";
+    } else if (is_enum_of_consts($type)) {
+        return $argSpec;
     } else {
         return "new ${type_name}(${argSpec})";
     }
 }
 
+function add_type_imports(array $module, array $type, ApiIndex $index, PhpNamespace $ns)
+{
+    foreach ($type['struct_fields'] as $field) {
+        $field_name = $field['name'];
+        if (empty($field_name)) {
+            continue;
+        }
+        $field_type_name = get_php_type_name($field, $index);
+        $field_module_name = get_php_type_module_name($field);
+        if ($field_module_name &&
+            $field_module_name !== $module['name'] && !
+            is_php_builtin_type($field_type_name)) {
+            $field_module = $index->getModuleSpec($field_module_name);
+            $ns->addUse(get_php_namespace_name($field_module) . '\\' . $field_type_name);
+        }
+    }
+}
+
 function generate_module_struct_type(array $module, array $type, ApiIndex $index, ClassType $class, PhpFile $file, PhpNamespace $ns, ?string $parent_class = null)
 {
-    $ns->addUse(JsonSerializable::class);
+    $ns->addUse(JsonSerializable::class)
+        ->addUse(stdClass::class);
     $class->addImplement(JsonSerializable::class);
 
-    add_type_private_fields($type, $class, $index);
+    add_type_imports($module, $type, $index, $ns);
+    add_type_private_fields($module, $type, $class, $index, $ns);
     add_type_constructor($module, $type, $index, $class);
     add_type_getters($type, $class, $index);
     add_type_setters($type, $class, $index);
@@ -412,6 +448,8 @@ function generate_module_struct_type(array $module, array $type, ApiIndex $index
 
 function generate_enum_of_consts_module_type(array $module, array $type, ApiIndex $index, ClassType $class, PhpFile $file, PhpNamespace $ns)
 {
+    $class->setFinal(true);
+
     foreach ($type['enum_consts'] as $const) {
         $constant = $class->addConstant($const['name'], $const['name']);
         $comment = $const['description'] ?? $const['summary'] ?? null;
@@ -435,10 +473,15 @@ function generate_enum_of_types_module_type(array $module, array $type, ApiIndex
 
     $factoryMethod = $class->addMethod('create')
         ->setStatic(true)
-        ->setReturnType($type['name']);
+        ->setReturnType($type['name'])
+        ->setReturnNullable(true);
 
     $factoryMethod->addParameter('dto')
-        ->setType('array');
+        ->setType('array')
+        ->setNullable(true);
+
+    $factoryMethod->addBody("if (\$dto === null) return null;");
+    $factoryMethod->addBody("if (!isset(\$dto['type'])) return null;");
 
     foreach ($type["enum_types"] as $enum_type) {
         $type_name = $enum_type['name'];

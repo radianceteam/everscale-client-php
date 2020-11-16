@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace TON\Tvm;
 
 use JsonSerializable;
+use stdClass;
 
 class Uninit extends AccountForExecutor implements JsonSerializable
 {
@@ -20,6 +21,6 @@ class Uninit extends AccountForExecutor implements JsonSerializable
     public function jsonSerialize()
     {
         $result = ['type' => 'Uninit'];
-        return $result;
+        return !empty($result) ? $result : new stdClass();
     }
 }

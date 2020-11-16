@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace TON\Client;
 
 use JsonSerializable;
+use stdClass;
 
 class AbiConfig implements JsonSerializable
 {
@@ -63,6 +64,6 @@ class AbiConfig implements JsonSerializable
         if ($this->_workchain !== null) $result['workchain'] = $this->_workchain;
         if ($this->_messageExpirationTimeout !== null) $result['message_expiration_timeout'] = $this->_messageExpirationTimeout;
         if ($this->_messageExpirationTimeoutGrowFactor !== null) $result['message_expiration_timeout_grow_factor'] = $this->_messageExpirationTimeoutGrowFactor;
-        return $result;
+        return !empty($result) ? $result : new stdClass();
     }
 }

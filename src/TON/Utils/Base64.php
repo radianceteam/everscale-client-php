@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace TON\Utils;
 
 use JsonSerializable;
+use stdClass;
 
 class Base64 extends AddressStringFormat implements JsonSerializable
 {
@@ -63,6 +64,6 @@ class Base64 extends AddressStringFormat implements JsonSerializable
         if ($this->_url !== null) $result['url'] = $this->_url;
         if ($this->_test !== null) $result['test'] = $this->_test;
         if ($this->_bounce !== null) $result['bounce'] = $this->_bounce;
-        return $result;
+        return !empty($result) ? $result : new stdClass();
     }
 }

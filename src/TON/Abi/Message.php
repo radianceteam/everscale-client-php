@@ -9,23 +9,24 @@ declare(strict_types=1);
 namespace TON\Abi;
 
 use JsonSerializable;
+use stdClass;
 
 class Message extends StateInitSource implements JsonSerializable
 {
-    private MessageSource $_source;
+    private ?MessageSource $_source;
 
     public function __construct(?array $dto = null)
     {
         if (!$dto) $dto = [];
-        $this->_source = MessageSource::create($dto['source'] ?? []);
+        $this->_source = isset($dto['source']) ? MessageSource::create($dto['source']) : null;
     }
 
-    public function getSource(): MessageSource
+    public function getSource(): ?MessageSource
     {
         return $this->_source;
     }
 
-    public function setSource(MessageSource $source): self
+    public function setSource(?MessageSource $source): self
     {
         $this->_source = $source;
         return $this;
@@ -35,6 +36,6 @@ class Message extends StateInitSource implements JsonSerializable
     {
         $result = ['type' => 'Message'];
         if ($this->_source !== null) $result['source'] = $this->_source;
-        return $result;
+        return !empty($result) ? $result : new stdClass();
     }
 }

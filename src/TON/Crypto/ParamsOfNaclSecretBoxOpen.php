@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace TON\Crypto;
 
 use JsonSerializable;
+use stdClass;
 
 class ParamsOfNaclSecretBoxOpen implements JsonSerializable
 {
@@ -86,6 +87,6 @@ class ParamsOfNaclSecretBoxOpen implements JsonSerializable
         if ($this->_encrypted !== null) $result['encrypted'] = $this->_encrypted;
         if ($this->_nonce !== null) $result['nonce'] = $this->_nonce;
         if ($this->_key !== null) $result['key'] = $this->_key;
-        return $result;
+        return !empty($result) ? $result : new stdClass();
     }
 }

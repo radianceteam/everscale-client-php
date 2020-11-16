@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace TON\Crypto;
 
 use JsonSerializable;
+use stdClass;
 
 class ParamsOfScrypt implements JsonSerializable
 {
@@ -162,6 +163,6 @@ class ParamsOfScrypt implements JsonSerializable
         if ($this->_r !== null) $result['r'] = $this->_r;
         if ($this->_p !== null) $result['p'] = $this->_p;
         if ($this->_dkLen !== null) $result['dk_len'] = $this->_dkLen;
-        return $result;
+        return !empty($result) ? $result : new stdClass();
     }
 }

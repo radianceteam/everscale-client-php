@@ -9,6 +9,8 @@ declare(strict_types=1);
 namespace TON\Processing;
 
 use JsonSerializable;
+use TON\Abi\Abi;
+use stdClass;
 
 class ParamsOfWaitForTransaction implements JsonSerializable
 {
@@ -38,7 +40,7 @@ class ParamsOfWaitForTransaction implements JsonSerializable
     public function __construct(?array $dto = null)
     {
         if (!$dto) $dto = [];
-        $this->_abi = Abi::create($dto['abi'] ?? []);
+        $this->_abi = isset($dto['abi']) ? Abi::create($dto['abi']) : null;
         $this->_message = $dto['message'] ?? '';
         $this->_shardBlockId = $dto['shard_block_id'] ?? '';
         $this->_sendEvents = $dto['send_events'] ?? false;
@@ -133,6 +135,6 @@ class ParamsOfWaitForTransaction implements JsonSerializable
         if ($this->_message !== null) $result['message'] = $this->_message;
         if ($this->_shardBlockId !== null) $result['shard_block_id'] = $this->_shardBlockId;
         if ($this->_sendEvents !== null) $result['send_events'] = $this->_sendEvents;
-        return $result;
+        return !empty($result) ? $result : new stdClass();
     }
 }

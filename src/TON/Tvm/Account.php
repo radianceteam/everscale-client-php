@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace TON\Tvm;
 
 use JsonSerializable;
+use stdClass;
 
 class Account extends AccountForExecutor implements JsonSerializable
 {
@@ -69,6 +70,6 @@ class Account extends AccountForExecutor implements JsonSerializable
         $result = ['type' => 'Account'];
         if ($this->_boc !== null) $result['boc'] = $this->_boc;
         if ($this->_unlimitedBalance !== null) $result['unlimited_balance'] = $this->_unlimitedBalance;
-        return $result;
+        return !empty($result) ? $result : new stdClass();
     }
 }

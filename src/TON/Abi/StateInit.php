@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace TON\Abi;
 
 use JsonSerializable;
+use stdClass;
 
 class StateInit extends StateInitSource implements JsonSerializable
 {
@@ -86,6 +87,6 @@ class StateInit extends StateInitSource implements JsonSerializable
         if ($this->_code !== null) $result['code'] = $this->_code;
         if ($this->_data !== null) $result['data'] = $this->_data;
         if ($this->_library !== null) $result['library'] = $this->_library;
-        return $result;
+        return !empty($result) ? $result : new stdClass();
     }
 }

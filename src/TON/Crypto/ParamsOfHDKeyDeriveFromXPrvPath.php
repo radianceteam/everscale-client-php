@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace TON\Crypto;
 
 use JsonSerializable;
+use stdClass;
 
 class ParamsOfHDKeyDeriveFromXPrvPath implements JsonSerializable
 {
@@ -64,6 +65,6 @@ class ParamsOfHDKeyDeriveFromXPrvPath implements JsonSerializable
         $result = [];
         if ($this->_xprv !== null) $result['xprv'] = $this->_xprv;
         if ($this->_path !== null) $result['path'] = $this->_path;
-        return $result;
+        return !empty($result) ? $result : new stdClass();
     }
 }

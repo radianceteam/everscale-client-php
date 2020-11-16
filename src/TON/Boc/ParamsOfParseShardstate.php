@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace TON\Boc;
 
 use JsonSerializable;
+use stdClass;
 
 class ParamsOfParseShardstate implements JsonSerializable
 {
@@ -86,6 +87,6 @@ class ParamsOfParseShardstate implements JsonSerializable
         if ($this->_boc !== null) $result['boc'] = $this->_boc;
         if ($this->_id !== null) $result['id'] = $this->_id;
         if ($this->_workchainId !== null) $result['workchain_id'] = $this->_workchainId;
-        return $result;
+        return !empty($result) ? $result : new stdClass();
     }
 }

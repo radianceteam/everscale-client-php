@@ -9,11 +9,12 @@ declare(strict_types=1);
 namespace TON\Abi;
 
 use JsonSerializable;
+use stdClass;
 
 class ParamsOfEncodeMessageBody implements JsonSerializable
 {
     /** Contract ABI. */
-    private Abi $_abi;
+    private ?Abi $_abi;
 
     /**
      * Function call parameters.
@@ -22,13 +23,13 @@ class ParamsOfEncodeMessageBody implements JsonSerializable
      *
      *  In case of deploy message contains parameters of constructor.
      */
-    private CallSet $_callSet;
+    private ?CallSet $_callSet;
 
     /** True if internal message body must be encoded. */
     private bool $_isInternal;
 
     /** Signing parameters. */
-    private Signer $_signer;
+    private ?Signer $_signer;
 
     /**
      * Processing try index.
@@ -47,17 +48,17 @@ class ParamsOfEncodeMessageBody implements JsonSerializable
     public function __construct(?array $dto = null)
     {
         if (!$dto) $dto = [];
-        $this->_abi = Abi::create($dto['abi'] ?? []);
-        $this->_callSet = new CallSet($dto['call_set'] ?? []);
+        $this->_abi = isset($dto['abi']) ? Abi::create($dto['abi']) : null;
+        $this->_callSet = isset($dto['call_set']) ? new CallSet($dto['call_set']) : null;
         $this->_isInternal = $dto['is_internal'] ?? false;
-        $this->_signer = Signer::create($dto['signer'] ?? []);
+        $this->_signer = isset($dto['signer']) ? Signer::create($dto['signer']) : null;
         $this->_processingTryIndex = $dto['processing_try_index'] ?? null;
     }
 
     /**
      * Contract ABI.
      */
-    public function getAbi(): Abi
+    public function getAbi(): ?Abi
     {
         return $this->_abi;
     }
@@ -69,7 +70,7 @@ class ParamsOfEncodeMessageBody implements JsonSerializable
      *
      *  In case of deploy message contains parameters of constructor.
      */
-    public function getCallSet(): CallSet
+    public function getCallSet(): ?CallSet
     {
         return $this->_callSet;
     }
@@ -85,7 +86,7 @@ class ParamsOfEncodeMessageBody implements JsonSerializable
     /**
      * Signing parameters.
      */
-    public function getSigner(): Signer
+    public function getSigner(): ?Signer
     {
         return $this->_signer;
     }
@@ -110,7 +111,7 @@ class ParamsOfEncodeMessageBody implements JsonSerializable
     /**
      * Contract ABI.
      */
-    public function setAbi(Abi $abi): self
+    public function setAbi(?Abi $abi): self
     {
         $this->_abi = $abi;
         return $this;
@@ -123,7 +124,7 @@ class ParamsOfEncodeMessageBody implements JsonSerializable
      *
      *  In case of deploy message contains parameters of constructor.
      */
-    public function setCallSet(CallSet $callSet): self
+    public function setCallSet(?CallSet $callSet): self
     {
         $this->_callSet = $callSet;
         return $this;
@@ -141,7 +142,7 @@ class ParamsOfEncodeMessageBody implements JsonSerializable
     /**
      * Signing parameters.
      */
-    public function setSigner(Signer $signer): self
+    public function setSigner(?Signer $signer): self
     {
         $this->_signer = $signer;
         return $this;
@@ -173,6 +174,6 @@ class ParamsOfEncodeMessageBody implements JsonSerializable
         if ($this->_isInternal !== null) $result['is_internal'] = $this->_isInternal;
         if ($this->_signer !== null) $result['signer'] = $this->_signer;
         if ($this->_processingTryIndex !== null) $result['processing_try_index'] = $this->_processingTryIndex;
-        return $result;
+        return !empty($result) ? $result : new stdClass();
     }
 }

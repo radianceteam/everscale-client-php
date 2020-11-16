@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace TON\Crypto;
 
 use JsonSerializable;
+use stdClass;
 
 class ResultOfModularPower implements JsonSerializable
 {
@@ -42,6 +43,6 @@ class ResultOfModularPower implements JsonSerializable
     {
         $result = [];
         if ($this->_modularPower !== null) $result['modular_power'] = $this->_modularPower;
-        return $result;
+        return !empty($result) ? $result : new stdClass();
     }
 }

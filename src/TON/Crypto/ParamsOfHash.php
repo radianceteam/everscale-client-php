@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace TON\Crypto;
 
 use JsonSerializable;
+use stdClass;
 
 class ParamsOfHash implements JsonSerializable
 {
@@ -42,6 +43,6 @@ class ParamsOfHash implements JsonSerializable
     {
         $result = [];
         if ($this->_data !== null) $result['data'] = $this->_data;
-        return $result;
+        return !empty($result) ? $result : new stdClass();
     }
 }

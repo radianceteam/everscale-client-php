@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace TON\Client;
 
 use JsonSerializable;
+use stdClass;
 
 class ResultOfVersion implements JsonSerializable
 {
@@ -42,6 +43,6 @@ class ResultOfVersion implements JsonSerializable
     {
         $result = [];
         if ($this->_version !== null) $result['version'] = $this->_version;
-        return $result;
+        return !empty($result) ? $result : new stdClass();
     }
 }

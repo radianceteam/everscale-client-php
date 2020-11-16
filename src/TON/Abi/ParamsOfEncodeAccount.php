@@ -9,11 +9,12 @@ declare(strict_types=1);
 namespace TON\Abi;
 
 use JsonSerializable;
+use stdClass;
 
 class ParamsOfEncodeAccount implements JsonSerializable
 {
     /** Source of the account state init. */
-    private StateInitSource $_stateInit;
+    private ?StateInitSource $_stateInit;
 
     /** Initial balance. */
     private ?int $_balance;
@@ -27,7 +28,7 @@ class ParamsOfEncodeAccount implements JsonSerializable
     public function __construct(?array $dto = null)
     {
         if (!$dto) $dto = [];
-        $this->_stateInit = StateInitSource::create($dto['state_init'] ?? []);
+        $this->_stateInit = isset($dto['state_init']) ? StateInitSource::create($dto['state_init']) : null;
         $this->_balance = $dto['balance'] ?? null;
         $this->_lastTransLt = $dto['last_trans_lt'] ?? null;
         $this->_lastPaid = $dto['last_paid'] ?? null;
@@ -36,7 +37,7 @@ class ParamsOfEncodeAccount implements JsonSerializable
     /**
      * Source of the account state init.
      */
-    public function getStateInit(): StateInitSource
+    public function getStateInit(): ?StateInitSource
     {
         return $this->_stateInit;
     }
@@ -68,7 +69,7 @@ class ParamsOfEncodeAccount implements JsonSerializable
     /**
      * Source of the account state init.
      */
-    public function setStateInit(StateInitSource $stateInit): self
+    public function setStateInit(?StateInitSource $stateInit): self
     {
         $this->_stateInit = $stateInit;
         return $this;
@@ -108,6 +109,6 @@ class ParamsOfEncodeAccount implements JsonSerializable
         if ($this->_balance !== null) $result['balance'] = $this->_balance;
         if ($this->_lastTransLt !== null) $result['last_trans_lt'] = $this->_lastTransLt;
         if ($this->_lastPaid !== null) $result['last_paid'] = $this->_lastPaid;
-        return $result;
+        return !empty($result) ? $result : new stdClass();
     }
 }

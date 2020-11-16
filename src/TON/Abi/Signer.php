@@ -13,8 +13,10 @@ use JsonSerializable;
 
 abstract class Signer implements JsonSerializable
 {
-    public static function create(array $dto): Signer
+    public static function create(?array $dto): ?Signer
     {
+        if ($dto === null) return null;
+        if (!isset($dto['type'])) return null;
         if ($dto['type'] === 'None') return new None($dto);
         if ($dto['type'] === 'External') return new External($dto);
         if ($dto['type'] === 'Keys') return new Keys($dto);

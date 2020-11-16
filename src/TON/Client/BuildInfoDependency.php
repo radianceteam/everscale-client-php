@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace TON\Client;
 
 use JsonSerializable;
+use stdClass;
 
 class BuildInfoDependency implements JsonSerializable
 {
@@ -64,6 +65,6 @@ class BuildInfoDependency implements JsonSerializable
         $result = [];
         if ($this->_name !== null) $result['name'] = $this->_name;
         if ($this->_gitCommit !== null) $result['git_commit'] = $this->_gitCommit;
-        return $result;
+        return !empty($result) ? $result : new stdClass();
     }
 }

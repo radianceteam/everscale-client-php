@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace TON\Crypto;
 
 use JsonSerializable;
+use stdClass;
 
 class ResultOfMnemonicVerify implements JsonSerializable
 {
@@ -42,6 +43,6 @@ class ResultOfMnemonicVerify implements JsonSerializable
     {
         $result = [];
         if ($this->_valid !== null) $result['valid'] = $this->_valid;
-        return $result;
+        return !empty($result) ? $result : new stdClass();
     }
 }

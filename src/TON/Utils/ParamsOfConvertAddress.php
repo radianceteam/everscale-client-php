@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace TON\Utils;
 
 use JsonSerializable;
+use stdClass;
 
 class ParamsOfConvertAddress implements JsonSerializable
 {
@@ -16,13 +17,13 @@ class ParamsOfConvertAddress implements JsonSerializable
     private string $_address;
 
     /** Specify the format to convert to. */
-    private AddressStringFormat $_outputFormat;
+    private ?AddressStringFormat $_outputFormat;
 
     public function __construct(?array $dto = null)
     {
         if (!$dto) $dto = [];
         $this->_address = $dto['address'] ?? '';
-        $this->_outputFormat = AddressStringFormat::create($dto['output_format'] ?? []);
+        $this->_outputFormat = isset($dto['output_format']) ? AddressStringFormat::create($dto['output_format']) : null;
     }
 
     /**
@@ -36,7 +37,7 @@ class ParamsOfConvertAddress implements JsonSerializable
     /**
      * Specify the format to convert to.
      */
-    public function getOutputFormat(): AddressStringFormat
+    public function getOutputFormat(): ?AddressStringFormat
     {
         return $this->_outputFormat;
     }
@@ -53,7 +54,7 @@ class ParamsOfConvertAddress implements JsonSerializable
     /**
      * Specify the format to convert to.
      */
-    public function setOutputFormat(AddressStringFormat $outputFormat): self
+    public function setOutputFormat(?AddressStringFormat $outputFormat): self
     {
         $this->_outputFormat = $outputFormat;
         return $this;
@@ -64,6 +65,6 @@ class ParamsOfConvertAddress implements JsonSerializable
         $result = [];
         if ($this->_address !== null) $result['address'] = $this->_address;
         if ($this->_outputFormat !== null) $result['output_format'] = $this->_outputFormat;
-        return $result;
+        return !empty($result) ? $result : new stdClass();
     }
 }

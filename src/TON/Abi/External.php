@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace TON\Abi;
 
 use JsonSerializable;
+use stdClass;
 
 class External extends Signer implements JsonSerializable
 {
@@ -35,6 +36,6 @@ class External extends Signer implements JsonSerializable
     {
         $result = ['type' => 'External'];
         if ($this->_publicKey !== null) $result['public_key'] = $this->_publicKey;
-        return $result;
+        return !empty($result) ? $result : new stdClass();
     }
 }

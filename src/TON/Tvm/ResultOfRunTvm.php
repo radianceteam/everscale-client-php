@@ -9,6 +9,8 @@ declare(strict_types=1);
 namespace TON\Tvm;
 
 use JsonSerializable;
+use TON\Processing\DecodedOutput;
+use stdClass;
 
 class ResultOfRunTvm implements JsonSerializable
 {
@@ -31,7 +33,7 @@ class ResultOfRunTvm implements JsonSerializable
     {
         if (!$dto) $dto = [];
         $this->_outMessages = $dto['out_messages'] ?? [];
-        $this->_decoded = new DecodedOutput($dto['decoded'] ?? []);
+        $this->_decoded = isset($dto['decoded']) ? new DecodedOutput($dto['decoded']) : null;
         $this->_account = $dto['account'] ?? '';
     }
 
@@ -96,6 +98,6 @@ class ResultOfRunTvm implements JsonSerializable
         if ($this->_outMessages !== null) $result['out_messages'] = $this->_outMessages;
         if ($this->_decoded !== null) $result['decoded'] = $this->_decoded;
         if ($this->_account !== null) $result['account'] = $this->_account;
-        return $result;
+        return !empty($result) ? $result : new stdClass();
     }
 }

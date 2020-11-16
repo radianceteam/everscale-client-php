@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace TON\Crypto;
 
 use JsonSerializable;
+use stdClass;
 
 class ParamsOfMnemonicWords implements JsonSerializable
 {
@@ -42,6 +43,6 @@ class ParamsOfMnemonicWords implements JsonSerializable
     {
         $result = [];
         if ($this->_dictionary !== null) $result['dictionary'] = $this->_dictionary;
-        return $result;
+        return !empty($result) ? $result : new stdClass();
     }
 }

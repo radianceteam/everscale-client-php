@@ -9,11 +9,12 @@ declare(strict_types=1);
 namespace TON\Abi;
 
 use JsonSerializable;
+use stdClass;
 
 class ParamsOfAttachSignatureToMessageBody implements JsonSerializable
 {
     /** Contract ABI */
-    private Abi $_abi;
+    private ?Abi $_abi;
 
     /** Public key. Must be encoded with `hex`. */
     private string $_publicKey;
@@ -27,7 +28,7 @@ class ParamsOfAttachSignatureToMessageBody implements JsonSerializable
     public function __construct(?array $dto = null)
     {
         if (!$dto) $dto = [];
-        $this->_abi = Abi::create($dto['abi'] ?? []);
+        $this->_abi = isset($dto['abi']) ? Abi::create($dto['abi']) : null;
         $this->_publicKey = $dto['public_key'] ?? '';
         $this->_message = $dto['message'] ?? '';
         $this->_signature = $dto['signature'] ?? '';
@@ -36,7 +37,7 @@ class ParamsOfAttachSignatureToMessageBody implements JsonSerializable
     /**
      * Contract ABI
      */
-    public function getAbi(): Abi
+    public function getAbi(): ?Abi
     {
         return $this->_abi;
     }
@@ -68,7 +69,7 @@ class ParamsOfAttachSignatureToMessageBody implements JsonSerializable
     /**
      * Contract ABI
      */
-    public function setAbi(Abi $abi): self
+    public function setAbi(?Abi $abi): self
     {
         $this->_abi = $abi;
         return $this;
@@ -108,6 +109,6 @@ class ParamsOfAttachSignatureToMessageBody implements JsonSerializable
         if ($this->_publicKey !== null) $result['public_key'] = $this->_publicKey;
         if ($this->_message !== null) $result['message'] = $this->_message;
         if ($this->_signature !== null) $result['signature'] = $this->_signature;
-        return $result;
+        return !empty($result) ? $result : new stdClass();
     }
 }

@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace TON\Client;
 
 use JsonSerializable;
+use stdClass;
 
 class ResultOfGetApiReference implements JsonSerializable
 {
@@ -35,6 +36,6 @@ class ResultOfGetApiReference implements JsonSerializable
     {
         $result = [];
         if ($this->_api !== null) $result['api'] = $this->_api;
-        return $result;
+        return !empty($result) ? $result : new stdClass();
     }
 }

@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace TON\Crypto;
 
 use JsonSerializable;
+use stdClass;
 
 class ResultOfNaclBox implements JsonSerializable
 {
@@ -42,6 +43,6 @@ class ResultOfNaclBox implements JsonSerializable
     {
         $result = [];
         if ($this->_encrypted !== null) $result['encrypted'] = $this->_encrypted;
-        return $result;
+        return !empty($result) ? $result : new stdClass();
     }
 }

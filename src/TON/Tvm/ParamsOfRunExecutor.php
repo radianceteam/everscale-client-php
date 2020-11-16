@@ -9,6 +9,8 @@ declare(strict_types=1);
 namespace TON\Tvm;
 
 use JsonSerializable;
+use TON\Abi\Abi;
+use stdClass;
 
 class ParamsOfRunExecutor implements JsonSerializable
 {
@@ -16,7 +18,7 @@ class ParamsOfRunExecutor implements JsonSerializable
     private string $_message;
 
     /** Account to run on executor */
-    private AccountForExecutor $_account;
+    private ?AccountForExecutor $_account;
 
     /** Execution options. */
     private ?ExecutionOptions $_executionOptions;
@@ -31,9 +33,9 @@ class ParamsOfRunExecutor implements JsonSerializable
     {
         if (!$dto) $dto = [];
         $this->_message = $dto['message'] ?? '';
-        $this->_account = AccountForExecutor::create($dto['account'] ?? []);
-        $this->_executionOptions = new ExecutionOptions($dto['execution_options'] ?? []);
-        $this->_abi = Abi::create($dto['abi'] ?? []);
+        $this->_account = isset($dto['account']) ? AccountForExecutor::create($dto['account']) : null;
+        $this->_executionOptions = isset($dto['execution_options']) ? new ExecutionOptions($dto['execution_options']) : null;
+        $this->_abi = isset($dto['abi']) ? Abi::create($dto['abi']) : null;
         $this->_skipTransactionCheck = $dto['skip_transaction_check'] ?? null;
     }
 
@@ -48,7 +50,7 @@ class ParamsOfRunExecutor implements JsonSerializable
     /**
      * Account to run on executor
      */
-    public function getAccount(): AccountForExecutor
+    public function getAccount(): ?AccountForExecutor
     {
         return $this->_account;
     }
@@ -89,7 +91,7 @@ class ParamsOfRunExecutor implements JsonSerializable
     /**
      * Account to run on executor
      */
-    public function setAccount(AccountForExecutor $account): self
+    public function setAccount(?AccountForExecutor $account): self
     {
         $this->_account = $account;
         return $this;
@@ -130,6 +132,6 @@ class ParamsOfRunExecutor implements JsonSerializable
         if ($this->_executionOptions !== null) $result['execution_options'] = $this->_executionOptions;
         if ($this->_abi !== null) $result['abi'] = $this->_abi;
         if ($this->_skipTransactionCheck !== null) $result['skip_transaction_check'] = $this->_skipTransactionCheck;
-        return $result;
+        return !empty($result) ? $result : new stdClass();
     }
 }

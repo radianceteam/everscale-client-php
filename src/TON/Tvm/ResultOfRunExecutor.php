@@ -9,6 +9,8 @@ declare(strict_types=1);
 namespace TON\Tvm;
 
 use JsonSerializable;
+use TON\Processing\DecodedOutput;
+use stdClass;
 
 class ResultOfRunExecutor implements JsonSerializable
 {
@@ -34,16 +36,16 @@ class ResultOfRunExecutor implements JsonSerializable
     private string $_account;
 
     /** Transaction fees */
-    private TransactionFees $_fees;
+    private ?TransactionFees $_fees;
 
     public function __construct(?array $dto = null)
     {
         if (!$dto) $dto = [];
         $this->_transaction = $dto['transaction'] ?? null;
         $this->_outMessages = $dto['out_messages'] ?? [];
-        $this->_decoded = new DecodedOutput($dto['decoded'] ?? []);
+        $this->_decoded = isset($dto['decoded']) ? new DecodedOutput($dto['decoded']) : null;
         $this->_account = $dto['account'] ?? '';
-        $this->_fees = new TransactionFees($dto['fees'] ?? []);
+        $this->_fees = isset($dto['fees']) ? new TransactionFees($dto['fees']) : null;
     }
 
     /**
@@ -86,7 +88,7 @@ class ResultOfRunExecutor implements JsonSerializable
     /**
      * Transaction fees
      */
-    public function getFees(): TransactionFees
+    public function getFees(): ?TransactionFees
     {
         return $this->_fees;
     }
@@ -135,7 +137,7 @@ class ResultOfRunExecutor implements JsonSerializable
     /**
      * Transaction fees
      */
-    public function setFees(TransactionFees $fees): self
+    public function setFees(?TransactionFees $fees): self
     {
         $this->_fees = $fees;
         return $this;
@@ -149,6 +151,6 @@ class ResultOfRunExecutor implements JsonSerializable
         if ($this->_decoded !== null) $result['decoded'] = $this->_decoded;
         if ($this->_account !== null) $result['account'] = $this->_account;
         if ($this->_fees !== null) $result['fees'] = $this->_fees;
-        return $result;
+        return !empty($result) ? $result : new stdClass();
     }
 }

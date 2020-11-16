@@ -13,8 +13,10 @@ use JsonSerializable;
 
 abstract class AddressStringFormat implements JsonSerializable
 {
-    public static function create(array $dto): AddressStringFormat
+    public static function create(?array $dto): ?AddressStringFormat
     {
+        if ($dto === null) return null;
+        if (!isset($dto['type'])) return null;
         if ($dto['type'] === 'AccountId') return new AccountId($dto);
         if ($dto['type'] === 'Hex') return new Hex($dto);
         if ($dto['type'] === 'Base64') return new Base64($dto);

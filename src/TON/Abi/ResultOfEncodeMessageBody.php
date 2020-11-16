@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace TON\Abi;
 
 use JsonSerializable;
+use stdClass;
 
 class ResultOfEncodeMessageBody implements JsonSerializable
 {
@@ -78,6 +79,6 @@ class ResultOfEncodeMessageBody implements JsonSerializable
         $result = [];
         if ($this->_body !== null) $result['body'] = $this->_body;
         if ($this->_dataToSign !== null) $result['data_to_sign'] = $this->_dataToSign;
-        return $result;
+        return !empty($result) ? $result : new stdClass();
     }
 }

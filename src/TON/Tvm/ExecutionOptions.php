@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace TON\Tvm;
 
 use JsonSerializable;
+use stdClass;
 
 class ExecutionOptions implements JsonSerializable
 {
@@ -108,6 +109,6 @@ class ExecutionOptions implements JsonSerializable
         if ($this->_blockTime !== null) $result['block_time'] = $this->_blockTime;
         if ($this->_blockLt !== null) $result['block_lt'] = $this->_blockLt;
         if ($this->_transactionLt !== null) $result['transaction_lt'] = $this->_transactionLt;
-        return $result;
+        return !empty($result) ? $result : new stdClass();
     }
 }

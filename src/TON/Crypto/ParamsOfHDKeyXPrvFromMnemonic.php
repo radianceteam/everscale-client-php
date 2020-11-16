@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace TON\Crypto;
 
 use JsonSerializable;
+use stdClass;
 
 class ParamsOfHDKeyXPrvFromMnemonic implements JsonSerializable
 {
@@ -86,6 +87,6 @@ class ParamsOfHDKeyXPrvFromMnemonic implements JsonSerializable
         if ($this->_phrase !== null) $result['phrase'] = $this->_phrase;
         if ($this->_dictionary !== null) $result['dictionary'] = $this->_dictionary;
         if ($this->_wordCount !== null) $result['word_count'] = $this->_wordCount;
-        return $result;
+        return !empty($result) ? $result : new stdClass();
     }
 }

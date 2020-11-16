@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace TON\Net;
 
 use JsonSerializable;
+use stdClass;
 
 class ParamsOfSubscribeCollection implements JsonSerializable
 {
@@ -86,6 +87,6 @@ class ParamsOfSubscribeCollection implements JsonSerializable
         if ($this->_collection !== null) $result['collection'] = $this->_collection;
         if ($this->_filter !== null) $result['filter'] = $this->_filter;
         if ($this->_result !== null) $result['result'] = $this->_result;
-        return $result;
+        return !empty($result) ? $result : new stdClass();
     }
 }

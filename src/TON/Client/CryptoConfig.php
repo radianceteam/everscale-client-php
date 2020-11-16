@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace TON\Client;
 
 use JsonSerializable;
+use stdClass;
 
 class CryptoConfig implements JsonSerializable
 {
@@ -77,6 +78,6 @@ class CryptoConfig implements JsonSerializable
         if ($this->_mnemonicWordCount !== null) $result['mnemonic_word_count'] = $this->_mnemonicWordCount;
         if ($this->_hdkeyDerivationPath !== null) $result['hdkey_derivation_path'] = $this->_hdkeyDerivationPath;
         if ($this->_hdkeyCompliant !== null) $result['hdkey_compliant'] = $this->_hdkeyCompliant;
-        return $result;
+        return !empty($result) ? $result : new stdClass();
     }
 }

@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace TON\Utils;
 
 use JsonSerializable;
+use stdClass;
 
 class AccountId extends AddressStringFormat implements JsonSerializable
 {
@@ -20,6 +21,6 @@ class AccountId extends AddressStringFormat implements JsonSerializable
     public function jsonSerialize()
     {
         $result = ['type' => 'AccountId'];
-        return $result;
+        return !empty($result) ? $result : new stdClass();
     }
 }

@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace TON\Tvm;
 
 use JsonSerializable;
+use stdClass;
 
 class ParamsOfRunGet implements JsonSerializable
 {
@@ -28,7 +29,7 @@ class ParamsOfRunGet implements JsonSerializable
         $this->_account = $dto['account'] ?? '';
         $this->_functionName = $dto['function_name'] ?? '';
         $this->_input = $dto['input'] ?? null;
-        $this->_executionOptions = new ExecutionOptions($dto['execution_options'] ?? []);
+        $this->_executionOptions = isset($dto['execution_options']) ? new ExecutionOptions($dto['execution_options']) : null;
     }
 
     /**
@@ -100,6 +101,6 @@ class ParamsOfRunGet implements JsonSerializable
         if ($this->_functionName !== null) $result['function_name'] = $this->_functionName;
         if ($this->_input !== null) $result['input'] = $this->_input;
         if ($this->_executionOptions !== null) $result['execution_options'] = $this->_executionOptions;
-        return $result;
+        return !empty($result) ? $result : new stdClass();
     }
 }

@@ -9,11 +9,12 @@ declare(strict_types=1);
 namespace TON\Abi;
 
 use JsonSerializable;
+use stdClass;
 
 class ParamsOfDecodeMessage implements JsonSerializable
 {
     /** contract ABI */
-    private Abi $_abi;
+    private ?Abi $_abi;
 
     /** Message BOC */
     private string $_message;
@@ -21,14 +22,14 @@ class ParamsOfDecodeMessage implements JsonSerializable
     public function __construct(?array $dto = null)
     {
         if (!$dto) $dto = [];
-        $this->_abi = Abi::create($dto['abi'] ?? []);
+        $this->_abi = isset($dto['abi']) ? Abi::create($dto['abi']) : null;
         $this->_message = $dto['message'] ?? '';
     }
 
     /**
      * contract ABI
      */
-    public function getAbi(): Abi
+    public function getAbi(): ?Abi
     {
         return $this->_abi;
     }
@@ -44,7 +45,7 @@ class ParamsOfDecodeMessage implements JsonSerializable
     /**
      * contract ABI
      */
-    public function setAbi(Abi $abi): self
+    public function setAbi(?Abi $abi): self
     {
         $this->_abi = $abi;
         return $this;
@@ -64,6 +65,6 @@ class ParamsOfDecodeMessage implements JsonSerializable
         $result = [];
         if ($this->_abi !== null) $result['abi'] = $this->_abi;
         if ($this->_message !== null) $result['message'] = $this->_message;
-        return $result;
+        return !empty($result) ? $result : new stdClass();
     }
 }
