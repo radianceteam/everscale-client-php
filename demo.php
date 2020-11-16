@@ -6,11 +6,10 @@ use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
 use TON\TonClient;
 
-$logger = new Logger("demo");
-$logger->pushHandler(new StreamHandler('demo.log', Logger::DEBUG));
-
-$client = new TonClient();
-$client->setLogger($logger);
+$client = new TonClient(null,
+    (new Logger("demo"))
+        ->pushHandler(new StreamHandler('demo.log', Logger::DEBUG)));
 
 $result = $client->client()->version();
 echo "TON SDK Version: {$result->getVersion()}";
+

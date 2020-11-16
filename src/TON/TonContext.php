@@ -16,13 +16,19 @@ class TonContext
     /**
      * TonContext constructor.
      * @param JsonSerializable|null $config Optional TON client configuration.
+     * @param LoggerInterface|null $logger Optional logger.
      * @throws TonClientException Failed to create TON client context.
      */
-    public function __construct(JsonSerializable $config = null)
+    public function __construct(
+        ?JsonSerializable $config = null,
+        ?LoggerInterface $logger = null)
     {
-        $json = ton_create_context($config ? json_encode($config) : "");
+        $this->_logger = $logger ?? new NullLogger();
+        $encoded = $config ? json_encode($config) : "";
+        $this->_logger->debug("Calling ton_create_context with parameters ${encoded}");
+        $json = ton_create_context($encoded);
+        $this->_logger->debug("ton_create_context returned ${json}");
         $this->_id = $this->_handleResponseJson($json);
-        $this->_logger = new NullLogger();
     }
 
     /**
@@ -60,7 +66,8 @@ class TonContext
 
     public function destroy()
     {
-        if ($this->_id) {
+        if ($this->_id != -1) {
+            $this->_logger->debug("Calling ton_destroy_context with context id {$this->_id}");
             ton_destroy_context($this->_id);
             $this->_id = -1;
         }

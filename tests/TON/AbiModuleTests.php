@@ -22,7 +22,7 @@ use TON\Crypto\KeyPair;
 use TON\Crypto\ParamsOfNaclSign;
 use TON\Crypto\ParamsOfNaclSignKeyPairFromSecret;
 
-class AbiTests extends AbstractModuleTestCase
+class AbiModuleTests extends AbstractModuleTestCase
 {
     private AbiContract $_abi;
     private string $_tvc;

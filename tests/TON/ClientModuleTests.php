@@ -4,7 +4,7 @@ namespace TON;
 
 use TON\Client\ClientModule;
 
-class ClientTests extends AbstractModuleTestCase
+class ClientModuleTests extends AbstractModuleTestCase
 {
     private ClientModule $_client;
 

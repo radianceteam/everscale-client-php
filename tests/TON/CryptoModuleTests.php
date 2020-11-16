@@ -42,7 +42,7 @@ function hex_to_base64(string $hex): string
     return base64_encode($return);
 }
 
-class CryptoTests extends AbstractModuleTestCase
+class CryptoModuleTests extends AbstractModuleTestCase
 {
     private CryptoModule $_crypto;
 
