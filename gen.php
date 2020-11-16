@@ -752,6 +752,7 @@ function generate_client_impl(array $api)
     $namespace = $file
         ->addNamespace(TON_NS)
         ->addUse(TonContext::class)
+        ->addUse(JsonSerializable::class)
         ->addUse(LoggerInterface::class);
 
     $class = $namespace->addClass($class_name)
@@ -761,8 +762,14 @@ function generate_client_impl(array $api)
         ->setType(TON_CONTEXT)
         ->setPrivate();
 
-    $constructor = $class->addMethod('__construct')
-        ->addBody('$this->_context = new TonContext();');
+    $constructor = $class->addMethod('__construct');
+    $constructor->addParameter('config', null)
+        ->setType(JsonSerializable::class)
+        ->setNullable(true);
+    $constructor->addParameter('logger', null)
+        ->setType('LoggerInterface')
+        ->setNullable(true);
+    $constructor->addBody('$this->_context = new TonContext($config, $logger);');
 
     $class->addMethod('setLogger')
         ->addBody('$this->_context->setLogger($logger);')

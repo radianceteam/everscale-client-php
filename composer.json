@@ -42,6 +42,7 @@
     "generate": "php gen.php"
   },
   "require-dev": {
+    "ext-pcntl": "*",
     "phpunit/phpunit": "^9.4",
     "nette/php-generator": "^3.5",
     "monolog/monolog": "^2.1"

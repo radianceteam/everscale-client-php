@@ -19,7 +19,7 @@ class TestClient extends TonClient
 {
     public const DEFAULT_ABI_VERSION = 2;
 
-    private const GIVER_ADDRESS = "0:841288ed3b55d9cdafa806807f02a0ae0c169aa5edfe88a789a6482429756a94";
+    public const GIVER_ADDRESS = "0:841288ed3b55d9cdafa806807f02a0ae0c169aa5edfe88a789a6482429756a94";
 
     public function deployWithGiver(ParamsOfEncodeMessage $params, ?int $value = null): string
     {
