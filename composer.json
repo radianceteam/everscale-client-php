@@ -1,5 +1,12 @@
 {
   "name": "radianceteam/ton-client-php",
+  "authors": [
+    {
+      "name": "Andrew Anisimov",
+      "email": "anisimov.new@gmail.com",
+      "role": "Developer"
+    }
+  ],
   "description": "TON Client Wrapper for PHP",
   "autoload": {
     "psr-4": {
