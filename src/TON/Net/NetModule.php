@@ -66,7 +66,7 @@ class NetModule implements NetModuleInterface
      *  that satisfies the `filter` conditions.
      *  The projection fields are limited to `result` fields.
      */
-    public function subscribeCollection(ParamsOfSubscribeCollection $params, Generic $callback): ResultOfSubscribeCollection
+    public function subscribeCollection(ParamsOfSubscribeCollection $params): ResultOfSubscribeCollection
     {
         return new ResultOfSubscribeCollection($this->_context->callFunction('net.subscribe_collection', $params));
     }

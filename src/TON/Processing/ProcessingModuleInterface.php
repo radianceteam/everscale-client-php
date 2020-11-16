@@ -22,7 +22,7 @@ interface ProcessingModuleInterface
      *  Sends message to the network and returns the last generated shard block of the destination account
      *  before the message was sent. It will be required later for message processing.
      */
-    function sendMessage(ParamsOfSendMessage $params, Generic $callback): ResultOfSendMessage;
+    function sendMessage(ParamsOfSendMessage $params): ResultOfSendMessage;
 
     /**
      * Performs monitoring of the network for the result transaction
@@ -53,7 +53,7 @@ interface ProcessingModuleInterface
      *  - If maximum block gen time is reached and no result transaction is found,
      *  the processing will exit with an error.
      */
-    function waitForTransaction(ParamsOfWaitForTransaction $params, Generic $callback): ResultOfProcessMessage;
+    function waitForTransaction(ParamsOfWaitForTransaction $params): ResultOfProcessMessage;
 
     /**
      * Creates message, sends it to the network and monitors its processing.
@@ -78,5 +78,5 @@ interface ProcessingModuleInterface
      *  If contract's ABI does not include "expire" header
      *  then, if no transaction is found within the network timeout (see config parameter ), exits with error.
      */
-    function processMessage(ParamsOfProcessMessage $params, Generic $request): ResultOfProcessMessage;
+    function processMessage(ParamsOfProcessMessage $params): ResultOfProcessMessage;
 }

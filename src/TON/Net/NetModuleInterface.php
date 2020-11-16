@@ -48,5 +48,5 @@ interface NetModuleInterface
      *  that satisfies the `filter` conditions.
      *  The projection fields are limited to `result` fields.
      */
-    function subscribeCollection(ParamsOfSubscribeCollection $params, Generic $callback): ResultOfSubscribeCollection;
+    function subscribeCollection(ParamsOfSubscribeCollection $params): ResultOfSubscribeCollection;
 }

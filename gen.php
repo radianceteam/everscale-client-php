@@ -505,7 +505,6 @@ function generate_type_inner(array $module, array $type, ApiIndex $index, ClassT
         $ref_type = $index->getTypeSpec($ref_module_name, $ref_type_name);
         $mixin = (new ArrayObject($ref_type))->getArrayCopy();
         $mixin['name'] = $type_name;
-        var_dump($mixin);
         generate_type_inner($module, $mixin, $index, $class, $file, $namespace, $type_name, $parent_class);
     }
 }
@@ -567,6 +566,16 @@ function get_function_return_type(array $type, ApiIndex $index): string
     return $return_type;
 }
 
+function is_context_param(array $param): bool
+{
+    return (($param['name'] === 'context' || $param['name'] === '_context')); // TODO: check type?
+}
+
+function is_callback_param(array $param): bool
+{
+    return (($param['type'] === 'Generic' && $param['generic_args'][0]["ref_name"] === 'Request'));
+}
+
 function add_module_functions(array $module, ClassType $class, ApiIndex $index, callable $body_callback = null)
 {
     foreach ($module['functions'] as $function) {
@@ -578,8 +587,11 @@ function add_module_functions(array $module, ClassType $class, ApiIndex $index, 
             ->setReturnNullable(is_php_nullable_type($return_type));
         $params = [];
         foreach ($function['params'] as $param) {
-            if (empty($param['name']) ||
-                (($param['name'] === 'context' || $param['name'] === '_context'))) {
+            if (empty($param['name']) || is_context_param($param)) {
+                continue;
+            }
+            if (is_callback_param($param)) {
+                // TODO: handle
                 continue;
             }
             $php_param_name = get_php_identifier_name($param['name']);

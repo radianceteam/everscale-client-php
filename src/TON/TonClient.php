@@ -8,7 +8,6 @@ declare(strict_types=1);
 
 namespace TON;
 
-use JsonSerializable;
 use Psr\Log\LoggerInterface;
 use TON\Abi\AbiModule;
 use TON\Abi\AbiModuleInterface;
@@ -39,17 +38,9 @@ class TonClient implements TonClientInterface
     private TvmModuleInterface $_tvm;
     private NetModuleInterface $_net;
 
-    /**
-     * TonClient constructor.
-     * @param JsonSerializable|null $config Optional TON client configuration.
-     * @param LoggerInterface|null $logger Optional logger.
-     * @throws TonClientException Failed to create TON client context.
-     */
-    public function __construct(
-        ?JsonSerializable $config = null,
-        ?LoggerInterface $logger = null)
+    public function __construct()
     {
-        $this->_context = new TonContext($config, $logger);
+        $this->_context = new TonContext();
         $this->_client = new ClientModule($this->_context);
         $this->_crypto = new CryptoModule($this->_context);
         $this->_abi = new AbiModule($this->_context);

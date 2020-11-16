@@ -31,7 +31,7 @@ class ProcessingModule implements ProcessingModuleInterface
      *  Sends message to the network and returns the last generated shard block of the destination account
      *  before the message was sent. It will be required later for message processing.
      */
-    public function sendMessage(ParamsOfSendMessage $params, Generic $callback): ResultOfSendMessage
+    public function sendMessage(ParamsOfSendMessage $params): ResultOfSendMessage
     {
         return new ResultOfSendMessage($this->_context->callFunction('processing.send_message', $params));
     }
@@ -65,7 +65,7 @@ class ProcessingModule implements ProcessingModuleInterface
      *  - If maximum block gen time is reached and no result transaction is found,
      *  the processing will exit with an error.
      */
-    public function waitForTransaction(ParamsOfWaitForTransaction $params, Generic $callback): ResultOfProcessMessage
+    public function waitForTransaction(ParamsOfWaitForTransaction $params): ResultOfProcessMessage
     {
         return new ResultOfProcessMessage($this->_context->callFunction('processing.wait_for_transaction', $params));
     }
@@ -93,7 +93,7 @@ class ProcessingModule implements ProcessingModuleInterface
      *  If contract's ABI does not include "expire" header
      *  then, if no transaction is found within the network timeout (see config parameter ), exits with error.
      */
-    public function processMessage(ParamsOfProcessMessage $params, Generic $request): ResultOfProcessMessage
+    public function processMessage(ParamsOfProcessMessage $params): ResultOfProcessMessage
     {
         return new ResultOfProcessMessage($this->_context->callFunction('processing.process_message', $params));
     }
