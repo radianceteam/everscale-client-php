@@ -27,7 +27,7 @@ $client = TonClientBuilder::create()
         ->setNetwork((new NetworkConfig())
             ->setServerAddress("http://localhost:8888")))
     ->withLogger((new Logger(__FILE__))
-        ->pushHandler(new StreamHandler(__FILE__ . '.log', Logger::DEBUG)))
+        ->pushHandler(new StreamHandler('php://stdout', Logger::DEBUG)))
     ->build();
 
 [$abi, $tvc] = TestClient::package('Events', 2);

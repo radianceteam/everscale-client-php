@@ -1,52 +1,142 @@
 ﻿# TON Client Wrapper for PHP
 
-True async wrapper using [ton_client](https://github.com/radianceteam/ton-client-php-ext/) extension
-with multi-threading and blocking queues under the hood.
+**Community links:**
+
+[![Chat on Telegram](https://img.shields.io/badge/chat-on%20telegram-9cf.svg)](https://t.me/RADIANCE_TON_SDK)
+
+True async wrapper using [ton_client](https://github.com/radianceteam/ton-client-php-ext/) 
+extension with multi-threading and blocking queues under the hood.
 
 ## Requirements
 
- - Windows x64
- - PHP version 7.4 x64 Thread Safe (can be downloaded from here: https://windows.php.net/downloads/releases/php-7.4.12-Win32-vc15-x64.zip).
+ - PHP version 7.4 or higher.
  - Composer (https://getcomposer.org/)
 
 ## Installation
 
-1. Unpack PHP distribution into some directory (let's call it `C:\php` for brevity).
-2. Copy `lib\ton_client.dll` and `lib\pthreadVC2.dll` into `C:\php`.
-3. Copy `ext\php_ton_client.dll` into `C:\php\ext`.
-4. Copy `C:\php\php-ini.production` to `C:\php\php.ini`
-5. Add the following to `C:\php\php.ini`: 
+1. Install [TON Client PHP extension](https://github.com/radianceteam/ton-client-php-ext) as described 
+   in [readme](https://github.com/radianceteam/ton-client-php-ext/blob/master/install.md).
+2. Run `composer`: 
 
-```
-extension="C:\php\ext\php_ton_client.dll"
+```shell
+composer require radianceteam/ton-client-php
 ```
 
-6. Verify that `ton_client` extension is enabled by inspecting output of `php --info`:
+## Usage examples
 
-```
-ton_client
+### Basic example
 
-ton_client support => enabled
-```
+```php
+use TON\TonClient;
 
-7. Go to `ton-client-php` sources.
-8. Run `composer install`.
-
-## Running tests
-
-```
-composer test
+$client = new TonClient();
+$result = $client->client()->version();
+echo "TON SDK Version: {$result->getVersion()}";
 ```
 
-## Re-generate classes
+### Configuration & Logging
 
+```php
+use Monolog\Handler\StreamHandler;
+use Monolog\Logger;
+use TON\Client\ClientConfig;
+use TON\Client\NetworkConfig;
+use TON\TonClientBuilder;
+
+$client = TonClientBuilder::create()
+    ->withConfig((new ClientConfig())
+        ->setNetwork((new NetworkConfig())
+            ->setServerAddress("http://localhost:8888")))
+    ->withLogger((new Logger("demo"))
+        ->pushHandler(new StreamHandler('demo.log', Logger::DEBUG)))
+    ->build();
 ```
-composer generate
+
+### Handling async events
+
+Each module interface has `async()` function which returns asynchronous
+interface version. Note that some functions, like in processing module,
+have async versions only. 
+
+```php
+use TON\TonClient;
+use TON\Net\ParamsOfWaitForCollection;
+
+$client = new TonClient();
+
+$promise = $client->net()->async()->waitForCollectionAsync(
+    (new ParamsOfWaitForCollection())
+        ->setCollection("transactions")
+        ->setFilter(["now" => ["gt" => time()]])
+        ->setResult("id now"));
+
+echo "Awaiting for new transactions...";
+$result = $promise->await();
 ```
 
-## TODO
+### Subscribing to events
 
- - Remove binaries from the repo, download them from `ton-client-php-ext` GitHub repo (requires some CI/CD setup).
- - Linux and Mac readme.
- - Separate Development/usage readme.
+Async interface also allows processing events occurred between function start and finish.
+This can be achieved via calling `getEvents()` function of the returned promise.
+Note this blocks the current program flow until the new event fired,
+or the unsubscribe function called.
+
+```php
+use TON\Abi\CallSet;
+use TON\Abi\Contract;
+use TON\Abi\DeploySet;
+use TON\Abi\Keys;
+use TON\Abi\ParamsOfEncodeMessage;
+use TON\Client\ClientConfig;
+use TON\Client\NetworkConfig;
+use TON\Net\ParamsOfSubscribeCollection;
+use TON\TestClient;
+use TON\TonClientBuilder;
+
+$client = TonClientBuilder::create()
+    ->withConfig((new ClientConfig())
+        ->setNetwork((new NetworkConfig())
+            ->setServerAddress("http://localhost:8888")))
+    ->build();
+
+$keys = $client->crypto()->generateRandomSignKeys();
+
+$msg = $client->abi()->encodeMessage((new ParamsOfEncodeMessage())
+    ->setAbi((new Contract())
+        ->setValue(TestClient::load_abi('Hello')))
+    ->setDeploySet((new DeploySet())
+        ->setTvc(TestClient::load_tvc('Hello')))
+    ->setSigner((new Keys())->setKeys($keys))
+    ->setCallSet((new CallSet())
+        ->setFunctionName("constructor")));
+
+$subscribePromise = $client->net()->async()
+    ->subscribeCollectionAsync((new ParamsOfSubscribeCollection())
+        ->setCollection("transactions")
+        ->setFilter([
+            "account_addr" => ["eq" => $msg->getAddress()],
+            "status" => ["eq" => 3] // Finalized
+        ])
+        ->setResult("id account_addr"));
+
+// Wait for the very first event, then unsubscribe
+$handle = $subscribePromise->await();
+foreach ($subscribePromise->getEvents() as $event) {
+    var_dump($event);
+    $client->net()->async()
+        ->unsubscribeAsync($handle)
+        ->await();
+}
+```
  
+## Development
+
+See [Development notes](development.md).
+
+## License
+
+Apache License, Version 2.0.
+
+## Troubleshooting
+
+Fire any question to our [Telegram channel](https://t.me/RADIANCE_TON_SDK).

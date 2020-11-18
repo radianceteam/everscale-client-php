@@ -107,7 +107,7 @@ class TonRequest
             }
             if ($status === self::STATUS_OK) {
                 $this->_logger->debug("Function result read: ${json}");
-                if ($json) {
+                if ($json && $json !== 'null') { // FIXME: sometimes client returns 'null'?;
                     // void functions don't return anything
                     $this->_result = json_decode($json, true);
                     if (!$this->_result) {

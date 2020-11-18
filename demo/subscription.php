@@ -17,7 +17,7 @@ use TON\TonClientBuilder;
 
 // This demo shows how to subscribe to various evens in network.
 // First it creates a subscription for all transactions matching the
-// specified filter, like, having the given address and starts=3 (Finished).
+// specified filter, like, having the given address and status=3 (Finished).
 // Then it waits for at least 2 new events to fire and ends subscription.
 //
 // Note: this demo requires local NodeSE running on localhost:8888
@@ -27,7 +27,7 @@ $client = TonClientBuilder::create()
         ->setNetwork((new NetworkConfig())
             ->setServerAddress("http://localhost:8888")))
     ->withLogger((new Logger(__FILE__))
-        ->pushHandler(new StreamHandler(__FILE__ . '.log', Logger::DEBUG)))
+        ->pushHandler(new StreamHandler('php://stdout', Logger::DEBUG)))
     ->build();
 
 $keys = $client->crypto()->generateRandomSignKeys();
@@ -55,7 +55,7 @@ $subscribePromise = $client->net()->async()
 $handle = $subscribePromise->await();
 foreach ($subscribePromise->getEvents() as $event) {
     var_dump($event);
-    $this->_client->net()->async()
+    $client->net()->async()
         ->unsubscribeAsync($handle)
         ->await();
 }

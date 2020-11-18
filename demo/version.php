@@ -8,7 +8,7 @@ use TON\TonClientBuilder;
 
 $client = TonClientBuilder::create()
     ->withLogger((new Logger(__FILE__))
-        ->pushHandler(new StreamHandler(__FILE__ . '.log', Logger::DEBUG)))
+        ->pushHandler(new StreamHandler('php://stdout', Logger::DEBUG)))
     ->build();
 
 $result = $client->client()->version();
