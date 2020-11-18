@@ -8,8 +8,15 @@ declare(strict_types=1);
 
 namespace TON\Tvm;
 
+use TON\Tvm\Async\TvmModuleAsyncInterface;
+
 interface TvmModuleInterface
 {
+    /**
+     * @return TvmModuleAsyncInterface Async version of tvm module interface.
+     */
+    function async(): TvmModuleAsyncInterface;
+
     function runExecutor(ParamsOfRunExecutor $params): ResultOfRunExecutor;
 
     function runTvm(ParamsOfRunTvm $params): ResultOfRunTvm;

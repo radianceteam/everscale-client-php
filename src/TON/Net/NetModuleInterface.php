@@ -8,11 +8,19 @@ declare(strict_types=1);
 
 namespace TON\Net;
 
+use TON\AsyncResult;
+use TON\Net\Async\NetModuleAsyncInterface;
+
 /**
  * Network access.
  */
 interface NetModuleInterface
 {
+    /**
+     * @return NetModuleAsyncInterface Async version of net module interface.
+     */
+    function async(): NetModuleAsyncInterface;
+
     /**
      * Queries collection data
      *
@@ -39,14 +47,5 @@ interface NetModuleInterface
      *
      *  Cancels a subscription specified by its handle.
      */
-    function unsubscribe(ResultOfSubscribeCollection $params): void;
-
-    /**
-     * Creates a subscription
-     *
-     *  Triggers for each insert/update of data
-     *  that satisfies the `filter` conditions.
-     *  The projection fields are limited to `result` fields.
-     */
-    function subscribeCollection(ParamsOfSubscribeCollection $params): ResultOfSubscribeCollection;
+    function unsubscribe(ResultOfSubscribeCollection $params): AsyncResult;
 }

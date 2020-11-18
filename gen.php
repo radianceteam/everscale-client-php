@@ -6,7 +6,10 @@ use Nette\PhpGenerator\PhpFile;
 use Nette\PhpGenerator\PhpNamespace;
 use Nette\PhpGenerator\PsrPrinter;
 use Psr\Log\LoggerInterface;
+use TON\AsyncResult;
+use TON\TonClientException;
 use TON\TonContext;
+use TON\TonRequest;
 
 require __DIR__ . '/vendor/autoload.php';
 
@@ -22,13 +25,36 @@ class ApiIndex
 {
     private array $_moduleIndex = [];
     private array $_typeIndex = [];
+    private array $_returnTypes = [];
+    private array $_callbackTypes = [];
+    private array $_callbackFunctions = [];
 
     public function __construct(array $api)
     {
         foreach ($api['modules'] as $module) {
+
             $this->_moduleIndex[$module['name']] = $module;
             foreach ($module['types'] as $type) {
                 $this->_addModuleType($module, $type);
+            }
+
+            foreach ($module["functions"] as $f) {
+                if (isset($f["result"]) &&
+                    $f["result"]["type"] === "Generic" &&
+                    $f["result"]["generic_args"][0]["type"] === "Ref") {
+
+                    $return_type = $f["result"]["generic_args"][0]["ref_name"];
+                    gen_log("Marking type ${return_type} as return type.");
+                    $this->_returnTypes[$return_type] = true;
+
+                    foreach ($f["params"] as $param) {
+                        if (is_callback_param($param)) {
+                            $this->_callbackFunctions["{$module['name']}.{$f['name']}"] = true;
+                            $this->_callbackTypes[$return_type] = true;
+                            break;
+                        }
+                    }
+                }
             }
         }
     }
@@ -68,6 +94,21 @@ class ApiIndex
         }
         return $this->_moduleIndex[$module_name];
     }
+
+    public function isReturnType(array $module, array $type): bool
+    {
+        return isset($this->_returnTypes["{$module['name']}.{$type['name']}"]);
+    }
+
+    public function isCallbackType(array $module, array $type): bool
+    {
+        return isset($this->_callbackTypes["{$module['name']}.{$type['name']}"]);
+    }
+
+    public function isCallbackFunction(array $module, array $function): bool
+    {
+        return isset($this->_callbackFunctions["{$module['name']}.{$function['name']}"]);
+    }
 }
 
 function gen_log(string $message)
@@ -85,29 +126,38 @@ function get_php_module_dir(array $module): string
     return TON_SRC_DIR . '/' . get_php_module_name($module);
 }
 
-function get_module_impl_name(array $module): string
+function get_module_impl_name(array $module, bool $async = false): string
 {
-    return get_php_module_name($module) . 'Module';
+    return ($async ? 'Async' : '') . get_php_module_name($module) . 'Module';
 }
 
-function get_module_interface_name(array $module): string
+function get_module_interface_name(array $module, ?bool $async = false): string
 {
-    return get_php_module_name($module) . 'ModuleInterface';
+    return get_php_module_name($module) . 'Module' . ($async ? 'Async' : '') . 'Interface';
 }
 
-function get_php_class_file(array $module, string $type_name): string
+function get_php_class_file(array $module, string $type_name, ?bool $async = false): string
 {
-    return get_php_module_dir($module) . '/' . $type_name . '.php';
+    $module_dir = get_php_module_dir($module) . '/' . ($async ? 'Async/' : '');
+    if (!is_dir($module_dir)) {
+        mkdir($module_dir, 0700, true);
+    }
+    return $module_dir . $type_name . '.php';
 }
 
-function get_php_class_name(array $type): string
+function get_php_class_name(array $type, bool $async = false): string
 {
-    return $type['name'];
+    return ($async ? 'Async' : '') . $type['name'];
 }
 
-function get_php_namespace_name(array $module): string
+function get_php_namespace_name(array $module, bool $async = false): string
 {
-    return TON_NS . '\\' . get_php_module_name($module);
+    return TON_NS . '\\' . get_php_module_name($module) . ($async ? '\\Async' : '');
+}
+
+function get_php_fq_class_name(array $module, string $name, bool $async = false): string
+{
+    return get_php_namespace_name($module, $async) . '\\' . $name;
 }
 
 function get_php_identifier_name(string $name): string
@@ -427,7 +477,7 @@ function add_type_imports(array $module, array $type, ApiIndex $index, PhpNamesp
             $field_module_name !== $module['name'] && !
             is_php_builtin_type($field_type_name)) {
             $field_module = $index->getModuleSpec($field_module_name);
-            $ns->addUse(get_php_namespace_name($field_module) . '\\' . $field_type_name);
+            $ns->addUse(get_php_fq_class_name($field_module, $field_type_name));
         }
     }
 }
@@ -549,7 +599,9 @@ function generate_module_types(array $module, ApiIndex $index)
 
 function add_module_constructor(array $module, ClassType $class)
 {
-    $constructor = $class->addMethod('__construct');
+    $constructor = $class->addMethod('__construct')
+        ->addComment("{$class->getName()} constructor.")
+        ->addComment("@param TonContext \$context");
 
     $constructor->addParameter('context')
         ->setType(TON_CONTEXT);
@@ -557,13 +609,16 @@ function add_module_constructor(array $module, ClassType $class)
     $constructor->addBody('$this->_context = $context;');
 }
 
-function get_function_return_type(array $type, ApiIndex $index): string
+function get_function_return_type(array $type, ApiIndex $index, bool $async = false): string
 {
     $return_type = get_php_type_name($type, $index);
     if ($return_type === 'Generic') {
-        return get_php_type_name($type['generic_args'][0], $index);
+        $return_type = get_php_type_name($type['generic_args'][0], $index);
     }
-    return $return_type;
+    if ('void' === $return_type) {
+        return 'AsyncResult';
+    }
+    return ($async ? 'Async' : '') . $return_type;
 }
 
 function is_context_param(array $param): bool
@@ -576,13 +631,21 @@ function is_callback_param(array $param): bool
     return (($param['type'] === 'Generic' && $param['generic_args'][0]["ref_name"] === 'Request'));
 }
 
-function add_module_functions(array $module, ClassType $class, ApiIndex $index, callable $body_callback = null)
+function add_module_functions(array $module, ClassType $class, PhpNamespace $ns, ApiIndex $index, callable $body_callback = null, bool $async = false)
 {
     foreach ($module['functions'] as $function) {
-        gen_log("Generate function ${function['name']} for module ${module['name']}");
+        $function_name = $function['name'] . ($async ? 'Async' : '');
+        gen_log("Generate function ${function_name} for module ${module['name']}");
         $return_type = $function['result'];
-        $php_return_type = get_function_return_type($return_type, $index);
-        $method = $class->addMethod(get_php_method_name($function['name']))
+        if ($index->isCallbackFunction($module, $function) && !$async) {
+            gen_log("Skipping method ${function_name} for class {$class->getName()}... callbacks can only be used in async version.");
+            continue;
+        }
+        $php_return_type = get_function_return_type($return_type, $index, $async);
+        if ($php_return_type === 'AsyncResult') {
+            $ns->addUse(AsyncResult::class);
+        }
+        $method = $class->addMethod(get_php_method_name($function_name))
             ->setReturnType($php_return_type)
             ->setReturnNullable(is_php_nullable_type($return_type));
         $params = [];
@@ -595,8 +658,15 @@ function add_module_functions(array $module, ClassType $class, ApiIndex $index, 
                 continue;
             }
             $php_param_name = get_php_identifier_name($param['name']);
+            $php_type_name = get_php_type_name($param, $index);
+            if (!is_php_builtin_type($php_type_name)) {
+                if ($async) {
+                    // Add using for missing param types
+                    $ns->addUse(get_php_fq_class_name($module, $php_type_name));
+                }
+            }
             $params[$php_param_name] = $method->addParameter($php_param_name)
-                ->setType(get_php_type_name($param, $index))
+                ->setType($php_type_name)
                 ->setNullable(is_php_nullable_type($param));
         }
         if (!empty($function['description'])) {
@@ -625,7 +695,14 @@ function generate_module_interface(array $module, ApiIndex $index)
         $interface->addComment($module['description']);
     }
 
-    add_module_functions($module, $interface, $index);
+    // add async method
+    $async_interface_name = get_module_interface_name($module, true);
+    $namespace->addUse(get_php_fq_class_name($module, $async_interface_name, true));
+    $interface->addMethod('async')
+        ->addComment("@return ${async_interface_name} Async version of ${module['name']} module interface.")
+        ->setReturnType($async_interface_name);
+
+    add_module_functions($module, $interface, $namespace, $index);
 
     file_put_contents(get_php_class_file($module, $interface_name),
         (new PsrPrinter())
@@ -658,7 +735,21 @@ function generate_module_impl(array $module, ApiIndex $index)
         ->setPrivate();
 
     add_module_constructor($module, $class);
-    add_module_functions($module, $class, $index, function (Method $method, array $function, array $params, string $php_return_type) use ($module) {
+
+    // add async method impl
+    $async_module_name = get_module_impl_name($module, true);
+    $async_module_interface_name = get_module_interface_name($module, true);
+
+    $namespace
+        ->addUse(get_php_fq_class_name($module, $async_module_interface_name, true))
+        ->addUse(get_php_fq_class_name($module, $async_module_name, true));
+
+    $class->addMethod('async')
+        ->setReturnType($async_module_interface_name)
+        ->addComment("@return ${async_module_interface_name} Async version of ${module['name']} module interface.")
+        ->addBody("return new ${async_module_name}(\$this->_context);");
+
+    add_module_functions($module, $class, $namespace, $index, function (Method $method, array $function, array $params, string $php_return_type) use ($module) {
         if (!empty($params)) {
             $param_names = array_keys($params);
             if ('void' !== $php_return_type) {
@@ -673,12 +764,172 @@ function generate_module_impl(array $module, ApiIndex $index)
                 $method->addBody("\$this->_context->callFunction('${module['name']}.${function['name']}');");
             }
         }
-    });
+    },);
 
     file_put_contents(get_php_class_file($module, $impl_name),
         (new PsrPrinter())
             ->setTypeResolving(false)
             ->printFile($file));
+}
+
+function generate_module_async_interface(array $module, ApiIndex $index)
+{
+    $interface_name = get_module_interface_name($module, true);
+    gen_log("Generate ${interface_name}");
+
+    $file = (new PhpFile())
+        ->addComment(AUTO_GENERATED_NOTE)
+        ->setStrictTypes();
+
+    $namespace = $file
+        ->addNamespace(get_php_namespace_name($module, true));
+
+    $interface = $namespace->addInterface($interface_name);
+    if (!empty($module['description'])) {
+        $interface->addComment($module['description']);
+    }
+
+    add_module_functions($module, $interface, $namespace, $index, null, true);
+
+    file_put_contents(get_php_class_file($module, $interface_name, true),
+        (new PsrPrinter())
+            ->setTypeResolving(false)
+            ->printFile($file));
+}
+
+function generate_module_async_type(array $module, array $type, ApiIndex $index)
+{
+    $type_name = $type['name'];
+
+    if (is_numeric_alias($type)) {
+        gen_log("Type ${type_name} is an alias for Number");
+        return;
+    }
+
+    $php_class_name = get_php_class_name($type);
+    $async_php_class_name = get_php_class_name($type, true);
+    gen_log("Generate type ${async_php_class_name} for module ${module['name']}");
+
+    $file = (new PhpFile())
+        ->addComment(AUTO_GENERATED_NOTE)
+        ->setStrictTypes();
+
+    $namespace = $file->addNamespace(get_php_namespace_name($module, true))
+        ->addUse(TonRequest::class)
+        ->addUse(TonClientException::class)
+        ->addUse(get_php_fq_class_name($module, $php_class_name));
+
+    $class = $namespace->addClass($async_php_class_name);
+
+    $class->addProperty('_request')
+        ->setPrivate()
+        ->setType('TonRequest')
+        ->setComment('TON request handle.');
+
+    $constructor = $class->addMethod('__construct')
+        ->addComment("${async_php_class_name} constructor.")
+        ->addComment("@param TonRequest \$request Request handle.");
+
+    $constructor
+        ->addParameter('request')
+        ->setType('TonRequest');
+
+    $constructor->addBody('$this->_request = $request;');
+
+    $class->addMethod('await')
+        ->addComment('Blocks until function execution is finished and returns execution result.')
+        ->addComment("@return ${type_name} Function execution result.")
+        ->addComment("@throws TonClientException Function execution error.")
+        ->setReturnType($php_class_name)
+        ->addBody("return new ${php_class_name}(\$this->_request->await());");
+
+    if ($index->isCallbackType($module, $type)) {
+        $namespace->addUse(Generator::class);
+        $getEvents = $class->addMethod('getEvents')
+            ->setReturnType('Generator');
+
+        $event_type_name = ucfirst($module['name']) . 'Event';
+        if ($index->hasType($module['name'], $event_type_name)) {
+            // module has specific type of events, like, ProcessingEvent
+            $namespace->addUse(get_php_fq_class_name($module, $event_type_name));
+            $getEvents->addComment("@return Generator generator of {@link ${event_type_name}}");
+            $event_type = $index->getTypeSpec($module['name'], $event_type_name);
+            if (is_enum_of_types($event_type)) {
+                $getEvents->addBody("foreach (\$this->_request->getEvents() as \$event) 
+    yield ${event_type_name}::create(\$event);");
+            } else {
+                $getEvents->addBody("foreach (\$this->_request->getEvents() as \$event) 
+    yield new ${event_type_name}(\$event);");
+            }
+        } else {
+            // generating JSON events
+            $getEvents->addComment("@return Generator generator of {@link array}");
+            $getEvents->addBody("foreach (\$this->_request->getEvents() as \$event) yield \$event;");
+        }
+    }
+
+    file_put_contents(get_php_class_file($module, $class->getName(), true),
+        (new PsrPrinter())
+            ->setTypeResolving(false)
+            ->printFile($file));
+}
+
+function generate_module_async_impl(array $module, ApiIndex $index)
+{
+    $impl_name = get_module_impl_name($module, true);
+    gen_log("Generate ${impl_name}");
+
+    $file = (new PhpFile())
+        ->addComment(AUTO_GENERATED_NOTE)
+        ->setStrictTypes();
+
+    $namespace = $file
+        ->addNamespace(get_php_namespace_name($module, true))
+        ->addUse(TonContext::class);
+
+    $class = $namespace->addClass($impl_name)
+        ->addImplement(get_module_interface_name($module, true));
+
+    if (!empty($module['description'])) {
+        $class->addComment($module['description']);
+    }
+
+    $class->addProperty('_context')
+        ->setType(TON_CONTEXT)
+        ->setPrivate();
+
+    add_module_constructor($module, $class);
+
+    add_module_functions($module, $class, $namespace, $index, function (Method $method, array $function, array $params, string $php_return_type) use ($module) {
+        if (!empty($params)) {
+            $param_names = array_keys($params);
+            if ('AsyncResult' !== $php_return_type) {
+                $method->addBody("return new ${php_return_type}(\$this->_context->callFunctionAsync('${module['name']}.${function['name']}', \$${param_names[0]}));");
+            } else {
+                $method->addBody("return new AsyncResult(\$this->_context->callFunctionAsync('${module['name']}.${function['name']}', \$${param_names[0]}));");
+            }
+        } else {
+            if ('AsyncResult' !== $php_return_type) {
+                $method->addBody("return new ${php_return_type}(\$this->_context->callFunctionAsync('${module['name']}.${function['name']}'));");
+            } else {
+                $method->addBody("return new AsyncResult(\$this->_context->callFunctionAsync('${module['name']}.${function['name']}'));");
+            }
+        }
+    }, true);
+
+    file_put_contents(get_php_class_file($module, $impl_name, true),
+        (new PsrPrinter())
+            ->setTypeResolving(false)
+            ->printFile($file));
+}
+
+function generate_module_async_types(array $module, ApiIndex $index)
+{
+    foreach ($module['types'] as $type) {
+        if ($index->isReturnType($module, $type)) {
+            generate_module_async_type($module, $type, $index);
+        }
+    }
 }
 
 function generate_module(array $module, ApiIndex $index)
@@ -693,6 +944,11 @@ function generate_module(array $module, ApiIndex $index)
     generate_module_types($module, $index);
     generate_module_interface($module, $index);
     generate_module_impl($module, $index);
+
+    // async
+    generate_module_async_types($module, $index);
+    generate_module_async_interface($module, $index);
+    generate_module_async_impl($module, $index);
 }
 
 function add_client_functions(array $modules, ClassType $class, callable $body_callback = null)
@@ -726,7 +982,7 @@ function generate_client_interface(array $api)
 
     $modules = $api['modules'];
     foreach ($modules as $module) {
-        $namespace->addUse(get_php_namespace_name($module) . '\\' . get_module_interface_name($module));
+        $namespace->addUse(get_php_fq_class_name($module, get_module_interface_name($module)));
     }
 
     $interface = $namespace->addInterface($interface_name);
@@ -780,8 +1036,8 @@ function generate_client_impl(array $api)
     foreach ($modules as $module) {
         $module_interface_name = get_module_interface_name($module);
         $module_impl_name = get_module_impl_name($module);
-        $namespace->addUse(get_php_namespace_name($module) . '\\' . $module_interface_name);
-        $namespace->addUse(get_php_namespace_name($module) . '\\' . $module_impl_name);
+        $namespace->addUse(get_php_fq_class_name($module, $module_interface_name));
+        $namespace->addUse(get_php_fq_class_name($module, $module_impl_name));
         $class->addProperty("_${module['name']}")
             ->setType($module_interface_name)
             ->setPrivate();

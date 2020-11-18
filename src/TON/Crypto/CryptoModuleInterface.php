@@ -8,11 +8,18 @@ declare(strict_types=1);
 
 namespace TON\Crypto;
 
+use TON\Crypto\Async\CryptoModuleAsyncInterface;
+
 /**
  * Crypto functions.
  */
 interface CryptoModuleInterface
 {
+    /**
+     * @return CryptoModuleAsyncInterface Async version of crypto module interface.
+     */
+    function async(): CryptoModuleAsyncInterface;
+
     /**
      * Performs prime factorization – decomposition of a composite number
      *  into a product of smaller prime integers (factors).

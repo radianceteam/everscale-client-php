@@ -8,12 +8,19 @@ declare(strict_types=1);
 
 namespace TON\Abi;
 
+use TON\Abi\Async\AbiModuleAsyncInterface;
+
 /**
  * Provides message encoding and decoding according to the ABI
  *  specification.
  */
 interface AbiModuleInterface
 {
+    /**
+     * @return AbiModuleAsyncInterface Async version of abi module interface.
+     */
+    function async(): AbiModuleAsyncInterface;
+
     /**
      * Encodes message body according to ABI function call.
      */

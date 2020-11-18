@@ -8,6 +8,8 @@ declare(strict_types=1);
 
 namespace TON\Abi;
 
+use TON\Abi\Async\AbiModuleAsyncInterface;
+use TON\Abi\Async\AsyncAbiModule;
 use TON\TonContext;
 
 /**
@@ -18,9 +20,21 @@ class AbiModule implements AbiModuleInterface
 {
     private TonContext $_context;
 
+    /**
+     * AbiModule constructor.
+     * @param TonContext $context
+     */
     public function __construct(TonContext $context)
     {
         $this->_context = $context;
+    }
+
+    /**
+     * @return AbiModuleAsyncInterface Async version of abi module interface.
+     */
+    public function async(): AbiModuleAsyncInterface
+    {
+        return new AsyncAbiModule($this->_context);
     }
 
     /**

@@ -25,9 +25,11 @@ class TestClient extends TonClient
     {
         $msg = $this->abi()->encodeMessage($params);
         $this->getGramsFromGiver($msg->getAddress(), $value);
-        $this->processing()->processMessage((new ParamsOfProcessMessage())
-            ->setMessageEncodeParams($params)
-            ->setSendEvents(false));
+        $this->processing()->async()
+            ->processMessageAsync((new ParamsOfProcessMessage())
+                ->setMessageEncodeParams($params)
+                ->setSendEvents(false))
+            ->await();
         return $msg->getAddress();
     }
 
@@ -67,16 +69,18 @@ class TestClient extends TonClient
         array $input,
         Signer $signer): ResultOfProcessMessage
     {
-        return $this->processing()->processMessage(
-            (new ParamsOfProcessMessage())
-                ->setMessageEncodeParams((new ParamsOfEncodeMessage())
-                    ->setAddress($address)
-                    ->setAbi($abi)
-                    ->setCallSet((new CallSet())
-                        ->setFunctionName($function_name)
-                        ->setInput($input))
-                    ->setSigner($signer))
-                ->setSendEvents(false));
+        return $this->processing()->async()
+            ->processMessageAsync(
+                (new ParamsOfProcessMessage())
+                    ->setMessageEncodeParams((new ParamsOfEncodeMessage())
+                        ->setAddress($address)
+                        ->setAbi($abi)
+                        ->setCallSet((new CallSet())
+                            ->setFunctionName($function_name)
+                            ->setInput($input))
+                        ->setSigner($signer))
+                    ->setSendEvents(false))
+            ->await();
     }
 
     public function fetchAccount(string $address): array

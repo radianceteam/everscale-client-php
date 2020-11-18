@@ -9,14 +9,28 @@ declare(strict_types=1);
 namespace TON\Tvm;
 
 use TON\TonContext;
+use TON\Tvm\Async\AsyncTvmModule;
+use TON\Tvm\Async\TvmModuleAsyncInterface;
 
 class TvmModule implements TvmModuleInterface
 {
     private TonContext $_context;
 
+    /**
+     * TvmModule constructor.
+     * @param TonContext $context
+     */
     public function __construct(TonContext $context)
     {
         $this->_context = $context;
+    }
+
+    /**
+     * @return TvmModuleAsyncInterface Async version of tvm module interface.
+     */
+    public function async(): TvmModuleAsyncInterface
+    {
+        return new AsyncTvmModule($this->_context);
     }
 
     public function runExecutor(ParamsOfRunExecutor $params): ResultOfRunExecutor

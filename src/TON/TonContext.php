@@ -28,7 +28,7 @@ class TonContext
         $this->_logger->debug("Calling ton_create_context with parameters ${encoded}");
         $json = ton_create_context($encoded);
         $this->_logger->debug("ton_create_context returned ${json}");
-        $this->_id = $this->_handleResponseJson($json);
+        $this->_id = self::handleResponseJson($json);
     }
 
     /**
@@ -59,9 +59,31 @@ class TonContext
         }
         $params_json = json_encode($args);
         $this->_logger->debug("Calling function ${function_name} with parameters ${params_json}");
-        $response_json = ton_request($this->_id, $function_name, $params_json);
+        $response_json = ton_request_sync($this->_id, $function_name, $params_json);
         $this->_logger->debug("Response JSON: ${response_json}");
-        return $this->_handleResponseJson($response_json);
+        return self::handleResponseJson($response_json);
+    }
+
+    /**
+     * Starts function call and returns resource associated with it so it can be awaited later.
+     * @param string $function_name Function name.
+     * @param object|null $args Optional function args.
+     * @return TonRequest The returned request handle.
+     * @throws TonClientException Failed to call function or context is destroyed.
+     */
+    public function callFunctionAsync(string $function_name, object $args = null)
+    {
+        if (empty($function_name)) {
+            throw new InvalidArgumentException("Function name must not be empty");
+        }
+        if ($this->_id === -1) {
+            throw new TonClientException("TON context is destroyed.");
+        }
+        $params_json = json_encode($args);
+        $this->_logger->debug("Calling async function ${function_name} with parameters ${params_json}");
+        $resource = ton_request_start($this->_id, $function_name, $params_json);
+        $this->_logger->debug("function ${function_name} started: ${resource}");
+        return new TonRequest($resource, new TonRequestLogger($function_name, $resource, $this->_logger));
     }
 
     public function destroy()
@@ -78,17 +100,19 @@ class TonContext
         $this->destroy();
     }
 
-    private function _handleResponseJson(string $json)
+    /**
+     * @param string $json JSON returned by the ton client extension function.
+     * @return mixed Decoded result.
+     * @throws TonClientException In case of error returned.
+     */
+    public static function handleResponseJson(string $json)
     {
         $response = json_decode($json, true);
         if (!$response) {
             throw new TonClientException("The returned JSON is invalid: ${json}");
         }
         if (isset($response['error'])) {
-            if (!isset($response['error']['message'])) {
-                throw new TonClientException("Error JSON returned: ${json}");
-            }
-            throw new TonClientException($response['error']['message'], $response['error']['code'] ?? 0);
+            throw TonClientException::fromErrorDto($response['error']);
         }
         if (!isset($response['result'])) {
             throw new TonClientException("Unsupported JSON returned: ${json}");

@@ -8,6 +8,8 @@ declare(strict_types=1);
 
 namespace TON\Crypto;
 
+use TON\Crypto\Async\AsyncCryptoModule;
+use TON\Crypto\Async\CryptoModuleAsyncInterface;
 use TON\TonContext;
 
 /**
@@ -17,9 +19,21 @@ class CryptoModule implements CryptoModuleInterface
 {
     private TonContext $_context;
 
+    /**
+     * CryptoModule constructor.
+     * @param TonContext $context
+     */
     public function __construct(TonContext $context)
     {
         $this->_context = $context;
+    }
+
+    /**
+     * @return CryptoModuleAsyncInterface Async version of crypto module interface.
+     */
+    public function async(): CryptoModuleAsyncInterface
+    {
+        return new AsyncCryptoModule($this->_context);
     }
 
     /**

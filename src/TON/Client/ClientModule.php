@@ -8,6 +8,8 @@ declare(strict_types=1);
 
 namespace TON\Client;
 
+use TON\Client\Async\AsyncClientModule;
+use TON\Client\Async\ClientModuleAsyncInterface;
 use TON\TonContext;
 
 /**
@@ -17,9 +19,21 @@ class ClientModule implements ClientModuleInterface
 {
     private TonContext $_context;
 
+    /**
+     * ClientModule constructor.
+     * @param TonContext $context
+     */
     public function __construct(TonContext $context)
     {
         $this->_context = $context;
+    }
+
+    /**
+     * @return ClientModuleAsyncInterface Async version of client module interface.
+     */
+    public function async(): ClientModuleAsyncInterface
+    {
+        return new AsyncClientModule($this->_context);
     }
 
     /**

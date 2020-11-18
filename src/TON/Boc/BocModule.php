@@ -8,6 +8,8 @@ declare(strict_types=1);
 
 namespace TON\Boc;
 
+use TON\Boc\Async\AsyncBocModule;
+use TON\Boc\Async\BocModuleAsyncInterface;
 use TON\TonContext;
 
 /**
@@ -17,9 +19,21 @@ class BocModule implements BocModuleInterface
 {
     private TonContext $_context;
 
+    /**
+     * BocModule constructor.
+     * @param TonContext $context
+     */
     public function __construct(TonContext $context)
     {
         $this->_context = $context;
+    }
+
+    /**
+     * @return BocModuleAsyncInterface Async version of boc module interface.
+     */
+    public function async(): BocModuleAsyncInterface
+    {
+        return new AsyncBocModule($this->_context);
     }
 
     /**

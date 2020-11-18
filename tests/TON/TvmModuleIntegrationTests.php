@@ -25,10 +25,11 @@ class TvmModuleIntegrationTests extends AbstractIntegrationTest
             $originalBalance = $parsed->getParsed()["balance"];
 
             $result = $this->_client->tvm()->runExecutor((new ParamsOfRunExecutor())
-                ->setMessage($message)
+                ->setMessage($message->getMessage())
                 ->setAbi($abi)
                 ->setAccount((new Account())
-                    ->setBoc($account)));
+                    ->setBoc($account)
+                    ->setUnlimitedBalance(true)));
 
             $parsed = $this->_client->boc()->parseAccount((new ParamsOfParse())
                 ->setBoc($result->getAccount()));
@@ -39,7 +40,7 @@ class TvmModuleIntegrationTests extends AbstractIntegrationTest
 
             $this->assertEquals(
                 $message->getMessageId(),
-                $result->getTransaction());
+                $result->getTransaction()["in_msg"]);
 
             $this->assertTrue($result->getFees()->getTotalAccountFees() > 0);
 
@@ -86,7 +87,7 @@ class TvmModuleIntegrationTests extends AbstractIntegrationTest
 
         $message = $this->_client->abi()->encodeMessage((new ParamsOfEncodeMessage())
             ->setAddress($address)
-            ->setAbi($abi)
+            ->setAbi($contract)
             ->setCallSet((new CallSet())
                 ->setFunctionName("subscribe")
                 ->setInput($subscribe_params))
@@ -97,7 +98,7 @@ class TvmModuleIntegrationTests extends AbstractIntegrationTest
         // check subscription
 
         $message = $this->_client->abi()->encodeMessage((new ParamsOfEncodeMessage())
-            ->setAbi($abi)
+            ->setAbi($contract)
             ->setCallSet((new CallSet())
                 ->setFunctionName("getSubscription")
                 ->setInput(["subscriptionId" => $subscribe_params["subscriptionId"]]))
@@ -111,6 +112,6 @@ class TvmModuleIntegrationTests extends AbstractIntegrationTest
 
         $this->assertEquals(
             $subscribe_params["pubkey"],
-            $result->getDecoded()->getOutput()["value0"]);
+            $result->getDecoded()->getOutput()["value0"]["pubkey"]);
     }
 }

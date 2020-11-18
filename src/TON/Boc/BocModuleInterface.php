@@ -8,11 +8,18 @@ declare(strict_types=1);
 
 namespace TON\Boc;
 
+use TON\Boc\Async\BocModuleAsyncInterface;
+
 /**
  * BOC manipulation module.
  */
 interface BocModuleInterface
 {
+    /**
+     * @return BocModuleAsyncInterface Async version of boc module interface.
+     */
+    function async(): BocModuleAsyncInterface;
+
     /**
      * Parses message boc into a JSON
      *

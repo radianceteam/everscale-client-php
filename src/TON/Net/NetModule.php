@@ -8,6 +8,9 @@ declare(strict_types=1);
 
 namespace TON\Net;
 
+use TON\AsyncResult;
+use TON\Net\Async\AsyncNetModule;
+use TON\Net\Async\NetModuleAsyncInterface;
 use TON\TonContext;
 
 /**
@@ -17,9 +20,21 @@ class NetModule implements NetModuleInterface
 {
     private TonContext $_context;
 
+    /**
+     * NetModule constructor.
+     * @param TonContext $context
+     */
     public function __construct(TonContext $context)
     {
         $this->_context = $context;
+    }
+
+    /**
+     * @return NetModuleAsyncInterface Async version of net module interface.
+     */
+    public function async(): NetModuleAsyncInterface
+    {
+        return new AsyncNetModule($this->_context);
     }
 
     /**
@@ -54,20 +69,8 @@ class NetModule implements NetModuleInterface
      *
      *  Cancels a subscription specified by its handle.
      */
-    public function unsubscribe(ResultOfSubscribeCollection $params): void
+    public function unsubscribe(ResultOfSubscribeCollection $params): AsyncResult
     {
-        $this->_context->callFunction('net.unsubscribe', $params);
-    }
-
-    /**
-     * Creates a subscription
-     *
-     *  Triggers for each insert/update of data
-     *  that satisfies the `filter` conditions.
-     *  The projection fields are limited to `result` fields.
-     */
-    public function subscribeCollection(ParamsOfSubscribeCollection $params): ResultOfSubscribeCollection
-    {
-        return new ResultOfSubscribeCollection($this->_context->callFunction('net.subscribe_collection', $params));
+        return new AsyncResult($this->_context->callFunction('net.unsubscribe', $params));
     }
 }
