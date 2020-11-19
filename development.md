@@ -2,6 +2,19 @@
 
 ## Testing
 
+Some tests require NodeSE server running locally. 
+The easiest way to achieve this is to run it using
+ [Docker](https://www.docker.com/products/docker-desktop) image:
+
+```
+docker run -d -p8888:80 tonlabs/local-node
+```
+
+Given that Docker machine host is `localhost`, set `TON_NETWORK_ADDRESS` environment 
+variable to `http://localhost:8888`. Restart shell if needed (on Windows).
+
+Then run tests via Composer script:
+
 ```shell
 composer test
 ```
