@@ -4,7 +4,7 @@
 
 [![Chat on Telegram](https://img.shields.io/badge/chat-on%20telegram-9cf.svg)](https://t.me/RADIANCE_TON_SDK)
 
-True async wrapper using [ton_client](https://github.com/radianceteam/ton-client-php-ext/) 
+True async wrapper powered by [ton_client](https://github.com/radianceteam/ton-client-php-ext/) 
 extension with multi-threading and blocking queues under the hood.
 
 ## Requirements

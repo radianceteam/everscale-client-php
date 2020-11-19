@@ -9,7 +9,7 @@ composer test
 ## TON SDK Code generation
 
 Module code is generated from [api.json](https://github.com/tonlabs/TON-SDK/blob/master/tools/api.json) file 
-provided by the official TON SDK team.
+provided by the TON SDK team.
 
 To run code generator, execute this command:
 
