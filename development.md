@@ -30,6 +30,12 @@ To run code generator, execute this command:
 composer generate
 ``` 
 
+## Versioning
+
+Package versioning mirrors TON SDK releases. So for example package `1.1.1` works 
+with TON SDK binaries of the same version, and contains all the functions from the 
+corresponding `api.json`. 
+
 ## Wrapper upgrade
 
 To update wrapper to the new TON SDK version, download new `api.json` and run `composer generate`,
