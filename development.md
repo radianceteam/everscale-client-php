@@ -1,5 +1,11 @@
 # TON Client Wrapper for PHP - Development notes
 
+## Testing
+
+```shell
+composer test
+```
+
 ## TON SDK Code generation
 
 Module code is generated from [api.json](https://github.com/tonlabs/TON-SDK/blob/master/tools/api.json) file 
