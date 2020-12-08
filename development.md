@@ -13,7 +13,7 @@ docker run -d -p8888:80 tonlabs/local-node
 Given that Docker machine host is `localhost`, set `TON_NETWORK_ADDRESS` environment 
 variable to `http://localhost:8888`. Restart shell if needed (on Windows).
 
-Then run tests via Composer script:
+Then run tests via Composer script (after `composer install`):
 
 ```shell
 composer test
