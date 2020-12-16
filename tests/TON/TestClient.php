@@ -4,28 +4,28 @@ namespace TON;
 
 use RuntimeException;
 use TON\Abi\Abi;
+use TON\Abi\Abi_Contract;
 use TON\Abi\AbiContract;
 use TON\Abi\CallSet;
-use TON\Abi\Contract;
-use TON\Abi\None;
 use TON\Abi\ParamsOfEncodeMessage;
 use TON\Abi\Signer;
+use TON\Abi\Signer_None;
 use TON\Boc\ParamsOfParse;
 use TON\Net\ParamsOfWaitForCollection;
 use TON\Processing\ParamsOfProcessMessage;
 use TON\Processing\ResultOfProcessMessage;
 
-class TestClient extends TonClient
+class TestClient
 {
     public const DEFAULT_ABI_VERSION = 2;
 
     public const GIVER_ADDRESS = "0:841288ed3b55d9cdafa806807f02a0ae0c169aa5edfe88a789a6482429756a94";
 
-    public function deployWithGiver(ParamsOfEncodeMessage $params, ?int $value = null): string
+    public static function deployWithGiver(TonClientInterface $client, ParamsOfEncodeMessage $params, ?int $value = null): string
     {
-        $msg = $this->abi()->encodeMessage($params);
-        $this->getGramsFromGiver($msg->getAddress(), $value);
-        $this->processing()->async()
+        $msg = $client->abi()->encodeMessage($params);
+        self::getGramsFromGiver($client, $msg->getAddress(), $value);
+        $client->processing()->async()
             ->processMessageAsync((new ParamsOfProcessMessage())
                 ->setMessageEncodeParams($params)
                 ->setSendEvents(false))
@@ -33,9 +33,10 @@ class TestClient extends TonClient
         return $msg->getAddress();
     }
 
-    public function getGramsFromGiver(string $account, ?int $value = null): void
+    public static function getGramsFromGiver(TonClientInterface $client, string $account, ?int $value = null): void
     {
-        $run_result = $this->netProcessFunction(
+        $run_result = self::netProcessFunction(
+            $client,
             self::GIVER_ADDRESS,
             self::giver_abi(),
             "sendGrams",
@@ -43,16 +44,16 @@ class TestClient extends TonClient
                 "dest" => $account,
                 "amount" => $value ?? 500000000
             ],
-            new None());
+            new Signer_None());
 
         foreach ($run_result->getOutMessages() as $message) {
-            $parsed = $this->boc()->parseMessage((new ParamsOfParse())
+            $parsed = $client->boc()->parseMessage((new ParamsOfParse())
                 ->setBoc($message));
 
             $message = $parsed->getParsed();
 
             if ('Internal' === $message['msg_type']) {
-                $this->net()->waitForCollection((new ParamsOfWaitForCollection())
+                $client->net()->waitForCollection((new ParamsOfWaitForCollection())
                     ->setCollection("transactions")
                     ->setFilter([
                         "in_msg" => ["eq" => $message["id"]]
@@ -62,14 +63,15 @@ class TestClient extends TonClient
         }
     }
 
-    public function netProcessFunction(
+    public static function netProcessFunction(
+        TonClientInterface $client,
         string $address,
         Abi $abi,
         string $function_name,
         array $input,
         Signer $signer): ResultOfProcessMessage
     {
-        return $this->processing()->async()
+        return $client->processing()->async()
             ->processMessageAsync(
                 (new ParamsOfProcessMessage())
                     ->setMessageEncodeParams((new ParamsOfEncodeMessage())
@@ -83,9 +85,9 @@ class TestClient extends TonClient
             ->await();
     }
 
-    public function fetchAccount(string $address): array
+    public static function fetchAccount(TonClientInterface $client, string $address): array
     {
-        return $this->net()->waitForCollection(
+        return $client->net()->waitForCollection(
             (new ParamsOfWaitForCollection())
                 ->setCollection("accounts")
                 ->setFilter([
@@ -106,6 +108,11 @@ class TestClient extends TonClient
             "contracts/abi_v${version}/${name}.tvc"));
     }
 
+    /**
+     * @param string $name
+     * @param int $version
+     * @return array
+     */
     public static function package(string $name, int $version = self::DEFAULT_ABI_VERSION): array
     {
         return [
@@ -126,6 +133,6 @@ class TestClient extends TonClient
     public static function giver_abi(): Abi
     {
         $abi = self::load_abi('Giver', 1);
-        return (new Contract())->setValue($abi);
+        return (new Abi_Contract())->setValue($abi);
     }
 }

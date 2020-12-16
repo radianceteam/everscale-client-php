@@ -38,8 +38,11 @@ corresponding `api.json`.
 
 ## Wrapper upgrade
 
-To update wrapper to the new TON SDK version, download new `api.json` and run `composer generate`,
-then ensure that all tests are passing and write new ones for the new functions, if any.
+To update wrapper to the new TON SDK version:
+
+1. Update `ton_client` extension version in `composer.json`. 
+2. Download new `api.json` and run `composer generate`.
+3. Ensure that all tests are passing and write new ones for the new functions, if any.
 
 ## Releasing
 

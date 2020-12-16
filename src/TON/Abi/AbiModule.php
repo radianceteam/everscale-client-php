@@ -39,12 +39,18 @@ class AbiModule implements AbiModuleInterface
 
     /**
      * Encodes message body according to ABI function call.
+     * @param ParamsOfEncodeMessageBody $params
+     * @return ResultOfEncodeMessageBody
      */
     public function encodeMessageBody(ParamsOfEncodeMessageBody $params): ResultOfEncodeMessageBody
     {
         return new ResultOfEncodeMessageBody($this->_context->callFunction('abi.encode_message_body', $params));
     }
 
+    /**
+     * @param ParamsOfAttachSignatureToMessageBody $params
+     * @return ResultOfAttachSignatureToMessageBody
+     */
     public function attachSignatureToMessageBody(ParamsOfAttachSignatureToMessageBody $params): ResultOfAttachSignatureToMessageBody
     {
         return new ResultOfAttachSignatureToMessageBody($this->_context->callFunction('abi.attach_signature_to_message_body', $params));
@@ -75,6 +81,8 @@ class AbiModule implements AbiModuleInterface
      *  [SOON] `Signer::SigningBox` Allows using a special interface to imlepement signing
      *  without private key disclosure to SDK. For instance, in case of using a cold wallet or HSM,
      *  when application calls some API to sign data.
+     * @param ParamsOfEncodeMessage $params
+     * @return ResultOfEncodeMessage
      */
     public function encodeMessage(ParamsOfEncodeMessage $params): ResultOfEncodeMessage
     {
@@ -84,6 +92,8 @@ class AbiModule implements AbiModuleInterface
     /**
      * Combines `hex`-encoded `signature` with `base64`-encoded `unsigned_message`.
      *  Returns signed message encoded in `base64`.
+     * @param ParamsOfAttachSignature $params
+     * @return ResultOfAttachSignature
      */
     public function attachSignature(ParamsOfAttachSignature $params): ResultOfAttachSignature
     {
@@ -92,6 +102,8 @@ class AbiModule implements AbiModuleInterface
 
     /**
      * Decodes message body using provided message BOC and ABI.
+     * @param ParamsOfDecodeMessage $params
+     * @return DecodedMessageBody
      */
     public function decodeMessage(ParamsOfDecodeMessage $params): DecodedMessageBody
     {
@@ -100,6 +112,8 @@ class AbiModule implements AbiModuleInterface
 
     /**
      * Decodes message body using provided body BOC and ABI.
+     * @param ParamsOfDecodeMessageBody $params
+     * @return DecodedMessageBody
      */
     public function decodeMessageBody(ParamsOfDecodeMessageBody $params): DecodedMessageBody
     {
@@ -112,6 +126,8 @@ class AbiModule implements AbiModuleInterface
      *  Creates account state provided with one of these sets of data :
      *  1. BOC of code, BOC of data, BOC of library
      *  2. TVC (string in `base64`), keys, init params
+     * @param ParamsOfEncodeAccount $params
+     * @return ResultOfEncodeAccount
      */
     public function encodeAccount(ParamsOfEncodeAccount $params): ResultOfEncodeAccount
     {

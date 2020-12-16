@@ -8,6 +8,8 @@ declare(strict_types=1);
 
 namespace TON\Client\Async;
 
+use TON\AsyncResult;
+use TON\Client\ParamsOfResolveAppRequest;
 use TON\TonContext;
 
 /**
@@ -28,6 +30,7 @@ class AsyncClientModule implements ClientModuleAsyncInterface
 
     /**
      * Returns Core Library API reference
+     * @return AsyncResultOfGetApiReference
      */
     public function getApiReferenceAsync(): AsyncResultOfGetApiReference
     {
@@ -36,6 +39,7 @@ class AsyncClientModule implements ClientModuleAsyncInterface
 
     /**
      * Returns Core Library version
+     * @return AsyncResultOfVersion
      */
     public function versionAsync(): AsyncResultOfVersion
     {
@@ -44,9 +48,19 @@ class AsyncClientModule implements ClientModuleAsyncInterface
 
     /**
      * Returns detailed information about this build.
+     * @return AsyncResultOfBuildInfo
      */
     public function buildInfoAsync(): AsyncResultOfBuildInfo
     {
         return new AsyncResultOfBuildInfo($this->_context->callFunctionAsync('client.build_info'));
+    }
+
+    /**
+     * @param ParamsOfResolveAppRequest $params
+     * @return AsyncResult
+     */
+    public function resolveAppRequestAsync(ParamsOfResolveAppRequest $params): AsyncResult
+    {
+        return new AsyncResult($this->_context->callFunctionAsync('client.resolve_app_request', $params));
     }
 }

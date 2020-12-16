@@ -8,7 +8,6 @@ declare(strict_types=1);
 
 namespace TON\Net;
 
-use TON\AsyncResult;
 use TON\Net\Async\AsyncNetModule;
 use TON\Net\Async\NetModuleAsyncInterface;
 use TON\TonContext;
@@ -43,6 +42,8 @@ class NetModule implements NetModuleInterface
      *  Queries data that satisfies the `filter` conditions,
      *  limits the number of returned records and orders them.
      *  The projection fields are limited to `result` fields
+     * @param ParamsOfQueryCollection $params
+     * @return ResultOfQueryCollection
      */
     public function queryCollection(ParamsOfQueryCollection $params): ResultOfQueryCollection
     {
@@ -58,6 +59,8 @@ class NetModule implements NetModuleInterface
      *  If not - waits for insert/update of data within the specified `timeout`,
      *  and returns it.
      *  The projection fields are limited to `result` fields
+     * @param ParamsOfWaitForCollection $params
+     * @return ResultOfWaitForCollection
      */
     public function waitForCollection(ParamsOfWaitForCollection $params): ResultOfWaitForCollection
     {
@@ -68,9 +71,10 @@ class NetModule implements NetModuleInterface
      * Cancels a subscription
      *
      *  Cancels a subscription specified by its handle.
+     * @param ResultOfSubscribeCollection $params
      */
-    public function unsubscribe(ResultOfSubscribeCollection $params): AsyncResult
+    public function unsubscribe(ResultOfSubscribeCollection $params)
     {
-        return new AsyncResult($this->_context->callFunction('net.unsubscribe', $params));
+        $this->_context->callFunction('net.unsubscribe', $params);
     }
 }

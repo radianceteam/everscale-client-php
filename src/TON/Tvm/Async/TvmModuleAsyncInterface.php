@@ -14,12 +14,22 @@ use TON\Tvm\ParamsOfRunTvm;
 
 interface TvmModuleAsyncInterface
 {
+    /**
+     * @param ParamsOfRunExecutor $params
+     * @return AsyncResultOfRunExecutor
+     */
     function runExecutorAsync(ParamsOfRunExecutor $params): AsyncResultOfRunExecutor;
 
+    /**
+     * @param ParamsOfRunTvm $params
+     * @return AsyncResultOfRunTvm
+     */
     function runTvmAsync(ParamsOfRunTvm $params): AsyncResultOfRunTvm;
 
     /**
      * Executes getmethod and returns data from TVM stack
+     * @param ParamsOfRunGet $params
+     * @return AsyncResultOfRunGet
      */
     function runGetAsync(ParamsOfRunGet $params): AsyncResultOfRunGet;
 }

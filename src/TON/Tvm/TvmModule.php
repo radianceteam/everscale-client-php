@@ -33,11 +33,19 @@ class TvmModule implements TvmModuleInterface
         return new AsyncTvmModule($this->_context);
     }
 
+    /**
+     * @param ParamsOfRunExecutor $params
+     * @return ResultOfRunExecutor
+     */
     public function runExecutor(ParamsOfRunExecutor $params): ResultOfRunExecutor
     {
         return new ResultOfRunExecutor($this->_context->callFunction('tvm.run_executor', $params));
     }
 
+    /**
+     * @param ParamsOfRunTvm $params
+     * @return ResultOfRunTvm
+     */
     public function runTvm(ParamsOfRunTvm $params): ResultOfRunTvm
     {
         return new ResultOfRunTvm($this->_context->callFunction('tvm.run_tvm', $params));
@@ -45,6 +53,8 @@ class TvmModule implements TvmModuleInterface
 
     /**
      * Executes getmethod and returns data from TVM stack
+     * @param ParamsOfRunGet $params
+     * @return ResultOfRunGet
      */
     public function runGet(ParamsOfRunGet $params): ResultOfRunGet
     {

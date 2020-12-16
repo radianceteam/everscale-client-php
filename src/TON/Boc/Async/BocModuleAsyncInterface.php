@@ -22,6 +22,8 @@ interface BocModuleAsyncInterface
      * Parses message boc into a JSON
      *
      *  JSON structure is compatible with GraphQL API message object
+     * @param ParamsOfParse $params
+     * @return AsyncResultOfParse
      */
     function parseMessageAsync(ParamsOfParse $params): AsyncResultOfParse;
 
@@ -29,6 +31,8 @@ interface BocModuleAsyncInterface
      * Parses transaction boc into a JSON
      *
      *  JSON structure is compatible with GraphQL API transaction object
+     * @param ParamsOfParse $params
+     * @return AsyncResultOfParse
      */
     function parseTransactionAsync(ParamsOfParse $params): AsyncResultOfParse;
 
@@ -36,6 +40,8 @@ interface BocModuleAsyncInterface
      * Parses account boc into a JSON
      *
      *  JSON structure is compatible with GraphQL API account object
+     * @param ParamsOfParse $params
+     * @return AsyncResultOfParse
      */
     function parseAccountAsync(ParamsOfParse $params): AsyncResultOfParse;
 
@@ -43,6 +49,8 @@ interface BocModuleAsyncInterface
      * Parses block boc into a JSON
      *
      *  JSON structure is compatible with GraphQL API block object
+     * @param ParamsOfParse $params
+     * @return AsyncResultOfParse
      */
     function parseBlockAsync(ParamsOfParse $params): AsyncResultOfParse;
 
@@ -50,13 +58,21 @@ interface BocModuleAsyncInterface
      * Parses shardstate boc into a JSON
      *
      *  JSON structure is compatible with GraphQL API shardstate object
+     * @param ParamsOfParseShardstate $params
+     * @return AsyncResultOfParse
      */
     function parseShardstateAsync(ParamsOfParseShardstate $params): AsyncResultOfParse;
 
+    /**
+     * @param ParamsOfGetBlockchainConfig $params
+     * @return AsyncResultOfGetBlockchainConfig
+     */
     function getBlockchainConfigAsync(ParamsOfGetBlockchainConfig $params): AsyncResultOfGetBlockchainConfig;
 
     /**
      * Calculates BOC root hash
+     * @param ParamsOfGetBocHash $params
+     * @return AsyncResultOfGetBocHash
      */
     function getBocHashAsync(ParamsOfGetBocHash $params): AsyncResultOfGetBocHash;
 }

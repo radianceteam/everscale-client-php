@@ -1,14 +1,14 @@
-<?php
+<?php declare(strict_types=1);
 
 require __DIR__ . '/../vendor/autoload.php';
 
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
+use TON\Abi\Abi_Contract;
 use TON\Abi\CallSet;
-use TON\Abi\Contract;
 use TON\Abi\DeploySet;
-use TON\Abi\Keys;
 use TON\Abi\ParamsOfEncodeMessage;
+use TON\Abi\Signer_Keys;
 use TON\Client\ClientConfig;
 use TON\Client\NetworkConfig;
 use TON\Net\ParamsOfSubscribeCollection;
@@ -25,7 +25,7 @@ use TON\TonClientBuilder;
 $client = TonClientBuilder::create()
     ->withConfig((new ClientConfig())
         ->setNetwork((new NetworkConfig())
-            ->setServerAddress("http://localhost:8888")))
+            ->setServerAddress(getenv('TON_NETWORK_ADDRESS'))))
     ->withLogger((new Logger(__FILE__))
         ->pushHandler(new StreamHandler('php://stdout', Logger::DEBUG)))
     ->build();
@@ -33,11 +33,11 @@ $client = TonClientBuilder::create()
 $keys = $client->crypto()->generateRandomSignKeys();
 
 $deployParams = (new ParamsOfEncodeMessage())
-    ->setAbi((new Contract())
+    ->setAbi((new Abi_Contract())
         ->setValue(TestClient::load_abi('Hello')))
     ->setDeploySet((new DeploySet())
         ->setTvc(TestClient::load_tvc('Hello')))
-    ->setSigner((new Keys())->setKeys($keys))
+    ->setSigner((new Signer_Keys())->setKeys($keys))
     ->setCallSet((new CallSet())
         ->setFunctionName("constructor"));
 
@@ -53,7 +53,7 @@ $subscribePromise = $client->net()->async()
         ->setResult("id account_addr"));
 
 $handle = $subscribePromise->await();
-foreach ($subscribePromise->getEvents() as $event) {
+foreach ($subscribePromise->getEvents(10000) as $event) {
     var_dump($event);
     $client->net()->async()
         ->unsubscribeAsync($handle)

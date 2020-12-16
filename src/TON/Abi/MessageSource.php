@@ -17,8 +17,8 @@ abstract class MessageSource implements JsonSerializable
     {
         if ($dto === null) return null;
         if (!isset($dto['type'])) return null;
-        if ($dto['type'] === 'Encoded') return new Encoded($dto);
-        if ($dto['type'] === 'EncodingParams') return new EncodingParams($dto);
+        if ($dto['type'] === 'Encoded') return new MessageSource_Encoded($dto);
+        if ($dto['type'] === 'EncodingParams') return new MessageSource_EncodingParams($dto);
         throw new InvalidArgumentException("Unsupported MessageSource type: {$dto['type']}");
     }
 }

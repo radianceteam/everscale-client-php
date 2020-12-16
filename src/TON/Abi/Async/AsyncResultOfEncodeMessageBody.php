@@ -28,11 +28,12 @@ class AsyncResultOfEncodeMessageBody
 
     /**
      * Blocks until function execution is finished and returns execution result.
+     * @param int $timeout Await timeout in millis. -1 means no timeout.
      * @return ResultOfEncodeMessageBody Function execution result.
      * @throws TonClientException Function execution error.
      */
-    public function await(): ResultOfEncodeMessageBody
+    public function await(int $timeout = -1): ResultOfEncodeMessageBody
     {
-        return new ResultOfEncodeMessageBody($this->_request->await());
+        return new ResultOfEncodeMessageBody($this->_request->await($timeout));
     }
 }

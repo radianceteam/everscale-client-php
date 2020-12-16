@@ -37,6 +37,8 @@ class AsyncProcessingModule implements ProcessingModuleAsyncInterface
      *
      *  Sends message to the network and returns the last generated shard block of the destination account
      *  before the message was sent. It will be required later for message processing.
+     * @param ParamsOfSendMessage $params
+     * @return AsyncResultOfSendMessage
      */
     public function sendMessageAsync(ParamsOfSendMessage $params): AsyncResultOfSendMessage
     {
@@ -71,6 +73,8 @@ class AsyncProcessingModule implements ProcessingModuleAsyncInterface
      *
      *  - If maximum block gen time is reached and no result transaction is found,
      *  the processing will exit with an error.
+     * @param ParamsOfWaitForTransaction $params
+     * @return AsyncResultOfProcessMessage
      */
     public function waitForTransactionAsync(ParamsOfWaitForTransaction $params): AsyncResultOfProcessMessage
     {
@@ -99,6 +103,8 @@ class AsyncProcessingModule implements ProcessingModuleAsyncInterface
      *
      *  If contract's ABI does not include "expire" header
      *  then, if no transaction is found within the network timeout (see config parameter ), exits with error.
+     * @param ParamsOfProcessMessage $params
+     * @return AsyncResultOfProcessMessage
      */
     public function processMessageAsync(ParamsOfProcessMessage $params): AsyncResultOfProcessMessage
     {

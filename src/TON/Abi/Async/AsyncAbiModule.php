@@ -36,12 +36,18 @@ class AsyncAbiModule implements AbiModuleAsyncInterface
 
     /**
      * Encodes message body according to ABI function call.
+     * @param ParamsOfEncodeMessageBody $params
+     * @return AsyncResultOfEncodeMessageBody
      */
     public function encodeMessageBodyAsync(ParamsOfEncodeMessageBody $params): AsyncResultOfEncodeMessageBody
     {
         return new AsyncResultOfEncodeMessageBody($this->_context->callFunctionAsync('abi.encode_message_body', $params));
     }
 
+    /**
+     * @param ParamsOfAttachSignatureToMessageBody $params
+     * @return AsyncResultOfAttachSignatureToMessageBody
+     */
     public function attachSignatureToMessageBodyAsync(ParamsOfAttachSignatureToMessageBody $params): AsyncResultOfAttachSignatureToMessageBody
     {
         return new AsyncResultOfAttachSignatureToMessageBody($this->_context->callFunctionAsync('abi.attach_signature_to_message_body', $params));
@@ -72,6 +78,8 @@ class AsyncAbiModule implements AbiModuleAsyncInterface
      *  [SOON] `Signer::SigningBox` Allows using a special interface to imlepement signing
      *  without private key disclosure to SDK. For instance, in case of using a cold wallet or HSM,
      *  when application calls some API to sign data.
+     * @param ParamsOfEncodeMessage $params
+     * @return AsyncResultOfEncodeMessage
      */
     public function encodeMessageAsync(ParamsOfEncodeMessage $params): AsyncResultOfEncodeMessage
     {
@@ -81,6 +89,8 @@ class AsyncAbiModule implements AbiModuleAsyncInterface
     /**
      * Combines `hex`-encoded `signature` with `base64`-encoded `unsigned_message`.
      *  Returns signed message encoded in `base64`.
+     * @param ParamsOfAttachSignature $params
+     * @return AsyncResultOfAttachSignature
      */
     public function attachSignatureAsync(ParamsOfAttachSignature $params): AsyncResultOfAttachSignature
     {
@@ -89,6 +99,8 @@ class AsyncAbiModule implements AbiModuleAsyncInterface
 
     /**
      * Decodes message body using provided message BOC and ABI.
+     * @param ParamsOfDecodeMessage $params
+     * @return AsyncDecodedMessageBody
      */
     public function decodeMessageAsync(ParamsOfDecodeMessage $params): AsyncDecodedMessageBody
     {
@@ -97,6 +109,8 @@ class AsyncAbiModule implements AbiModuleAsyncInterface
 
     /**
      * Decodes message body using provided body BOC and ABI.
+     * @param ParamsOfDecodeMessageBody $params
+     * @return AsyncDecodedMessageBody
      */
     public function decodeMessageBodyAsync(ParamsOfDecodeMessageBody $params): AsyncDecodedMessageBody
     {
@@ -109,6 +123,8 @@ class AsyncAbiModule implements AbiModuleAsyncInterface
      *  Creates account state provided with one of these sets of data :
      *  1. BOC of code, BOC of data, BOC of library
      *  2. TVC (string in `base64`), keys, init params
+     * @param ParamsOfEncodeAccount $params
+     * @return AsyncResultOfEncodeAccount
      */
     public function encodeAccountAsync(ParamsOfEncodeAccount $params): AsyncResultOfEncodeAccount
     {

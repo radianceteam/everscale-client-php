@@ -17,9 +17,9 @@ abstract class StateInitSource implements JsonSerializable
     {
         if ($dto === null) return null;
         if (!isset($dto['type'])) return null;
-        if ($dto['type'] === 'Message') return new Message($dto);
-        if ($dto['type'] === 'StateInit') return new StateInit($dto);
-        if ($dto['type'] === 'Tvc') return new Tvc($dto);
+        if ($dto['type'] === 'Message') return new StateInitSource_Message($dto);
+        if ($dto['type'] === 'StateInit') return new StateInitSource_StateInit($dto);
+        if ($dto['type'] === 'Tvc') return new StateInitSource_Tvc($dto);
         throw new InvalidArgumentException("Unsupported StateInitSource type: {$dto['type']}");
     }
 }

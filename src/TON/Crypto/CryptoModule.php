@@ -40,6 +40,8 @@ class CryptoModule implements CryptoModuleInterface
      * Performs prime factorization – decomposition of a composite number
      *  into a product of smaller prime integers (factors).
      *  See [https://en.wikipedia.org/wiki/Integer_factorization]
+     * @param ParamsOfFactorize $params
+     * @return ResultOfFactorize
      */
     public function factorize(ParamsOfFactorize $params): ResultOfFactorize
     {
@@ -49,6 +51,8 @@ class CryptoModule implements CryptoModuleInterface
     /**
      * Performs modular exponentiation for big integers (`base`^`exponent` mod `modulus`).
      *  See [https://en.wikipedia.org/wiki/Modular_exponentiation]
+     * @param ParamsOfModularPower $params
+     * @return ResultOfModularPower
      */
     public function modularPower(ParamsOfModularPower $params): ResultOfModularPower
     {
@@ -57,6 +61,8 @@ class CryptoModule implements CryptoModuleInterface
 
     /**
      * Calculates CRC16 using TON algorithm.
+     * @param ParamsOfTonCrc16 $params
+     * @return ResultOfTonCrc16
      */
     public function tonCrc16(ParamsOfTonCrc16 $params): ResultOfTonCrc16
     {
@@ -65,6 +71,8 @@ class CryptoModule implements CryptoModuleInterface
 
     /**
      * Generates random byte array of the specified length and returns it in `base64` format
+     * @param ParamsOfGenerateRandomBytes $params
+     * @return ResultOfGenerateRandomBytes
      */
     public function generateRandomBytes(ParamsOfGenerateRandomBytes $params): ResultOfGenerateRandomBytes
     {
@@ -73,6 +81,8 @@ class CryptoModule implements CryptoModuleInterface
 
     /**
      * Converts public key to ton safe_format
+     * @param ParamsOfConvertPublicKeyToTonSafeFormat $params
+     * @return ResultOfConvertPublicKeyToTonSafeFormat
      */
     public function convertPublicKeyToTonSafeFormat(ParamsOfConvertPublicKeyToTonSafeFormat $params): ResultOfConvertPublicKeyToTonSafeFormat
     {
@@ -81,6 +91,7 @@ class CryptoModule implements CryptoModuleInterface
 
     /**
      * Generates random ed25519 key pair.
+     * @return KeyPair
      */
     public function generateRandomSignKeys(): KeyPair
     {
@@ -89,6 +100,8 @@ class CryptoModule implements CryptoModuleInterface
 
     /**
      * Signs a data using the provided keys.
+     * @param ParamsOfSign $params
+     * @return ResultOfSign
      */
     public function sign(ParamsOfSign $params): ResultOfSign
     {
@@ -98,6 +111,8 @@ class CryptoModule implements CryptoModuleInterface
     /**
      * Verifies signed data using the provided public key.
      *  Raises error if verification is failed.
+     * @param ParamsOfVerifySignature $params
+     * @return ResultOfVerifySignature
      */
     public function verifySignature(ParamsOfVerifySignature $params): ResultOfVerifySignature
     {
@@ -106,6 +121,8 @@ class CryptoModule implements CryptoModuleInterface
 
     /**
      * Calculates SHA256 hash of the specified data.
+     * @param ParamsOfHash $params
+     * @return ResultOfHash
      */
     public function sha256(ParamsOfHash $params): ResultOfHash
     {
@@ -114,6 +131,8 @@ class CryptoModule implements CryptoModuleInterface
 
     /**
      * Calculates SHA512 hash of the specified data.
+     * @param ParamsOfHash $params
+     * @return ResultOfHash
      */
     public function sha512(ParamsOfHash $params): ResultOfHash
     {
@@ -136,6 +155,8 @@ class CryptoModule implements CryptoModuleInterface
      *  - `log_n = 15` (`n = 32768`)
      *  - `r = 8`
      *  - `p = 1`
+     * @param ParamsOfScrypt $params
+     * @return ResultOfScrypt
      */
     public function scrypt(ParamsOfScrypt $params): ResultOfScrypt
     {
@@ -144,6 +165,8 @@ class CryptoModule implements CryptoModuleInterface
 
     /**
      * Generates a key pair for signing from the secret key
+     * @param ParamsOfNaclSignKeyPairFromSecret $params
+     * @return KeyPair
      */
     public function naclSignKeypairFromSecretKey(ParamsOfNaclSignKeyPairFromSecret $params): KeyPair
     {
@@ -152,22 +175,35 @@ class CryptoModule implements CryptoModuleInterface
 
     /**
      * Signs data using the signer's secret key.
+     * @param ParamsOfNaclSign $params
+     * @return ResultOfNaclSign
      */
     public function naclSign(ParamsOfNaclSign $params): ResultOfNaclSign
     {
         return new ResultOfNaclSign($this->_context->callFunction('crypto.nacl_sign', $params));
     }
 
+    /**
+     * @param ParamsOfNaclSignOpen $params
+     * @return ResultOfNaclSignOpen
+     */
     public function naclSignOpen(ParamsOfNaclSignOpen $params): ResultOfNaclSignOpen
     {
         return new ResultOfNaclSignOpen($this->_context->callFunction('crypto.nacl_sign_open', $params));
     }
 
+    /**
+     * @param ParamsOfNaclSign $params
+     * @return ResultOfNaclSignDetached
+     */
     public function naclSignDetached(ParamsOfNaclSign $params): ResultOfNaclSignDetached
     {
         return new ResultOfNaclSignDetached($this->_context->callFunction('crypto.nacl_sign_detached', $params));
     }
 
+    /**
+     * @return KeyPair
+     */
     public function naclBoxKeypair(): KeyPair
     {
         return new KeyPair($this->_context->callFunction('crypto.nacl_box_keypair'));
@@ -175,6 +211,8 @@ class CryptoModule implements CryptoModuleInterface
 
     /**
      * Generates key pair from a secret key
+     * @param ParamsOfNaclBoxKeyPairFromSecret $params
+     * @return KeyPair
      */
     public function naclBoxKeypairFromSecretKey(ParamsOfNaclBoxKeyPairFromSecret $params): KeyPair
     {
@@ -186,6 +224,8 @@ class CryptoModule implements CryptoModuleInterface
      *
      *  Encrypt and authenticate a message using the senders secret key, the recievers public
      *  key, and a nonce.
+     * @param ParamsOfNaclBox $params
+     * @return ResultOfNaclBox
      */
     public function naclBox(ParamsOfNaclBox $params): ResultOfNaclBox
     {
@@ -195,6 +235,8 @@ class CryptoModule implements CryptoModuleInterface
     /**
      * Decrypt and verify the cipher text using the recievers secret key, the senders public
      *  key, and the nonce.
+     * @param ParamsOfNaclBoxOpen $params
+     * @return ResultOfNaclBoxOpen
      */
     public function naclBoxOpen(ParamsOfNaclBoxOpen $params): ResultOfNaclBoxOpen
     {
@@ -203,6 +245,8 @@ class CryptoModule implements CryptoModuleInterface
 
     /**
      * Encrypt and authenticate message using nonce and secret key.
+     * @param ParamsOfNaclSecretBox $params
+     * @return ResultOfNaclBox
      */
     public function naclSecretBox(ParamsOfNaclSecretBox $params): ResultOfNaclBox
     {
@@ -211,6 +255,8 @@ class CryptoModule implements CryptoModuleInterface
 
     /**
      * Decrypts and verifies cipher text using `nonce` and secret `key`.
+     * @param ParamsOfNaclSecretBoxOpen $params
+     * @return ResultOfNaclBoxOpen
      */
     public function naclSecretBoxOpen(ParamsOfNaclSecretBoxOpen $params): ResultOfNaclBoxOpen
     {
@@ -219,6 +265,8 @@ class CryptoModule implements CryptoModuleInterface
 
     /**
      * Prints the list of words from the specified dictionary
+     * @param ParamsOfMnemonicWords $params
+     * @return ResultOfMnemonicWords
      */
     public function mnemonicWords(ParamsOfMnemonicWords $params): ResultOfMnemonicWords
     {
@@ -227,6 +275,8 @@ class CryptoModule implements CryptoModuleInterface
 
     /**
      * Generates a random mnemonic from the specified dictionary and word count
+     * @param ParamsOfMnemonicFromRandom $params
+     * @return ResultOfMnemonicFromRandom
      */
     public function mnemonicFromRandom(ParamsOfMnemonicFromRandom $params): ResultOfMnemonicFromRandom
     {
@@ -235,6 +285,8 @@ class CryptoModule implements CryptoModuleInterface
 
     /**
      * Generates mnemonic from pre-generated entropy
+     * @param ParamsOfMnemonicFromEntropy $params
+     * @return ResultOfMnemonicFromEntropy
      */
     public function mnemonicFromEntropy(ParamsOfMnemonicFromEntropy $params): ResultOfMnemonicFromEntropy
     {
@@ -244,6 +296,8 @@ class CryptoModule implements CryptoModuleInterface
     /**
      * The phrase supplied will be checked for word length and validated according to the checksum
      *  specified in BIP0039.
+     * @param ParamsOfMnemonicVerify $params
+     * @return ResultOfMnemonicVerify
      */
     public function mnemonicVerify(ParamsOfMnemonicVerify $params): ResultOfMnemonicVerify
     {
@@ -253,6 +307,8 @@ class CryptoModule implements CryptoModuleInterface
     /**
      * Validates the seed phrase, generates master key and then derives
      *  the key pair from the master key and the specified path
+     * @param ParamsOfMnemonicDeriveSignKeys $params
+     * @return KeyPair
      */
     public function mnemonicDeriveSignKeys(ParamsOfMnemonicDeriveSignKeys $params): KeyPair
     {
@@ -261,6 +317,8 @@ class CryptoModule implements CryptoModuleInterface
 
     /**
      * Generates an extended master private key that will be the root for all the derived keys
+     * @param ParamsOfHDKeyXPrvFromMnemonic $params
+     * @return ResultOfHDKeyXPrvFromMnemonic
      */
     public function hdkeyXprvFromMnemonic(ParamsOfHDKeyXPrvFromMnemonic $params): ResultOfHDKeyXPrvFromMnemonic
     {
@@ -269,6 +327,8 @@ class CryptoModule implements CryptoModuleInterface
 
     /**
      * Returns extended private key derived from the specified extended private key and child index
+     * @param ParamsOfHDKeyDeriveFromXPrv $params
+     * @return ResultOfHDKeyDeriveFromXPrv
      */
     public function hdkeyDeriveFromXprv(ParamsOfHDKeyDeriveFromXPrv $params): ResultOfHDKeyDeriveFromXPrv
     {
@@ -276,7 +336,9 @@ class CryptoModule implements CryptoModuleInterface
     }
 
     /**
-     * Derives the exented private key from the specified key and path
+     * Derives the extended private key from the specified key and path
+     * @param ParamsOfHDKeyDeriveFromXPrvPath $params
+     * @return ResultOfHDKeyDeriveFromXPrvPath
      */
     public function hdkeyDeriveFromXprvPath(ParamsOfHDKeyDeriveFromXPrvPath $params): ResultOfHDKeyDeriveFromXPrvPath
     {
@@ -285,6 +347,8 @@ class CryptoModule implements CryptoModuleInterface
 
     /**
      * Extracts the private key from the serialized extended private key
+     * @param ParamsOfHDKeySecretFromXPrv $params
+     * @return ResultOfHDKeySecretFromXPrv
      */
     public function hdkeySecretFromXprv(ParamsOfHDKeySecretFromXPrv $params): ResultOfHDKeySecretFromXPrv
     {
@@ -293,6 +357,8 @@ class CryptoModule implements CryptoModuleInterface
 
     /**
      * Extracts the public key from the serialized extended private key
+     * @param ParamsOfHDKeyPublicFromXPrv $params
+     * @return ResultOfHDKeyPublicFromXPrv
      */
     public function hdkeyPublicFromXprv(ParamsOfHDKeyPublicFromXPrv $params): ResultOfHDKeyPublicFromXPrv
     {
@@ -301,9 +367,50 @@ class CryptoModule implements CryptoModuleInterface
 
     /**
      * Performs symmetric `chacha20` encryption.
+     * @param ParamsOfChaCha20 $params
+     * @return ResultOfChaCha20
      */
     public function chacha20(ParamsOfChaCha20 $params): ResultOfChaCha20
     {
         return new ResultOfChaCha20($this->_context->callFunction('crypto.chacha20', $params));
+    }
+
+    /**
+     * Creates a default signing box implementation.
+     * @param KeyPair $params
+     * @return RegisteredSigningBox
+     */
+    public function getSigningBox(KeyPair $params): RegisteredSigningBox
+    {
+        return new RegisteredSigningBox($this->_context->callFunction('crypto.get_signing_box', $params));
+    }
+
+    /**
+     * Returns public key of signing key pair.
+     * @param RegisteredSigningBox $params
+     * @return ResultOfSigningBoxGetPublicKey
+     */
+    public function signingBoxGetPublicKey(RegisteredSigningBox $params): ResultOfSigningBoxGetPublicKey
+    {
+        return new ResultOfSigningBoxGetPublicKey($this->_context->callFunction('crypto.signing_box_get_public_key', $params));
+    }
+
+    /**
+     * Returns signed user data.
+     * @param ParamsOfSigningBoxSign $params
+     * @return ResultOfSigningBoxSign
+     */
+    public function signingBoxSign(ParamsOfSigningBoxSign $params): ResultOfSigningBoxSign
+    {
+        return new ResultOfSigningBoxSign($this->_context->callFunction('crypto.signing_box_sign', $params));
+    }
+
+    /**
+     * Removes signing box from SDK.
+     * @param RegisteredSigningBox $params
+     */
+    public function removeSigningBox(RegisteredSigningBox $params)
+    {
+        $this->_context->callFunction('crypto.remove_signing_box', $params);
     }
 }

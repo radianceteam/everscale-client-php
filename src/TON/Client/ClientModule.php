@@ -38,6 +38,7 @@ class ClientModule implements ClientModuleInterface
 
     /**
      * Returns Core Library API reference
+     * @return ResultOfGetApiReference
      */
     public function getApiReference(): ResultOfGetApiReference
     {
@@ -46,6 +47,7 @@ class ClientModule implements ClientModuleInterface
 
     /**
      * Returns Core Library version
+     * @return ResultOfVersion
      */
     public function version(): ResultOfVersion
     {
@@ -54,9 +56,18 @@ class ClientModule implements ClientModuleInterface
 
     /**
      * Returns detailed information about this build.
+     * @return ResultOfBuildInfo
      */
     public function buildInfo(): ResultOfBuildInfo
     {
         return new ResultOfBuildInfo($this->_context->callFunction('client.build_info'));
+    }
+
+    /**
+     * @param ParamsOfResolveAppRequest $params
+     */
+    public function resolveAppRequest(ParamsOfResolveAppRequest $params)
+    {
+        $this->_context->callFunction('client.resolve_app_request', $params);
     }
 }

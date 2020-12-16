@@ -1,0 +1,27 @@
+name: Release
+
+on:
+  push:
+    branches-ignore:
+      - '*'
+    tags:
+      - '*.*.*' # push to versioned tag will trigger this build
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: Set version
+        id: vars
+        uses: battila7/get-version-action@v2
+      # TODO: run tests via matrix build (windows/ubuntu/macos)!
+      - name: Send Telegram Notification
+        uses: appleboy/telegram-action@master
+        with:
+          to: ${{ secrets.TGBOT_RADIANCEDEPLOY_TO }}
+          token: ${{ secrets.TGBOT_RADIANCEDEPLOY_TOKEN }}
+          message: |
+            PHP SDK Wrapper ${{ steps.vars.outputs.version }} has been released.
+            https://github.com/radianceteam/ton-client-php/releases/tag/${{ steps.vars.outputs.version }}/
+          

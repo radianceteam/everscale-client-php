@@ -38,6 +38,8 @@ class UtilsModule implements UtilsModuleInterface
 
     /**
      * Converts address from any TON format to any TON format
+     * @param ParamsOfConvertAddress $params
+     * @return ResultOfConvertAddress
      */
     public function convertAddress(ParamsOfConvertAddress $params): ResultOfConvertAddress
     {

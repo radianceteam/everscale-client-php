@@ -28,11 +28,12 @@ class AsyncResultOfMnemonicFromRandom
 
     /**
      * Blocks until function execution is finished and returns execution result.
+     * @param int $timeout Await timeout in millis. -1 means no timeout.
      * @return ResultOfMnemonicFromRandom Function execution result.
      * @throws TonClientException Function execution error.
      */
-    public function await(): ResultOfMnemonicFromRandom
+    public function await(int $timeout = -1): ResultOfMnemonicFromRandom
     {
-        return new ResultOfMnemonicFromRandom($this->_request->await());
+        return new ResultOfMnemonicFromRandom($this->_request->await($timeout));
     }
 }

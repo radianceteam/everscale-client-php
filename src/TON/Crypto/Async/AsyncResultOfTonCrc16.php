@@ -28,11 +28,12 @@ class AsyncResultOfTonCrc16
 
     /**
      * Blocks until function execution is finished and returns execution result.
+     * @param int $timeout Await timeout in millis. -1 means no timeout.
      * @return ResultOfTonCrc16 Function execution result.
      * @throws TonClientException Function execution error.
      */
-    public function await(): ResultOfTonCrc16
+    public function await(int $timeout = -1): ResultOfTonCrc16
     {
-        return new ResultOfTonCrc16($this->_request->await());
+        return new ResultOfTonCrc16($this->_request->await($timeout));
     }
 }

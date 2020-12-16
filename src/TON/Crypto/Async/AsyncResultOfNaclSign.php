@@ -28,11 +28,12 @@ class AsyncResultOfNaclSign
 
     /**
      * Blocks until function execution is finished and returns execution result.
+     * @param int $timeout Await timeout in millis. -1 means no timeout.
      * @return ResultOfNaclSign Function execution result.
      * @throws TonClientException Function execution error.
      */
-    public function await(): ResultOfNaclSign
+    public function await(int $timeout = -1): ResultOfNaclSign
     {
-        return new ResultOfNaclSign($this->_request->await());
+        return new ResultOfNaclSign($this->_request->await($timeout));
     }
 }

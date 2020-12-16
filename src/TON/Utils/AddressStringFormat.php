@@ -17,9 +17,9 @@ abstract class AddressStringFormat implements JsonSerializable
     {
         if ($dto === null) return null;
         if (!isset($dto['type'])) return null;
-        if ($dto['type'] === 'AccountId') return new AccountId($dto);
-        if ($dto['type'] === 'Hex') return new Hex($dto);
-        if ($dto['type'] === 'Base64') return new Base64($dto);
+        if ($dto['type'] === 'AccountId') return new AddressStringFormat_AccountId($dto);
+        if ($dto['type'] === 'Hex') return new AddressStringFormat_Hex($dto);
+        if ($dto['type'] === 'Base64') return new AddressStringFormat_Base64($dto);
         throw new InvalidArgumentException("Unsupported AddressStringFormat type: {$dto['type']}");
     }
 }

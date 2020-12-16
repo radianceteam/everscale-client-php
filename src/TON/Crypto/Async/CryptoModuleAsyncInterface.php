@@ -8,6 +8,8 @@ declare(strict_types=1);
 
 namespace TON\Crypto\Async;
 
+use TON\AsyncResult;
+use TON\Crypto\KeyPair;
 use TON\Crypto\ParamsOfChaCha20;
 use TON\Crypto\ParamsOfConvertPublicKeyToTonSafeFormat;
 use TON\Crypto\ParamsOfFactorize;
@@ -34,8 +36,10 @@ use TON\Crypto\ParamsOfNaclSignKeyPairFromSecret;
 use TON\Crypto\ParamsOfNaclSignOpen;
 use TON\Crypto\ParamsOfScrypt;
 use TON\Crypto\ParamsOfSign;
+use TON\Crypto\ParamsOfSigningBoxSign;
 use TON\Crypto\ParamsOfTonCrc16;
 use TON\Crypto\ParamsOfVerifySignature;
+use TON\Crypto\RegisteredSigningBox;
 
 /**
  * Crypto functions.
@@ -46,53 +50,72 @@ interface CryptoModuleAsyncInterface
      * Performs prime factorization – decomposition of a composite number
      *  into a product of smaller prime integers (factors).
      *  See [https://en.wikipedia.org/wiki/Integer_factorization]
+     * @param ParamsOfFactorize $params
+     * @return AsyncResultOfFactorize
      */
     function factorizeAsync(ParamsOfFactorize $params): AsyncResultOfFactorize;
 
     /**
      * Performs modular exponentiation for big integers (`base`^`exponent` mod `modulus`).
      *  See [https://en.wikipedia.org/wiki/Modular_exponentiation]
+     * @param ParamsOfModularPower $params
+     * @return AsyncResultOfModularPower
      */
     function modularPowerAsync(ParamsOfModularPower $params): AsyncResultOfModularPower;
 
     /**
      * Calculates CRC16 using TON algorithm.
+     * @param ParamsOfTonCrc16 $params
+     * @return AsyncResultOfTonCrc16
      */
     function tonCrc16Async(ParamsOfTonCrc16 $params): AsyncResultOfTonCrc16;
 
     /**
      * Generates random byte array of the specified length and returns it in `base64` format
+     * @param ParamsOfGenerateRandomBytes $params
+     * @return AsyncResultOfGenerateRandomBytes
      */
     function generateRandomBytesAsync(ParamsOfGenerateRandomBytes $params): AsyncResultOfGenerateRandomBytes;
 
     /**
      * Converts public key to ton safe_format
+     * @param ParamsOfConvertPublicKeyToTonSafeFormat $params
+     * @return AsyncResultOfConvertPublicKeyToTonSafeFormat
      */
     function convertPublicKeyToTonSafeFormatAsync(ParamsOfConvertPublicKeyToTonSafeFormat $params): AsyncResultOfConvertPublicKeyToTonSafeFormat;
 
     /**
      * Generates random ed25519 key pair.
+     * @return AsyncKeyPair
      */
     function generateRandomSignKeysAsync(): AsyncKeyPair;
 
     /**
      * Signs a data using the provided keys.
+     * @param ParamsOfSign $params
+     * @return AsyncResultOfSign
      */
     function signAsync(ParamsOfSign $params): AsyncResultOfSign;
 
     /**
      * Verifies signed data using the provided public key.
      *  Raises error if verification is failed.
+     * @param ParamsOfVerifySignature $params
+     * @return AsyncResultOfVerifySignature
      */
     function verifySignatureAsync(ParamsOfVerifySignature $params): AsyncResultOfVerifySignature;
 
     /**
      * Calculates SHA256 hash of the specified data.
+     * @param ParamsOfHash $params
+     * @return AsyncResultOfHash
      */
     function sha256Async(ParamsOfHash $params): AsyncResultOfHash;
 
     /**
      * Calculates SHA512 hash of the specified data.
+     * @param ParamsOfHash $params
+     * @return AsyncResultOfHash
      */
     function sha512Async(ParamsOfHash $params): AsyncResultOfHash;
 
@@ -112,27 +135,46 @@ interface CryptoModuleAsyncInterface
      *  - `log_n = 15` (`n = 32768`)
      *  - `r = 8`
      *  - `p = 1`
+     * @param ParamsOfScrypt $params
+     * @return AsyncResultOfScrypt
      */
     function scryptAsync(ParamsOfScrypt $params): AsyncResultOfScrypt;
 
     /**
      * Generates a key pair for signing from the secret key
+     * @param ParamsOfNaclSignKeyPairFromSecret $params
+     * @return AsyncKeyPair
      */
     function naclSignKeypairFromSecretKeyAsync(ParamsOfNaclSignKeyPairFromSecret $params): AsyncKeyPair;
 
     /**
      * Signs data using the signer's secret key.
+     * @param ParamsOfNaclSign $params
+     * @return AsyncResultOfNaclSign
      */
     function naclSignAsync(ParamsOfNaclSign $params): AsyncResultOfNaclSign;
 
+    /**
+     * @param ParamsOfNaclSignOpen $params
+     * @return AsyncResultOfNaclSignOpen
+     */
     function naclSignOpenAsync(ParamsOfNaclSignOpen $params): AsyncResultOfNaclSignOpen;
 
+    /**
+     * @param ParamsOfNaclSign $params
+     * @return AsyncResultOfNaclSignDetached
+     */
     function naclSignDetachedAsync(ParamsOfNaclSign $params): AsyncResultOfNaclSignDetached;
 
+    /**
+     * @return AsyncKeyPair
+     */
     function naclBoxKeypairAsync(): AsyncKeyPair;
 
     /**
      * Generates key pair from a secret key
+     * @param ParamsOfNaclBoxKeyPairFromSecret $params
+     * @return AsyncKeyPair
      */
     function naclBoxKeypairFromSecretKeyAsync(ParamsOfNaclBoxKeyPairFromSecret $params): AsyncKeyPair;
 
@@ -141,79 +183,144 @@ interface CryptoModuleAsyncInterface
      *
      *  Encrypt and authenticate a message using the senders secret key, the recievers public
      *  key, and a nonce.
+     * @param ParamsOfNaclBox $params
+     * @return AsyncResultOfNaclBox
      */
     function naclBoxAsync(ParamsOfNaclBox $params): AsyncResultOfNaclBox;
 
     /**
      * Decrypt and verify the cipher text using the recievers secret key, the senders public
      *  key, and the nonce.
+     * @param ParamsOfNaclBoxOpen $params
+     * @return AsyncResultOfNaclBoxOpen
      */
     function naclBoxOpenAsync(ParamsOfNaclBoxOpen $params): AsyncResultOfNaclBoxOpen;
 
     /**
      * Encrypt and authenticate message using nonce and secret key.
+     * @param ParamsOfNaclSecretBox $params
+     * @return AsyncResultOfNaclBox
      */
     function naclSecretBoxAsync(ParamsOfNaclSecretBox $params): AsyncResultOfNaclBox;
 
     /**
      * Decrypts and verifies cipher text using `nonce` and secret `key`.
+     * @param ParamsOfNaclSecretBoxOpen $params
+     * @return AsyncResultOfNaclBoxOpen
      */
     function naclSecretBoxOpenAsync(ParamsOfNaclSecretBoxOpen $params): AsyncResultOfNaclBoxOpen;
 
     /**
      * Prints the list of words from the specified dictionary
+     * @param ParamsOfMnemonicWords $params
+     * @return AsyncResultOfMnemonicWords
      */
     function mnemonicWordsAsync(ParamsOfMnemonicWords $params): AsyncResultOfMnemonicWords;
 
     /**
      * Generates a random mnemonic from the specified dictionary and word count
+     * @param ParamsOfMnemonicFromRandom $params
+     * @return AsyncResultOfMnemonicFromRandom
      */
     function mnemonicFromRandomAsync(ParamsOfMnemonicFromRandom $params): AsyncResultOfMnemonicFromRandom;
 
     /**
      * Generates mnemonic from pre-generated entropy
+     * @param ParamsOfMnemonicFromEntropy $params
+     * @return AsyncResultOfMnemonicFromEntropy
      */
     function mnemonicFromEntropyAsync(ParamsOfMnemonicFromEntropy $params): AsyncResultOfMnemonicFromEntropy;
 
     /**
      * The phrase supplied will be checked for word length and validated according to the checksum
      *  specified in BIP0039.
+     * @param ParamsOfMnemonicVerify $params
+     * @return AsyncResultOfMnemonicVerify
      */
     function mnemonicVerifyAsync(ParamsOfMnemonicVerify $params): AsyncResultOfMnemonicVerify;
 
     /**
      * Validates the seed phrase, generates master key and then derives
      *  the key pair from the master key and the specified path
+     * @param ParamsOfMnemonicDeriveSignKeys $params
+     * @return AsyncKeyPair
      */
     function mnemonicDeriveSignKeysAsync(ParamsOfMnemonicDeriveSignKeys $params): AsyncKeyPair;
 
     /**
      * Generates an extended master private key that will be the root for all the derived keys
+     * @param ParamsOfHDKeyXPrvFromMnemonic $params
+     * @return AsyncResultOfHDKeyXPrvFromMnemonic
      */
     function hdkeyXprvFromMnemonicAsync(ParamsOfHDKeyXPrvFromMnemonic $params): AsyncResultOfHDKeyXPrvFromMnemonic;
 
     /**
      * Returns extended private key derived from the specified extended private key and child index
+     * @param ParamsOfHDKeyDeriveFromXPrv $params
+     * @return AsyncResultOfHDKeyDeriveFromXPrv
      */
     function hdkeyDeriveFromXprvAsync(ParamsOfHDKeyDeriveFromXPrv $params): AsyncResultOfHDKeyDeriveFromXPrv;
 
     /**
-     * Derives the exented private key from the specified key and path
+     * Derives the extended private key from the specified key and path
+     * @param ParamsOfHDKeyDeriveFromXPrvPath $params
+     * @return AsyncResultOfHDKeyDeriveFromXPrvPath
      */
     function hdkeyDeriveFromXprvPathAsync(ParamsOfHDKeyDeriveFromXPrvPath $params): AsyncResultOfHDKeyDeriveFromXPrvPath;
 
     /**
      * Extracts the private key from the serialized extended private key
+     * @param ParamsOfHDKeySecretFromXPrv $params
+     * @return AsyncResultOfHDKeySecretFromXPrv
      */
     function hdkeySecretFromXprvAsync(ParamsOfHDKeySecretFromXPrv $params): AsyncResultOfHDKeySecretFromXPrv;
 
     /**
      * Extracts the public key from the serialized extended private key
+     * @param ParamsOfHDKeyPublicFromXPrv $params
+     * @return AsyncResultOfHDKeyPublicFromXPrv
      */
     function hdkeyPublicFromXprvAsync(ParamsOfHDKeyPublicFromXPrv $params): AsyncResultOfHDKeyPublicFromXPrv;
 
     /**
      * Performs symmetric `chacha20` encryption.
+     * @param ParamsOfChaCha20 $params
+     * @return AsyncResultOfChaCha20
      */
     function chacha20Async(ParamsOfChaCha20 $params): AsyncResultOfChaCha20;
+
+    /**
+     * Register an application implemented signing box.
+     * @param callable $callback Transforms app request to app response.
+     * @return AsyncRegisteredSigningBox
+     */
+    function registerSigningBoxAsync(callable $callback): AsyncRegisteredSigningBox;
+
+    /**
+     * Creates a default signing box implementation.
+     * @param KeyPair $params
+     * @return AsyncRegisteredSigningBox
+     */
+    function getSigningBoxAsync(KeyPair $params): AsyncRegisteredSigningBox;
+
+    /**
+     * Returns public key of signing key pair.
+     * @param RegisteredSigningBox $params
+     * @return AsyncResultOfSigningBoxGetPublicKey
+     */
+    function signingBoxGetPublicKeyAsync(RegisteredSigningBox $params): AsyncResultOfSigningBoxGetPublicKey;
+
+    /**
+     * Returns signed user data.
+     * @param ParamsOfSigningBoxSign $params
+     * @return AsyncResultOfSigningBoxSign
+     */
+    function signingBoxSignAsync(ParamsOfSigningBoxSign $params): AsyncResultOfSigningBoxSign;
+
+    /**
+     * Removes signing box from SDK.
+     * @param RegisteredSigningBox $params
+     * @return AsyncResult
+     */
+    function removeSigningBoxAsync(RegisteredSigningBox $params): AsyncResult;
 }

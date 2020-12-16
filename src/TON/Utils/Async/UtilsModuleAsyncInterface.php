@@ -17,6 +17,8 @@ interface UtilsModuleAsyncInterface
 {
     /**
      * Converts address from any TON format to any TON format
+     * @param ParamsOfConvertAddress $params
+     * @return AsyncResultOfConvertAddress
      */
     function convertAddressAsync(ParamsOfConvertAddress $params): AsyncResultOfConvertAddress;
 }

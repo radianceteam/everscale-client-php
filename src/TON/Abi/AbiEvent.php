@@ -15,7 +15,7 @@ class AbiEvent implements JsonSerializable
 {
     private string $_name;
     private array $_inputs;
-    private ?int $_id;
+    private ?string $_id;
 
     public function __construct(?array $dto = null)
     {
@@ -35,7 +35,7 @@ class AbiEvent implements JsonSerializable
         return $this->_inputs;
     }
 
-    public function getId(): ?int
+    public function getId(): ?string
     {
         return $this->_id;
     }
@@ -52,7 +52,7 @@ class AbiEvent implements JsonSerializable
         return $this;
     }
 
-    public function setId(?int $id): self
+    public function setId(?string $id): self
     {
         $this->_id = $id;
         return $this;

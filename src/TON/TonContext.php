@@ -46,7 +46,7 @@ class TonContext
     /**
      * @param string $function_name Function name.
      * @param object|null $args Optional function args.
-     * @return mixed Function execution result.
+     * @return mixed|null Function execution result.
      * @throws TonClientException Failed to call function or context is destroyed.
      */
     public function callFunction(string $function_name, object $args = null)
@@ -68,10 +68,11 @@ class TonContext
      * Starts function call and returns resource associated with it so it can be awaited later.
      * @param string $function_name Function name.
      * @param object|null $args Optional function args.
+     * @param callable|null $callback Optional app request callback.
      * @return TonRequest The returned request handle.
      * @throws TonClientException Failed to call function or context is destroyed.
      */
-    public function callFunctionAsync(string $function_name, object $args = null)
+    public function callFunctionAsync(string $function_name, object $args = null, ?callable $callback = null)
     {
         if (empty($function_name)) {
             throw new InvalidArgumentException("Function name must not be empty");
@@ -83,7 +84,7 @@ class TonContext
         $this->_logger->debug("Calling async function ${function_name} with parameters ${params_json}");
         $resource = ton_request_start($this->_id, $function_name, $params_json);
         $this->_logger->debug("function ${function_name} started: ${resource}");
-        return new TonRequest($resource, new TonRequestLogger($function_name, $resource, $this->_logger));
+        return new TonRequest($this, $resource, new TonRequestLogger($function_name, $resource, $this->_logger), $callback);
     }
 
     public function destroy()
@@ -102,7 +103,7 @@ class TonContext
 
     /**
      * @param string $json JSON returned by the ton client extension function.
-     * @return mixed Decoded result.
+     * @return mixed|null Decoded result.
      * @throws TonClientException In case of error returned.
      */
     public static function handleResponseJson(string $json)
@@ -114,7 +115,7 @@ class TonContext
         if (isset($response['error'])) {
             throw TonClientException::fromErrorDto($response['error']);
         }
-        if (!isset($response['result'])) {
+        if (!array_key_exists('result', $response)) {
             throw new TonClientException("Unsupported JSON returned: ${json}");
         }
         return $response['result'];

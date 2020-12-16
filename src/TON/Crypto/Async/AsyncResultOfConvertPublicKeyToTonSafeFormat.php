@@ -28,11 +28,12 @@ class AsyncResultOfConvertPublicKeyToTonSafeFormat
 
     /**
      * Blocks until function execution is finished and returns execution result.
+     * @param int $timeout Await timeout in millis. -1 means no timeout.
      * @return ResultOfConvertPublicKeyToTonSafeFormat Function execution result.
      * @throws TonClientException Function execution error.
      */
-    public function await(): ResultOfConvertPublicKeyToTonSafeFormat
+    public function await(int $timeout = -1): ResultOfConvertPublicKeyToTonSafeFormat
     {
-        return new ResultOfConvertPublicKeyToTonSafeFormat($this->_request->await());
+        return new ResultOfConvertPublicKeyToTonSafeFormat($this->_request->await($timeout));
     }
 }

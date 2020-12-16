@@ -19,7 +19,7 @@ class ParamsOfAttachSignatureToMessageBody implements JsonSerializable
     /** Public key. Must be encoded with `hex`. */
     private string $_publicKey;
 
-    /** Unsigned message BOC. Must be encoded with `base64`. */
+    /** Unsigned message body BOC. Must be encoded with `base64`. */
     private string $_message;
 
     /** Signature. Must be encoded with `hex`. */
@@ -51,7 +51,7 @@ class ParamsOfAttachSignatureToMessageBody implements JsonSerializable
     }
 
     /**
-     * Unsigned message BOC. Must be encoded with `base64`.
+     * Unsigned message body BOC. Must be encoded with `base64`.
      */
     public function getMessage(): string
     {
@@ -85,7 +85,7 @@ class ParamsOfAttachSignatureToMessageBody implements JsonSerializable
     }
 
     /**
-     * Unsigned message BOC. Must be encoded with `base64`.
+     * Unsigned message body BOC. Must be encoded with `base64`.
      */
     public function setMessage(string $message): self
     {

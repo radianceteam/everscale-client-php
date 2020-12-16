@@ -18,6 +18,8 @@ use TON\Client\ClientModule;
 use TON\Client\ClientModuleInterface;
 use TON\Crypto\CryptoModule;
 use TON\Crypto\CryptoModuleInterface;
+use TON\Debot\DebotModule;
+use TON\Debot\DebotModuleInterface;
 use TON\Net\NetModule;
 use TON\Net\NetModuleInterface;
 use TON\Processing\ProcessingModule;
@@ -38,6 +40,7 @@ class TonClient implements TonClientInterface
     private UtilsModuleInterface $_utils;
     private TvmModuleInterface $_tvm;
     private NetModuleInterface $_net;
+    private DebotModuleInterface $_debot;
 
     public function __construct(?JsonSerializable $config = null, ?LoggerInterface $logger = null)
     {
@@ -50,6 +53,7 @@ class TonClient implements TonClientInterface
         $this->_utils = new UtilsModule($this->_context);
         $this->_tvm = new TvmModule($this->_context);
         $this->_net = new NetModule($this->_context);
+        $this->_debot = new DebotModule($this->_context);
     }
 
     public function setLogger(LoggerInterface $logger)
@@ -120,5 +124,13 @@ class TonClient implements TonClientInterface
     public function net(): NetModuleInterface
     {
         return $this->_net;
+    }
+
+    /**
+     * [UNSTABLE](UNSTABLE.md) Module for working with debot.
+     */
+    public function debot(): DebotModuleInterface
+    {
+        return $this->_debot;
     }
 }

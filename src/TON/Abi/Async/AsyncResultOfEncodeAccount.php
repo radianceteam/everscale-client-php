@@ -28,11 +28,12 @@ class AsyncResultOfEncodeAccount
 
     /**
      * Blocks until function execution is finished and returns execution result.
+     * @param int $timeout Await timeout in millis. -1 means no timeout.
      * @return ResultOfEncodeAccount Function execution result.
      * @throws TonClientException Function execution error.
      */
-    public function await(): ResultOfEncodeAccount
+    public function await(int $timeout = -1): ResultOfEncodeAccount
     {
-        return new ResultOfEncodeAccount($this->_request->await());
+        return new ResultOfEncodeAccount($this->_request->await($timeout));
     }
 }

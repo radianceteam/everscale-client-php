@@ -29,6 +29,8 @@ class AsyncUtilsModule implements UtilsModuleAsyncInterface
 
     /**
      * Converts address from any TON format to any TON format
+     * @param ParamsOfConvertAddress $params
+     * @return AsyncResultOfConvertAddress
      */
     public function convertAddressAsync(ParamsOfConvertAddress $params): AsyncResultOfConvertAddress
     {

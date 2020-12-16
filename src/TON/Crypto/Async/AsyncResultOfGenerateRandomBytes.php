@@ -28,11 +28,12 @@ class AsyncResultOfGenerateRandomBytes
 
     /**
      * Blocks until function execution is finished and returns execution result.
+     * @param int $timeout Await timeout in millis. -1 means no timeout.
      * @return ResultOfGenerateRandomBytes Function execution result.
      * @throws TonClientException Function execution error.
      */
-    public function await(): ResultOfGenerateRandomBytes
+    public function await(int $timeout = -1): ResultOfGenerateRandomBytes
     {
-        return new ResultOfGenerateRandomBytes($this->_request->await());
+        return new ResultOfGenerateRandomBytes($this->_request->await($timeout));
     }
 }

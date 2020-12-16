@@ -28,11 +28,12 @@ class AsyncResultOfNaclBox
 
     /**
      * Blocks until function execution is finished and returns execution result.
+     * @param int $timeout Await timeout in millis. -1 means no timeout.
      * @return ResultOfNaclBox Function execution result.
      * @throws TonClientException Function execution error.
      */
-    public function await(): ResultOfNaclBox
+    public function await(int $timeout = -1): ResultOfNaclBox
     {
-        return new ResultOfNaclBox($this->_request->await());
+        return new ResultOfNaclBox($this->_request->await($timeout));
     }
 }

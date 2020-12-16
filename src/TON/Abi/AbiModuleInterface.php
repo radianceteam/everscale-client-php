@@ -23,9 +23,15 @@ interface AbiModuleInterface
 
     /**
      * Encodes message body according to ABI function call.
+     * @param ParamsOfEncodeMessageBody $params
+     * @return ResultOfEncodeMessageBody
      */
     function encodeMessageBody(ParamsOfEncodeMessageBody $params): ResultOfEncodeMessageBody;
 
+    /**
+     * @param ParamsOfAttachSignatureToMessageBody $params
+     * @return ResultOfAttachSignatureToMessageBody
+     */
     function attachSignatureToMessageBody(ParamsOfAttachSignatureToMessageBody $params): ResultOfAttachSignatureToMessageBody;
 
     /**
@@ -53,22 +59,30 @@ interface AbiModuleInterface
      *  [SOON] `Signer::SigningBox` Allows using a special interface to imlepement signing
      *  without private key disclosure to SDK. For instance, in case of using a cold wallet or HSM,
      *  when application calls some API to sign data.
+     * @param ParamsOfEncodeMessage $params
+     * @return ResultOfEncodeMessage
      */
     function encodeMessage(ParamsOfEncodeMessage $params): ResultOfEncodeMessage;
 
     /**
      * Combines `hex`-encoded `signature` with `base64`-encoded `unsigned_message`.
      *  Returns signed message encoded in `base64`.
+     * @param ParamsOfAttachSignature $params
+     * @return ResultOfAttachSignature
      */
     function attachSignature(ParamsOfAttachSignature $params): ResultOfAttachSignature;
 
     /**
      * Decodes message body using provided message BOC and ABI.
+     * @param ParamsOfDecodeMessage $params
+     * @return DecodedMessageBody
      */
     function decodeMessage(ParamsOfDecodeMessage $params): DecodedMessageBody;
 
     /**
      * Decodes message body using provided body BOC and ABI.
+     * @param ParamsOfDecodeMessageBody $params
+     * @return DecodedMessageBody
      */
     function decodeMessageBody(ParamsOfDecodeMessageBody $params): DecodedMessageBody;
 
@@ -78,6 +92,8 @@ interface AbiModuleInterface
      *  Creates account state provided with one of these sets of data :
      *  1. BOC of code, BOC of data, BOC of library
      *  2. TVC (string in `base64`), keys, init params
+     * @param ParamsOfEncodeAccount $params
+     * @return ResultOfEncodeAccount
      */
     function encodeAccount(ParamsOfEncodeAccount $params): ResultOfEncodeAccount;
 }

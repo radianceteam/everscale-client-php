@@ -28,11 +28,12 @@ class AsyncResultOfRunExecutor
 
     /**
      * Blocks until function execution is finished and returns execution result.
+     * @param int $timeout Await timeout in millis. -1 means no timeout.
      * @return ResultOfRunExecutor Function execution result.
      * @throws TonClientException Function execution error.
      */
-    public function await(): ResultOfRunExecutor
+    public function await(int $timeout = -1): ResultOfRunExecutor
     {
-        return new ResultOfRunExecutor($this->_request->await());
+        return new ResultOfRunExecutor($this->_request->await($timeout));
     }
 }

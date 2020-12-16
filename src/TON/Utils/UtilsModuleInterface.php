@@ -22,6 +22,8 @@ interface UtilsModuleInterface
 
     /**
      * Converts address from any TON format to any TON format
+     * @param ParamsOfConvertAddress $params
+     * @return ResultOfConvertAddress
      */
     function convertAddress(ParamsOfConvertAddress $params): ResultOfConvertAddress;
 }

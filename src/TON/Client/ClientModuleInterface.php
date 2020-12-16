@@ -22,16 +22,24 @@ interface ClientModuleInterface
 
     /**
      * Returns Core Library API reference
+     * @return ResultOfGetApiReference
      */
     function getApiReference(): ResultOfGetApiReference;
 
     /**
      * Returns Core Library version
+     * @return ResultOfVersion
      */
     function version(): ResultOfVersion;
 
     /**
      * Returns detailed information about this build.
+     * @return ResultOfBuildInfo
      */
     function buildInfo(): ResultOfBuildInfo;
+
+    /**
+     * @param ParamsOfResolveAppRequest $params
+     */
+    function resolveAppRequest(ParamsOfResolveAppRequest $params);
 }

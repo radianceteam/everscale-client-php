@@ -28,11 +28,12 @@ class AsyncResultOfHDKeyDeriveFromXPrvPath
 
     /**
      * Blocks until function execution is finished and returns execution result.
+     * @param int $timeout Await timeout in millis. -1 means no timeout.
      * @return ResultOfHDKeyDeriveFromXPrvPath Function execution result.
      * @throws TonClientException Function execution error.
      */
-    public function await(): ResultOfHDKeyDeriveFromXPrvPath
+    public function await(int $timeout = -1): ResultOfHDKeyDeriveFromXPrvPath
     {
-        return new ResultOfHDKeyDeriveFromXPrvPath($this->_request->await());
+        return new ResultOfHDKeyDeriveFromXPrvPath($this->_request->await($timeout));
     }
 }

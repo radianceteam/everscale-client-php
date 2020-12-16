@@ -17,12 +17,22 @@ interface TvmModuleInterface
      */
     function async(): TvmModuleAsyncInterface;
 
+    /**
+     * @param ParamsOfRunExecutor $params
+     * @return ResultOfRunExecutor
+     */
     function runExecutor(ParamsOfRunExecutor $params): ResultOfRunExecutor;
 
+    /**
+     * @param ParamsOfRunTvm $params
+     * @return ResultOfRunTvm
+     */
     function runTvm(ParamsOfRunTvm $params): ResultOfRunTvm;
 
     /**
      * Executes getmethod and returns data from TVM stack
+     * @param ParamsOfRunGet $params
+     * @return ResultOfRunGet
      */
     function runGet(ParamsOfRunGet $params): ResultOfRunGet;
 }

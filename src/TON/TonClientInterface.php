@@ -12,6 +12,7 @@ use TON\Abi\AbiModuleInterface;
 use TON\Boc\BocModuleInterface;
 use TON\Client\ClientModuleInterface;
 use TON\Crypto\CryptoModuleInterface;
+use TON\Debot\DebotModuleInterface;
 use TON\Net\NetModuleInterface;
 use TON\Processing\ProcessingModuleInterface;
 use TON\Tvm\TvmModuleInterface;
@@ -59,4 +60,9 @@ interface TonClientInterface
      * Network access.
      */
     function net(): NetModuleInterface;
+
+    /**
+     * [UNSTABLE](UNSTABLE.md) Module for working with debot.
+     */
+    function debot(): DebotModuleInterface;
 }

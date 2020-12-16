@@ -17,10 +17,10 @@ abstract class Signer implements JsonSerializable
     {
         if ($dto === null) return null;
         if (!isset($dto['type'])) return null;
-        if ($dto['type'] === 'None') return new None($dto);
-        if ($dto['type'] === 'External') return new External($dto);
-        if ($dto['type'] === 'Keys') return new Keys($dto);
-        if ($dto['type'] === 'SigningBox') return new SigningBox($dto);
+        if ($dto['type'] === 'None') return new Signer_None($dto);
+        if ($dto['type'] === 'External') return new Signer_External($dto);
+        if ($dto['type'] === 'Keys') return new Signer_Keys($dto);
+        if ($dto['type'] === 'SigningBox') return new Signer_SigningBox($dto);
         throw new InvalidArgumentException("Unsupported Signer type: {$dto['type']}");
     }
 }

@@ -40,6 +40,8 @@ class BocModule implements BocModuleInterface
      * Parses message boc into a JSON
      *
      *  JSON structure is compatible with GraphQL API message object
+     * @param ParamsOfParse $params
+     * @return ResultOfParse
      */
     public function parseMessage(ParamsOfParse $params): ResultOfParse
     {
@@ -50,6 +52,8 @@ class BocModule implements BocModuleInterface
      * Parses transaction boc into a JSON
      *
      *  JSON structure is compatible with GraphQL API transaction object
+     * @param ParamsOfParse $params
+     * @return ResultOfParse
      */
     public function parseTransaction(ParamsOfParse $params): ResultOfParse
     {
@@ -60,6 +64,8 @@ class BocModule implements BocModuleInterface
      * Parses account boc into a JSON
      *
      *  JSON structure is compatible with GraphQL API account object
+     * @param ParamsOfParse $params
+     * @return ResultOfParse
      */
     public function parseAccount(ParamsOfParse $params): ResultOfParse
     {
@@ -70,6 +76,8 @@ class BocModule implements BocModuleInterface
      * Parses block boc into a JSON
      *
      *  JSON structure is compatible with GraphQL API block object
+     * @param ParamsOfParse $params
+     * @return ResultOfParse
      */
     public function parseBlock(ParamsOfParse $params): ResultOfParse
     {
@@ -80,12 +88,18 @@ class BocModule implements BocModuleInterface
      * Parses shardstate boc into a JSON
      *
      *  JSON structure is compatible with GraphQL API shardstate object
+     * @param ParamsOfParseShardstate $params
+     * @return ResultOfParse
      */
     public function parseShardstate(ParamsOfParseShardstate $params): ResultOfParse
     {
         return new ResultOfParse($this->_context->callFunction('boc.parse_shardstate', $params));
     }
 
+    /**
+     * @param ParamsOfGetBlockchainConfig $params
+     * @return ResultOfGetBlockchainConfig
+     */
     public function getBlockchainConfig(ParamsOfGetBlockchainConfig $params): ResultOfGetBlockchainConfig
     {
         return new ResultOfGetBlockchainConfig($this->_context->callFunction('boc.get_blockchain_config', $params));
@@ -93,6 +107,8 @@ class BocModule implements BocModuleInterface
 
     /**
      * Calculates BOC root hash
+     * @param ParamsOfGetBocHash $params
+     * @return ResultOfGetBocHash
      */
     public function getBocHash(ParamsOfGetBocHash $params): ResultOfGetBocHash
     {

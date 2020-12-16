@@ -24,9 +24,15 @@ interface AbiModuleAsyncInterface
 {
     /**
      * Encodes message body according to ABI function call.
+     * @param ParamsOfEncodeMessageBody $params
+     * @return AsyncResultOfEncodeMessageBody
      */
     function encodeMessageBodyAsync(ParamsOfEncodeMessageBody $params): AsyncResultOfEncodeMessageBody;
 
+    /**
+     * @param ParamsOfAttachSignatureToMessageBody $params
+     * @return AsyncResultOfAttachSignatureToMessageBody
+     */
     function attachSignatureToMessageBodyAsync(ParamsOfAttachSignatureToMessageBody $params): AsyncResultOfAttachSignatureToMessageBody;
 
     /**
@@ -54,22 +60,30 @@ interface AbiModuleAsyncInterface
      *  [SOON] `Signer::SigningBox` Allows using a special interface to imlepement signing
      *  without private key disclosure to SDK. For instance, in case of using a cold wallet or HSM,
      *  when application calls some API to sign data.
+     * @param ParamsOfEncodeMessage $params
+     * @return AsyncResultOfEncodeMessage
      */
     function encodeMessageAsync(ParamsOfEncodeMessage $params): AsyncResultOfEncodeMessage;
 
     /**
      * Combines `hex`-encoded `signature` with `base64`-encoded `unsigned_message`.
      *  Returns signed message encoded in `base64`.
+     * @param ParamsOfAttachSignature $params
+     * @return AsyncResultOfAttachSignature
      */
     function attachSignatureAsync(ParamsOfAttachSignature $params): AsyncResultOfAttachSignature;
 
     /**
      * Decodes message body using provided message BOC and ABI.
+     * @param ParamsOfDecodeMessage $params
+     * @return AsyncDecodedMessageBody
      */
     function decodeMessageAsync(ParamsOfDecodeMessage $params): AsyncDecodedMessageBody;
 
     /**
      * Decodes message body using provided body BOC and ABI.
+     * @param ParamsOfDecodeMessageBody $params
+     * @return AsyncDecodedMessageBody
      */
     function decodeMessageBodyAsync(ParamsOfDecodeMessageBody $params): AsyncDecodedMessageBody;
 
@@ -79,6 +93,8 @@ interface AbiModuleAsyncInterface
      *  Creates account state provided with one of these sets of data :
      *  1. BOC of code, BOC of data, BOC of library
      *  2. TVC (string in `base64`), keys, init params
+     * @param ParamsOfEncodeAccount $params
+     * @return AsyncResultOfEncodeAccount
      */
     function encodeAccountAsync(ParamsOfEncodeAccount $params): AsyncResultOfEncodeAccount;
 }

@@ -24,6 +24,8 @@ interface BocModuleInterface
      * Parses message boc into a JSON
      *
      *  JSON structure is compatible with GraphQL API message object
+     * @param ParamsOfParse $params
+     * @return ResultOfParse
      */
     function parseMessage(ParamsOfParse $params): ResultOfParse;
 
@@ -31,6 +33,8 @@ interface BocModuleInterface
      * Parses transaction boc into a JSON
      *
      *  JSON structure is compatible with GraphQL API transaction object
+     * @param ParamsOfParse $params
+     * @return ResultOfParse
      */
     function parseTransaction(ParamsOfParse $params): ResultOfParse;
 
@@ -38,6 +42,8 @@ interface BocModuleInterface
      * Parses account boc into a JSON
      *
      *  JSON structure is compatible with GraphQL API account object
+     * @param ParamsOfParse $params
+     * @return ResultOfParse
      */
     function parseAccount(ParamsOfParse $params): ResultOfParse;
 
@@ -45,6 +51,8 @@ interface BocModuleInterface
      * Parses block boc into a JSON
      *
      *  JSON structure is compatible with GraphQL API block object
+     * @param ParamsOfParse $params
+     * @return ResultOfParse
      */
     function parseBlock(ParamsOfParse $params): ResultOfParse;
 
@@ -52,13 +60,21 @@ interface BocModuleInterface
      * Parses shardstate boc into a JSON
      *
      *  JSON structure is compatible with GraphQL API shardstate object
+     * @param ParamsOfParseShardstate $params
+     * @return ResultOfParse
      */
     function parseShardstate(ParamsOfParseShardstate $params): ResultOfParse;
 
+    /**
+     * @param ParamsOfGetBlockchainConfig $params
+     * @return ResultOfGetBlockchainConfig
+     */
     function getBlockchainConfig(ParamsOfGetBlockchainConfig $params): ResultOfGetBlockchainConfig;
 
     /**
      * Calculates BOC root hash
+     * @param ParamsOfGetBocHash $params
+     * @return ResultOfGetBocHash
      */
     function getBocHash(ParamsOfGetBocHash $params): ResultOfGetBocHash;
 }

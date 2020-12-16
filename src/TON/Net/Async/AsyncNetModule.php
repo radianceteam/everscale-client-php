@@ -37,6 +37,8 @@ class AsyncNetModule implements NetModuleAsyncInterface
      *  Queries data that satisfies the `filter` conditions,
      *  limits the number of returned records and orders them.
      *  The projection fields are limited to `result` fields
+     * @param ParamsOfQueryCollection $params
+     * @return AsyncResultOfQueryCollection
      */
     public function queryCollectionAsync(ParamsOfQueryCollection $params): AsyncResultOfQueryCollection
     {
@@ -52,6 +54,8 @@ class AsyncNetModule implements NetModuleAsyncInterface
      *  If not - waits for insert/update of data within the specified `timeout`,
      *  and returns it.
      *  The projection fields are limited to `result` fields
+     * @param ParamsOfWaitForCollection $params
+     * @return AsyncResultOfWaitForCollection
      */
     public function waitForCollectionAsync(ParamsOfWaitForCollection $params): AsyncResultOfWaitForCollection
     {
@@ -62,6 +66,8 @@ class AsyncNetModule implements NetModuleAsyncInterface
      * Cancels a subscription
      *
      *  Cancels a subscription specified by its handle.
+     * @param ResultOfSubscribeCollection $params
+     * @return AsyncResult
      */
     public function unsubscribeAsync(ResultOfSubscribeCollection $params): AsyncResult
     {
@@ -74,6 +80,8 @@ class AsyncNetModule implements NetModuleAsyncInterface
      *  Triggers for each insert/update of data
      *  that satisfies the `filter` conditions.
      *  The projection fields are limited to `result` fields.
+     * @param ParamsOfSubscribeCollection $params
+     * @return AsyncResultOfSubscribeCollection
      */
     public function subscribeCollectionAsync(ParamsOfSubscribeCollection $params): AsyncResultOfSubscribeCollection
     {

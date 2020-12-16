@@ -8,7 +8,6 @@ declare(strict_types=1);
 
 namespace TON\Net;
 
-use TON\AsyncResult;
 use TON\Net\Async\NetModuleAsyncInterface;
 
 /**
@@ -27,6 +26,8 @@ interface NetModuleInterface
      *  Queries data that satisfies the `filter` conditions,
      *  limits the number of returned records and orders them.
      *  The projection fields are limited to `result` fields
+     * @param ParamsOfQueryCollection $params
+     * @return ResultOfQueryCollection
      */
     function queryCollection(ParamsOfQueryCollection $params): ResultOfQueryCollection;
 
@@ -39,6 +40,8 @@ interface NetModuleInterface
      *  If not - waits for insert/update of data within the specified `timeout`,
      *  and returns it.
      *  The projection fields are limited to `result` fields
+     * @param ParamsOfWaitForCollection $params
+     * @return ResultOfWaitForCollection
      */
     function waitForCollection(ParamsOfWaitForCollection $params): ResultOfWaitForCollection;
 
@@ -46,6 +49,7 @@ interface NetModuleInterface
      * Cancels a subscription
      *
      *  Cancels a subscription specified by its handle.
+     * @param ResultOfSubscribeCollection $params
      */
-    function unsubscribe(ResultOfSubscribeCollection $params): AsyncResult;
+    function unsubscribe(ResultOfSubscribeCollection $params);
 }
