@@ -10,13 +10,9 @@ namespace TON\Utils\Async;
 
 use TON\Utils\ParamsOfConvertAddress;
 
-/**
- * Misc utility Functions.
- */
 interface UtilsModuleAsyncInterface
 {
     /**
-     * Converts address from any TON format to any TON format
      * @param ParamsOfConvertAddress $params
      * @return AsyncResultOfConvertAddress
      */

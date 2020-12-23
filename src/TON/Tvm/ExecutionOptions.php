@@ -13,16 +13,9 @@ use stdClass;
 
 class ExecutionOptions implements JsonSerializable
 {
-    /** boc with config */
     private ?string $_blockchainConfig;
-
-    /** time that is used as transaction time */
     private ?int $_blockTime;
-
-    /** block logical time */
     private ?int $_blockLt;
-
-    /** transaction logical time */
     private ?int $_transactionLt;
 
     public function __construct(?array $dto = null)
@@ -34,68 +27,44 @@ class ExecutionOptions implements JsonSerializable
         $this->_transactionLt = $dto['transaction_lt'] ?? null;
     }
 
-    /**
-     * boc with config
-     */
     public function getBlockchainConfig(): ?string
     {
         return $this->_blockchainConfig;
     }
 
-    /**
-     * time that is used as transaction time
-     */
     public function getBlockTime(): ?int
     {
         return $this->_blockTime;
     }
 
-    /**
-     * block logical time
-     */
     public function getBlockLt(): ?int
     {
         return $this->_blockLt;
     }
 
-    /**
-     * transaction logical time
-     */
     public function getTransactionLt(): ?int
     {
         return $this->_transactionLt;
     }
 
-    /**
-     * boc with config
-     */
     public function setBlockchainConfig(?string $blockchainConfig): self
     {
         $this->_blockchainConfig = $blockchainConfig;
         return $this;
     }
 
-    /**
-     * time that is used as transaction time
-     */
     public function setBlockTime(?int $blockTime): self
     {
         $this->_blockTime = $blockTime;
         return $this;
     }
 
-    /**
-     * block logical time
-     */
     public function setBlockLt(?int $blockLt): self
     {
         $this->_blockLt = $blockLt;
         return $this;
     }
 
-    /**
-     * transaction logical time
-     */
     public function setTransactionLt(?int $transactionLt): self
     {
         $this->_transactionLt = $transactionLt;

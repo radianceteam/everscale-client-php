@@ -13,13 +13,13 @@ use stdClass;
 
 class StateInitSource_StateInit extends StateInitSource implements JsonSerializable
 {
-    /** Code BOC. Encoded in `base64`. */
+    /** Encoded in `base64`. */
     private string $_code;
 
-    /** Data BOC. Encoded in `base64`. */
+    /** Encoded in `base64`. */
     private string $_data;
 
-    /** Library BOC. Encoded in `base64`. */
+    /** Encoded in `base64`. */
     private ?string $_library;
 
     public function __construct(?array $dto = null)
@@ -31,7 +31,7 @@ class StateInitSource_StateInit extends StateInitSource implements JsonSerializa
     }
 
     /**
-     * Code BOC. Encoded in `base64`.
+     * Encoded in `base64`.
      */
     public function getCode(): string
     {
@@ -39,7 +39,7 @@ class StateInitSource_StateInit extends StateInitSource implements JsonSerializa
     }
 
     /**
-     * Data BOC. Encoded in `base64`.
+     * Encoded in `base64`.
      */
     public function getData(): string
     {
@@ -47,7 +47,7 @@ class StateInitSource_StateInit extends StateInitSource implements JsonSerializa
     }
 
     /**
-     * Library BOC. Encoded in `base64`.
+     * Encoded in `base64`.
      */
     public function getLibrary(): ?string
     {
@@ -55,7 +55,7 @@ class StateInitSource_StateInit extends StateInitSource implements JsonSerializa
     }
 
     /**
-     * Code BOC. Encoded in `base64`.
+     * Encoded in `base64`.
      */
     public function setCode(string $code): self
     {
@@ -64,7 +64,7 @@ class StateInitSource_StateInit extends StateInitSource implements JsonSerializa
     }
 
     /**
-     * Data BOC. Encoded in `base64`.
+     * Encoded in `base64`.
      */
     public function setData(string $data): self
     {
@@ -73,7 +73,7 @@ class StateInitSource_StateInit extends StateInitSource implements JsonSerializa
     }
 
     /**
-     * Library BOC. Encoded in `base64`.
+     * Encoded in `base64`.
      */
     public function setLibrary(?string $library): self
     {

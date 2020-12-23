@@ -13,7 +13,6 @@ use stdClass;
 
 class ResultOfNaclBox implements JsonSerializable
 {
-    /** Encrypted data encoded in `base64`. */
     private string $_encrypted;
 
     public function __construct(?array $dto = null)
@@ -22,17 +21,11 @@ class ResultOfNaclBox implements JsonSerializable
         $this->_encrypted = $dto['encrypted'] ?? '';
     }
 
-    /**
-     * Encrypted data encoded in `base64`.
-     */
     public function getEncrypted(): string
     {
         return $this->_encrypted;
     }
 
-    /**
-     * Encrypted data encoded in `base64`.
-     */
     public function setEncrypted(string $encrypted): self
     {
         $this->_encrypted = $encrypted;

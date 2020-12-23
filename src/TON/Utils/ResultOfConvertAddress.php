@@ -13,7 +13,6 @@ use stdClass;
 
 class ResultOfConvertAddress implements JsonSerializable
 {
-    /** Address in the specified format */
     private string $_address;
 
     public function __construct(?array $dto = null)
@@ -22,17 +21,11 @@ class ResultOfConvertAddress implements JsonSerializable
         $this->_address = $dto['address'] ?? '';
     }
 
-    /**
-     * Address in the specified format
-     */
     public function getAddress(): string
     {
         return $this->_address;
     }
 
-    /**
-     * Address in the specified format
-     */
     public function setAddress(string $address): self
     {
         $this->_address = $address;

@@ -13,7 +13,6 @@ use stdClass;
 
 class ResultOfGetBlockchainConfig implements JsonSerializable
 {
-    /** Blockchain config BOC encoded as base64 */
     private string $_configBoc;
 
     public function __construct(?array $dto = null)
@@ -22,17 +21,11 @@ class ResultOfGetBlockchainConfig implements JsonSerializable
         $this->_configBoc = $dto['config_boc'] ?? '';
     }
 
-    /**
-     * Blockchain config BOC encoded as base64
-     */
     public function getConfigBoc(): string
     {
         return $this->_configBoc;
     }
 
-    /**
-     * Blockchain config BOC encoded as base64
-     */
     public function setConfigBoc(string $configBoc): self
     {
         $this->_configBoc = $configBoc;

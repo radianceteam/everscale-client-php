@@ -13,7 +13,6 @@ use stdClass;
 
 class ResultOfMnemonicWords implements JsonSerializable
 {
-    /** The list of mnemonic words */
     private string $_words;
 
     public function __construct(?array $dto = null)
@@ -22,17 +21,11 @@ class ResultOfMnemonicWords implements JsonSerializable
         $this->_words = $dto['words'] ?? '';
     }
 
-    /**
-     * The list of mnemonic words
-     */
     public function getWords(): string
     {
         return $this->_words;
     }
 
-    /**
-     * The list of mnemonic words
-     */
     public function setWords(string $words): self
     {
         $this->_words = $words;

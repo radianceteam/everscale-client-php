@@ -27,7 +27,6 @@ interface TvmModuleAsyncInterface
     function runTvmAsync(ParamsOfRunTvm $params): AsyncResultOfRunTvm;
 
     /**
-     * Executes getmethod and returns data from TVM stack
      * @param ParamsOfRunGet $params
      * @return AsyncResultOfRunGet
      */

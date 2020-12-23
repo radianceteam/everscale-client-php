@@ -13,7 +13,6 @@ use stdClass;
 
 class ParamsOfNaclSignKeyPairFromSecret implements JsonSerializable
 {
-    /** Secret key - unprefixed 0-padded to 64 symbols hex string */
     private string $_secret;
 
     public function __construct(?array $dto = null)
@@ -22,17 +21,11 @@ class ParamsOfNaclSignKeyPairFromSecret implements JsonSerializable
         $this->_secret = $dto['secret'] ?? '';
     }
 
-    /**
-     * Secret key - unprefixed 0-padded to 64 symbols hex string
-     */
     public function getSecret(): string
     {
         return $this->_secret;
     }
 
-    /**
-     * Secret key - unprefixed 0-padded to 64 symbols hex string
-     */
     public function setSecret(string $secret): self
     {
         $this->_secret = $secret;

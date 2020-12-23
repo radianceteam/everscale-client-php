@@ -13,16 +13,9 @@ use stdClass;
 
 class ParamsOfAttachSignature implements JsonSerializable
 {
-    /** Contract ABI */
     private ?Abi $_abi;
-
-    /** Public key encoded in `hex`. */
     private string $_publicKey;
-
-    /** Unsigned message BOC encoded in `base64`. */
     private string $_message;
-
-    /** Signature encoded in `hex`. */
     private string $_signature;
 
     public function __construct(?array $dto = null)
@@ -34,68 +27,44 @@ class ParamsOfAttachSignature implements JsonSerializable
         $this->_signature = $dto['signature'] ?? '';
     }
 
-    /**
-     * Contract ABI
-     */
     public function getAbi(): ?Abi
     {
         return $this->_abi;
     }
 
-    /**
-     * Public key encoded in `hex`.
-     */
     public function getPublicKey(): string
     {
         return $this->_publicKey;
     }
 
-    /**
-     * Unsigned message BOC encoded in `base64`.
-     */
     public function getMessage(): string
     {
         return $this->_message;
     }
 
-    /**
-     * Signature encoded in `hex`.
-     */
     public function getSignature(): string
     {
         return $this->_signature;
     }
 
-    /**
-     * Contract ABI
-     */
     public function setAbi(?Abi $abi): self
     {
         $this->_abi = $abi;
         return $this;
     }
 
-    /**
-     * Public key encoded in `hex`.
-     */
     public function setPublicKey(string $publicKey): self
     {
         $this->_publicKey = $publicKey;
         return $this;
     }
 
-    /**
-     * Unsigned message BOC encoded in `base64`.
-     */
     public function setMessage(string $message): self
     {
         $this->_message = $message;
         return $this;
     }
 
-    /**
-     * Signature encoded in `hex`.
-     */
     public function setSignature(string $signature): self
     {
         $this->_signature = $signature;

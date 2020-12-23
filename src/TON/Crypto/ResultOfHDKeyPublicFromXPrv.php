@@ -13,7 +13,6 @@ use stdClass;
 
 class ResultOfHDKeyPublicFromXPrv implements JsonSerializable
 {
-    /** Public key - 64 symbols hex string */
     private string $_public;
 
     public function __construct(?array $dto = null)
@@ -22,17 +21,11 @@ class ResultOfHDKeyPublicFromXPrv implements JsonSerializable
         $this->_public = $dto['public'] ?? '';
     }
 
-    /**
-     * Public key - 64 symbols hex string
-     */
     public function getPublic(): string
     {
         return $this->_public;
     }
 
-    /**
-     * Public key - 64 symbols hex string
-     */
     public function setPublic(string $public): self
     {
         $this->_public = $public;

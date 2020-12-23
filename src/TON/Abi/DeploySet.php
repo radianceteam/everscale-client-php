@@ -13,13 +13,10 @@ use stdClass;
 
 class DeploySet implements JsonSerializable
 {
-    /** Content of TVC file encoded in `base64`. */
     private string $_tvc;
 
-    /** Target workchain for destination address. Default is `0`. */
+    /** Default is `0`. */
     private ?int $_workchainId;
-
-    /** List of initial values for contract's public variables. */
     private $_initialData;
 
     public function __construct(?array $dto = null)
@@ -30,33 +27,24 @@ class DeploySet implements JsonSerializable
         $this->_initialData = $dto['initial_data'] ?? null;
     }
 
-    /**
-     * Content of TVC file encoded in `base64`.
-     */
     public function getTvc(): string
     {
         return $this->_tvc;
     }
 
     /**
-     * Target workchain for destination address. Default is `0`.
+     * Default is `0`.
      */
     public function getWorkchainId(): ?int
     {
         return $this->_workchainId;
     }
 
-    /**
-     * List of initial values for contract's public variables.
-     */
     public function getInitialData()
     {
         return $this->_initialData;
     }
 
-    /**
-     * Content of TVC file encoded in `base64`.
-     */
     public function setTvc(string $tvc): self
     {
         $this->_tvc = $tvc;
@@ -64,7 +52,7 @@ class DeploySet implements JsonSerializable
     }
 
     /**
-     * Target workchain for destination address. Default is `0`.
+     * Default is `0`.
      */
     public function setWorkchainId(?int $workchainId): self
     {
@@ -72,9 +60,6 @@ class DeploySet implements JsonSerializable
         return $this;
     }
 
-    /**
-     * List of initial values for contract's public variables.
-     */
     public function setInitialData($initialData): self
     {
         $this->_initialData = $initialData;

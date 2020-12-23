@@ -13,7 +13,6 @@ use stdClass;
 
 class ResultOfNaclSignOpen implements JsonSerializable
 {
-    /** Unsigned data, encoded in `base64`. */
     private string $_unsigned;
 
     public function __construct(?array $dto = null)
@@ -22,17 +21,11 @@ class ResultOfNaclSignOpen implements JsonSerializable
         $this->_unsigned = $dto['unsigned'] ?? '';
     }
 
-    /**
-     * Unsigned data, encoded in `base64`.
-     */
     public function getUnsigned(): string
     {
         return $this->_unsigned;
     }
 
-    /**
-     * Unsigned data, encoded in `base64`.
-     */
     public function setUnsigned(string $unsigned): self
     {
         $this->_unsigned = $unsigned;

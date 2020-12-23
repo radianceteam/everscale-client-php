@@ -13,16 +13,9 @@ use stdClass;
 
 class ParamsOfMnemonicDeriveSignKeys implements JsonSerializable
 {
-    /** Phrase */
     private string $_phrase;
-
-    /** Derivation path, for instance "m/44'/396'/0'/0/0" */
     private ?string $_path;
-
-    /** Dictionary identifier */
     private ?int $_dictionary;
-
-    /** Word count */
     private ?int $_wordCount;
 
     public function __construct(?array $dto = null)
@@ -34,68 +27,44 @@ class ParamsOfMnemonicDeriveSignKeys implements JsonSerializable
         $this->_wordCount = $dto['word_count'] ?? null;
     }
 
-    /**
-     * Phrase
-     */
     public function getPhrase(): string
     {
         return $this->_phrase;
     }
 
-    /**
-     * Derivation path, for instance "m/44'/396'/0'/0/0"
-     */
     public function getPath(): ?string
     {
         return $this->_path;
     }
 
-    /**
-     * Dictionary identifier
-     */
     public function getDictionary(): ?int
     {
         return $this->_dictionary;
     }
 
-    /**
-     * Word count
-     */
     public function getWordCount(): ?int
     {
         return $this->_wordCount;
     }
 
-    /**
-     * Phrase
-     */
     public function setPhrase(string $phrase): self
     {
         $this->_phrase = $phrase;
         return $this;
     }
 
-    /**
-     * Derivation path, for instance "m/44'/396'/0'/0/0"
-     */
     public function setPath(?string $path): self
     {
         $this->_path = $path;
         return $this;
     }
 
-    /**
-     * Dictionary identifier
-     */
     public function setDictionary(?int $dictionary): self
     {
         $this->_dictionary = $dictionary;
         return $this;
     }
 
-    /**
-     * Word count
-     */
     public function setWordCount(?int $wordCount): self
     {
         $this->_wordCount = $wordCount;

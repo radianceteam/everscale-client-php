@@ -13,7 +13,7 @@ use stdClass;
 
 class ResultOfScrypt implements JsonSerializable
 {
-    /** Derived key. Encoded with `hex`. */
+    /** Encoded with `hex`. */
     private string $_key;
 
     public function __construct(?array $dto = null)
@@ -23,7 +23,7 @@ class ResultOfScrypt implements JsonSerializable
     }
 
     /**
-     * Derived key. Encoded with `hex`.
+     * Encoded with `hex`.
      */
     public function getKey(): string
     {
@@ -31,7 +31,7 @@ class ResultOfScrypt implements JsonSerializable
     }
 
     /**
-     * Derived key. Encoded with `hex`.
+     * Encoded with `hex`.
      */
     public function setKey(string $key): self
     {

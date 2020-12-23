@@ -13,10 +13,7 @@ use stdClass;
 
 class ResultOfBuildInfo implements JsonSerializable
 {
-    /** Build number assigned to this build by the CI. */
     private int $_buildNumber;
-
-    /** Fingerprint of the most important dependencies. */
     private array $_dependencies;
 
     public function __construct(?array $dto = null)
@@ -26,34 +23,22 @@ class ResultOfBuildInfo implements JsonSerializable
         $this->_dependencies = $dto['dependencies'] ?? [];
     }
 
-    /**
-     * Build number assigned to this build by the CI.
-     */
     public function getBuildNumber(): int
     {
         return $this->_buildNumber;
     }
 
-    /**
-     * Fingerprint of the most important dependencies.
-     */
     public function getDependencies(): array
     {
         return $this->_dependencies;
     }
 
-    /**
-     * Build number assigned to this build by the CI.
-     */
     public function setBuildNumber(int $buildNumber): self
     {
         $this->_buildNumber = $buildNumber;
         return $this;
     }
 
-    /**
-     * Fingerprint of the most important dependencies.
-     */
     public function setDependencies(array $dependencies): self
     {
         $this->_dependencies = $dependencies;

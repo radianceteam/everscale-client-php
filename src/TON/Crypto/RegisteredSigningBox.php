@@ -13,7 +13,6 @@ use stdClass;
 
 class RegisteredSigningBox implements JsonSerializable
 {
-    /** Handle of the signing box. */
     private int $_handle;
 
     public function __construct(?array $dto = null)
@@ -22,17 +21,11 @@ class RegisteredSigningBox implements JsonSerializable
         $this->_handle = $dto['handle'] ?? 0;
     }
 
-    /**
-     * Handle of the signing box.
-     */
     public function getHandle(): int
     {
         return $this->_handle;
     }
 
-    /**
-     * Handle of the signing box.
-     */
     public function setHandle(int $handle): self
     {
         $this->_handle = $handle;

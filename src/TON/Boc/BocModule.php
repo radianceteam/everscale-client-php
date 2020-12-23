@@ -12,9 +12,6 @@ use TON\Boc\Async\AsyncBocModule;
 use TON\Boc\Async\BocModuleAsyncInterface;
 use TON\TonContext;
 
-/**
- * BOC manipulation module.
- */
 class BocModule implements BocModuleInterface
 {
     private TonContext $_context;
@@ -37,9 +34,7 @@ class BocModule implements BocModuleInterface
     }
 
     /**
-     * Parses message boc into a JSON
-     *
-     *  JSON structure is compatible with GraphQL API message object
+     * JSON structure is compatible with GraphQL API message object
      * @param ParamsOfParse $params
      * @return ResultOfParse
      */
@@ -49,9 +44,7 @@ class BocModule implements BocModuleInterface
     }
 
     /**
-     * Parses transaction boc into a JSON
-     *
-     *  JSON structure is compatible with GraphQL API transaction object
+     * JSON structure is compatible with GraphQL API transaction object
      * @param ParamsOfParse $params
      * @return ResultOfParse
      */
@@ -61,9 +54,7 @@ class BocModule implements BocModuleInterface
     }
 
     /**
-     * Parses account boc into a JSON
-     *
-     *  JSON structure is compatible with GraphQL API account object
+     * JSON structure is compatible with GraphQL API account object
      * @param ParamsOfParse $params
      * @return ResultOfParse
      */
@@ -73,9 +64,7 @@ class BocModule implements BocModuleInterface
     }
 
     /**
-     * Parses block boc into a JSON
-     *
-     *  JSON structure is compatible with GraphQL API block object
+     * JSON structure is compatible with GraphQL API block object
      * @param ParamsOfParse $params
      * @return ResultOfParse
      */
@@ -85,9 +74,7 @@ class BocModule implements BocModuleInterface
     }
 
     /**
-     * Parses shardstate boc into a JSON
-     *
-     *  JSON structure is compatible with GraphQL API shardstate object
+     * JSON structure is compatible with GraphQL API shardstate object
      * @param ParamsOfParseShardstate $params
      * @return ResultOfParse
      */
@@ -106,7 +93,6 @@ class BocModule implements BocModuleInterface
     }
 
     /**
-     * Calculates BOC root hash
      * @param ParamsOfGetBocHash $params
      * @return ResultOfGetBocHash
      */

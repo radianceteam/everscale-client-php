@@ -13,50 +13,35 @@ use stdClass;
 
 class MessageSource_EncodingParams extends MessageSource implements JsonSerializable
 {
-    /** Contract ABI. */
     private ?Abi $_abi;
 
-    /**
-     * Target address the message will be sent to.
-     *
-     *  Must be specified in case of non-deploy message.
-     */
+    /** Must be specified in case of non-deploy message. */
     private ?string $_address;
 
-    /**
-     * Deploy parameters.
-     *
-     *  Must be specified in case of deploy message.
-     */
+    /** Must be specified in case of deploy message. */
     private ?DeploySet $_deploySet;
 
     /**
-     * Function call parameters.
+     * Must be specified in case of non-deploy message.
      *
-     *  Must be specified in case of non-deploy message.
-     *
-     *  In case of deploy message it is optional and contains parameters
-     *  of the functions that will to be called upon deploy transaction.
+     * In case of deploy message it is optional and contains parameters
+     * of the functions that will to be called upon deploy transaction.
      */
     private ?CallSet $_callSet;
-
-    /** Signing parameters. */
     private ?Signer $_signer;
 
     /**
-     * Processing try index.
+     * Used in message processing with retries (if contract's ABI includes "expire" header).
      *
-     *  Used in message processing with retries (if contract's ABI includes "expire" header).
+     * Encoder uses the provided try index to calculate message
+     * expiration time. The 1st message expiration time is specified in
+     * Client config.
      *
-     *  Encoder uses the provided try index to calculate message
-     *  expiration time. The 1st message expiration time is specified in
-     *  Client config.
+     * Expiration timeouts will grow with every retry.
+     * Retry grow factor is set in Client config:
+     * <.....add config parameter with default value here>
      *
-     *  Expiration timeouts will grow with every retry.
-     *  Retry grow factor is set in Client config:
-     *  <.....add config parameter with default value here>
-     *
-     *  Default value is 0.
+     * Default value is 0.
      */
     private ?int $_processingTryIndex;
 
@@ -71,18 +56,13 @@ class MessageSource_EncodingParams extends MessageSource implements JsonSerializ
         $this->_processingTryIndex = $dto['processing_try_index'] ?? null;
     }
 
-    /**
-     * Contract ABI.
-     */
     public function getAbi(): ?Abi
     {
         return $this->_abi;
     }
 
     /**
-     * Target address the message will be sent to.
-     *
-     *  Must be specified in case of non-deploy message.
+     * Must be specified in case of non-deploy message.
      */
     public function getAddress(): ?string
     {
@@ -90,9 +70,7 @@ class MessageSource_EncodingParams extends MessageSource implements JsonSerializ
     }
 
     /**
-     * Deploy parameters.
-     *
-     *  Must be specified in case of deploy message.
+     * Must be specified in case of deploy message.
      */
     public function getDeploySet(): ?DeploySet
     {
@@ -100,49 +78,39 @@ class MessageSource_EncodingParams extends MessageSource implements JsonSerializ
     }
 
     /**
-     * Function call parameters.
+     * Must be specified in case of non-deploy message.
      *
-     *  Must be specified in case of non-deploy message.
-     *
-     *  In case of deploy message it is optional and contains parameters
-     *  of the functions that will to be called upon deploy transaction.
+     * In case of deploy message it is optional and contains parameters
+     * of the functions that will to be called upon deploy transaction.
      */
     public function getCallSet(): ?CallSet
     {
         return $this->_callSet;
     }
 
-    /**
-     * Signing parameters.
-     */
     public function getSigner(): ?Signer
     {
         return $this->_signer;
     }
 
     /**
-     * Processing try index.
+     * Used in message processing with retries (if contract's ABI includes "expire" header).
      *
-     *  Used in message processing with retries (if contract's ABI includes "expire" header).
+     * Encoder uses the provided try index to calculate message
+     * expiration time. The 1st message expiration time is specified in
+     * Client config.
      *
-     *  Encoder uses the provided try index to calculate message
-     *  expiration time. The 1st message expiration time is specified in
-     *  Client config.
+     * Expiration timeouts will grow with every retry.
+     * Retry grow factor is set in Client config:
+     * <.....add config parameter with default value here>
      *
-     *  Expiration timeouts will grow with every retry.
-     *  Retry grow factor is set in Client config:
-     *  <.....add config parameter with default value here>
-     *
-     *  Default value is 0.
+     * Default value is 0.
      */
     public function getProcessingTryIndex(): ?int
     {
         return $this->_processingTryIndex;
     }
 
-    /**
-     * Contract ABI.
-     */
     public function setAbi(?Abi $abi): self
     {
         $this->_abi = $abi;
@@ -150,9 +118,7 @@ class MessageSource_EncodingParams extends MessageSource implements JsonSerializ
     }
 
     /**
-     * Target address the message will be sent to.
-     *
-     *  Must be specified in case of non-deploy message.
+     * Must be specified in case of non-deploy message.
      */
     public function setAddress(?string $address): self
     {
@@ -161,9 +127,7 @@ class MessageSource_EncodingParams extends MessageSource implements JsonSerializ
     }
 
     /**
-     * Deploy parameters.
-     *
-     *  Must be specified in case of deploy message.
+     * Must be specified in case of deploy message.
      */
     public function setDeploySet(?DeploySet $deploySet): self
     {
@@ -172,12 +136,10 @@ class MessageSource_EncodingParams extends MessageSource implements JsonSerializ
     }
 
     /**
-     * Function call parameters.
+     * Must be specified in case of non-deploy message.
      *
-     *  Must be specified in case of non-deploy message.
-     *
-     *  In case of deploy message it is optional and contains parameters
-     *  of the functions that will to be called upon deploy transaction.
+     * In case of deploy message it is optional and contains parameters
+     * of the functions that will to be called upon deploy transaction.
      */
     public function setCallSet(?CallSet $callSet): self
     {
@@ -185,9 +147,6 @@ class MessageSource_EncodingParams extends MessageSource implements JsonSerializ
         return $this;
     }
 
-    /**
-     * Signing parameters.
-     */
     public function setSigner(?Signer $signer): self
     {
         $this->_signer = $signer;
@@ -195,19 +154,17 @@ class MessageSource_EncodingParams extends MessageSource implements JsonSerializ
     }
 
     /**
-     * Processing try index.
+     * Used in message processing with retries (if contract's ABI includes "expire" header).
      *
-     *  Used in message processing with retries (if contract's ABI includes "expire" header).
+     * Encoder uses the provided try index to calculate message
+     * expiration time. The 1st message expiration time is specified in
+     * Client config.
      *
-     *  Encoder uses the provided try index to calculate message
-     *  expiration time. The 1st message expiration time is specified in
-     *  Client config.
+     * Expiration timeouts will grow with every retry.
+     * Retry grow factor is set in Client config:
+     * <.....add config parameter with default value here>
      *
-     *  Expiration timeouts will grow with every retry.
-     *  Retry grow factor is set in Client config:
-     *  <.....add config parameter with default value here>
-     *
-     *  Default value is 0.
+     * Default value is 0.
      */
     public function setProcessingTryIndex(?int $processingTryIndex): self
     {

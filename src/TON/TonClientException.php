@@ -15,10 +15,10 @@ class TonClientException extends RuntimeException
     public static function fromJson(string $json): self
     {
         $response = json_decode($json, true);
-        if (!$response || !isset($response['error'])) {
+        if (!$response || (!isset($response['error']) && !isset($response['code']))) {
             return new TonClientException("The returned JSON is invalid: ${json}");
         }
-        return self::fromErrorDto($response['error']);
+        return self::fromErrorDto(isset($response['error']) ? $response['error'] : $response);
     }
 
     public static function fromErrorDto(array $error): self

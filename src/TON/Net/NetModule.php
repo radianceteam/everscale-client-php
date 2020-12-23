@@ -12,9 +12,6 @@ use TON\Net\Async\AsyncNetModule;
 use TON\Net\Async\NetModuleAsyncInterface;
 use TON\TonContext;
 
-/**
- * Network access.
- */
 class NetModule implements NetModuleInterface
 {
     private TonContext $_context;
@@ -37,11 +34,18 @@ class NetModule implements NetModuleInterface
     }
 
     /**
-     * Queries collection data
-     *
-     *  Queries data that satisfies the `filter` conditions,
-     *  limits the number of returned records and orders them.
-     *  The projection fields are limited to `result` fields
+     * @param ParamsOfQuery $params
+     * @return ResultOfQuery
+     */
+    public function query(ParamsOfQuery $params): ResultOfQuery
+    {
+        return new ResultOfQuery($this->_context->callFunction('net.query', $params));
+    }
+
+    /**
+     * Queries data that satisfies the `filter` conditions,
+     * limits the number of returned records and orders them.
+     * The projection fields are limited to `result` fields
      * @param ParamsOfQueryCollection $params
      * @return ResultOfQueryCollection
      */
@@ -51,14 +55,12 @@ class NetModule implements NetModuleInterface
     }
 
     /**
-     * Returns an object that fulfills the conditions or waits for its appearance
-     *
-     *  Triggers only once.
-     *  If object that satisfies the `filter` conditions
-     *  already exists - returns it immediately.
-     *  If not - waits for insert/update of data within the specified `timeout`,
-     *  and returns it.
-     *  The projection fields are limited to `result` fields
+     * Triggers only once.
+     * If object that satisfies the `filter` conditions
+     * already exists - returns it immediately.
+     * If not - waits for insert/update of data within the specified `timeout`,
+     * and returns it.
+     * The projection fields are limited to `result` fields
      * @param ParamsOfWaitForCollection $params
      * @return ResultOfWaitForCollection
      */
@@ -68,13 +70,27 @@ class NetModule implements NetModuleInterface
     }
 
     /**
-     * Cancels a subscription
-     *
-     *  Cancels a subscription specified by its handle.
+     * Cancels a subscription specified by its handle.
      * @param ResultOfSubscribeCollection $params
      */
     public function unsubscribe(ResultOfSubscribeCollection $params)
     {
         $this->_context->callFunction('net.unsubscribe', $params);
+    }
+
+    /**
+     * Suspends network module to stop any network activity
+     */
+    public function suspend()
+    {
+        $this->_context->callFunction('net.suspend');
+    }
+
+    /**
+     * Resumes network module to enable network activity
+     */
+    public function resume()
+    {
+        $this->_context->callFunction('net.resume');
     }
 }

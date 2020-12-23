@@ -13,7 +13,6 @@ use stdClass;
 
 class ResultOfParse implements JsonSerializable
 {
-    /** JSON containing parsed BOC */
     private $_parsed;
 
     public function __construct(?array $dto = null)
@@ -22,17 +21,11 @@ class ResultOfParse implements JsonSerializable
         $this->_parsed = $dto['parsed'] ?? null;
     }
 
-    /**
-     * JSON containing parsed BOC
-     */
     public function getParsed()
     {
         return $this->_parsed;
     }
 
-    /**
-     * JSON containing parsed BOC
-     */
     public function setParsed($parsed): self
     {
         $this->_parsed = $parsed;

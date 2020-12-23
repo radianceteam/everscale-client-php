@@ -11,7 +11,7 @@ namespace TON\Net;
 use JsonSerializable;
 use stdClass;
 
-class ResultOfWaitForCollection implements JsonSerializable
+class ResultOfQuery implements JsonSerializable
 {
     private $_result;
 

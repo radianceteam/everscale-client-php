@@ -13,7 +13,6 @@ use stdClass;
 
 class ParamsOfGetBlockchainConfig implements JsonSerializable
 {
-    /** Key block BOC encoded as base64 */
     private string $_blockBoc;
 
     public function __construct(?array $dto = null)
@@ -22,17 +21,11 @@ class ParamsOfGetBlockchainConfig implements JsonSerializable
         $this->_blockBoc = $dto['block_boc'] ?? '';
     }
 
-    /**
-     * Key block BOC encoded as base64
-     */
     public function getBlockBoc(): string
     {
         return $this->_blockBoc;
     }
 
-    /**
-     * Key block BOC encoded as base64
-     */
     public function setBlockBoc(string $blockBoc): self
     {
         $this->_blockBoc = $blockBoc;

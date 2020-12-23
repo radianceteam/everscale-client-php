@@ -13,7 +13,6 @@ use stdClass;
 
 class ParamsOfAppDebotBrowser_Input extends ParamsOfAppDebotBrowser implements JsonSerializable
 {
-    /** A prompt string that must be printed to user before input request. */
     private string $_prompt;
 
     public function __construct(?array $dto = null)
@@ -22,17 +21,11 @@ class ParamsOfAppDebotBrowser_Input extends ParamsOfAppDebotBrowser implements J
         $this->_prompt = $dto['prompt'] ?? '';
     }
 
-    /**
-     * A prompt string that must be printed to user before input request.
-     */
     public function getPrompt(): string
     {
         return $this->_prompt;
     }
 
-    /**
-     * A prompt string that must be printed to user before input request.
-     */
     public function setPrompt(string $prompt): self
     {
         $this->_prompt = $prompt;

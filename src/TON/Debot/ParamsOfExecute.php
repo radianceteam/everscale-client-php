@@ -13,10 +13,7 @@ use stdClass;
 
 class ParamsOfExecute implements JsonSerializable
 {
-    /** Debot handle which references an instance of debot engine. */
     private int $_debotHandle;
-
-    /** Debot Action that must be executed. */
     private ?DebotAction $_action;
 
     public function __construct(?array $dto = null)
@@ -26,34 +23,22 @@ class ParamsOfExecute implements JsonSerializable
         $this->_action = isset($dto['action']) ? new DebotAction($dto['action']) : null;
     }
 
-    /**
-     * Debot handle which references an instance of debot engine.
-     */
     public function getDebotHandle(): int
     {
         return $this->_debotHandle;
     }
 
-    /**
-     * Debot Action that must be executed.
-     */
     public function getAction(): ?DebotAction
     {
         return $this->_action;
     }
 
-    /**
-     * Debot handle which references an instance of debot engine.
-     */
     public function setDebotHandle(int $debotHandle): self
     {
         $this->_debotHandle = $debotHandle;
         return $this;
     }
 
-    /**
-     * Debot Action that must be executed.
-     */
     public function setAction(?DebotAction $action): self
     {
         $this->_action = $action;

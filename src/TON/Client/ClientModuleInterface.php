@@ -10,9 +10,6 @@ namespace TON\Client;
 
 use TON\Client\Async\ClientModuleAsyncInterface;
 
-/**
- * Provides information about library.
- */
 interface ClientModuleInterface
 {
     /**
@@ -21,19 +18,16 @@ interface ClientModuleInterface
     function async(): ClientModuleAsyncInterface;
 
     /**
-     * Returns Core Library API reference
      * @return ResultOfGetApiReference
      */
     function getApiReference(): ResultOfGetApiReference;
 
     /**
-     * Returns Core Library version
      * @return ResultOfVersion
      */
     function version(): ResultOfVersion;
 
     /**
-     * Returns detailed information about this build.
      * @return ResultOfBuildInfo
      */
     function buildInfo(): ResultOfBuildInfo;

@@ -13,7 +13,6 @@ use stdClass;
 
 class ResultOfConvertPublicKeyToTonSafeFormat implements JsonSerializable
 {
-    /** Public key represented in TON safe format. */
     private string $_tonPublicKey;
 
     public function __construct(?array $dto = null)
@@ -22,17 +21,11 @@ class ResultOfConvertPublicKeyToTonSafeFormat implements JsonSerializable
         $this->_tonPublicKey = $dto['ton_public_key'] ?? '';
     }
 
-    /**
-     * Public key represented in TON safe format.
-     */
     public function getTonPublicKey(): string
     {
         return $this->_tonPublicKey;
     }
 
-    /**
-     * Public key represented in TON safe format.
-     */
     public function setTonPublicKey(string $tonPublicKey): self
     {
         $this->_tonPublicKey = $tonPublicKey;

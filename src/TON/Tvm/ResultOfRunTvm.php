@@ -14,19 +14,11 @@ use stdClass;
 
 class ResultOfRunTvm implements JsonSerializable
 {
-    /** List of output messages' BOCs. Encoded as `base64` */
+    /** Encoded as `base64` */
     private array $_outMessages;
-
-    /**
-     * Optional decoded message bodies according to the optional
-     *  `abi` parameter.
-     */
     private ?DecodedOutput $_decoded;
 
-    /**
-     * Updated account state BOC. Encoded as `base64`.
-     *  Attention! Only data in account state is updated.
-     */
+    /** Encoded as `base64`.Attention! Only data in account state is updated. */
     private string $_account;
 
     public function __construct(?array $dto = null)
@@ -38,25 +30,20 @@ class ResultOfRunTvm implements JsonSerializable
     }
 
     /**
-     * List of output messages' BOCs. Encoded as `base64`
+     * Encoded as `base64`
      */
     public function getOutMessages(): array
     {
         return $this->_outMessages;
     }
 
-    /**
-     * Optional decoded message bodies according to the optional
-     *  `abi` parameter.
-     */
     public function getDecoded(): ?DecodedOutput
     {
         return $this->_decoded;
     }
 
     /**
-     * Updated account state BOC. Encoded as `base64`.
-     *  Attention! Only data in account state is updated.
+     * Encoded as `base64`.Attention! Only data in account state is updated.
      */
     public function getAccount(): string
     {
@@ -64,7 +51,7 @@ class ResultOfRunTvm implements JsonSerializable
     }
 
     /**
-     * List of output messages' BOCs. Encoded as `base64`
+     * Encoded as `base64`
      */
     public function setOutMessages(array $outMessages): self
     {
@@ -72,10 +59,6 @@ class ResultOfRunTvm implements JsonSerializable
         return $this;
     }
 
-    /**
-     * Optional decoded message bodies according to the optional
-     *  `abi` parameter.
-     */
     public function setDecoded(?DecodedOutput $decoded): self
     {
         $this->_decoded = $decoded;
@@ -83,8 +66,7 @@ class ResultOfRunTvm implements JsonSerializable
     }
 
     /**
-     * Updated account state BOC. Encoded as `base64`.
-     *  Attention! Only data in account state is updated.
+     * Encoded as `base64`.Attention! Only data in account state is updated.
      */
     public function setAccount(string $account): self
     {

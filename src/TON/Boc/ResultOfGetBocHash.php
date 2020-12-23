@@ -13,7 +13,6 @@ use stdClass;
 
 class ResultOfGetBocHash implements JsonSerializable
 {
-    /** BOC root hash encoded with hex */
     private string $_hash;
 
     public function __construct(?array $dto = null)
@@ -22,17 +21,11 @@ class ResultOfGetBocHash implements JsonSerializable
         $this->_hash = $dto['hash'] ?? '';
     }
 
-    /**
-     * BOC root hash encoded with hex
-     */
     public function getHash(): string
     {
         return $this->_hash;
     }
 
-    /**
-     * BOC root hash encoded with hex
-     */
     public function setHash(string $hash): self
     {
         $this->_hash = $hash;

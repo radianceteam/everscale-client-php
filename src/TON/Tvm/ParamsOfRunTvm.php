@@ -14,16 +14,12 @@ use stdClass;
 
 class ParamsOfRunTvm implements JsonSerializable
 {
-    /** Input message BOC. Must be encoded as base64. */
+    /** Must be encoded as base64. */
     private string $_message;
 
-    /** Account BOC. Must be encoded as base64. */
+    /** Must be encoded as base64. */
     private string $_account;
-
-    /** Execution options. */
     private ?ExecutionOptions $_executionOptions;
-
-    /** Contract ABI for dedcoding output messages */
     private ?Abi $_abi;
 
     public function __construct(?array $dto = null)
@@ -36,7 +32,7 @@ class ParamsOfRunTvm implements JsonSerializable
     }
 
     /**
-     * Input message BOC. Must be encoded as base64.
+     * Must be encoded as base64.
      */
     public function getMessage(): string
     {
@@ -44,31 +40,25 @@ class ParamsOfRunTvm implements JsonSerializable
     }
 
     /**
-     * Account BOC. Must be encoded as base64.
+     * Must be encoded as base64.
      */
     public function getAccount(): string
     {
         return $this->_account;
     }
 
-    /**
-     * Execution options.
-     */
     public function getExecutionOptions(): ?ExecutionOptions
     {
         return $this->_executionOptions;
     }
 
-    /**
-     * Contract ABI for dedcoding output messages
-     */
     public function getAbi(): ?Abi
     {
         return $this->_abi;
     }
 
     /**
-     * Input message BOC. Must be encoded as base64.
+     * Must be encoded as base64.
      */
     public function setMessage(string $message): self
     {
@@ -77,7 +67,7 @@ class ParamsOfRunTvm implements JsonSerializable
     }
 
     /**
-     * Account BOC. Must be encoded as base64.
+     * Must be encoded as base64.
      */
     public function setAccount(string $account): self
     {
@@ -85,18 +75,12 @@ class ParamsOfRunTvm implements JsonSerializable
         return $this;
     }
 
-    /**
-     * Execution options.
-     */
     public function setExecutionOptions(?ExecutionOptions $executionOptions): self
     {
         $this->_executionOptions = $executionOptions;
         return $this;
     }
 
-    /**
-     * Contract ABI for dedcoding output messages
-     */
     public function setAbi(?Abi $abi): self
     {
         $this->_abi = $abi;

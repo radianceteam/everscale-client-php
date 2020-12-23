@@ -52,7 +52,6 @@ class TvmModule implements TvmModuleInterface
     }
 
     /**
-     * Executes getmethod and returns data from TVM stack
      * @param ParamsOfRunGet $params
      * @return ResultOfRunGet
      */

@@ -13,19 +13,14 @@ use stdClass;
 
 class CallSet implements JsonSerializable
 {
-    /** Function name that is being called. */
     private string $_functionName;
 
     /**
-     * Function header.
-     *
-     *  If an application omits some header parameters required by the
-     *  contract's ABI, the library will set the default values for
-     *  them.
+     * If an application omits some header parameters required by the
+     * contract's ABI, the library will set the default values for
+     * them.
      */
     private ?FunctionHeader $_header;
-
-    /** Function input parameters according to ABI. */
     private $_input;
 
     public function __construct(?array $dto = null)
@@ -36,37 +31,26 @@ class CallSet implements JsonSerializable
         $this->_input = $dto['input'] ?? null;
     }
 
-    /**
-     * Function name that is being called.
-     */
     public function getFunctionName(): string
     {
         return $this->_functionName;
     }
 
     /**
-     * Function header.
-     *
-     *  If an application omits some header parameters required by the
-     *  contract's ABI, the library will set the default values for
-     *  them.
+     * If an application omits some header parameters required by the
+     * contract's ABI, the library will set the default values for
+     * them.
      */
     public function getHeader(): ?FunctionHeader
     {
         return $this->_header;
     }
 
-    /**
-     * Function input parameters according to ABI.
-     */
     public function getInput()
     {
         return $this->_input;
     }
 
-    /**
-     * Function name that is being called.
-     */
     public function setFunctionName(string $functionName): self
     {
         $this->_functionName = $functionName;
@@ -74,11 +58,9 @@ class CallSet implements JsonSerializable
     }
 
     /**
-     * Function header.
-     *
-     *  If an application omits some header parameters required by the
-     *  contract's ABI, the library will set the default values for
-     *  them.
+     * If an application omits some header parameters required by the
+     * contract's ABI, the library will set the default values for
+     * them.
      */
     public function setHeader(?FunctionHeader $header): self
     {
@@ -86,9 +68,6 @@ class CallSet implements JsonSerializable
         return $this;
     }
 
-    /**
-     * Function input parameters according to ABI.
-     */
     public function setInput($input): self
     {
         $this->_input = $input;

@@ -13,7 +13,6 @@ use stdClass;
 
 class ParamsOfParse implements JsonSerializable
 {
-    /** BOC encoded as base64 */
     private string $_boc;
 
     public function __construct(?array $dto = null)
@@ -22,17 +21,11 @@ class ParamsOfParse implements JsonSerializable
         $this->_boc = $dto['boc'] ?? '';
     }
 
-    /**
-     * BOC encoded as base64
-     */
     public function getBoc(): string
     {
         return $this->_boc;
     }
 
-    /**
-     * BOC encoded as base64
-     */
     public function setBoc(string $boc): self
     {
         $this->_boc = $boc;

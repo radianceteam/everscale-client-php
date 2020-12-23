@@ -17,10 +17,8 @@ final class MessageBodyType
     const Output = 'Output';
 
     /**
-     * Message contains the input of the imported ABI function.
-     *
-     *  Occurs when contract sends an internal message to other
-     *  contract.
+     * Occurs when contract sends an internal message to other
+     * contract.
      */
     const InternalOutput = 'InternalOutput';
 

@@ -13,10 +13,7 @@ use stdClass;
 
 class KeyPair implements JsonSerializable
 {
-    /** Public key - 64 symbols hex string */
     private string $_public;
-
-    /** Private key - u64 symbols hex string */
     private string $_secret;
 
     public function __construct(?array $dto = null)
@@ -26,34 +23,22 @@ class KeyPair implements JsonSerializable
         $this->_secret = $dto['secret'] ?? '';
     }
 
-    /**
-     * Public key - 64 symbols hex string
-     */
     public function getPublic(): string
     {
         return $this->_public;
     }
 
-    /**
-     * Private key - u64 symbols hex string
-     */
     public function getSecret(): string
     {
         return $this->_secret;
     }
 
-    /**
-     * Public key - 64 symbols hex string
-     */
     public function setPublic(string $public): self
     {
         $this->_public = $public;
         return $this;
     }
 
-    /**
-     * Private key - u64 symbols hex string
-     */
     public function setSecret(string $secret): self
     {
         $this->_secret = $secret;

@@ -13,7 +13,6 @@ use stdClass;
 
 class ResultOfAppDebotBrowser_Input extends ResultOfAppDebotBrowser implements JsonSerializable
 {
-    /** String entered by user. */
     private string $_value;
 
     public function __construct(?array $dto = null)
@@ -22,17 +21,11 @@ class ResultOfAppDebotBrowser_Input extends ResultOfAppDebotBrowser implements J
         $this->_value = $dto['value'] ?? '';
     }
 
-    /**
-     * String entered by user.
-     */
     public function getValue(): string
     {
         return $this->_value;
     }
 
-    /**
-     * String entered by user.
-     */
     public function setValue(string $value): self
     {
         $this->_value = $value;

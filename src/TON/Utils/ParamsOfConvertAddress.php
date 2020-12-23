@@ -13,10 +13,7 @@ use stdClass;
 
 class ParamsOfConvertAddress implements JsonSerializable
 {
-    /** Account address in any TON format. */
     private string $_address;
-
-    /** Specify the format to convert to. */
     private ?AddressStringFormat $_outputFormat;
 
     public function __construct(?array $dto = null)
@@ -26,34 +23,22 @@ class ParamsOfConvertAddress implements JsonSerializable
         $this->_outputFormat = isset($dto['output_format']) ? AddressStringFormat::create($dto['output_format']) : null;
     }
 
-    /**
-     * Account address in any TON format.
-     */
     public function getAddress(): string
     {
         return $this->_address;
     }
 
-    /**
-     * Specify the format to convert to.
-     */
     public function getOutputFormat(): ?AddressStringFormat
     {
         return $this->_outputFormat;
     }
 
-    /**
-     * Account address in any TON format.
-     */
     public function setAddress(string $address): self
     {
         $this->_address = $address;
         return $this;
     }
 
-    /**
-     * Specify the format to convert to.
-     */
     public function setOutputFormat(?AddressStringFormat $outputFormat): self
     {
         $this->_outputFormat = $outputFormat;

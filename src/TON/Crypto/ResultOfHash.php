@@ -13,7 +13,7 @@ use stdClass;
 
 class ResultOfHash implements JsonSerializable
 {
-    /** Hash of input `data`. Encoded with 'hex'. */
+    /** Encoded with 'hex'. */
     private string $_hash;
 
     public function __construct(?array $dto = null)
@@ -23,7 +23,7 @@ class ResultOfHash implements JsonSerializable
     }
 
     /**
-     * Hash of input `data`. Encoded with 'hex'.
+     * Encoded with 'hex'.
      */
     public function getHash(): string
     {
@@ -31,7 +31,7 @@ class ResultOfHash implements JsonSerializable
     }
 
     /**
-     * Hash of input `data`. Encoded with 'hex'.
+     * Encoded with 'hex'.
      */
     public function setHash(string $hash): self
     {

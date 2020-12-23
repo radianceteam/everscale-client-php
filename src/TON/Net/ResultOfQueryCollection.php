@@ -13,7 +13,6 @@ use stdClass;
 
 class ResultOfQueryCollection implements JsonSerializable
 {
-    /** Objects that match the provided criteria */
     private array $_result;
 
     public function __construct(?array $dto = null)
@@ -22,17 +21,11 @@ class ResultOfQueryCollection implements JsonSerializable
         $this->_result = $dto['result'] ?? [];
     }
 
-    /**
-     * Objects that match the provided criteria
-     */
     public function getResult(): array
     {
         return $this->_result;
     }
 
-    /**
-     * Objects that match the provided criteria
-     */
     public function setResult(array $result): self
     {
         $this->_result = $result;

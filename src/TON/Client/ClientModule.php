@@ -12,9 +12,6 @@ use TON\Client\Async\AsyncClientModule;
 use TON\Client\Async\ClientModuleAsyncInterface;
 use TON\TonContext;
 
-/**
- * Provides information about library.
- */
 class ClientModule implements ClientModuleInterface
 {
     private TonContext $_context;
@@ -37,7 +34,6 @@ class ClientModule implements ClientModuleInterface
     }
 
     /**
-     * Returns Core Library API reference
      * @return ResultOfGetApiReference
      */
     public function getApiReference(): ResultOfGetApiReference
@@ -46,7 +42,6 @@ class ClientModule implements ClientModuleInterface
     }
 
     /**
-     * Returns Core Library version
      * @return ResultOfVersion
      */
     public function version(): ResultOfVersion
@@ -55,7 +50,6 @@ class ClientModule implements ClientModuleInterface
     }
 
     /**
-     * Returns detailed information about this build.
      * @return ResultOfBuildInfo
      */
     public function buildInfo(): ResultOfBuildInfo

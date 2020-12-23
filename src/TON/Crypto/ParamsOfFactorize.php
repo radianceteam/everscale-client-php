@@ -13,7 +13,6 @@ use stdClass;
 
 class ParamsOfFactorize implements JsonSerializable
 {
-    /** Hexadecimal representation of u64 composite number. */
     private string $_composite;
 
     public function __construct(?array $dto = null)
@@ -22,17 +21,11 @@ class ParamsOfFactorize implements JsonSerializable
         $this->_composite = $dto['composite'] ?? '';
     }
 
-    /**
-     * Hexadecimal representation of u64 composite number.
-     */
     public function getComposite(): string
     {
         return $this->_composite;
     }
 
-    /**
-     * Hexadecimal representation of u64 composite number.
-     */
     public function setComposite(string $composite): self
     {
         $this->_composite = $composite;

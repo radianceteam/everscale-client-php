@@ -13,7 +13,6 @@ use stdClass;
 
 class ResultOfHDKeyXPrvFromMnemonic implements JsonSerializable
 {
-    /** Serialized extended master private key */
     private string $_xprv;
 
     public function __construct(?array $dto = null)
@@ -22,17 +21,11 @@ class ResultOfHDKeyXPrvFromMnemonic implements JsonSerializable
         $this->_xprv = $dto['xprv'] ?? '';
     }
 
-    /**
-     * Serialized extended master private key
-     */
     public function getXprv(): string
     {
         return $this->_xprv;
     }
 
-    /**
-     * Serialized extended master private key
-     */
     public function setXprv(string $xprv): self
     {
         $this->_xprv = $xprv;

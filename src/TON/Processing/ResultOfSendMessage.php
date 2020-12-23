@@ -14,11 +14,8 @@ use stdClass;
 class ResultOfSendMessage implements JsonSerializable
 {
     /**
-     * The last generated shard block of the message destination account before the
-     *  message was sent.
-     *
-     *  This block id must be used as a parameter of the
-     *  `wait_for_transaction`.
+     * This block id must be used as a parameter of the
+     * `wait_for_transaction`.
      */
     private string $_shardBlockId;
 
@@ -29,11 +26,8 @@ class ResultOfSendMessage implements JsonSerializable
     }
 
     /**
-     * The last generated shard block of the message destination account before the
-     *  message was sent.
-     *
-     *  This block id must be used as a parameter of the
-     *  `wait_for_transaction`.
+     * This block id must be used as a parameter of the
+     * `wait_for_transaction`.
      */
     public function getShardBlockId(): string
     {
@@ -41,11 +35,8 @@ class ResultOfSendMessage implements JsonSerializable
     }
 
     /**
-     * The last generated shard block of the message destination account before the
-     *  message was sent.
-     *
-     *  This block id must be used as a parameter of the
-     *  `wait_for_transaction`.
+     * This block id must be used as a parameter of the
+     * `wait_for_transaction`.
      */
     public function setShardBlockId(string $shardBlockId): self
     {

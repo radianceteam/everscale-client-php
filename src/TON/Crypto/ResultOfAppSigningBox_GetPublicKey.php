@@ -13,7 +13,6 @@ use stdClass;
 
 class ResultOfAppSigningBox_GetPublicKey extends ResultOfAppSigningBox implements JsonSerializable
 {
-    /** Signing box public key */
     private string $_publicKey;
 
     public function __construct(?array $dto = null)
@@ -22,17 +21,11 @@ class ResultOfAppSigningBox_GetPublicKey extends ResultOfAppSigningBox implement
         $this->_publicKey = $dto['public_key'] ?? '';
     }
 
-    /**
-     * Signing box public key
-     */
     public function getPublicKey(): string
     {
         return $this->_publicKey;
     }
 
-    /**
-     * Signing box public key
-     */
     public function setPublicKey(string $publicKey): self
     {
         $this->_publicKey = $publicKey;

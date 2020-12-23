@@ -11,9 +11,6 @@ namespace TON\Utils\Async;
 use TON\TonContext;
 use TON\Utils\ParamsOfConvertAddress;
 
-/**
- * Misc utility Functions.
- */
 class AsyncUtilsModule implements UtilsModuleAsyncInterface
 {
     private TonContext $_context;
@@ -28,7 +25,6 @@ class AsyncUtilsModule implements UtilsModuleAsyncInterface
     }
 
     /**
-     * Converts address from any TON format to any TON format
      * @param ParamsOfConvertAddress $params
      * @return AsyncResultOfConvertAddress
      */

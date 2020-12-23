@@ -13,7 +13,7 @@ use stdClass;
 
 class ResultOfSigningBoxGetPublicKey implements JsonSerializable
 {
-    /** Public key of signing box. Encoded with hex */
+    /** Encoded with hex */
     private string $_pubkey;
 
     public function __construct(?array $dto = null)
@@ -23,7 +23,7 @@ class ResultOfSigningBoxGetPublicKey implements JsonSerializable
     }
 
     /**
-     * Public key of signing box. Encoded with hex
+     * Encoded with hex
      */
     public function getPubkey(): string
     {
@@ -31,7 +31,7 @@ class ResultOfSigningBoxGetPublicKey implements JsonSerializable
     }
 
     /**
-     * Public key of signing box. Encoded with hex
+     * Encoded with hex
      */
     public function setPubkey(string $pubkey): self
     {

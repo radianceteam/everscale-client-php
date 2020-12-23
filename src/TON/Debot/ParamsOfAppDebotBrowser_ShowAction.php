@@ -13,10 +13,6 @@ use stdClass;
 
 class ParamsOfAppDebotBrowser_ShowAction extends ParamsOfAppDebotBrowser implements JsonSerializable
 {
-    /**
-     * Debot action that must be shown to user as menu item.
-     *  At least `description` property must be shown from [DebotAction] structure.
-     */
     private ?DebotAction $_action;
 
     public function __construct(?array $dto = null)
@@ -25,19 +21,11 @@ class ParamsOfAppDebotBrowser_ShowAction extends ParamsOfAppDebotBrowser impleme
         $this->_action = isset($dto['action']) ? new DebotAction($dto['action']) : null;
     }
 
-    /**
-     * Debot action that must be shown to user as menu item.
-     *  At least `description` property must be shown from [DebotAction] structure.
-     */
     public function getAction(): ?DebotAction
     {
         return $this->_action;
     }
 
-    /**
-     * Debot action that must be shown to user as menu item.
-     *  At least `description` property must be shown from [DebotAction] structure.
-     */
     public function setAction(?DebotAction $action): self
     {
         $this->_action = $action;

@@ -13,7 +13,6 @@ use stdClass;
 
 class ResultOfVersion implements JsonSerializable
 {
-    /** Core Library version */
     private string $_version;
 
     public function __construct(?array $dto = null)
@@ -22,17 +21,11 @@ class ResultOfVersion implements JsonSerializable
         $this->_version = $dto['version'] ?? '';
     }
 
-    /**
-     * Core Library version
-     */
     public function getVersion(): string
     {
         return $this->_version;
     }
 
-    /**
-     * Core Library version
-     */
     public function setVersion(string $version): self
     {
         $this->_version = $version;

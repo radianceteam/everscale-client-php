@@ -13,13 +13,8 @@ use stdClass;
 
 class ParamsOfRunGet implements JsonSerializable
 {
-    /** Account BOC in `base64` */
     private string $_account;
-
-    /** Function name */
     private string $_functionName;
-
-    /** Input parameters */
     private $_input;
     private ?ExecutionOptions $_executionOptions;
 
@@ -32,25 +27,16 @@ class ParamsOfRunGet implements JsonSerializable
         $this->_executionOptions = isset($dto['execution_options']) ? new ExecutionOptions($dto['execution_options']) : null;
     }
 
-    /**
-     * Account BOC in `base64`
-     */
     public function getAccount(): string
     {
         return $this->_account;
     }
 
-    /**
-     * Function name
-     */
     public function getFunctionName(): string
     {
         return $this->_functionName;
     }
 
-    /**
-     * Input parameters
-     */
     public function getInput()
     {
         return $this->_input;
@@ -61,27 +47,18 @@ class ParamsOfRunGet implements JsonSerializable
         return $this->_executionOptions;
     }
 
-    /**
-     * Account BOC in `base64`
-     */
     public function setAccount(string $account): self
     {
         $this->_account = $account;
         return $this;
     }
 
-    /**
-     * Function name
-     */
     public function setFunctionName(string $functionName): self
     {
         $this->_functionName = $functionName;
         return $this;
     }
 
-    /**
-     * Input parameters
-     */
     public function setInput($input): self
     {
         $this->_input = $input;

@@ -13,7 +13,6 @@ use stdClass;
 
 class ResultOfMnemonicVerify implements JsonSerializable
 {
-    /** Flag indicating if the mnemonic is valid or not */
     private bool $_valid;
 
     public function __construct(?array $dto = null)
@@ -22,17 +21,11 @@ class ResultOfMnemonicVerify implements JsonSerializable
         $this->_valid = $dto['valid'] ?? false;
     }
 
-    /**
-     * Flag indicating if the mnemonic is valid or not
-     */
     public function isValid(): bool
     {
         return $this->_valid;
     }
 
-    /**
-     * Flag indicating if the mnemonic is valid or not
-     */
     public function setValid(bool $valid): self
     {
         $this->_valid = $valid;

@@ -13,6 +13,7 @@ use stdClass;
 
 class ParamsOfAppRequest implements JsonSerializable
 {
+    /** Should be used in `resolve_app_request` call */
     private int $_appRequestId;
     private $_requestData;
 
@@ -23,6 +24,9 @@ class ParamsOfAppRequest implements JsonSerializable
         $this->_requestData = $dto['request_data'] ?? null;
     }
 
+    /**
+     * Should be used in `resolve_app_request` call
+     */
     public function getAppRequestId(): int
     {
         return $this->_appRequestId;
@@ -33,6 +37,9 @@ class ParamsOfAppRequest implements JsonSerializable
         return $this->_requestData;
     }
 
+    /**
+     * Should be used in `resolve_app_request` call
+     */
     public function setAppRequestId(int $appRequestId): self
     {
         $this->_appRequestId = $appRequestId;

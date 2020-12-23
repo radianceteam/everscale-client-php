@@ -13,16 +13,9 @@ use stdClass;
 
 class DecodedMessageBody implements JsonSerializable
 {
-    /** Type of the message body content. */
     private string $_bodyType;
-
-    /** Function or event name. */
     private string $_name;
-
-    /** Parameters or result value. */
     private $_value;
-
-    /** Function header. */
     private ?FunctionHeader $_header;
 
     public function __construct(?array $dto = null)
@@ -34,68 +27,44 @@ class DecodedMessageBody implements JsonSerializable
         $this->_header = isset($dto['header']) ? new FunctionHeader($dto['header']) : null;
     }
 
-    /**
-     * Type of the message body content.
-     */
     public function getBodyType(): string
     {
         return $this->_bodyType;
     }
 
-    /**
-     * Function or event name.
-     */
     public function getName(): string
     {
         return $this->_name;
     }
 
-    /**
-     * Parameters or result value.
-     */
     public function getValue()
     {
         return $this->_value;
     }
 
-    /**
-     * Function header.
-     */
     public function getHeader(): ?FunctionHeader
     {
         return $this->_header;
     }
 
-    /**
-     * Type of the message body content.
-     */
     public function setBodyType(string $bodyType): self
     {
         $this->_bodyType = $bodyType;
         return $this;
     }
 
-    /**
-     * Function or event name.
-     */
     public function setName(string $name): self
     {
         $this->_name = $name;
         return $this;
     }
 
-    /**
-     * Parameters or result value.
-     */
     public function setValue($value): self
     {
         $this->_value = $value;
         return $this;
     }
 
-    /**
-     * Function header.
-     */
     public function setHeader(?FunctionHeader $header): self
     {
         $this->_header = $header;

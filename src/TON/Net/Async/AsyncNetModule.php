@@ -9,15 +9,13 @@ declare(strict_types=1);
 namespace TON\Net\Async;
 
 use TON\AsyncResult;
+use TON\Net\ParamsOfQuery;
 use TON\Net\ParamsOfQueryCollection;
 use TON\Net\ParamsOfSubscribeCollection;
 use TON\Net\ParamsOfWaitForCollection;
 use TON\Net\ResultOfSubscribeCollection;
 use TON\TonContext;
 
-/**
- * Network access.
- */
 class AsyncNetModule implements NetModuleAsyncInterface
 {
     private TonContext $_context;
@@ -32,11 +30,18 @@ class AsyncNetModule implements NetModuleAsyncInterface
     }
 
     /**
-     * Queries collection data
-     *
-     *  Queries data that satisfies the `filter` conditions,
-     *  limits the number of returned records and orders them.
-     *  The projection fields are limited to `result` fields
+     * @param ParamsOfQuery $params
+     * @return AsyncResultOfQuery
+     */
+    public function queryAsync(ParamsOfQuery $params): AsyncResultOfQuery
+    {
+        return new AsyncResultOfQuery($this->_context->callFunctionAsync('net.query', $params));
+    }
+
+    /**
+     * Queries data that satisfies the `filter` conditions,
+     * limits the number of returned records and orders them.
+     * The projection fields are limited to `result` fields
      * @param ParamsOfQueryCollection $params
      * @return AsyncResultOfQueryCollection
      */
@@ -46,14 +51,12 @@ class AsyncNetModule implements NetModuleAsyncInterface
     }
 
     /**
-     * Returns an object that fulfills the conditions or waits for its appearance
-     *
-     *  Triggers only once.
-     *  If object that satisfies the `filter` conditions
-     *  already exists - returns it immediately.
-     *  If not - waits for insert/update of data within the specified `timeout`,
-     *  and returns it.
-     *  The projection fields are limited to `result` fields
+     * Triggers only once.
+     * If object that satisfies the `filter` conditions
+     * already exists - returns it immediately.
+     * If not - waits for insert/update of data within the specified `timeout`,
+     * and returns it.
+     * The projection fields are limited to `result` fields
      * @param ParamsOfWaitForCollection $params
      * @return AsyncResultOfWaitForCollection
      */
@@ -63,9 +66,7 @@ class AsyncNetModule implements NetModuleAsyncInterface
     }
 
     /**
-     * Cancels a subscription
-     *
-     *  Cancels a subscription specified by its handle.
+     * Cancels a subscription specified by its handle.
      * @param ResultOfSubscribeCollection $params
      * @return AsyncResult
      */
@@ -75,16 +76,32 @@ class AsyncNetModule implements NetModuleAsyncInterface
     }
 
     /**
-     * Creates a subscription
-     *
-     *  Triggers for each insert/update of data
-     *  that satisfies the `filter` conditions.
-     *  The projection fields are limited to `result` fields.
+     * Triggers for each insert/update of data
+     * that satisfies the `filter` conditions.
+     * The projection fields are limited to `result` fields.
      * @param ParamsOfSubscribeCollection $params
      * @return AsyncResultOfSubscribeCollection
      */
     public function subscribeCollectionAsync(ParamsOfSubscribeCollection $params): AsyncResultOfSubscribeCollection
     {
         return new AsyncResultOfSubscribeCollection($this->_context->callFunctionAsync('net.subscribe_collection', $params));
+    }
+
+    /**
+     * Suspends network module to stop any network activity
+     * @return AsyncResult
+     */
+    public function suspendAsync(): AsyncResult
+    {
+        return new AsyncResult($this->_context->callFunctionAsync('net.suspend'));
+    }
+
+    /**
+     * Resumes network module to enable network activity
+     * @return AsyncResult
+     */
+    public function resumeAsync(): AsyncResult
+    {
+        return new AsyncResult($this->_context->callFunctionAsync('net.resume'));
     }
 }

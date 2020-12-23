@@ -13,7 +13,6 @@ use stdClass;
 
 class ResultOfAppSigningBox_Sign extends ResultOfAppSigningBox implements JsonSerializable
 {
-    /** Data signature encoded as hex */
     private string $_signature;
 
     public function __construct(?array $dto = null)
@@ -22,17 +21,11 @@ class ResultOfAppSigningBox_Sign extends ResultOfAppSigningBox implements JsonSe
         $this->_signature = $dto['signature'] ?? '';
     }
 
-    /**
-     * Data signature encoded as hex
-     */
     public function getSignature(): string
     {
         return $this->_signature;
     }
 
-    /**
-     * Data signature encoded as hex
-     */
     public function setSignature(string $signature): self
     {
         $this->_signature = $signature;

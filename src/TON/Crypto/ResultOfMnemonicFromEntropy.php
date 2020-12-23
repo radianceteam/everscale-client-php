@@ -13,7 +13,6 @@ use stdClass;
 
 class ResultOfMnemonicFromEntropy implements JsonSerializable
 {
-    /** Phrase */
     private string $_phrase;
 
     public function __construct(?array $dto = null)
@@ -22,17 +21,11 @@ class ResultOfMnemonicFromEntropy implements JsonSerializable
         $this->_phrase = $dto['phrase'] ?? '';
     }
 
-    /**
-     * Phrase
-     */
     public function getPhrase(): string
     {
         return $this->_phrase;
     }
 
-    /**
-     * Phrase
-     */
     public function setPhrase(string $phrase): self
     {
         $this->_phrase = $phrase;

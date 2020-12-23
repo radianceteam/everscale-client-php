@@ -13,7 +13,6 @@ use stdClass;
 
 class ResultOfHDKeyDeriveFromXPrv implements JsonSerializable
 {
-    /** Serialized extended private key */
     private string $_xprv;
 
     public function __construct(?array $dto = null)
@@ -22,17 +21,11 @@ class ResultOfHDKeyDeriveFromXPrv implements JsonSerializable
         $this->_xprv = $dto['xprv'] ?? '';
     }
 
-    /**
-     * Serialized extended private key
-     */
     public function getXprv(): string
     {
         return $this->_xprv;
     }
 
-    /**
-     * Serialized extended private key
-     */
     public function setXprv(string $xprv): self
     {
         $this->_xprv = $xprv;

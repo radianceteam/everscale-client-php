@@ -14,9 +14,6 @@ use TON\Boc\ParamsOfParse;
 use TON\Boc\ParamsOfParseShardstate;
 use TON\TonContext;
 
-/**
- * BOC manipulation module.
- */
 class AsyncBocModule implements BocModuleAsyncInterface
 {
     private TonContext $_context;
@@ -31,9 +28,7 @@ class AsyncBocModule implements BocModuleAsyncInterface
     }
 
     /**
-     * Parses message boc into a JSON
-     *
-     *  JSON structure is compatible with GraphQL API message object
+     * JSON structure is compatible with GraphQL API message object
      * @param ParamsOfParse $params
      * @return AsyncResultOfParse
      */
@@ -43,9 +38,7 @@ class AsyncBocModule implements BocModuleAsyncInterface
     }
 
     /**
-     * Parses transaction boc into a JSON
-     *
-     *  JSON structure is compatible with GraphQL API transaction object
+     * JSON structure is compatible with GraphQL API transaction object
      * @param ParamsOfParse $params
      * @return AsyncResultOfParse
      */
@@ -55,9 +48,7 @@ class AsyncBocModule implements BocModuleAsyncInterface
     }
 
     /**
-     * Parses account boc into a JSON
-     *
-     *  JSON structure is compatible with GraphQL API account object
+     * JSON structure is compatible with GraphQL API account object
      * @param ParamsOfParse $params
      * @return AsyncResultOfParse
      */
@@ -67,9 +58,7 @@ class AsyncBocModule implements BocModuleAsyncInterface
     }
 
     /**
-     * Parses block boc into a JSON
-     *
-     *  JSON structure is compatible with GraphQL API block object
+     * JSON structure is compatible with GraphQL API block object
      * @param ParamsOfParse $params
      * @return AsyncResultOfParse
      */
@@ -79,9 +68,7 @@ class AsyncBocModule implements BocModuleAsyncInterface
     }
 
     /**
-     * Parses shardstate boc into a JSON
-     *
-     *  JSON structure is compatible with GraphQL API shardstate object
+     * JSON structure is compatible with GraphQL API shardstate object
      * @param ParamsOfParseShardstate $params
      * @return AsyncResultOfParse
      */
@@ -100,7 +87,6 @@ class AsyncBocModule implements BocModuleAsyncInterface
     }
 
     /**
-     * Calculates BOC root hash
      * @param ParamsOfGetBocHash $params
      * @return AsyncResultOfGetBocHash
      */

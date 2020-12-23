@@ -12,9 +12,6 @@ use TON\AsyncResult;
 use TON\Client\ParamsOfResolveAppRequest;
 use TON\TonContext;
 
-/**
- * Provides information about library.
- */
 class AsyncClientModule implements ClientModuleAsyncInterface
 {
     private TonContext $_context;
@@ -29,7 +26,6 @@ class AsyncClientModule implements ClientModuleAsyncInterface
     }
 
     /**
-     * Returns Core Library API reference
      * @return AsyncResultOfGetApiReference
      */
     public function getApiReferenceAsync(): AsyncResultOfGetApiReference
@@ -38,7 +34,6 @@ class AsyncClientModule implements ClientModuleAsyncInterface
     }
 
     /**
-     * Returns Core Library version
      * @return AsyncResultOfVersion
      */
     public function versionAsync(): AsyncResultOfVersion
@@ -47,7 +42,6 @@ class AsyncClientModule implements ClientModuleAsyncInterface
     }
 
     /**
-     * Returns detailed information about this build.
      * @return AsyncResultOfBuildInfo
      */
     public function buildInfoAsync(): AsyncResultOfBuildInfo

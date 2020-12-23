@@ -14,14 +14,10 @@ use stdClass;
 class DecodedOutput implements JsonSerializable
 {
     /**
-     * Decoded bodies of the out messages.
-     *
-     *  If the message can't be decoded, then `None` will be stored in
-     *  the appropriate position.
+     * If the message can't be decoded, then `None` will be stored in
+     * the appropriate position.
      */
     private array $_outMessages;
-
-    /** Decoded body of the function output message. */
     private $_output;
 
     public function __construct(?array $dto = null)
@@ -32,29 +28,22 @@ class DecodedOutput implements JsonSerializable
     }
 
     /**
-     * Decoded bodies of the out messages.
-     *
-     *  If the message can't be decoded, then `None` will be stored in
-     *  the appropriate position.
+     * If the message can't be decoded, then `None` will be stored in
+     * the appropriate position.
      */
     public function getOutMessages(): array
     {
         return $this->_outMessages;
     }
 
-    /**
-     * Decoded body of the function output message.
-     */
     public function getOutput()
     {
         return $this->_output;
     }
 
     /**
-     * Decoded bodies of the out messages.
-     *
-     *  If the message can't be decoded, then `None` will be stored in
-     *  the appropriate position.
+     * If the message can't be decoded, then `None` will be stored in
+     * the appropriate position.
      */
     public function setOutMessages(array $outMessages): self
     {
@@ -62,9 +51,6 @@ class DecodedOutput implements JsonSerializable
         return $this;
     }
 
-    /**
-     * Decoded body of the function output message.
-     */
     public function setOutput($output): self
     {
         $this->_output = $output;

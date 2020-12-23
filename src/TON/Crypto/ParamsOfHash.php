@@ -13,7 +13,7 @@ use stdClass;
 
 class ParamsOfHash implements JsonSerializable
 {
-    /** Input data for hash calculation. Encoded with `base64`. */
+    /** Encoded with `base64`. */
     private string $_data;
 
     public function __construct(?array $dto = null)
@@ -23,7 +23,7 @@ class ParamsOfHash implements JsonSerializable
     }
 
     /**
-     * Input data for hash calculation. Encoded with `base64`.
+     * Encoded with `base64`.
      */
     public function getData(): string
     {
@@ -31,7 +31,7 @@ class ParamsOfHash implements JsonSerializable
     }
 
     /**
-     * Input data for hash calculation. Encoded with `base64`.
+     * Encoded with `base64`.
      */
     public function setData(string $data): self
     {

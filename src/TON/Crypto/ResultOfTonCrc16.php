@@ -13,7 +13,6 @@ use stdClass;
 
 class ResultOfTonCrc16 implements JsonSerializable
 {
-    /** Calculated CRC for input data. */
     private int $_crc;
 
     public function __construct(?array $dto = null)
@@ -22,17 +21,11 @@ class ResultOfTonCrc16 implements JsonSerializable
         $this->_crc = $dto['crc'] ?? 0;
     }
 
-    /**
-     * Calculated CRC for input data.
-     */
     public function getCrc(): int
     {
         return $this->_crc;
     }
 
-    /**
-     * Calculated CRC for input data.
-     */
     public function setCrc(int $crc): self
     {
         $this->_crc = $crc;

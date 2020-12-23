@@ -13,16 +13,15 @@ use stdClass;
 
 class ParamsOfAttachSignatureToMessageBody implements JsonSerializable
 {
-    /** Contract ABI */
     private ?Abi $_abi;
 
-    /** Public key. Must be encoded with `hex`. */
+    /** Must be encoded with `hex`. */
     private string $_publicKey;
 
-    /** Unsigned message body BOC. Must be encoded with `base64`. */
+    /** Must be encoded with `base64`. */
     private string $_message;
 
-    /** Signature. Must be encoded with `hex`. */
+    /** Must be encoded with `hex`. */
     private string $_signature;
 
     public function __construct(?array $dto = null)
@@ -34,16 +33,13 @@ class ParamsOfAttachSignatureToMessageBody implements JsonSerializable
         $this->_signature = $dto['signature'] ?? '';
     }
 
-    /**
-     * Contract ABI
-     */
     public function getAbi(): ?Abi
     {
         return $this->_abi;
     }
 
     /**
-     * Public key. Must be encoded with `hex`.
+     * Must be encoded with `hex`.
      */
     public function getPublicKey(): string
     {
@@ -51,7 +47,7 @@ class ParamsOfAttachSignatureToMessageBody implements JsonSerializable
     }
 
     /**
-     * Unsigned message body BOC. Must be encoded with `base64`.
+     * Must be encoded with `base64`.
      */
     public function getMessage(): string
     {
@@ -59,16 +55,13 @@ class ParamsOfAttachSignatureToMessageBody implements JsonSerializable
     }
 
     /**
-     * Signature. Must be encoded with `hex`.
+     * Must be encoded with `hex`.
      */
     public function getSignature(): string
     {
         return $this->_signature;
     }
 
-    /**
-     * Contract ABI
-     */
     public function setAbi(?Abi $abi): self
     {
         $this->_abi = $abi;
@@ -76,7 +69,7 @@ class ParamsOfAttachSignatureToMessageBody implements JsonSerializable
     }
 
     /**
-     * Public key. Must be encoded with `hex`.
+     * Must be encoded with `hex`.
      */
     public function setPublicKey(string $publicKey): self
     {
@@ -85,7 +78,7 @@ class ParamsOfAttachSignatureToMessageBody implements JsonSerializable
     }
 
     /**
-     * Unsigned message body BOC. Must be encoded with `base64`.
+     * Must be encoded with `base64`.
      */
     public function setMessage(string $message): self
     {
@@ -94,7 +87,7 @@ class ParamsOfAttachSignatureToMessageBody implements JsonSerializable
     }
 
     /**
-     * Signature. Must be encoded with `hex`.
+     * Must be encoded with `hex`.
      */
     public function setSignature(string $signature): self
     {

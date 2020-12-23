@@ -13,7 +13,6 @@ use stdClass;
 
 class ResultOfMnemonicFromRandom implements JsonSerializable
 {
-    /** String of mnemonic words */
     private string $_phrase;
 
     public function __construct(?array $dto = null)
@@ -22,17 +21,11 @@ class ResultOfMnemonicFromRandom implements JsonSerializable
         $this->_phrase = $dto['phrase'] ?? '';
     }
 
-    /**
-     * String of mnemonic words
-     */
     public function getPhrase(): string
     {
         return $this->_phrase;
     }
 
-    /**
-     * String of mnemonic words
-     */
     public function setPhrase(string $phrase): self
     {
         $this->_phrase = $phrase;

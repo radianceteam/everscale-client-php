@@ -13,13 +13,9 @@ use stdClass;
 
 class ParamsOfNaclSecretBox implements JsonSerializable
 {
-    /** Data that must be encrypted. Encoded with `base64`. */
+    /** Encoded with `base64`. */
     private string $_decrypted;
-
-    /** Nonce in `hex` */
     private string $_nonce;
-
-    /** Secret key - unprefixed 0-padded to 64 symbols hex string */
     private string $_key;
 
     public function __construct(?array $dto = null)
@@ -31,31 +27,25 @@ class ParamsOfNaclSecretBox implements JsonSerializable
     }
 
     /**
-     * Data that must be encrypted. Encoded with `base64`.
+     * Encoded with `base64`.
      */
     public function getDecrypted(): string
     {
         return $this->_decrypted;
     }
 
-    /**
-     * Nonce in `hex`
-     */
     public function getNonce(): string
     {
         return $this->_nonce;
     }
 
-    /**
-     * Secret key - unprefixed 0-padded to 64 symbols hex string
-     */
     public function getKey(): string
     {
         return $this->_key;
     }
 
     /**
-     * Data that must be encrypted. Encoded with `base64`.
+     * Encoded with `base64`.
      */
     public function setDecrypted(string $decrypted): self
     {
@@ -63,18 +53,12 @@ class ParamsOfNaclSecretBox implements JsonSerializable
         return $this;
     }
 
-    /**
-     * Nonce in `hex`
-     */
     public function setNonce(string $nonce): self
     {
         $this->_nonce = $nonce;
         return $this;
     }
 
-    /**
-     * Secret key - unprefixed 0-padded to 64 symbols hex string
-     */
     public function setKey(string $key): self
     {
         $this->_key = $key;

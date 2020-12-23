@@ -12,9 +12,6 @@ use TON\TonContext;
 use TON\Utils\Async\AsyncUtilsModule;
 use TON\Utils\Async\UtilsModuleAsyncInterface;
 
-/**
- * Misc utility Functions.
- */
 class UtilsModule implements UtilsModuleInterface
 {
     private TonContext $_context;
@@ -37,7 +34,6 @@ class UtilsModule implements UtilsModuleInterface
     }
 
     /**
-     * Converts address from any TON format to any TON format
      * @param ParamsOfConvertAddress $params
      * @return ResultOfConvertAddress
      */

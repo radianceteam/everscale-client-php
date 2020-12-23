@@ -45,7 +45,6 @@ class AsyncTvmModule implements TvmModuleAsyncInterface
     }
 
     /**
-     * Executes getmethod and returns data from TVM stack
      * @param ParamsOfRunGet $params
      * @return AsyncResultOfRunGet
      */

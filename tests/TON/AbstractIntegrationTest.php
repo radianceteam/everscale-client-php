@@ -26,9 +26,7 @@ abstract class AbstractIntegrationTest extends TestCase
         parent::setUpBeforeClass();
 
         $envVarName = self::TON_NETWORK_ADDRESS_ENV_NAME;
-        $serverAddress = getenv($envVarName);
-
-        if (empty($serverAddress)) {
+        if (empty(getenv($envVarName))) {
             self::markTestSkipped(<<<EOT
 To enable integration tests run NodeSE locally using Docker:
 docker run -d -p8888:80 tonlabs/local-node
@@ -40,16 +38,21 @@ set ${envVarName}=http://localhost:8888
 EOT
             );
         } else {
-            $config = (new ClientConfig())
-                ->setNetwork((new NetworkConfig())
-                    ->setServerAddress($serverAddress));
-
             self::$logger = new Logger((new ReflectionClass(self::class))->getShortName());
             self::$logger->pushHandler(new StreamHandler('php://stdout', Logger::DEBUG));
-            self::$client = TonClientBuilder::create()
-                ->withConfig($config)
-                ->withLogger(self::$logger)
-                ->build();
+            self::$client = self::createClient();
         }
+    }
+
+    protected static function createClient(): TonClientInterface
+    {
+        $config = (new ClientConfig())
+            ->setNetwork((new NetworkConfig())
+                ->setServerAddress(getenv(self::TON_NETWORK_ADDRESS_ENV_NAME)));
+
+        return TonClientBuilder::create()
+            ->withConfig($config)
+            ->withLogger(self::$logger)
+            ->build();
     }
 }

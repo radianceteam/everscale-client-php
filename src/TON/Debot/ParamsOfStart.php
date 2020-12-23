@@ -13,7 +13,6 @@ use stdClass;
 
 class ParamsOfStart implements JsonSerializable
 {
-    /** Debot smart contract address */
     private string $_address;
 
     public function __construct(?array $dto = null)
@@ -22,17 +21,11 @@ class ParamsOfStart implements JsonSerializable
         $this->_address = $dto['address'] ?? '';
     }
 
-    /**
-     * Debot smart contract address
-     */
     public function getAddress(): string
     {
         return $this->_address;
     }
 
-    /**
-     * Debot smart contract address
-     */
     public function setAddress(string $address): self
     {
         $this->_address = $address;

@@ -13,13 +13,10 @@ use stdClass;
 
 class AccountForExecutor_Account extends AccountForExecutor implements JsonSerializable
 {
-    /** Account BOC. Encoded as base64. */
+    /** Encoded as base64. */
     private string $_boc;
 
-    /**
-     * Flag for running account with the unlimited balance. Can be used to calculate
-     *  transaction fees without balance check
-     */
+    /** Can be used to calculatetransaction fees without balance check */
     private ?bool $_unlimitedBalance;
 
     public function __construct(?array $dto = null)
@@ -30,7 +27,7 @@ class AccountForExecutor_Account extends AccountForExecutor implements JsonSeria
     }
 
     /**
-     * Account BOC. Encoded as base64.
+     * Encoded as base64.
      */
     public function getBoc(): string
     {
@@ -38,8 +35,7 @@ class AccountForExecutor_Account extends AccountForExecutor implements JsonSeria
     }
 
     /**
-     * Flag for running account with the unlimited balance. Can be used to calculate
-     *  transaction fees without balance check
+     * Can be used to calculatetransaction fees without balance check
      */
     public function isUnlimitedBalance(): ?bool
     {
@@ -47,7 +43,7 @@ class AccountForExecutor_Account extends AccountForExecutor implements JsonSeria
     }
 
     /**
-     * Account BOC. Encoded as base64.
+     * Encoded as base64.
      */
     public function setBoc(string $boc): self
     {
@@ -56,8 +52,7 @@ class AccountForExecutor_Account extends AccountForExecutor implements JsonSeria
     }
 
     /**
-     * Flag for running account with the unlimited balance. Can be used to calculate
-     *  transaction fees without balance check
+     * Can be used to calculatetransaction fees without balance check
      */
     public function setUnlimitedBalance(?bool $unlimitedBalance): self
     {

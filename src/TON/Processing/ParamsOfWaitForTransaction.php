@@ -15,26 +15,18 @@ use stdClass;
 class ParamsOfWaitForTransaction implements JsonSerializable
 {
     /**
-     * Optional ABI for decoding the transaction result.
+     * If it is specified, then the output messages' bodies will be
+     * decoded according to this ABI.
      *
-     *  If it is specified, then the output messages' bodies will be
-     *  decoded according to this ABI.
-     *
-     *  The `abi_decoded` result field will be filled out.
+     * The `abi_decoded` result field will be filled out.
      */
     private ?Abi $_abi;
 
-    /** Message BOC. Encoded with `base64`. */
+    /** Encoded with `base64`. */
     private string $_message;
 
-    /**
-     * The last generated block id of the destination account shard before the message was sent.
-     *
-     *  You must provide the same value as the `send_message` has returned.
-     */
+    /** You must provide the same value as the `send_message` has returned. */
     private string $_shardBlockId;
-
-    /** Flag that enables/disables intermediate events */
     private bool $_sendEvents;
 
     public function __construct(?array $dto = null)
@@ -47,12 +39,10 @@ class ParamsOfWaitForTransaction implements JsonSerializable
     }
 
     /**
-     * Optional ABI for decoding the transaction result.
+     * If it is specified, then the output messages' bodies will be
+     * decoded according to this ABI.
      *
-     *  If it is specified, then the output messages' bodies will be
-     *  decoded according to this ABI.
-     *
-     *  The `abi_decoded` result field will be filled out.
+     * The `abi_decoded` result field will be filled out.
      */
     public function getAbi(): ?Abi
     {
@@ -60,7 +50,7 @@ class ParamsOfWaitForTransaction implements JsonSerializable
     }
 
     /**
-     * Message BOC. Encoded with `base64`.
+     * Encoded with `base64`.
      */
     public function getMessage(): string
     {
@@ -68,30 +58,23 @@ class ParamsOfWaitForTransaction implements JsonSerializable
     }
 
     /**
-     * The last generated block id of the destination account shard before the message was sent.
-     *
-     *  You must provide the same value as the `send_message` has returned.
+     * You must provide the same value as the `send_message` has returned.
      */
     public function getShardBlockId(): string
     {
         return $this->_shardBlockId;
     }
 
-    /**
-     * Flag that enables/disables intermediate events
-     */
     public function isSendEvents(): bool
     {
         return $this->_sendEvents;
     }
 
     /**
-     * Optional ABI for decoding the transaction result.
+     * If it is specified, then the output messages' bodies will be
+     * decoded according to this ABI.
      *
-     *  If it is specified, then the output messages' bodies will be
-     *  decoded according to this ABI.
-     *
-     *  The `abi_decoded` result field will be filled out.
+     * The `abi_decoded` result field will be filled out.
      */
     public function setAbi(?Abi $abi): self
     {
@@ -100,7 +83,7 @@ class ParamsOfWaitForTransaction implements JsonSerializable
     }
 
     /**
-     * Message BOC. Encoded with `base64`.
+     * Encoded with `base64`.
      */
     public function setMessage(string $message): self
     {
@@ -109,9 +92,7 @@ class ParamsOfWaitForTransaction implements JsonSerializable
     }
 
     /**
-     * The last generated block id of the destination account shard before the message was sent.
-     *
-     *  You must provide the same value as the `send_message` has returned.
+     * You must provide the same value as the `send_message` has returned.
      */
     public function setShardBlockId(string $shardBlockId): self
     {
@@ -119,9 +100,6 @@ class ParamsOfWaitForTransaction implements JsonSerializable
         return $this;
     }
 
-    /**
-     * Flag that enables/disables intermediate events
-     */
     public function setSendEvents(bool $sendEvents): self
     {
         $this->_sendEvents = $sendEvents;

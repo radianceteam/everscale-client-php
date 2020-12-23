@@ -13,7 +13,7 @@ use stdClass;
 
 class ResultOfSubscribeCollection implements JsonSerializable
 {
-    /** Subscription handle. Must be closed with `unsubscribe` */
+    /** Must be closed with `unsubscribe` */
     private int $_handle;
 
     public function __construct(?array $dto = null)
@@ -23,7 +23,7 @@ class ResultOfSubscribeCollection implements JsonSerializable
     }
 
     /**
-     * Subscription handle. Must be closed with `unsubscribe`
+     * Must be closed with `unsubscribe`
      */
     public function getHandle(): int
     {
@@ -31,7 +31,7 @@ class ResultOfSubscribeCollection implements JsonSerializable
     }
 
     /**
-     * Subscription handle. Must be closed with `unsubscribe`
+     * Must be closed with `unsubscribe`
      */
     public function setHandle(int $handle): self
     {

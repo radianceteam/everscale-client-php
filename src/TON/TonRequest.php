@@ -309,7 +309,7 @@ class TonRequest
             }
         }
         if ($status === self::STATUS_ERROR) {
-            $this->_logger->debug("Function error read: ${json}");
+            $this->_logger->debug("Error: ${json}");
             $this->_error = TonClientException::fromJson($json);
             throw $this->_error;
         }

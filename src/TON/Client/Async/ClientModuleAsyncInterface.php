@@ -11,25 +11,19 @@ namespace TON\Client\Async;
 use TON\AsyncResult;
 use TON\Client\ParamsOfResolveAppRequest;
 
-/**
- * Provides information about library.
- */
 interface ClientModuleAsyncInterface
 {
     /**
-     * Returns Core Library API reference
      * @return AsyncResultOfGetApiReference
      */
     function getApiReferenceAsync(): AsyncResultOfGetApiReference;
 
     /**
-     * Returns Core Library version
      * @return AsyncResultOfVersion
      */
     function versionAsync(): AsyncResultOfVersion;
 
     /**
-     * Returns detailed information about this build.
      * @return AsyncResultOfBuildInfo
      */
     function buildInfoAsync(): AsyncResultOfBuildInfo;

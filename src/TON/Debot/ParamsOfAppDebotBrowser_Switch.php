@@ -13,7 +13,6 @@ use stdClass;
 
 class ParamsOfAppDebotBrowser_Switch extends ParamsOfAppDebotBrowser implements JsonSerializable
 {
-    /** Debot context ID to which debot is switched. */
     private int $_contextId;
 
     public function __construct(?array $dto = null)
@@ -22,17 +21,11 @@ class ParamsOfAppDebotBrowser_Switch extends ParamsOfAppDebotBrowser implements 
         $this->_contextId = $dto['context_id'] ?? 0;
     }
 
-    /**
-     * Debot context ID to which debot is switched.
-     */
     public function getContextId(): int
     {
         return $this->_contextId;
     }
 
-    /**
-     * Debot context ID to which debot is switched.
-     */
     public function setContextId(int $contextId): self
     {
         $this->_contextId = $contextId;

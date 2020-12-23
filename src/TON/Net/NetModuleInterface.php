@@ -10,9 +10,6 @@ namespace TON\Net;
 
 use TON\Net\Async\NetModuleAsyncInterface;
 
-/**
- * Network access.
- */
 interface NetModuleInterface
 {
     /**
@@ -21,35 +18,45 @@ interface NetModuleInterface
     function async(): NetModuleAsyncInterface;
 
     /**
-     * Queries collection data
-     *
-     *  Queries data that satisfies the `filter` conditions,
-     *  limits the number of returned records and orders them.
-     *  The projection fields are limited to `result` fields
+     * @param ParamsOfQuery $params
+     * @return ResultOfQuery
+     */
+    function query(ParamsOfQuery $params): ResultOfQuery;
+
+    /**
+     * Queries data that satisfies the `filter` conditions,
+     * limits the number of returned records and orders them.
+     * The projection fields are limited to `result` fields
      * @param ParamsOfQueryCollection $params
      * @return ResultOfQueryCollection
      */
     function queryCollection(ParamsOfQueryCollection $params): ResultOfQueryCollection;
 
     /**
-     * Returns an object that fulfills the conditions or waits for its appearance
-     *
-     *  Triggers only once.
-     *  If object that satisfies the `filter` conditions
-     *  already exists - returns it immediately.
-     *  If not - waits for insert/update of data within the specified `timeout`,
-     *  and returns it.
-     *  The projection fields are limited to `result` fields
+     * Triggers only once.
+     * If object that satisfies the `filter` conditions
+     * already exists - returns it immediately.
+     * If not - waits for insert/update of data within the specified `timeout`,
+     * and returns it.
+     * The projection fields are limited to `result` fields
      * @param ParamsOfWaitForCollection $params
      * @return ResultOfWaitForCollection
      */
     function waitForCollection(ParamsOfWaitForCollection $params): ResultOfWaitForCollection;
 
     /**
-     * Cancels a subscription
-     *
-     *  Cancels a subscription specified by its handle.
+     * Cancels a subscription specified by its handle.
      * @param ResultOfSubscribeCollection $params
      */
     function unsubscribe(ResultOfSubscribeCollection $params);
+
+    /**
+     * Suspends network module to stop any network activity
+     */
+    function suspend();
+
+    /**
+     * Resumes network module to enable network activity
+     */
+    function resume();
 }

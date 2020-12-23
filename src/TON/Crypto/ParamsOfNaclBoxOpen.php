@@ -13,14 +13,10 @@ use stdClass;
 
 class ParamsOfNaclBoxOpen implements JsonSerializable
 {
-    /** Data that must be decrypted. Encoded with `base64`. */
+    /** Encoded with `base64`. */
     private string $_encrypted;
     private string $_nonce;
-
-    /** Sender's public key - unprefixed 0-padded to 64 symbols hex string */
     private string $_theirPublic;
-
-    /** Receiver's private key - unprefixed 0-padded to 64 symbols hex string */
     private string $_secret;
 
     public function __construct(?array $dto = null)
@@ -33,7 +29,7 @@ class ParamsOfNaclBoxOpen implements JsonSerializable
     }
 
     /**
-     * Data that must be decrypted. Encoded with `base64`.
+     * Encoded with `base64`.
      */
     public function getEncrypted(): string
     {
@@ -45,24 +41,18 @@ class ParamsOfNaclBoxOpen implements JsonSerializable
         return $this->_nonce;
     }
 
-    /**
-     * Sender's public key - unprefixed 0-padded to 64 symbols hex string
-     */
     public function getTheirPublic(): string
     {
         return $this->_theirPublic;
     }
 
-    /**
-     * Receiver's private key - unprefixed 0-padded to 64 symbols hex string
-     */
     public function getSecret(): string
     {
         return $this->_secret;
     }
 
     /**
-     * Data that must be decrypted. Encoded with `base64`.
+     * Encoded with `base64`.
      */
     public function setEncrypted(string $encrypted): self
     {
@@ -76,18 +66,12 @@ class ParamsOfNaclBoxOpen implements JsonSerializable
         return $this;
     }
 
-    /**
-     * Sender's public key - unprefixed 0-padded to 64 symbols hex string
-     */
     public function setTheirPublic(string $theirPublic): self
     {
         $this->_theirPublic = $theirPublic;
         return $this;
     }
 
-    /**
-     * Receiver's private key - unprefixed 0-padded to 64 symbols hex string
-     */
     public function setSecret(string $secret): self
     {
         $this->_secret = $secret;

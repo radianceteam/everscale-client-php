@@ -13,7 +13,7 @@ use stdClass;
 
 class ResultOfAppDebotBrowser_GetSigningBox extends ResultOfAppDebotBrowser implements JsonSerializable
 {
-    /** Signing box for signing data requested by debot engine. Signing box is owned and disposed by debot engine */
+    /** Signing box is owned and disposed by debot engine */
     private int $_signingBox;
 
     public function __construct(?array $dto = null)
@@ -23,7 +23,7 @@ class ResultOfAppDebotBrowser_GetSigningBox extends ResultOfAppDebotBrowser impl
     }
 
     /**
-     * Signing box for signing data requested by debot engine. Signing box is owned and disposed by debot engine
+     * Signing box is owned and disposed by debot engine
      */
     public function getSigningBox(): int
     {
@@ -31,7 +31,7 @@ class ResultOfAppDebotBrowser_GetSigningBox extends ResultOfAppDebotBrowser impl
     }
 
     /**
-     * Signing box for signing data requested by debot engine. Signing box is owned and disposed by debot engine
+     * Signing box is owned and disposed by debot engine
      */
     public function setSigningBox(int $signingBox): self
     {

@@ -12,9 +12,6 @@ use TON\Crypto\Async\AsyncCryptoModule;
 use TON\Crypto\Async\CryptoModuleAsyncInterface;
 use TON\TonContext;
 
-/**
- * Crypto functions.
- */
 class CryptoModule implements CryptoModuleInterface
 {
     private TonContext $_context;
@@ -37,9 +34,6 @@ class CryptoModule implements CryptoModuleInterface
     }
 
     /**
-     * Performs prime factorization – decomposition of a composite number
-     *  into a product of smaller prime integers (factors).
-     *  See [https://en.wikipedia.org/wiki/Integer_factorization]
      * @param ParamsOfFactorize $params
      * @return ResultOfFactorize
      */
@@ -49,8 +43,6 @@ class CryptoModule implements CryptoModuleInterface
     }
 
     /**
-     * Performs modular exponentiation for big integers (`base`^`exponent` mod `modulus`).
-     *  See [https://en.wikipedia.org/wiki/Modular_exponentiation]
      * @param ParamsOfModularPower $params
      * @return ResultOfModularPower
      */
@@ -60,7 +52,6 @@ class CryptoModule implements CryptoModuleInterface
     }
 
     /**
-     * Calculates CRC16 using TON algorithm.
      * @param ParamsOfTonCrc16 $params
      * @return ResultOfTonCrc16
      */
@@ -70,7 +61,6 @@ class CryptoModule implements CryptoModuleInterface
     }
 
     /**
-     * Generates random byte array of the specified length and returns it in `base64` format
      * @param ParamsOfGenerateRandomBytes $params
      * @return ResultOfGenerateRandomBytes
      */
@@ -80,7 +70,6 @@ class CryptoModule implements CryptoModuleInterface
     }
 
     /**
-     * Converts public key to ton safe_format
      * @param ParamsOfConvertPublicKeyToTonSafeFormat $params
      * @return ResultOfConvertPublicKeyToTonSafeFormat
      */
@@ -90,7 +79,6 @@ class CryptoModule implements CryptoModuleInterface
     }
 
     /**
-     * Generates random ed25519 key pair.
      * @return KeyPair
      */
     public function generateRandomSignKeys(): KeyPair
@@ -99,7 +87,6 @@ class CryptoModule implements CryptoModuleInterface
     }
 
     /**
-     * Signs a data using the provided keys.
      * @param ParamsOfSign $params
      * @return ResultOfSign
      */
@@ -109,8 +96,6 @@ class CryptoModule implements CryptoModuleInterface
     }
 
     /**
-     * Verifies signed data using the provided public key.
-     *  Raises error if verification is failed.
      * @param ParamsOfVerifySignature $params
      * @return ResultOfVerifySignature
      */
@@ -120,7 +105,6 @@ class CryptoModule implements CryptoModuleInterface
     }
 
     /**
-     * Calculates SHA256 hash of the specified data.
      * @param ParamsOfHash $params
      * @return ResultOfHash
      */
@@ -130,7 +114,6 @@ class CryptoModule implements CryptoModuleInterface
     }
 
     /**
-     * Calculates SHA512 hash of the specified data.
      * @param ParamsOfHash $params
      * @return ResultOfHash
      */
@@ -140,21 +123,18 @@ class CryptoModule implements CryptoModuleInterface
     }
 
     /**
-     * Derives key from `password` and `key` using `scrypt` algorithm.
-     *  See [https://en.wikipedia.org/wiki/Scrypt].
-     *
-     *  # Arguments
-     *  - `log_n` - The log2 of the Scrypt parameter `N`
-     *  - `r` - The Scrypt parameter `r`
-     *  - `p` - The Scrypt parameter `p`
-     *  # Conditions
-     *  - `log_n` must be less than `64`
-     *  - `r` must be greater than `0` and less than or equal to `4294967295`
-     *  - `p` must be greater than `0` and less than `4294967295`
-     *  # Recommended values sufficient for most use-cases
-     *  - `log_n = 15` (`n = 32768`)
-     *  - `r = 8`
-     *  - `p = 1`
+     * # Arguments
+     * - `log_n` - The log2 of the Scrypt parameter `N`
+     * - `r` - The Scrypt parameter `r`
+     * - `p` - The Scrypt parameter `p`
+     * # Conditions
+     * - `log_n` must be less than `64`
+     * - `r` must be greater than `0` and less than or equal to `4294967295`
+     * - `p` must be greater than `0` and less than `4294967295`
+     * # Recommended values sufficient for most use-cases
+     * - `log_n = 15` (`n = 32768`)
+     * - `r = 8`
+     * - `p = 1`
      * @param ParamsOfScrypt $params
      * @return ResultOfScrypt
      */
@@ -164,7 +144,6 @@ class CryptoModule implements CryptoModuleInterface
     }
 
     /**
-     * Generates a key pair for signing from the secret key
      * @param ParamsOfNaclSignKeyPairFromSecret $params
      * @return KeyPair
      */
@@ -174,7 +153,6 @@ class CryptoModule implements CryptoModuleInterface
     }
 
     /**
-     * Signs data using the signer's secret key.
      * @param ParamsOfNaclSign $params
      * @return ResultOfNaclSign
      */
@@ -210,7 +188,6 @@ class CryptoModule implements CryptoModuleInterface
     }
 
     /**
-     * Generates key pair from a secret key
      * @param ParamsOfNaclBoxKeyPairFromSecret $params
      * @return KeyPair
      */
@@ -220,10 +197,8 @@ class CryptoModule implements CryptoModuleInterface
     }
 
     /**
-     * Public key authenticated encryption
-     *
-     *  Encrypt and authenticate a message using the senders secret key, the recievers public
-     *  key, and a nonce.
+     * Encrypt and authenticate a message using the senders secret key, the recievers public
+     * key, and a nonce.
      * @param ParamsOfNaclBox $params
      * @return ResultOfNaclBox
      */
@@ -233,8 +208,6 @@ class CryptoModule implements CryptoModuleInterface
     }
 
     /**
-     * Decrypt and verify the cipher text using the recievers secret key, the senders public
-     *  key, and the nonce.
      * @param ParamsOfNaclBoxOpen $params
      * @return ResultOfNaclBoxOpen
      */
@@ -244,7 +217,6 @@ class CryptoModule implements CryptoModuleInterface
     }
 
     /**
-     * Encrypt and authenticate message using nonce and secret key.
      * @param ParamsOfNaclSecretBox $params
      * @return ResultOfNaclBox
      */
@@ -254,7 +226,6 @@ class CryptoModule implements CryptoModuleInterface
     }
 
     /**
-     * Decrypts and verifies cipher text using `nonce` and secret `key`.
      * @param ParamsOfNaclSecretBoxOpen $params
      * @return ResultOfNaclBoxOpen
      */
@@ -264,7 +235,6 @@ class CryptoModule implements CryptoModuleInterface
     }
 
     /**
-     * Prints the list of words from the specified dictionary
      * @param ParamsOfMnemonicWords $params
      * @return ResultOfMnemonicWords
      */
@@ -274,7 +244,6 @@ class CryptoModule implements CryptoModuleInterface
     }
 
     /**
-     * Generates a random mnemonic from the specified dictionary and word count
      * @param ParamsOfMnemonicFromRandom $params
      * @return ResultOfMnemonicFromRandom
      */
@@ -284,7 +253,6 @@ class CryptoModule implements CryptoModuleInterface
     }
 
     /**
-     * Generates mnemonic from pre-generated entropy
      * @param ParamsOfMnemonicFromEntropy $params
      * @return ResultOfMnemonicFromEntropy
      */
@@ -294,8 +262,6 @@ class CryptoModule implements CryptoModuleInterface
     }
 
     /**
-     * The phrase supplied will be checked for word length and validated according to the checksum
-     *  specified in BIP0039.
      * @param ParamsOfMnemonicVerify $params
      * @return ResultOfMnemonicVerify
      */
@@ -305,8 +271,6 @@ class CryptoModule implements CryptoModuleInterface
     }
 
     /**
-     * Validates the seed phrase, generates master key and then derives
-     *  the key pair from the master key and the specified path
      * @param ParamsOfMnemonicDeriveSignKeys $params
      * @return KeyPair
      */
@@ -316,7 +280,6 @@ class CryptoModule implements CryptoModuleInterface
     }
 
     /**
-     * Generates an extended master private key that will be the root for all the derived keys
      * @param ParamsOfHDKeyXPrvFromMnemonic $params
      * @return ResultOfHDKeyXPrvFromMnemonic
      */
@@ -326,7 +289,6 @@ class CryptoModule implements CryptoModuleInterface
     }
 
     /**
-     * Returns extended private key derived from the specified extended private key and child index
      * @param ParamsOfHDKeyDeriveFromXPrv $params
      * @return ResultOfHDKeyDeriveFromXPrv
      */
@@ -336,7 +298,6 @@ class CryptoModule implements CryptoModuleInterface
     }
 
     /**
-     * Derives the extended private key from the specified key and path
      * @param ParamsOfHDKeyDeriveFromXPrvPath $params
      * @return ResultOfHDKeyDeriveFromXPrvPath
      */
@@ -346,7 +307,6 @@ class CryptoModule implements CryptoModuleInterface
     }
 
     /**
-     * Extracts the private key from the serialized extended private key
      * @param ParamsOfHDKeySecretFromXPrv $params
      * @return ResultOfHDKeySecretFromXPrv
      */
@@ -356,7 +316,6 @@ class CryptoModule implements CryptoModuleInterface
     }
 
     /**
-     * Extracts the public key from the serialized extended private key
      * @param ParamsOfHDKeyPublicFromXPrv $params
      * @return ResultOfHDKeyPublicFromXPrv
      */
@@ -366,7 +325,6 @@ class CryptoModule implements CryptoModuleInterface
     }
 
     /**
-     * Performs symmetric `chacha20` encryption.
      * @param ParamsOfChaCha20 $params
      * @return ResultOfChaCha20
      */
@@ -376,7 +334,6 @@ class CryptoModule implements CryptoModuleInterface
     }
 
     /**
-     * Creates a default signing box implementation.
      * @param KeyPair $params
      * @return RegisteredSigningBox
      */
@@ -386,7 +343,6 @@ class CryptoModule implements CryptoModuleInterface
     }
 
     /**
-     * Returns public key of signing key pair.
      * @param RegisteredSigningBox $params
      * @return ResultOfSigningBoxGetPublicKey
      */
@@ -396,7 +352,6 @@ class CryptoModule implements CryptoModuleInterface
     }
 
     /**
-     * Returns signed user data.
      * @param ParamsOfSigningBoxSign $params
      * @return ResultOfSigningBoxSign
      */
@@ -406,7 +361,6 @@ class CryptoModule implements CryptoModuleInterface
     }
 
     /**
-     * Removes signing box from SDK.
      * @param RegisteredSigningBox $params
      */
     public function removeSigningBox(RegisteredSigningBox $params)

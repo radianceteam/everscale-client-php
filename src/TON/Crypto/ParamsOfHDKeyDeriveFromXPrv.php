@@ -13,13 +13,8 @@ use stdClass;
 
 class ParamsOfHDKeyDeriveFromXPrv implements JsonSerializable
 {
-    /** Serialized extended private key */
     private string $_xprv;
-
-    /** Child index (see BIP-0032) */
     private int $_childIndex;
-
-    /** Indicates the derivation of hardened/not-hardened key (see BIP-0032) */
     private bool $_hardened;
 
     public function __construct(?array $dto = null)
@@ -30,51 +25,33 @@ class ParamsOfHDKeyDeriveFromXPrv implements JsonSerializable
         $this->_hardened = $dto['hardened'] ?? false;
     }
 
-    /**
-     * Serialized extended private key
-     */
     public function getXprv(): string
     {
         return $this->_xprv;
     }
 
-    /**
-     * Child index (see BIP-0032)
-     */
     public function getChildIndex(): int
     {
         return $this->_childIndex;
     }
 
-    /**
-     * Indicates the derivation of hardened/not-hardened key (see BIP-0032)
-     */
     public function isHardened(): bool
     {
         return $this->_hardened;
     }
 
-    /**
-     * Serialized extended private key
-     */
     public function setXprv(string $xprv): self
     {
         $this->_xprv = $xprv;
         return $this;
     }
 
-    /**
-     * Child index (see BIP-0032)
-     */
     public function setChildIndex(int $childIndex): self
     {
         $this->_childIndex = $childIndex;
         return $this;
     }
 
-    /**
-     * Indicates the derivation of hardened/not-hardened key (see BIP-0032)
-     */
     public function setHardened(bool $hardened): self
     {
         $this->_hardened = $hardened;

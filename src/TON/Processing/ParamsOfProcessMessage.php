@@ -14,10 +14,7 @@ use stdClass;
 
 class ParamsOfProcessMessage implements JsonSerializable
 {
-    /** Message encode parameters. */
     private ?ParamsOfEncodeMessage $_messageEncodeParams;
-
-    /** Flag for requesting events sending */
     private bool $_sendEvents;
 
     public function __construct(?array $dto = null)
@@ -27,34 +24,22 @@ class ParamsOfProcessMessage implements JsonSerializable
         $this->_sendEvents = $dto['send_events'] ?? false;
     }
 
-    /**
-     * Message encode parameters.
-     */
     public function getMessageEncodeParams(): ?ParamsOfEncodeMessage
     {
         return $this->_messageEncodeParams;
     }
 
-    /**
-     * Flag for requesting events sending
-     */
     public function isSendEvents(): bool
     {
         return $this->_sendEvents;
     }
 
-    /**
-     * Message encode parameters.
-     */
     public function setMessageEncodeParams(?ParamsOfEncodeMessage $messageEncodeParams): self
     {
         $this->_messageEncodeParams = $messageEncodeParams;
         return $this;
     }
 
-    /**
-     * Flag for requesting events sending
-     */
     public function setSendEvents(bool $sendEvents): self
     {
         $this->_sendEvents = $sendEvents;

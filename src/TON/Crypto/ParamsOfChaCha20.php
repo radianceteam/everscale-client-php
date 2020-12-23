@@ -13,13 +13,13 @@ use stdClass;
 
 class ParamsOfChaCha20 implements JsonSerializable
 {
-    /** Source data to be encrypted or decrypted. Must be encoded with `base64`. */
+    /** Must be encoded with `base64`. */
     private string $_data;
 
-    /** 256-bit key. Must be encoded with `hex`. */
+    /** Must be encoded with `hex`. */
     private string $_key;
 
-    /** 96-bit nonce. Must be encoded with `hex`. */
+    /** Must be encoded with `hex`. */
     private string $_nonce;
 
     public function __construct(?array $dto = null)
@@ -31,7 +31,7 @@ class ParamsOfChaCha20 implements JsonSerializable
     }
 
     /**
-     * Source data to be encrypted or decrypted. Must be encoded with `base64`.
+     * Must be encoded with `base64`.
      */
     public function getData(): string
     {
@@ -39,7 +39,7 @@ class ParamsOfChaCha20 implements JsonSerializable
     }
 
     /**
-     * 256-bit key. Must be encoded with `hex`.
+     * Must be encoded with `hex`.
      */
     public function getKey(): string
     {
@@ -47,7 +47,7 @@ class ParamsOfChaCha20 implements JsonSerializable
     }
 
     /**
-     * 96-bit nonce. Must be encoded with `hex`.
+     * Must be encoded with `hex`.
      */
     public function getNonce(): string
     {
@@ -55,7 +55,7 @@ class ParamsOfChaCha20 implements JsonSerializable
     }
 
     /**
-     * Source data to be encrypted or decrypted. Must be encoded with `base64`.
+     * Must be encoded with `base64`.
      */
     public function setData(string $data): self
     {
@@ -64,7 +64,7 @@ class ParamsOfChaCha20 implements JsonSerializable
     }
 
     /**
-     * 256-bit key. Must be encoded with `hex`.
+     * Must be encoded with `hex`.
      */
     public function setKey(string $key): self
     {
@@ -73,7 +73,7 @@ class ParamsOfChaCha20 implements JsonSerializable
     }
 
     /**
-     * 96-bit nonce. Must be encoded with `hex`.
+     * Must be encoded with `hex`.
      */
     public function setNonce(string $nonce): self
     {

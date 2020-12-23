@@ -20,49 +20,25 @@ use TON\Utils\UtilsModuleInterface;
 
 interface TonClientInterface
 {
-    /**
-     * Provides information about library.
-     */
     function client(): ClientModuleInterface;
 
-    /**
-     * Crypto functions.
-     */
     function crypto(): CryptoModuleInterface;
 
-    /**
-     * Provides message encoding and decoding according to the ABI
-     *  specification.
-     */
     function abi(): AbiModuleInterface;
 
-    /**
-     * BOC manipulation module.
-     */
     function boc(): BocModuleInterface;
 
     /**
-     * Message processing module.
-     *
-     *  This module incorporates functions related to complex message
-     *  processing scenarios.
+     * This module incorporates functions related to complex message
+     * processing scenarios.
      */
     function processing(): ProcessingModuleInterface;
 
-    /**
-     * Misc utility Functions.
-     */
     function utils(): UtilsModuleInterface;
 
     function tvm(): TvmModuleInterface;
 
-    /**
-     * Network access.
-     */
     function net(): NetModuleInterface;
 
-    /**
-     * [UNSTABLE](UNSTABLE.md) Module for working with debot.
-     */
     function debot(): DebotModuleInterface;
 }

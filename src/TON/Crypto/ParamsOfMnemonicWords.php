@@ -13,7 +13,6 @@ use stdClass;
 
 class ParamsOfMnemonicWords implements JsonSerializable
 {
-    /** Dictionary identifier */
     private ?int $_dictionary;
 
     public function __construct(?array $dto = null)
@@ -22,17 +21,11 @@ class ParamsOfMnemonicWords implements JsonSerializable
         $this->_dictionary = $dto['dictionary'] ?? null;
     }
 
-    /**
-     * Dictionary identifier
-     */
     public function getDictionary(): ?int
     {
         return $this->_dictionary;
     }
 
-    /**
-     * Dictionary identifier
-     */
     public function setDictionary(?int $dictionary): self
     {
         $this->_dictionary = $dictionary;

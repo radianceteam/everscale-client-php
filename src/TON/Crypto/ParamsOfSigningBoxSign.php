@@ -13,10 +13,9 @@ use stdClass;
 
 class ParamsOfSigningBoxSign implements JsonSerializable
 {
-    /** Signing Box handle. */
     private int $_signingBox;
 
-    /** Unsigned user data. Must be encoded with `base64`. */
+    /** Must be encoded with `base64`. */
     private string $_unsigned;
 
     public function __construct(?array $dto = null)
@@ -26,25 +25,19 @@ class ParamsOfSigningBoxSign implements JsonSerializable
         $this->_unsigned = $dto['unsigned'] ?? '';
     }
 
-    /**
-     * Signing Box handle.
-     */
     public function getSigningBox(): int
     {
         return $this->_signingBox;
     }
 
     /**
-     * Unsigned user data. Must be encoded with `base64`.
+     * Must be encoded with `base64`.
      */
     public function getUnsigned(): string
     {
         return $this->_unsigned;
     }
 
-    /**
-     * Signing Box handle.
-     */
     public function setSigningBox(int $signingBox): self
     {
         $this->_signingBox = $signingBox;
@@ -52,7 +45,7 @@ class ParamsOfSigningBoxSign implements JsonSerializable
     }
 
     /**
-     * Unsigned user data. Must be encoded with `base64`.
+     * Must be encoded with `base64`.
      */
     public function setUnsigned(string $unsigned): self
     {

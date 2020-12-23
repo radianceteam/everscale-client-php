@@ -13,10 +13,7 @@ use stdClass;
 
 class ParamsOfAppDebotBrowser_InvokeDebot extends ParamsOfAppDebotBrowser implements JsonSerializable
 {
-    /** Address of debot in blockchain. */
     private string $_debotAddr;
-
-    /** Debot action to execute. */
     private ?DebotAction $_action;
 
     public function __construct(?array $dto = null)
@@ -26,34 +23,22 @@ class ParamsOfAppDebotBrowser_InvokeDebot extends ParamsOfAppDebotBrowser implem
         $this->_action = isset($dto['action']) ? new DebotAction($dto['action']) : null;
     }
 
-    /**
-     * Address of debot in blockchain.
-     */
     public function getDebotAddr(): string
     {
         return $this->_debotAddr;
     }
 
-    /**
-     * Debot action to execute.
-     */
     public function getAction(): ?DebotAction
     {
         return $this->_action;
     }
 
-    /**
-     * Address of debot in blockchain.
-     */
     public function setDebotAddr(string $debotAddr): self
     {
         $this->_debotAddr = $debotAddr;
         return $this;
     }
 
-    /**
-     * Debot action to execute.
-     */
     public function setAction(?DebotAction $action): self
     {
         $this->_action = $action;

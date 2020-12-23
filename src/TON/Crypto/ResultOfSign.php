@@ -13,10 +13,7 @@ use stdClass;
 
 class ResultOfSign implements JsonSerializable
 {
-    /** Signed data combined with signature encoded in `base64`. */
     private string $_signed;
-
-    /** Signature encoded in `hex`. */
     private string $_signature;
 
     public function __construct(?array $dto = null)
@@ -26,34 +23,22 @@ class ResultOfSign implements JsonSerializable
         $this->_signature = $dto['signature'] ?? '';
     }
 
-    /**
-     * Signed data combined with signature encoded in `base64`.
-     */
     public function getSigned(): string
     {
         return $this->_signed;
     }
 
-    /**
-     * Signature encoded in `hex`.
-     */
     public function getSignature(): string
     {
         return $this->_signature;
     }
 
-    /**
-     * Signed data combined with signature encoded in `base64`.
-     */
     public function setSigned(string $signed): self
     {
         $this->_signed = $signed;
         return $this;
     }
 
-    /**
-     * Signature encoded in `hex`.
-     */
     public function setSignature(string $signature): self
     {
         $this->_signature = $signature;

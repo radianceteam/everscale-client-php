@@ -10,9 +10,6 @@ namespace TON\Utils;
 
 use TON\Utils\Async\UtilsModuleAsyncInterface;
 
-/**
- * Misc utility Functions.
- */
 interface UtilsModuleInterface
 {
     /**
@@ -21,7 +18,6 @@ interface UtilsModuleInterface
     function async(): UtilsModuleAsyncInterface;
 
     /**
-     * Converts address from any TON format to any TON format
      * @param ParamsOfConvertAddress $params
      * @return ResultOfConvertAddress
      */

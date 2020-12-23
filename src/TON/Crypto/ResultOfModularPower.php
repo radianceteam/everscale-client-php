@@ -13,7 +13,6 @@ use stdClass;
 
 class ResultOfModularPower implements JsonSerializable
 {
-    /** Result of modular exponentiation */
     private string $_modularPower;
 
     public function __construct(?array $dto = null)
@@ -22,17 +21,11 @@ class ResultOfModularPower implements JsonSerializable
         $this->_modularPower = $dto['modular_power'] ?? '';
     }
 
-    /**
-     * Result of modular exponentiation
-     */
     public function getModularPower(): string
     {
         return $this->_modularPower;
     }
 
-    /**
-     * Result of modular exponentiation
-     */
     public function setModularPower(string $modularPower): self
     {
         $this->_modularPower = $modularPower;

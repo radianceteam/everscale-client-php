@@ -13,7 +13,6 @@ use stdClass;
 
 class RegisteredDebot implements JsonSerializable
 {
-    /** Debot handle which references an instance of debot engine. */
     private int $_debotHandle;
 
     public function __construct(?array $dto = null)
@@ -22,17 +21,11 @@ class RegisteredDebot implements JsonSerializable
         $this->_debotHandle = $dto['debot_handle'] ?? 0;
     }
 
-    /**
-     * Debot handle which references an instance of debot engine.
-     */
     public function getDebotHandle(): int
     {
         return $this->_debotHandle;
     }
 
-    /**
-     * Debot handle which references an instance of debot engine.
-     */
     public function setDebotHandle(int $debotHandle): self
     {
         $this->_debotHandle = $debotHandle;

@@ -13,13 +13,8 @@ use stdClass;
 
 class ParamsOfHDKeyXPrvFromMnemonic implements JsonSerializable
 {
-    /** String with seed phrase */
     private string $_phrase;
-
-    /** Dictionary identifier */
     private ?int $_dictionary;
-
-    /** Mnemonic word count */
     private ?int $_wordCount;
 
     public function __construct(?array $dto = null)
@@ -30,51 +25,33 @@ class ParamsOfHDKeyXPrvFromMnemonic implements JsonSerializable
         $this->_wordCount = $dto['word_count'] ?? null;
     }
 
-    /**
-     * String with seed phrase
-     */
     public function getPhrase(): string
     {
         return $this->_phrase;
     }
 
-    /**
-     * Dictionary identifier
-     */
     public function getDictionary(): ?int
     {
         return $this->_dictionary;
     }
 
-    /**
-     * Mnemonic word count
-     */
     public function getWordCount(): ?int
     {
         return $this->_wordCount;
     }
 
-    /**
-     * String with seed phrase
-     */
     public function setPhrase(string $phrase): self
     {
         $this->_phrase = $phrase;
         return $this;
     }
 
-    /**
-     * Dictionary identifier
-     */
     public function setDictionary(?int $dictionary): self
     {
         $this->_dictionary = $dictionary;
         return $this;
     }
 
-    /**
-     * Mnemonic word count
-     */
     public function setWordCount(?int $wordCount): self
     {
         $this->_wordCount = $wordCount;

@@ -61,53 +61,35 @@ class TonClient implements TonClientInterface
         $this->_context->setLogger($logger);
     }
 
-    /**
-     * Provides information about library.
-     */
     public function client(): ClientModuleInterface
     {
         return $this->_client;
     }
 
-    /**
-     * Crypto functions.
-     */
     public function crypto(): CryptoModuleInterface
     {
         return $this->_crypto;
     }
 
-    /**
-     * Provides message encoding and decoding according to the ABI
-     *  specification.
-     */
     public function abi(): AbiModuleInterface
     {
         return $this->_abi;
     }
 
-    /**
-     * BOC manipulation module.
-     */
     public function boc(): BocModuleInterface
     {
         return $this->_boc;
     }
 
     /**
-     * Message processing module.
-     *
-     *  This module incorporates functions related to complex message
-     *  processing scenarios.
+     * This module incorporates functions related to complex message
+     * processing scenarios.
      */
     public function processing(): ProcessingModuleInterface
     {
         return $this->_processing;
     }
 
-    /**
-     * Misc utility Functions.
-     */
     public function utils(): UtilsModuleInterface
     {
         return $this->_utils;
@@ -118,17 +100,11 @@ class TonClient implements TonClientInterface
         return $this->_tvm;
     }
 
-    /**
-     * Network access.
-     */
     public function net(): NetModuleInterface
     {
         return $this->_net;
     }
 
-    /**
-     * [UNSTABLE](UNSTABLE.md) Module for working with debot.
-     */
     public function debot(): DebotModuleInterface
     {
         return $this->_debot;

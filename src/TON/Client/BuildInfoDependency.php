@@ -13,10 +13,8 @@ use stdClass;
 
 class BuildInfoDependency implements JsonSerializable
 {
-    /** Dependency name. Usually it is a crate name. */
+    /** Usually it is a crate name. */
     private string $_name;
-
-    /** Git commit hash of the related repository. */
     private string $_gitCommit;
 
     public function __construct(?array $dto = null)
@@ -27,23 +25,20 @@ class BuildInfoDependency implements JsonSerializable
     }
 
     /**
-     * Dependency name. Usually it is a crate name.
+     * Usually it is a crate name.
      */
     public function getName(): string
     {
         return $this->_name;
     }
 
-    /**
-     * Git commit hash of the related repository.
-     */
     public function getGitCommit(): string
     {
         return $this->_gitCommit;
     }
 
     /**
-     * Dependency name. Usually it is a crate name.
+     * Usually it is a crate name.
      */
     public function setName(string $name): self
     {
@@ -51,9 +46,6 @@ class BuildInfoDependency implements JsonSerializable
         return $this;
     }
 
-    /**
-     * Git commit hash of the related repository.
-     */
     public function setGitCommit(string $gitCommit): self
     {
         $this->_gitCommit = $gitCommit;

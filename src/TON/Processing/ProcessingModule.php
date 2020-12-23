@@ -13,10 +13,8 @@ use TON\Processing\Async\ProcessingModuleAsyncInterface;
 use TON\TonContext;
 
 /**
- * Message processing module.
- *
- *  This module incorporates functions related to complex message
- *  processing scenarios.
+ * This module incorporates functions related to complex message
+ * processing scenarios.
  */
 class ProcessingModule implements ProcessingModuleInterface
 {

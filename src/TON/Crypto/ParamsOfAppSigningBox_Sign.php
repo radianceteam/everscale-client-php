@@ -13,7 +13,6 @@ use stdClass;
 
 class ParamsOfAppSigningBox_Sign extends ParamsOfAppSigningBox implements JsonSerializable
 {
-    /** Data to sign encoded as base64 */
     private string $_unsigned;
 
     public function __construct(?array $dto = null)
@@ -22,17 +21,11 @@ class ParamsOfAppSigningBox_Sign extends ParamsOfAppSigningBox implements JsonSe
         $this->_unsigned = $dto['unsigned'] ?? '';
     }
 
-    /**
-     * Data to sign encoded as base64
-     */
     public function getUnsigned(): string
     {
         return $this->_unsigned;
     }
 
-    /**
-     * Data to sign encoded as base64
-     */
     public function setUnsigned(string $unsigned): self
     {
         $this->_unsigned = $unsigned;

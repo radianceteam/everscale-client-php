@@ -13,13 +13,9 @@ use stdClass;
 
 class ParamsOfMnemonicFromEntropy implements JsonSerializable
 {
-    /** Entropy bytes. Hex encoded. */
+    /** Hex encoded. */
     private string $_entropy;
-
-    /** Dictionary identifier */
     private ?int $_dictionary;
-
-    /** Mnemonic word count */
     private ?int $_wordCount;
 
     public function __construct(?array $dto = null)
@@ -31,31 +27,25 @@ class ParamsOfMnemonicFromEntropy implements JsonSerializable
     }
 
     /**
-     * Entropy bytes. Hex encoded.
+     * Hex encoded.
      */
     public function getEntropy(): string
     {
         return $this->_entropy;
     }
 
-    /**
-     * Dictionary identifier
-     */
     public function getDictionary(): ?int
     {
         return $this->_dictionary;
     }
 
-    /**
-     * Mnemonic word count
-     */
     public function getWordCount(): ?int
     {
         return $this->_wordCount;
     }
 
     /**
-     * Entropy bytes. Hex encoded.
+     * Hex encoded.
      */
     public function setEntropy(string $entropy): self
     {
@@ -63,18 +53,12 @@ class ParamsOfMnemonicFromEntropy implements JsonSerializable
         return $this;
     }
 
-    /**
-     * Dictionary identifier
-     */
     public function setDictionary(?int $dictionary): self
     {
         $this->_dictionary = $dictionary;
         return $this;
     }
 
-    /**
-     * Mnemonic word count
-     */
     public function setWordCount(?int $wordCount): self
     {
         $this->_wordCount = $wordCount;
