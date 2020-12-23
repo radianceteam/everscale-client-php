@@ -1,0 +1,48 @@
+name: Tests
+
+on: [push]
+
+jobs:
+  run:
+
+    runs-on: ${{ matrix.operating-system }}
+    strategy:
+      max-parallel: 3
+      fail-fast: false
+      matrix:
+        operating-system: [windows-latest]
+        php-versions: ['7.4']
+
+    name: PHP ${{ matrix.php-versions }} Test on ${{ matrix.operating-system }}
+
+    steps:
+    - uses: actions/checkout@v1
+
+    - name: Install PHP
+      uses: shivammathur/setup-php@master
+      with:
+        php-version: ${{ matrix.php-versions }}
+
+    - name: Check PHP Version
+      run: php -v
+
+    - name: Install PHP Extension
+      run: php windows-install-extension.php -v 1.2.0 -T
+
+    - name: Test PHP Extension
+      run: php windows-install-extension.php -v 1.2.0 -DCIU
+
+    - name: Check PHP Extensions
+      run: php -m
+
+    - name: Check Composer Version
+      run: composer -V
+
+    - name: Validate composer.json and composer.lock
+      run: composer validate
+
+    - name: Install dependencies
+      run: composer install --prefer-dist --no-progress --no-suggest
+    
+    - name: Run test suite
+      run: composer test
