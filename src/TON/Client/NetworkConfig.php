@@ -13,29 +13,51 @@ use stdClass;
 
 class NetworkConfig implements JsonSerializable
 {
-    private string $_serverAddress;
+    private ?string $_serverAddress;
+
+    /** Any correct URL format can be specified, including IP addresses */
+    private ?array $_endpoints;
     private ?int $_networkRetriesCount;
     private ?int $_messageRetriesCount;
     private ?int $_messageProcessingTimeout;
     private ?int $_waitForTimeout;
+
+    /**
+     * If client's device time is out of sink and difference is more thanthe threshhold then error will occur. Also the error will occur if the specified threshhold is more than
+     * `message_processing_timeout/2`.
+     * The default value is 15 sec.
+     */
     private ?int $_outOfSyncThreshold;
+    private ?int $_reconnectTimeout;
+
+    /** At the moment is not used in production */
     private ?string $_accessKey;
 
     public function __construct(?array $dto = null)
     {
         if (!$dto) $dto = [];
-        $this->_serverAddress = $dto['server_address'] ?? '';
+        $this->_serverAddress = $dto['server_address'] ?? null;
+        $this->_endpoints = $dto['endpoints'] ?? null;
         $this->_networkRetriesCount = $dto['network_retries_count'] ?? null;
         $this->_messageRetriesCount = $dto['message_retries_count'] ?? null;
         $this->_messageProcessingTimeout = $dto['message_processing_timeout'] ?? null;
         $this->_waitForTimeout = $dto['wait_for_timeout'] ?? null;
         $this->_outOfSyncThreshold = $dto['out_of_sync_threshold'] ?? null;
+        $this->_reconnectTimeout = $dto['reconnect_timeout'] ?? null;
         $this->_accessKey = $dto['access_key'] ?? null;
     }
 
-    public function getServerAddress(): string
+    public function getServerAddress(): ?string
     {
         return $this->_serverAddress;
+    }
+
+    /**
+     * Any correct URL format can be specified, including IP addresses
+     */
+    public function getEndpoints(): ?array
+    {
+        return $this->_endpoints;
     }
 
     public function getNetworkRetriesCount(): ?int
@@ -58,19 +80,41 @@ class NetworkConfig implements JsonSerializable
         return $this->_waitForTimeout;
     }
 
+    /**
+     * If client's device time is out of sink and difference is more thanthe threshhold then error will occur. Also the error will occur if the specified threshhold is more than
+     * `message_processing_timeout/2`.
+     * The default value is 15 sec.
+     */
     public function getOutOfSyncThreshold(): ?int
     {
         return $this->_outOfSyncThreshold;
     }
 
+    public function getReconnectTimeout(): ?int
+    {
+        return $this->_reconnectTimeout;
+    }
+
+    /**
+     * At the moment is not used in production
+     */
     public function getAccessKey(): ?string
     {
         return $this->_accessKey;
     }
 
-    public function setServerAddress(string $serverAddress): self
+    public function setServerAddress(?string $serverAddress): self
     {
         $this->_serverAddress = $serverAddress;
+        return $this;
+    }
+
+    /**
+     * Any correct URL format can be specified, including IP addresses
+     */
+    public function setEndpoints(?array $endpoints): self
+    {
+        $this->_endpoints = $endpoints;
         return $this;
     }
 
@@ -98,12 +142,26 @@ class NetworkConfig implements JsonSerializable
         return $this;
     }
 
+    /**
+     * If client's device time is out of sink and difference is more thanthe threshhold then error will occur. Also the error will occur if the specified threshhold is more than
+     * `message_processing_timeout/2`.
+     * The default value is 15 sec.
+     */
     public function setOutOfSyncThreshold(?int $outOfSyncThreshold): self
     {
         $this->_outOfSyncThreshold = $outOfSyncThreshold;
         return $this;
     }
 
+    public function setReconnectTimeout(?int $reconnectTimeout): self
+    {
+        $this->_reconnectTimeout = $reconnectTimeout;
+        return $this;
+    }
+
+    /**
+     * At the moment is not used in production
+     */
     public function setAccessKey(?string $accessKey): self
     {
         $this->_accessKey = $accessKey;
@@ -114,11 +172,13 @@ class NetworkConfig implements JsonSerializable
     {
         $result = [];
         if ($this->_serverAddress !== null) $result['server_address'] = $this->_serverAddress;
+        if ($this->_endpoints !== null) $result['endpoints'] = $this->_endpoints;
         if ($this->_networkRetriesCount !== null) $result['network_retries_count'] = $this->_networkRetriesCount;
         if ($this->_messageRetriesCount !== null) $result['message_retries_count'] = $this->_messageRetriesCount;
         if ($this->_messageProcessingTimeout !== null) $result['message_processing_timeout'] = $this->_messageProcessingTimeout;
         if ($this->_waitForTimeout !== null) $result['wait_for_timeout'] = $this->_waitForTimeout;
         if ($this->_outOfSyncThreshold !== null) $result['out_of_sync_threshold'] = $this->_outOfSyncThreshold;
+        if ($this->_reconnectTimeout !== null) $result['reconnect_timeout'] = $this->_reconnectTimeout;
         if ($this->_accessKey !== null) $result['access_key'] = $this->_accessKey;
         return !empty($result) ? $result : new stdClass();
     }

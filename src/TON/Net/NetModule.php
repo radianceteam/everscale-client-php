@@ -96,4 +96,20 @@ class NetModule implements NetModuleInterface
     {
         return new ResultOfFindLastShardBlock($this->_context->callFunction('net.find_last_shard_block', $params));
     }
+
+    /**
+     * @return EndpointsSet
+     */
+    public function fetchEndpoints(): EndpointsSet
+    {
+        return new EndpointsSet($this->_context->callFunction('net.fetch_endpoints'));
+    }
+
+    /**
+     * @param EndpointsSet $params
+     */
+    public function setEndpoints(EndpointsSet $params)
+    {
+        $this->_context->callFunction('net.set_endpoints', $params);
+    }
 }

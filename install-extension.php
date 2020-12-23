@@ -2,7 +2,7 @@
 
 const MIN_PHP_VERSION = '7.4';
 
-class Options
+class InstallationOptions
 {
     public string $version;
     public string $ext_dir;
@@ -15,7 +15,6 @@ class Options
     public bool $skip_download;
     public bool $skip_cleanup;
     public bool $skip_unpack;
-    public bool $skip_test;
     public bool $skip_ini;
     public bool $skip_backup;
     public bool $silent;
@@ -49,7 +48,6 @@ Thread safety: {$this->ts}
 Skip download: {$this->skip_download}
 Skip cleanup: {$this->skip_cleanup}
 Skip unpack: {$this->skip_unpack}
-Skip test: {$this->skip_test}
 Skip INI: {$this->skip_ini}
 Skip backup: {$this->skip_backup}
 Force install: {$this->force_install}
@@ -58,7 +56,7 @@ EOT;
     }
 }
 
-function check_installed_version(Options $options): bool
+function check_installed_version(InstallationOptions $options): bool
 {
     $version = phpversion('ton_client');
     if (!$version) {
@@ -91,7 +89,6 @@ Usage: php ${script_name}
     [-D|--skip-download]        Skip downloading archive. Use existing archive from tmp dir.
     [-U|--skip-unpack]          Skip unpacking downloaded archive.
     [-C|--skip-cleanup]         Skip removing temp files.
-    [-T|--skip-test]            Skip running tests.
     [-I|--skip-ini]             Skip modifying php.ini file.
     [-B|--skip-backup]          Don't make ini file backup.
     [-f|--force-install]        Overwrite existing binaries.
@@ -104,16 +101,15 @@ Usage: php ${script_name}
 EOT;
 }
 
-function get_options($argv): Options
+function get_options($argv): InstallationOptions
 {
-    if (!($options = getopt('hv:fDUCsa:t:e:x:Ti:hBSI', [
+    if (!($options = getopt('hv:fDUCsa:t:e:x:i:hBSI', [
         'help',
         'silent',
         'version:',
         'skip-download',
         'skip-unpack',
         'skip-cleanup',
-        'skip-test',
         'skip-ini',
         'skip-backup',
         'force-install',
@@ -137,12 +133,11 @@ function get_options($argv): Options
     phpinfo(INFO_GENERAL);
     $phpinfo = strip_tags(ob_get_clean());
 
-    $o = new Options();
+    $o = new InstallationOptions();
     $o->version = isset($options['v']) ? $options['v'] : $options['version'];
     $o->skip_download = isset($options['D']) || isset($options['skip-download']);
     $o->skip_unpack = isset($options['U']) || isset($options['skip-unpack']);
     $o->skip_cleanup = isset($options['C']) || isset($options['skip-cleanup']);
-    $o->skip_test = isset($options['T']) || isset($options['skip-test']);
     $o->skip_ini = isset($options['I']) || isset($options['skip-ini']);
     $o->skip_backup = isset($options['B']) || isset($options['skip-backup']);
     $o->force_install = isset($options['f']) || isset($options['force-install']);
@@ -163,7 +158,7 @@ function get_options($argv): Options
     return $o;
 }
 
-function check_php_version($ver, $min, Options $options)
+function check_php_version($ver, $min, InstallationOptions $options)
 {
     if (version_compare($ver, $min) >= 0) {
         inform("PHP version ${ver} >= ${min}: OK", $options);
@@ -173,7 +168,7 @@ function check_php_version($ver, $min, Options $options)
     }
 }
 
-function check_writable($dir, Options $options)
+function check_writable($dir, InstallationOptions $options)
 {
     if (is_writable($dir)) {
         inform("Directory ${dir} is writable: OK", $options);
@@ -198,7 +193,7 @@ function is_thread_safe(string $phpinfo): bool
     return preg_match('/Thread\s+Safety\s+=>\s+enabled/i', $phpinfo);
 }
 
-function get_download_url(Options $options): string
+function get_download_url(InstallationOptions $options): string
 {
     $suffix = $options->ts ? '' : '-nts';
     $version = $options->version;
@@ -206,7 +201,7 @@ function get_download_url(Options $options): string
     return "https://github.com/radianceteam/ton-client-php-ext/releases/download/{$version}/ton-client-${version}${suffix}-Win32-vc15-${arch}.zip";
 }
 
-function download_archive(string $download_url, Options $options): ?string
+function download_archive(string $download_url, InstallationOptions $options): ?string
 {
     $tmp_file_name = $options->tmp_dir . '\\' . basename($download_url);
     if (!$options->skip_download) {
@@ -226,7 +221,7 @@ function download_archive(string $download_url, Options $options): ?string
     return $tmp_file_name;
 }
 
-function extract_files(ZipArchive $archive, string $dest_folder, array $files, Options $options)
+function extract_files(ZipArchive $archive, string $dest_folder, array $files, InstallationOptions $options)
 {
     $filenames = join(", ", $files);
     inform("Extracting files ${filenames} into {$options->tmp_dir}", $options);
@@ -256,7 +251,7 @@ function extract_files(ZipArchive $archive, string $dest_folder, array $files, O
     }
 }
 
-function unpack_archive(string $file_name, string $folder_name, Options $options): string
+function unpack_archive(string $file_name, string $folder_name, InstallationOptions $options): string
 {
     if (!$options->skip_unpack) {
         inform("Unpacking and installing files...", $options);
@@ -279,7 +274,7 @@ function unpack_archive(string $file_name, string $folder_name, Options $options
     return "{$options->ext_dir}\\php_ton_client.dll";
 }
 
-function remove_archive_file(string $file_name, Options $options)
+function remove_archive_file(string $file_name, InstallationOptions $options)
 {
     if (!$options->skip_cleanup) {
         inform("Removing archive file ${file_name}", $options);
@@ -289,7 +284,7 @@ function remove_archive_file(string $file_name, Options $options)
     }
 }
 
-function download_and_unpack(string $download_url, Options $options): string
+function download_and_unpack(string $download_url, InstallationOptions $options): string
 {
     $zip_file_name = download_archive($download_url, $options);
     $folder_name = "build/release/{$options->arch}";
@@ -330,14 +325,14 @@ function get_ini_file_location(string $phpinfo): string
     return $location;
 }
 
-function check_before_install(string $php_version, Options $options)
+function check_before_install(string $php_version, InstallationOptions $options)
 {
     check_writable($options->ext_dir, $options);
     check_writable($options->exe_dir, $options);
     check_php_version($php_version, MIN_PHP_VERSION, $options);
 }
 
-function backup_ini_file(Options $options)
+function backup_ini_file(InstallationOptions $options)
 {
     inform("Updating {$options->ini_file}...", $options);
     if (!$options->skip_backup) {
@@ -353,7 +348,7 @@ function backup_ini_file(Options $options)
     }
 }
 
-function update_extension_location(string $extension_path, Options $options)
+function update_extension_location(string $extension_path, InstallationOptions $options)
 {
     $basename = basename($extension_path);
     $needed = "extension=\"${extension_path}\"";
@@ -377,58 +372,20 @@ function update_extension_location(string $extension_path, Options $options)
     inform("Extension location updated in {$options->ini_file}.", $options);
 }
 
-function inform(string $message, Options $options)
+function inform(string $message, InstallationOptions $options)
 {
     if (!$options->silent) {
         echo "${message}\n";
     }
 }
 
-function update_ini_file(string $extension_path, Options $options)
+function update_ini_file(string $extension_path, InstallationOptions $options)
 {
     if (!$options->skip_ini) {
         backup_ini_file($options);
         update_extension_location($extension_path, $options);
     } else {
         inform("Skip updating init file.", $options);
-    }
-}
-
-function test(Options $options)
-{
-    if (!$options->skip_test) {
-        inform("Running tests...", $options);
-
-        foreach ([
-                     'ton_create_context',
-                     'ton_destroy_context',
-                     'ton_request_sync'
-                 ] as $func) {
-            if (!function_exists($func)) {
-                fire_error("Function ${func} doesn't exist");
-            }
-        }
-
-        $json = json_decode(ton_create_context("{}"), true);
-        if (!$json) {
-            fire_error("Failed to create TON context.");
-        }
-
-        $contextId = $json['result'];
-        $json = ton_request_sync($contextId, 'client.version', '');
-        $response = json_decode($json, true);
-        if (!$response || !isset($response['result']) || !isset($response['result']['version'])) {
-            fire_error("Invalid response returned by client.version: ${json}.");
-        }
-        $version = $response['result']['version'];
-        inform("Version returned by client.version: ${version}", $options);
-        $cmp = version_compare($version, $options->version);
-        if (($options->force_install && $cmp !== 0) || $cmp < 0) {
-            fire_error("Wrong version returned by client.version: ${version}");
-        }
-        ton_destroy_context($contextId);
-    } else {
-        inform("Skip running tests.", $options);
     }
 }
 
@@ -448,7 +405,5 @@ if (!check_installed_version($options)) {
     $extension_path = download_and_unpack($download_url, $options);
     update_ini_file($extension_path, $options);
 }
-
-test($options);
 
 inform('Done.', $options);

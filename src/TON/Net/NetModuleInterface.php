@@ -59,4 +59,14 @@ interface NetModuleInterface
      * @return ResultOfFindLastShardBlock
      */
     function findLastShardBlock(ParamsOfFindLastShardBlock $params): ResultOfFindLastShardBlock;
+
+    /**
+     * @return EndpointsSet
+     */
+    function fetchEndpoints(): EndpointsSet;
+
+    /**
+     * @param EndpointsSet $params
+     */
+    function setEndpoints(EndpointsSet $params);
 }

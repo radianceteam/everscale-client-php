@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace TON\Net\Async;
 
 use TON\AsyncResult;
+use TON\Net\EndpointsSet;
 use TON\Net\ParamsOfFindLastShardBlock;
 use TON\Net\ParamsOfQuery;
 use TON\Net\ParamsOfQueryCollection;
@@ -76,4 +77,15 @@ interface NetModuleAsyncInterface
      * @return AsyncResultOfFindLastShardBlock
      */
     function findLastShardBlockAsync(ParamsOfFindLastShardBlock $params): AsyncResultOfFindLastShardBlock;
+
+    /**
+     * @return AsyncEndpointsSet
+     */
+    function fetchEndpointsAsync(): AsyncEndpointsSet;
+
+    /**
+     * @param EndpointsSet $params
+     * @return AsyncResult
+     */
+    function setEndpointsAsync(EndpointsSet $params): AsyncResult;
 }

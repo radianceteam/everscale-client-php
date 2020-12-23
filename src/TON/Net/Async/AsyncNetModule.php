@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace TON\Net\Async;
 
 use TON\AsyncResult;
+use TON\Net\EndpointsSet;
 use TON\Net\ParamsOfFindLastShardBlock;
 use TON\Net\ParamsOfQuery;
 use TON\Net\ParamsOfQueryCollection;
@@ -111,5 +112,22 @@ class AsyncNetModule implements NetModuleAsyncInterface
     public function findLastShardBlockAsync(ParamsOfFindLastShardBlock $params): AsyncResultOfFindLastShardBlock
     {
         return new AsyncResultOfFindLastShardBlock($this->_context->callFunctionAsync('net.find_last_shard_block', $params));
+    }
+
+    /**
+     * @return AsyncEndpointsSet
+     */
+    public function fetchEndpointsAsync(): AsyncEndpointsSet
+    {
+        return new AsyncEndpointsSet($this->_context->callFunctionAsync('net.fetch_endpoints'));
+    }
+
+    /**
+     * @param EndpointsSet $params
+     * @return AsyncResult
+     */
+    public function setEndpointsAsync(EndpointsSet $params): AsyncResult
+    {
+        return new AsyncResult($this->_context->callFunctionAsync('net.set_endpoints', $params));
     }
 }

@@ -25,6 +25,7 @@ const TON_SRC_DIR = 'src/TON';
 const TON_NS = 'TON';
 const STRUCT_TYPE = 'Struct';
 const ENUM_OF_TYPES = 'EnumOfTypes';
+const ENUM_OF_CONSTS = 'EnumOfConsts';
 
 function gen_log(string $message)
 {
@@ -567,19 +568,7 @@ function is_enum_of_types(array $type): bool
 
 function is_enum_of_consts(array $type): bool
 {
-    return $type['type'] === 'EnumOfConsts';
-}
-
-function get_php_type_constructor_expr(string $module_name, string $type_name, string $argSpec, ApiIndex $index): string
-{
-    $type = $index->getTypeSpec($module_name, $type_name);
-    if (is_enum_of_types($type)) {
-        return "${type_name}::create(${argSpec})";
-    } else if (is_enum_of_consts($type)) {
-        return $argSpec;
-    } else {
-        return "new ${type_name}(${argSpec})";
-    }
+    return $type['type'] === ENUM_OF_CONSTS;
 }
 
 function add_type_imports(array $module, array $type, ApiIndex $index, PhpNamespace $ns)
@@ -619,7 +608,7 @@ function generate_enum_of_consts_module_type(array $module, array $type, ApiInde
     $class->setFinal(true);
 
     foreach ($type['enum_consts'] as $const) {
-        $constant = $class->addConstant($const['name'], $const['name']);
+        $constant = $class->addConstant($const['name'], isset($const['value']) ? (int)$const['value'] : $const['name']);
         $comment = $const['description'] ?? $const['summary'] ?? null;
         if ($comment) {
             $constant->addComment($comment);

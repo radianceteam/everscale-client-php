@@ -8,8 +8,11 @@ use TON\Abi\DeploySet;
 use TON\Abi\ParamsOfEncodeMessage;
 use TON\Abi\Signer_Keys;
 use TON\AbstractIntegrationTest;
+use TON\Client\ClientConfig;
+use TON\Client\NetworkConfig;
 use TON\Processing\ParamsOfProcessMessage;
 use TON\TestClient;
+use TON\TonClientBuilder;
 
 class NetModuleIntegrationTests extends AbstractIntegrationTest
 {
@@ -272,5 +275,79 @@ class NetModuleIntegrationTests extends AbstractIntegrationTest
 
         $this->assertNotEmpty($block);
         $this->assertNotEmpty($block->getBlockId());
+    }
+
+    public function testFetchEndpoints()
+    {
+        $client = TonClientBuilder::create()
+            ->withConfig((new ClientConfig())
+                ->setNetwork((new NetworkConfig())
+                    ->setEndpoints(["cinet.tonlabs.io", "cinet2.tonlabs.io/"])))
+            ->build();
+
+        $result = $client->net()->fetchEndpoints();
+        $this->assertNotNull($result);
+        $endpoints = $result->getEndpoints();
+        $this->assertNotEmpty($endpoints);
+        $this->assertCount(2, $endpoints);
+        $this->assertContains("https://cinet.tonlabs.io/", $endpoints);
+        $this->assertContains("https://cinet2.tonlabs.io/", $endpoints);
+    }
+
+    public function testFetchEndpoints_async()
+    {
+        $client = TonClientBuilder::create()
+            ->withConfig((new ClientConfig())
+                ->setNetwork((new NetworkConfig())
+                    ->setEndpoints(["cinet.tonlabs.io", "cinet2.tonlabs.io/"])))
+            ->build();
+
+        $result = $client->net()->async()
+            ->fetchEndpointsAsync()
+            ->await();
+
+        $this->assertNotNull($result);
+        $endpoints = $result->getEndpoints();
+        $this->assertNotEmpty($endpoints);
+        $this->assertCount(2, $endpoints);
+        $this->assertContains("https://cinet.tonlabs.io/", $endpoints);
+        $this->assertContains("https://cinet2.tonlabs.io/", $endpoints);
+    }
+
+    public function testSetEndpoints()
+    {
+        $client = self::createClient();
+
+        $client->net()->setEndpoints((new EndpointsSet())
+            ->setEndpoints(["cinet.tonlabs.io", "cinet2.tonlabs.io/"]));
+
+        $result = $client->net()->fetchEndpoints();
+        $this->assertNotNull($result);
+        $endpoints = $result->getEndpoints();
+        $this->assertNotEmpty($endpoints);
+        $this->assertCount(2, $endpoints);
+        $this->assertContains("https://cinet.tonlabs.io/", $endpoints);
+        $this->assertContains("https://cinet2.tonlabs.io/", $endpoints);
+    }
+
+    public function testSetEndpoints_async()
+    {
+        $client = self::createClient();
+
+        $client->net()->async()
+            ->setEndpointsAsync((new EndpointsSet())
+                ->setEndpoints(["cinet.tonlabs.io", "cinet2.tonlabs.io/"]))
+            ->await();
+
+        $result = $client->net()->async()
+            ->fetchEndpointsAsync()
+            ->await();
+
+        $this->assertNotNull($result);
+        $endpoints = $result->getEndpoints();
+        $this->assertNotEmpty($endpoints);
+        $this->assertCount(2, $endpoints);
+        $this->assertContains("https://cinet.tonlabs.io/", $endpoints);
+        $this->assertContains("https://cinet2.tonlabs.io/", $endpoints);
     }
 }
