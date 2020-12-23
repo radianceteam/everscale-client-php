@@ -184,6 +184,10 @@ class AsyncCryptoModule implements CryptoModuleAsyncInterface
     }
 
     /**
+     * Verifies the signature in `signed` using the signer's public key `public`
+     * and returns the message `unsigned`.
+     *
+     * If the signature fails verification, crypto_sign_open raises an exception.
      * @param ParamsOfNaclSignOpen $params
      * @return AsyncResultOfNaclSignOpen
      */
@@ -193,6 +197,8 @@ class AsyncCryptoModule implements CryptoModuleAsyncInterface
     }
 
     /**
+     * Signs the message `unsigned` using the secret key `secret`
+     * and returns a signature `signature`.
      * @param ParamsOfNaclSign $params
      * @return AsyncResultOfNaclSignDetached
      */

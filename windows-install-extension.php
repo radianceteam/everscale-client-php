@@ -216,10 +216,12 @@ function download_archive(string $download_url, Options $options): ?string
         inform("Downloaded to ${tmp_file_name}", $options);
     } else {
         inform("Skipping download.", $options);
-        if (!file_exists($tmp_file_name)) {
-            fire_error("File not downloaded and doesn't exist: ${tmp_file_name}");
+        if (!$options->skip_unpack) {
+            if (!file_exists($tmp_file_name)) {
+                fire_error("File not downloaded and doesn't exist: ${tmp_file_name}");
+            }
+            inform("Using existing archive from ${tmp_file_name}.", $options);
         }
-        inform("Using existing archive from ${tmp_file_name}.", $options);
     }
     return $tmp_file_name;
 }
@@ -236,14 +238,20 @@ function extract_files(ZipArchive $archive, string $dest_folder, array $files, O
         $target_file = $dest_folder . '\\' . $basename;
         $src_file = $options->tmp_dir . '\\' . $file;
         inform("Copying ${src_file} into ${target_file}...", $options);
-        if (file_exists($target_file) && filesize($target_file) === filesize($src_file)) {
-            inform("File ${target_file} already copied.", $options);
+        if (file_exists($target_file)) {
+            if (filesize($target_file) === filesize($src_file)) {
+                inform("File ${target_file} already copied.", $options);
+            } else {
+                if (!unlink($target_file)) {
+                    fire_error("Failed to remove ${target_file}.");
+                }
+            }
         } else if (!copy($src_file, $target_file)) {
             fire_error("Failed to copy ${file} into ${target_file}.");
         }
         if (!$options->skip_cleanup) {
-            inform("Removing file ${file}.", $options);
-            unlink($file);
+            inform("Removing file ${src_file}.", $options);
+            unlink($src_file);
         }
     }
 }
@@ -333,7 +341,7 @@ function backup_ini_file(Options $options)
 {
     inform("Updating {$options->ini_file}...", $options);
     if (!$options->skip_backup) {
-        $backup_file = $options->ini_file . '.bak';
+        $backup_file = $options->ini_file . ".{$options->version}.bak";
         if (file_exists($backup_file) && filesize($backup_file) === filesize($options->ini_file)) {
             inform("Backup file ${backup_file} already exists.", $options);
         } else {

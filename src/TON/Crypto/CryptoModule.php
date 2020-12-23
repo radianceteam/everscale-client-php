@@ -162,6 +162,10 @@ class CryptoModule implements CryptoModuleInterface
     }
 
     /**
+     * Verifies the signature in `signed` using the signer's public key `public`
+     * and returns the message `unsigned`.
+     *
+     * If the signature fails verification, crypto_sign_open raises an exception.
      * @param ParamsOfNaclSignOpen $params
      * @return ResultOfNaclSignOpen
      */
@@ -171,6 +175,8 @@ class CryptoModule implements CryptoModuleInterface
     }
 
     /**
+     * Signs the message `unsigned` using the secret key `secret`
+     * and returns a signature `signature`.
      * @param ParamsOfNaclSign $params
      * @return ResultOfNaclSignDetached
      */

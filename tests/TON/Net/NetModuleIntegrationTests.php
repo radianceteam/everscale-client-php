@@ -252,4 +252,25 @@ class NetModuleIntegrationTests extends AbstractIntegrationTest
 
         $subscription_client->net()->unsubscribe($handle);
     }
+
+    public function testFindLastShardBlock()
+    {
+        $block = self::$client->net()
+            ->findLastShardBlock((new ParamsOfFindLastShardBlock())
+                ->setAddress(TestClient::GIVER_ADDRESS));
+
+        $this->assertNotEmpty($block);
+        $this->assertNotEmpty($block->getBlockId());
+    }
+
+    public function testFindLastShardBlock_async()
+    {
+        $block = self::$client->net()->async()
+            ->findLastShardBlockAsync((new ParamsOfFindLastShardBlock())
+                ->setAddress(TestClient::GIVER_ADDRESS))
+            ->await();
+
+        $this->assertNotEmpty($block);
+        $this->assertNotEmpty($block->getBlockId());
+    }
 }

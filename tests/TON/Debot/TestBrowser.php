@@ -98,10 +98,16 @@ class TestBrowser
                     $state->current->outputs[] = $params->getMsg();
                     return null;
                 case ParamsOfAppDebotBrowser_Switch::class:
+                    Assert::assertFalse($state->switch_started);
+                    $state->switch_started = true;
                     if ($params->getContextId() === 255) { // STATE_EXIT
                         $state->finished = true;
                     }
                     $state->current->available_actions = [];
+                    return null;
+                case ParamsOfAppDebotBrowser_SwitchCompleted::class:
+                    Assert::assertTrue($state->switch_started);
+                    $state->switch_started = false;
                     return null;
                 case ParamsOfAppDebotBrowser_ShowAction::class:
                     $state->current->available_actions[] = $params->getAction();

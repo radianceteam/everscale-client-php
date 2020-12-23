@@ -63,4 +63,10 @@ interface BocModuleInterface
      * @return ResultOfGetBocHash
      */
     function getBocHash(ParamsOfGetBocHash $params): ResultOfGetBocHash;
+
+    /**
+     * @param ParamsOfGetCodeFromTvc $params
+     * @return ResultOfGetCodeFromTvc
+     */
+    function getCodeFromTvc(ParamsOfGetCodeFromTvc $params): ResultOfGetCodeFromTvc;
 }

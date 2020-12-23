@@ -50,13 +50,13 @@ interface NetModuleInterface
      */
     function unsubscribe(ResultOfSubscribeCollection $params);
 
-    /**
-     * Suspends network module to stop any network activity
-     */
     function suspend();
 
-    /**
-     * Resumes network module to enable network activity
-     */
     function resume();
+
+    /**
+     * @param ParamsOfFindLastShardBlock $params
+     * @return ResultOfFindLastShardBlock
+     */
+    function findLastShardBlock(ParamsOfFindLastShardBlock $params): ResultOfFindLastShardBlock;
 }

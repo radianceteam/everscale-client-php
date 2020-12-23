@@ -78,19 +78,22 @@ class NetModule implements NetModuleInterface
         $this->_context->callFunction('net.unsubscribe', $params);
     }
 
-    /**
-     * Suspends network module to stop any network activity
-     */
     public function suspend()
     {
         $this->_context->callFunction('net.suspend');
     }
 
-    /**
-     * Resumes network module to enable network activity
-     */
     public function resume()
     {
         $this->_context->callFunction('net.resume');
+    }
+
+    /**
+     * @param ParamsOfFindLastShardBlock $params
+     * @return ResultOfFindLastShardBlock
+     */
+    public function findLastShardBlock(ParamsOfFindLastShardBlock $params): ResultOfFindLastShardBlock
+    {
+        return new ResultOfFindLastShardBlock($this->_context->callFunction('net.find_last_shard_block', $params));
     }
 }

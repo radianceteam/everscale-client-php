@@ -17,5 +17,7 @@ class BrowserData
 
     public string $address;
 
-    public bool $finished;
+    public bool $finished = false;
+
+    public bool $switch_started = false;
 }

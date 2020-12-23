@@ -10,6 +10,7 @@ namespace TON\Boc\Async;
 
 use TON\Boc\ParamsOfGetBlockchainConfig;
 use TON\Boc\ParamsOfGetBocHash;
+use TON\Boc\ParamsOfGetCodeFromTvc;
 use TON\Boc\ParamsOfParse;
 use TON\Boc\ParamsOfParseShardstate;
 use TON\TonContext;
@@ -93,5 +94,14 @@ class AsyncBocModule implements BocModuleAsyncInterface
     public function getBocHashAsync(ParamsOfGetBocHash $params): AsyncResultOfGetBocHash
     {
         return new AsyncResultOfGetBocHash($this->_context->callFunctionAsync('boc.get_boc_hash', $params));
+    }
+
+    /**
+     * @param ParamsOfGetCodeFromTvc $params
+     * @return AsyncResultOfGetCodeFromTvc
+     */
+    public function getCodeFromTvcAsync(ParamsOfGetCodeFromTvc $params): AsyncResultOfGetCodeFromTvc
+    {
+        return new AsyncResultOfGetCodeFromTvc($this->_context->callFunctionAsync('boc.get_code_from_tvc', $params));
     }
 }

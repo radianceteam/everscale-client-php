@@ -10,6 +10,7 @@ namespace TON\Boc\Async;
 
 use TON\Boc\ParamsOfGetBlockchainConfig;
 use TON\Boc\ParamsOfGetBocHash;
+use TON\Boc\ParamsOfGetCodeFromTvc;
 use TON\Boc\ParamsOfParse;
 use TON\Boc\ParamsOfParseShardstate;
 
@@ -61,4 +62,10 @@ interface BocModuleAsyncInterface
      * @return AsyncResultOfGetBocHash
      */
     function getBocHashAsync(ParamsOfGetBocHash $params): AsyncResultOfGetBocHash;
+
+    /**
+     * @param ParamsOfGetCodeFromTvc $params
+     * @return AsyncResultOfGetCodeFromTvc
+     */
+    function getCodeFromTvcAsync(ParamsOfGetCodeFromTvc $params): AsyncResultOfGetCodeFromTvc;
 }

@@ -107,12 +107,18 @@ interface CryptoModuleInterface
     function naclSign(ParamsOfNaclSign $params): ResultOfNaclSign;
 
     /**
+     * Verifies the signature in `signed` using the signer's public key `public`
+     * and returns the message `unsigned`.
+     *
+     * If the signature fails verification, crypto_sign_open raises an exception.
      * @param ParamsOfNaclSignOpen $params
      * @return ResultOfNaclSignOpen
      */
     function naclSignOpen(ParamsOfNaclSignOpen $params): ResultOfNaclSignOpen;
 
     /**
+     * Signs the message `unsigned` using the secret key `secret`
+     * and returns a signature `signature`.
      * @param ParamsOfNaclSign $params
      * @return ResultOfNaclSignDetached
      */

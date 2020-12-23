@@ -19,6 +19,7 @@ abstract class ParamsOfAppDebotBrowser implements JsonSerializable
         if (!isset($dto['type'])) return null;
         if ($dto['type'] === 'Log') return new ParamsOfAppDebotBrowser_Log($dto);
         if ($dto['type'] === 'Switch') return new ParamsOfAppDebotBrowser_Switch($dto);
+        if ($dto['type'] === 'SwitchCompleted') return new ParamsOfAppDebotBrowser_SwitchCompleted($dto);
         if ($dto['type'] === 'ShowAction') return new ParamsOfAppDebotBrowser_ShowAction($dto);
         if ($dto['type'] === 'Input') return new ParamsOfAppDebotBrowser_Input($dto);
         if ($dto['type'] === 'GetSigningBox') return new ParamsOfAppDebotBrowser_GetSigningBox($dto);

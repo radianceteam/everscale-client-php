@@ -100,4 +100,13 @@ class BocModule implements BocModuleInterface
     {
         return new ResultOfGetBocHash($this->_context->callFunction('boc.get_boc_hash', $params));
     }
+
+    /**
+     * @param ParamsOfGetCodeFromTvc $params
+     * @return ResultOfGetCodeFromTvc
+     */
+    public function getCodeFromTvc(ParamsOfGetCodeFromTvc $params): ResultOfGetCodeFromTvc
+    {
+        return new ResultOfGetCodeFromTvc($this->_context->callFunction('boc.get_code_from_tvc', $params));
+    }
 }

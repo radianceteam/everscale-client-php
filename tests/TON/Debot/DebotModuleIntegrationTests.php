@@ -92,16 +92,18 @@ class DebotModuleIntegrationTests extends AbstractIntegrationTest
         );
     }
 
-    public function testDebotRun()
+    public function testDebotRunAct()
     {
         self::$browser->execute(
             self::$debot_addr,
             self::$keys,
             [
-                new DebotStep(3, ["-1:1111111111111111111111111111111111111111111111111111111111111111"], ["Test Run Action", "test1: instant run 1", "test2: instant run 2"]),
-                new DebotStep(1, ["hello"], []),
-                new DebotStep(2, [], ["integer=2,addr=-1:1111111111111111111111111111111111111111111111111111111111111111,string=hello"]),
-                new DebotStep(3, [], ["Debot Tests"]),
+                new DebotStep(3, [], ["Test Run Action"]),
+                new DebotStep(1, ["-1:1111111111111111111111111111111111111111111111111111111111111111"], ["Test Instant Run", "test1: instant run 1", "test2: instant run 2"]),
+                new DebotStep(1, [], ["Test Run Action"]),
+                new DebotStep(2, ["hello"], []),
+                new DebotStep(3, [], ["integer=2,addr=-1:1111111111111111111111111111111111111111111111111111111111111111,string=hello"]),
+                new DebotStep(4, [], ["Debot Tests"]),
                 new DebotStep(8, [], [])
             ]
         );
@@ -145,8 +147,30 @@ class DebotModuleIntegrationTests extends AbstractIntegrationTest
             self::$keys,
             [
                 new DebotStep(6, [self::$debot_addr], ["Test Invoke Debot Action", "enter debot address:"]),
-                new DebotStep(1, [], [], [[new DebotStep(1, [], ["Print test string", "Debot is invoked"])]]),
+                new DebotStep(1, [self::$debot_addr], ["Test Invoke Debot Action", "enter debot address:"],
+                    [[
+                        new DebotStep(1, [], ["Print test string", "Debot is invoked"]),
+                        new DebotStep(1, [], ["Sending message {}", "Transaction succeeded."])
+                    ]]),
                 new DebotStep(2, [], ["Debot Tests"]),
+                new DebotStep(8, [], [])
+            ]
+        );
+    }
+
+    public function testDebotEngineCalls()
+    {
+        self::$browser->execute(
+            self::$debot_addr,
+            self::$keys,
+            [
+                new DebotStep(7, [], ["Test Engine Calls"]),
+                new DebotStep(1, [], []),
+                new DebotStep(2, [], []),
+                new DebotStep(3, [], []),
+                new DebotStep(4, [], []),
+                new DebotStep(5, [], []),
+                new DebotStep(6, [], ["Debot Tests"]),
                 new DebotStep(8, [], [])
             ]
         );
