@@ -121,9 +121,7 @@ $subscribePromise = $client->net()->async()
 $handle = $subscribePromise->await();
 foreach ($subscribePromise->getEvents() as $event) {
     var_dump($event);
-    $client->net()->async()
-        ->unsubscribeAsync($handle)
-        ->await();
+    $client->net()->unsubscribe($handle);
 }
 ```
 
