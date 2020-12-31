@@ -26,7 +26,7 @@ class NetModuleIntegrationTests extends AbstractIntegrationTest
         $this->assertNotNull($result);
     }
 
-    public function testQueryCollection_blocks_signatures_async()
+    public function testQueryCollection_blocks_signaturesAsync()
     {
         $result = self::$client->net()->async()->queryCollectionAsync((new ParamsOfQueryCollection())
             ->setCollection("blocks_signatures")
@@ -46,7 +46,7 @@ class NetModuleIntegrationTests extends AbstractIntegrationTest
         $this->assertTrue(!empty($accounts->getResult()));
     }
 
-    public function testQueryCollection_accounts_async()
+    public function testQueryCollection_accountsAsync()
     {
         $accounts = self::$client->net()->async()->queryCollectionAsync((new ParamsOfQueryCollection())
             ->setCollection("accounts")
@@ -68,7 +68,7 @@ class NetModuleIntegrationTests extends AbstractIntegrationTest
         $this->assertTrue(((int)$messages->getResult()[0]["created_at"]) > 1562342740);
     }
 
-    public function testQueryCollection_ranges_async()
+    public function testQueryCollection_rangesAsync()
     {
         $messages = self::$client->net()->async()->queryCollectionAsync((new ParamsOfQueryCollection())
             ->setCollection("messages")
@@ -163,7 +163,7 @@ class NetModuleIntegrationTests extends AbstractIntegrationTest
         $this->assertEquals(3, count(explode('.', $version)));
     }
 
-    public function testQuery_async()
+    public function testQueryAsync()
     {
         $info = self::$client->net()->async()
             ->queryAsync((new ParamsOfQuery())
@@ -266,7 +266,7 @@ class NetModuleIntegrationTests extends AbstractIntegrationTest
         $this->assertNotEmpty($block->getBlockId());
     }
 
-    public function testFindLastShardBlock_async()
+    public function testFindLastShardBlockAsync()
     {
         $block = self::$client->net()->async()
             ->findLastShardBlockAsync((new ParamsOfFindLastShardBlock())
@@ -294,7 +294,7 @@ class NetModuleIntegrationTests extends AbstractIntegrationTest
         $this->assertContains("https://cinet2.tonlabs.io/", $endpoints);
     }
 
-    public function testFetchEndpoints_async()
+    public function testFetchEndpointsAsync()
     {
         $client = TonClientBuilder::create()
             ->withConfig((new ClientConfig())
@@ -330,7 +330,7 @@ class NetModuleIntegrationTests extends AbstractIntegrationTest
         $this->assertContains("https://cinet2.tonlabs.io/", $endpoints);
     }
 
-    public function testSetEndpoints_async()
+    public function testSetEndpointsAsync()
     {
         $client = self::createClient();
 

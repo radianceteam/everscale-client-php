@@ -121,7 +121,7 @@ class BocModuleTests extends AbstractModuleTestCase
             $result->getCode());
     }
 
-    public function testGetCodeFromTvc_async()
+    public function testGetCodeFromTvcAsync()
     {
         $result = $this->_boc->async()
             ->getCodeFromTvcAsync((new ParamsOfGetCodeFromTvc())

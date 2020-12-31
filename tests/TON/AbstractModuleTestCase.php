@@ -15,7 +15,7 @@ abstract class AbstractModuleTestCase extends TestCase
     {
         parent::setUp();
         $logger = new Logger((new ReflectionClass($this))->getShortName());
-        $logger->pushHandler(new StreamHandler('php://stdout', Logger::DEBUG));
+        $logger->pushHandler(new StreamHandler('php://stdout', Logger::INFO));
         $this->_context = new TonContext();
         $this->_context->setLogger($logger);
     }

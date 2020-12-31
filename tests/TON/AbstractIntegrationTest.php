@@ -39,7 +39,7 @@ EOT
             );
         } else {
             self::$logger = new Logger((new ReflectionClass(self::class))->getShortName());
-            self::$logger->pushHandler(new StreamHandler('php://stdout', Logger::DEBUG));
+            self::$logger->pushHandler(new StreamHandler('php://stdout', Logger::INFO));
             self::$client = self::createClient();
         }
     }

@@ -15,7 +15,6 @@ jobs:
       - name: Set version
         id: vars
         uses: battila7/get-version-action@v2
-      # TODO: run tests via matrix build (windows/ubuntu/macos)!
       - name: Send Telegram Notification
         uses: appleboy/telegram-action@master
         with:
