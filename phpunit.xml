@@ -6,8 +6,8 @@
          convertNoticesToExceptions="true"
          convertWarningsToExceptions="true"
          processIsolation="false"
-	     stopOnFailure="false"
-	     testdox="true">
+         stopOnFailure="false"
+         testdox="true">
 
     <testsuites>
         <testsuite name="Project Test Suite">

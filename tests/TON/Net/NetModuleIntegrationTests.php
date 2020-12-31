@@ -250,7 +250,6 @@ class NetModuleIntegrationTests extends AbstractIntegrationTest
         $transaction_ids = array_map(function ($t) {
             return $t["result"]["id"];
         }, $transactions);
-        var_dump($transactions);
         $this->assertCount(2, array_unique($transaction_ids));
 
         $subscription_client->net()->unsubscribe($handle);
