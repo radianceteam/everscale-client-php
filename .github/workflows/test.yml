@@ -27,7 +27,9 @@ jobs:
       run: php -v
 
     - name: Download PHP Installer
-      run: php -r "file_put_contents('installer.php', fopen('https://raw.githubusercontent.com/radianceteam/ton-client-php-ext/master/installer.php', 'r'));"
+      run: |
+        php -r "copy('https://raw.githubusercontent.com/radianceteam/ton-client-php-ext/master/installer.php', 'installer.php');"
+        php -r "if (hash_file('sha384', 'installer.php') === 'e4cf204ea6127408c252d2addc7b533abe603cf949be32dfd35b871fea82c814684acd382cfc0b492c613280cd7e9239') { echo 'Installer verified'; } else { echo 'Installer corrupt'; } echo PHP_EOL;"
       
     - name: Install PHP Extension (Windows)
       if: matrix.operating-system == 'windows-latest'
