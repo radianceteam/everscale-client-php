@@ -24,6 +24,12 @@ interface NetModuleInterface
     function query(ParamsOfQuery $params): ResultOfQuery;
 
     /**
+     * @param ParamsOfBatchQuery $params
+     * @return ResultOfBatchQuery
+     */
+    function batchQuery(ParamsOfBatchQuery $params): ResultOfBatchQuery;
+
+    /**
      * Queries data that satisfies the `filter` conditions,
      * limits the number of returned records and orders them.
      * The projection fields are limited to `result` fields
@@ -31,6 +37,14 @@ interface NetModuleInterface
      * @return ResultOfQueryCollection
      */
     function queryCollection(ParamsOfQueryCollection $params): ResultOfQueryCollection;
+
+    /**
+     * Aggregates values from the specified `fields` for records
+     * that satisfies the `filter` conditions,
+     * @param ParamsOfAggregateCollection $params
+     * @return ResultOfAggregateCollection
+     */
+    function aggregateCollection(ParamsOfAggregateCollection $params): ResultOfAggregateCollection;
 
     /**
      * Triggers only once.

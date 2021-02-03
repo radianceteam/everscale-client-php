@@ -15,6 +15,15 @@ jobs:
       - name: Set version
         id: vars
         uses: battila7/get-version-action@v2
+      - name: Create Release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ steps.vars.outputs.version }}
+          release_name: ${{ steps.vars.outputs.version }}
+          draft: false
+          prerelease: false
       - name: Send Telegram Notification
         uses: appleboy/telegram-action@master
         with:
@@ -22,5 +31,5 @@ jobs:
           token: ${{ secrets.TGBOT_RADIANCEDEPLOY_TOKEN }}
           message: |
             PHP SDK Wrapper ${{ steps.vars.outputs.version }} has been released.
-            https://github.com/radianceteam/ton-client-php/releases/tag/${{ steps.vars.outputs.version }}/
+            https://github.com/radianceteam/ton-client-php/releases/tag/${{ steps.vars.outputs.version }}
           

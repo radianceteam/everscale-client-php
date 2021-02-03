@@ -43,6 +43,15 @@ class NetModule implements NetModuleInterface
     }
 
     /**
+     * @param ParamsOfBatchQuery $params
+     * @return ResultOfBatchQuery
+     */
+    public function batchQuery(ParamsOfBatchQuery $params): ResultOfBatchQuery
+    {
+        return new ResultOfBatchQuery($this->_context->callFunction('net.batch_query', $params));
+    }
+
+    /**
      * Queries data that satisfies the `filter` conditions,
      * limits the number of returned records and orders them.
      * The projection fields are limited to `result` fields
@@ -52,6 +61,17 @@ class NetModule implements NetModuleInterface
     public function queryCollection(ParamsOfQueryCollection $params): ResultOfQueryCollection
     {
         return new ResultOfQueryCollection($this->_context->callFunction('net.query_collection', $params));
+    }
+
+    /**
+     * Aggregates values from the specified `fields` for records
+     * that satisfies the `filter` conditions,
+     * @param ParamsOfAggregateCollection $params
+     * @return ResultOfAggregateCollection
+     */
+    public function aggregateCollection(ParamsOfAggregateCollection $params): ResultOfAggregateCollection
+    {
+        return new ResultOfAggregateCollection($this->_context->callFunction('net.aggregate_collection', $params));
     }
 
     /**

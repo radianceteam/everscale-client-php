@@ -39,6 +39,7 @@ class ParamsOfAppRequest implements JsonSerializable
 
     /**
      * Should be used in `resolve_app_request` call
+     * @return self
      */
     public function setAppRequestId(int $appRequestId): self
     {
@@ -46,6 +47,9 @@ class ParamsOfAppRequest implements JsonSerializable
         return $this;
     }
 
+    /**
+     * @return self
+     */
     public function setRequestData($requestData): self
     {
         $this->_requestData = $requestData;

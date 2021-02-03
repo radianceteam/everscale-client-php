@@ -26,6 +26,9 @@ class ResultOfHDKeySecretFromXPrv implements JsonSerializable
         return $this->_secret;
     }
 
+    /**
+     * @return self
+     */
     public function setSecret(string $secret): self
     {
         $this->_secret = $secret;

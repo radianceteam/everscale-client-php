@@ -186,6 +186,15 @@ class CryptoModule implements CryptoModuleInterface
     }
 
     /**
+     * @param ParamsOfNaclSignDetachedVerify $params
+     * @return ResultOfNaclSignDetachedVerify
+     */
+    public function naclSignDetachedVerify(ParamsOfNaclSignDetachedVerify $params): ResultOfNaclSignDetachedVerify
+    {
+        return new ResultOfNaclSignDetachedVerify($this->_context->callFunction('crypto.nacl_sign_detached_verify', $params));
+    }
+
+    /**
      * @return KeyPair
      */
     public function naclBoxKeypair(): KeyPair

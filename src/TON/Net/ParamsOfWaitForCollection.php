@@ -47,24 +47,36 @@ class ParamsOfWaitForCollection implements JsonSerializable
         return $this->_timeout;
     }
 
+    /**
+     * @return self
+     */
     public function setCollection(string $collection): self
     {
         $this->_collection = $collection;
         return $this;
     }
 
+    /**
+     * @return self
+     */
     public function setFilter($filter): self
     {
         $this->_filter = $filter;
         return $this;
     }
 
+    /**
+     * @return self
+     */
     public function setResult(string $result): self
     {
         $this->_result = $result;
         return $this;
     }
 
+    /**
+     * @return self
+     */
     public function setTimeout(?int $timeout): self
     {
         $this->_timeout = $timeout;

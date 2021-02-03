@@ -27,6 +27,9 @@ class Signer_Keys extends Signer implements JsonSerializable
         return $this->_keys;
     }
 
+    /**
+     * @return self
+     */
     public function setKeys(?KeyPair $keys): self
     {
         $this->_keys = $keys;

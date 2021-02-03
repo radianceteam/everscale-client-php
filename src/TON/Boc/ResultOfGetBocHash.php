@@ -26,6 +26,9 @@ class ResultOfGetBocHash implements JsonSerializable
         return $this->_hash;
     }
 
+    /**
+     * @return self
+     */
     public function setHash(string $hash): self
     {
         $this->_hash = $hash;

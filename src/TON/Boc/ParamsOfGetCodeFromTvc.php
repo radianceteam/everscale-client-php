@@ -26,6 +26,9 @@ class ParamsOfGetCodeFromTvc implements JsonSerializable
         return $this->_tvc;
     }
 
+    /**
+     * @return self
+     */
     public function setTvc(string $tvc): self
     {
         $this->_tvc = $tvc;

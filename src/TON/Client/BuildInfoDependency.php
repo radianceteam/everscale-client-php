@@ -39,6 +39,7 @@ class BuildInfoDependency implements JsonSerializable
 
     /**
      * Usually it is a crate name.
+     * @return self
      */
     public function setName(string $name): self
     {
@@ -46,6 +47,9 @@ class BuildInfoDependency implements JsonSerializable
         return $this;
     }
 
+    /**
+     * @return self
+     */
     public function setGitCommit(string $gitCommit): self
     {
         $this->_gitCommit = $gitCommit;

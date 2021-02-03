@@ -18,7 +18,7 @@ class ResultOfRunTvm implements JsonSerializable
     private array $_outMessages;
     private ?DecodedOutput $_decoded;
 
-    /** Encoded as `base64`.Attention! Only `account_state.storage.state.data` part of the boc is updated. */
+    /** Encoded as `base64`. Attention! Only `account_state.storage.state.data` part of the boc is updated. */
     private string $_account;
 
     public function __construct(?array $dto = null)
@@ -43,7 +43,7 @@ class ResultOfRunTvm implements JsonSerializable
     }
 
     /**
-     * Encoded as `base64`.Attention! Only `account_state.storage.state.data` part of the boc is updated.
+     * Encoded as `base64`. Attention! Only `account_state.storage.state.data` part of the boc is updated.
      */
     public function getAccount(): string
     {
@@ -52,6 +52,7 @@ class ResultOfRunTvm implements JsonSerializable
 
     /**
      * Encoded as `base64`
+     * @return self
      */
     public function setOutMessages(array $outMessages): self
     {
@@ -59,6 +60,9 @@ class ResultOfRunTvm implements JsonSerializable
         return $this;
     }
 
+    /**
+     * @return self
+     */
     public function setDecoded(?DecodedOutput $decoded): self
     {
         $this->_decoded = $decoded;
@@ -66,7 +70,8 @@ class ResultOfRunTvm implements JsonSerializable
     }
 
     /**
-     * Encoded as `base64`.Attention! Only `account_state.storage.state.data` part of the boc is updated.
+     * Encoded as `base64`. Attention! Only `account_state.storage.state.data` part of the boc is updated.
+     * @return self
      */
     public function setAccount(string $account): self
     {

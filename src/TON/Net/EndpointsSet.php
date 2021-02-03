@@ -26,6 +26,9 @@ class EndpointsSet implements JsonSerializable
         return $this->_endpoints;
     }
 
+    /**
+     * @return self
+     */
     public function setEndpoints(array $endpoints): self
     {
         $this->_endpoints = $endpoints;

@@ -33,12 +33,18 @@ class MessageSource_Encoded extends MessageSource implements JsonSerializable
         return $this->_abi;
     }
 
+    /**
+     * @return self
+     */
     public function setMessage(string $message): self
     {
         $this->_message = $message;
         return $this;
     }
 
+    /**
+     * @return self
+     */
     public function setAbi(?Abi $abi): self
     {
         $this->_abi = $abi;

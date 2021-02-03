@@ -26,6 +26,9 @@ class AppRequestResult_Error extends AppRequestResult implements JsonSerializabl
         return $this->_text;
     }
 
+    /**
+     * @return self
+     */
     public function setText(string $text): self
     {
         $this->_text = $text;

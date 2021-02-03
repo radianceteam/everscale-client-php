@@ -32,6 +32,7 @@ class ResultOfSubscribeCollection implements JsonSerializable
 
     /**
      * Must be closed with `unsubscribe`
+     * @return self
      */
     public function setHandle(int $handle): self
     {

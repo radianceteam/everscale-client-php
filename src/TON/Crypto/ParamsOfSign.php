@@ -33,12 +33,18 @@ class ParamsOfSign implements JsonSerializable
         return $this->_keys;
     }
 
+    /**
+     * @return self
+     */
     public function setUnsigned(string $unsigned): self
     {
         $this->_unsigned = $unsigned;
         return $this;
     }
 
+    /**
+     * @return self
+     */
     public function setKeys(?KeyPair $keys): self
     {
         $this->_keys = $keys;

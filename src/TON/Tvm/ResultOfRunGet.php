@@ -26,6 +26,9 @@ class ResultOfRunGet implements JsonSerializable
         return $this->_output;
     }
 
+    /**
+     * @return self
+     */
     public function setOutput($output): self
     {
         $this->_output = $output;

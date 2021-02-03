@@ -125,6 +125,12 @@ interface CryptoModuleInterface
     function naclSignDetached(ParamsOfNaclSign $params): ResultOfNaclSignDetached;
 
     /**
+     * @param ParamsOfNaclSignDetachedVerify $params
+     * @return ResultOfNaclSignDetachedVerify
+     */
+    function naclSignDetachedVerify(ParamsOfNaclSignDetachedVerify $params): ResultOfNaclSignDetachedVerify;
+
+    /**
      * @return KeyPair
      */
     function naclBoxKeypair(): KeyPair;

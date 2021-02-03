@@ -26,6 +26,9 @@ class ResultOfVersion implements JsonSerializable
         return $this->_version;
     }
 
+    /**
+     * @return self
+     */
     public function setVersion(string $version): self
     {
         $this->_version = $version;

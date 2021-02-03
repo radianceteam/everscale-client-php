@@ -13,15 +13,15 @@ use stdClass;
 
 class DebotAction implements JsonSerializable
 {
-    /** Should be used by Debot Browser as name ofmenu item. */
+    /** Should be used by Debot Browser as name of menu item. */
     private string $_description;
 
-    /** Can be a debot function name or a print string(for Print Action). */
+    /** Can be a debot function name or a print string (for Print Action). */
     private string $_name;
     private int $_actionType;
     private int $_to;
 
-    /** In the form of "param=value,flag".attribute example: instant, args, fargs, sign. */
+    /** In the form of "param=value,flag". attribute example: instant, args, fargs, sign. */
     private string $_attributes;
 
     /** Used by debot only. */
@@ -39,7 +39,7 @@ class DebotAction implements JsonSerializable
     }
 
     /**
-     * Should be used by Debot Browser as name ofmenu item.
+     * Should be used by Debot Browser as name of menu item.
      */
     public function getDescription(): string
     {
@@ -47,7 +47,7 @@ class DebotAction implements JsonSerializable
     }
 
     /**
-     * Can be a debot function name or a print string(for Print Action).
+     * Can be a debot function name or a print string (for Print Action).
      */
     public function getName(): string
     {
@@ -65,7 +65,7 @@ class DebotAction implements JsonSerializable
     }
 
     /**
-     * In the form of "param=value,flag".attribute example: instant, args, fargs, sign.
+     * In the form of "param=value,flag". attribute example: instant, args, fargs, sign.
      */
     public function getAttributes(): string
     {
@@ -81,7 +81,8 @@ class DebotAction implements JsonSerializable
     }
 
     /**
-     * Should be used by Debot Browser as name ofmenu item.
+     * Should be used by Debot Browser as name of menu item.
+     * @return self
      */
     public function setDescription(string $description): self
     {
@@ -90,7 +91,8 @@ class DebotAction implements JsonSerializable
     }
 
     /**
-     * Can be a debot function name or a print string(for Print Action).
+     * Can be a debot function name or a print string (for Print Action).
+     * @return self
      */
     public function setName(string $name): self
     {
@@ -98,12 +100,18 @@ class DebotAction implements JsonSerializable
         return $this;
     }
 
+    /**
+     * @return self
+     */
     public function setActionType(int $actionType): self
     {
         $this->_actionType = $actionType;
         return $this;
     }
 
+    /**
+     * @return self
+     */
     public function setTo(int $to): self
     {
         $this->_to = $to;
@@ -111,7 +119,8 @@ class DebotAction implements JsonSerializable
     }
 
     /**
-     * In the form of "param=value,flag".attribute example: instant, args, fargs, sign.
+     * In the form of "param=value,flag". attribute example: instant, args, fargs, sign.
+     * @return self
      */
     public function setAttributes(string $attributes): self
     {
@@ -121,6 +130,7 @@ class DebotAction implements JsonSerializable
 
     /**
      * Used by debot only.
+     * @return self
      */
     public function setMisc(string $misc): self
     {

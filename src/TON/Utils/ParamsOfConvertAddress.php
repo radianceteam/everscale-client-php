@@ -33,12 +33,18 @@ class ParamsOfConvertAddress implements JsonSerializable
         return $this->_outputFormat;
     }
 
+    /**
+     * @return self
+     */
     public function setAddress(string $address): self
     {
         $this->_address = $address;
         return $this;
     }
 
+    /**
+     * @return self
+     */
     public function setOutputFormat(?AddressStringFormat $outputFormat): self
     {
         $this->_outputFormat = $outputFormat;

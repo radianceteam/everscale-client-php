@@ -33,12 +33,18 @@ class ParamsOfHDKeyDeriveFromXPrvPath implements JsonSerializable
         return $this->_path;
     }
 
+    /**
+     * @return self
+     */
     public function setXprv(string $xprv): self
     {
         $this->_xprv = $xprv;
         return $this;
     }
 
+    /**
+     * @return self
+     */
     public function setPath(string $path): self
     {
         $this->_path = $path;

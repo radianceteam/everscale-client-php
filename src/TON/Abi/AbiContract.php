@@ -16,8 +16,14 @@ class AbiContract implements JsonSerializable
     private ?int $_ABI_version;
     private ?int $_abiVersion;
     private ?array $_header;
+
+    /** @var AbiFunction[]|null */
     private ?array $_functions;
+
+    /** @var AbiEvent[]|null */
     private ?array $_events;
+
+    /** @var AbiData[]|null */
     private ?array $_data;
 
     public function __construct(?array $dto = null)
@@ -46,51 +52,81 @@ class AbiContract implements JsonSerializable
         return $this->_header;
     }
 
+    /**
+     * @return AbiFunction[]|null
+     */
     public function getFunctions(): ?array
     {
         return $this->_functions;
     }
 
+    /**
+     * @return AbiEvent[]|null
+     */
     public function getEvents(): ?array
     {
         return $this->_events;
     }
 
+    /**
+     * @return AbiData[]|null
+     */
     public function getData(): ?array
     {
         return $this->_data;
     }
 
+    /**
+     * @return self
+     */
     public function setABI_version(?int $ABI_version): self
     {
         $this->_ABI_version = $ABI_version;
         return $this;
     }
 
+    /**
+     * @return self
+     */
     public function setAbiVersion(?int $abiVersion): self
     {
         $this->_abiVersion = $abiVersion;
         return $this;
     }
 
+    /**
+     * @return self
+     */
     public function setHeader(?array $header): self
     {
         $this->_header = $header;
         return $this;
     }
 
+    /**
+     * @param AbiFunction[]|null $functions
+     * @return self
+     */
     public function setFunctions(?array $functions): self
     {
         $this->_functions = $functions;
         return $this;
     }
 
+    /**
+     * @param AbiEvent[]|null $events
+     * @return self
+     */
     public function setEvents(?array $events): self
     {
         $this->_events = $events;
         return $this;
     }
 
+    /**
+     * @param AbiData[]|null $data
+     * @return self
+     */
     public function setData(?array $data): self
     {
         $this->_data = $data;

@@ -33,12 +33,18 @@ class ParamsOfDecodeMessage implements JsonSerializable
         return $this->_message;
     }
 
+    /**
+     * @return self
+     */
     public function setAbi(?Abi $abi): self
     {
         $this->_abi = $abi;
         return $this;
     }
 
+    /**
+     * @return self
+     */
     public function setMessage(string $message): self
     {
         $this->_message = $message;

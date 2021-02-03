@@ -58,6 +58,9 @@ class ResultOfEncodeMessage implements JsonSerializable
         return $this->_messageId;
     }
 
+    /**
+     * @return self
+     */
     public function setMessage(string $message): self
     {
         $this->_message = $message;
@@ -68,6 +71,7 @@ class ResultOfEncodeMessage implements JsonSerializable
      * Returned in case of `Signer::External`. Can be used for external
      * message signing. Is this case you need to use this data to create signature and
      * then produce signed message using `abi.attach_signature`.
+     * @return self
      */
     public function setDataToSign(?string $dataToSign): self
     {
@@ -75,12 +79,18 @@ class ResultOfEncodeMessage implements JsonSerializable
         return $this;
     }
 
+    /**
+     * @return self
+     */
     public function setAddress(string $address): self
     {
         $this->_address = $address;
         return $this;
     }
 
+    /**
+     * @return self
+     */
     public function setMessageId(string $messageId): self
     {
         $this->_messageId = $messageId;

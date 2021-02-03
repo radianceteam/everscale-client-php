@@ -61,36 +61,54 @@ class ParamsOfScrypt implements JsonSerializable
         return $this->_dkLen;
     }
 
+    /**
+     * @return self
+     */
     public function setPassword(string $password): self
     {
         $this->_password = $password;
         return $this;
     }
 
+    /**
+     * @return self
+     */
     public function setSalt(string $salt): self
     {
         $this->_salt = $salt;
         return $this;
     }
 
+    /**
+     * @return self
+     */
     public function setLogN(int $logN): self
     {
         $this->_logN = $logN;
         return $this;
     }
 
+    /**
+     * @return self
+     */
     public function setR(int $r): self
     {
         $this->_r = $r;
         return $this;
     }
 
+    /**
+     * @return self
+     */
     public function setP(int $p): self
     {
         $this->_p = $p;
         return $this;
     }
 
+    /**
+     * @return self
+     */
     public function setDkLen(int $dkLen): self
     {
         $this->_dkLen = $dkLen;

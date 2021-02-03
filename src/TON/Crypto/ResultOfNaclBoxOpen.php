@@ -26,6 +26,9 @@ class ResultOfNaclBoxOpen implements JsonSerializable
         return $this->_decrypted;
     }
 
+    /**
+     * @return self
+     */
     public function setDecrypted(string $decrypted): self
     {
         $this->_decrypted = $decrypted;

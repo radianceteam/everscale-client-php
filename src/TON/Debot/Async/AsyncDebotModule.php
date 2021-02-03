@@ -11,6 +11,7 @@ namespace TON\Debot\Async;
 use TON\AsyncResult;
 use TON\Debot\ParamsOfExecute;
 use TON\Debot\ParamsOfFetch;
+use TON\Debot\ParamsOfSend;
 use TON\Debot\ParamsOfStart;
 use TON\Debot\RegisteredDebot;
 use TON\TonContext;
@@ -74,6 +75,16 @@ class AsyncDebotModule implements DebotModuleAsyncInterface
     public function executeAsync(ParamsOfExecute $params): AsyncResult
     {
         return new AsyncResult($this->_context->callFunctionAsync('debot.execute', $params));
+    }
+
+    /**
+     * Used by Debot Browser to send response on Dinterface call or from other Debots.
+     * @param ParamsOfSend $params
+     * @return AsyncResult
+     */
+    public function sendAsync(ParamsOfSend $params): AsyncResult
+    {
+        return new AsyncResult($this->_context->callFunctionAsync('debot.send', $params));
     }
 
     /**

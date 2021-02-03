@@ -29,4 +29,5 @@ final class CryptoErrorCode
     const MnemonicGenerationFailed = 119;
     const MnemonicFromEntropyFailed = 120;
     const SigningBoxNotRegistered = 121;
+    const InvalidSignature = 122;
 }

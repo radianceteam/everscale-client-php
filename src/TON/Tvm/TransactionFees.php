@@ -61,36 +61,54 @@ class TransactionFees implements JsonSerializable
         return $this->_totalOutput;
     }
 
+    /**
+     * @return self
+     */
     public function setInMsgFwdFee(int $inMsgFwdFee): self
     {
         $this->_inMsgFwdFee = $inMsgFwdFee;
         return $this;
     }
 
+    /**
+     * @return self
+     */
     public function setStorageFee(int $storageFee): self
     {
         $this->_storageFee = $storageFee;
         return $this;
     }
 
+    /**
+     * @return self
+     */
     public function setGasFee(int $gasFee): self
     {
         $this->_gasFee = $gasFee;
         return $this;
     }
 
+    /**
+     * @return self
+     */
     public function setOutMsgsFwdFee(int $outMsgsFwdFee): self
     {
         $this->_outMsgsFwdFee = $outMsgsFwdFee;
         return $this;
     }
 
+    /**
+     * @return self
+     */
     public function setTotalAccountFees(int $totalAccountFees): self
     {
         $this->_totalAccountFees = $totalAccountFees;
         return $this;
     }
 
+    /**
+     * @return self
+     */
     public function setTotalOutput(int $totalOutput): self
     {
         $this->_totalOutput = $totalOutput;

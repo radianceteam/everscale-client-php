@@ -33,12 +33,18 @@ class ParamsOfMnemonicFromRandom implements JsonSerializable
         return $this->_wordCount;
     }
 
+    /**
+     * @return self
+     */
     public function setDictionary(?int $dictionary): self
     {
         $this->_dictionary = $dictionary;
         return $this;
     }
 
+    /**
+     * @return self
+     */
     public function setWordCount(?int $wordCount): self
     {
         $this->_wordCount = $wordCount;

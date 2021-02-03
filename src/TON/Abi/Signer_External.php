@@ -26,6 +26,9 @@ class Signer_External extends Signer implements JsonSerializable
         return $this->_publicKey;
     }
 
+    /**
+     * @return self
+     */
     public function setPublicKey(string $publicKey): self
     {
         $this->_publicKey = $publicKey;

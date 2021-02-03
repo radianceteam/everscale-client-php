@@ -46,6 +46,7 @@ class ParamsOfNaclSecretBoxOpen implements JsonSerializable
 
     /**
      * Encoded with `base64`.
+     * @return self
      */
     public function setEncrypted(string $encrypted): self
     {
@@ -53,12 +54,18 @@ class ParamsOfNaclSecretBoxOpen implements JsonSerializable
         return $this;
     }
 
+    /**
+     * @return self
+     */
     public function setNonce(string $nonce): self
     {
         $this->_nonce = $nonce;
         return $this;
     }
 
+    /**
+     * @return self
+     */
     public function setKey(string $key): self
     {
         $this->_key = $key;

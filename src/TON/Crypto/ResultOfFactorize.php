@@ -26,6 +26,9 @@ class ResultOfFactorize implements JsonSerializable
         return $this->_factors;
     }
 
+    /**
+     * @return self
+     */
     public function setFactors(array $factors): self
     {
         $this->_factors = $factors;

@@ -26,6 +26,9 @@ class ParamsOfGetBlockchainConfig implements JsonSerializable
         return $this->_blockBoc;
     }
 
+    /**
+     * @return self
+     */
     public function setBlockBoc(string $blockBoc): self
     {
         $this->_blockBoc = $blockBoc;

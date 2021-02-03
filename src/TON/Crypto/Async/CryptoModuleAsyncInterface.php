@@ -32,6 +32,7 @@ use TON\Crypto\ParamsOfNaclBoxOpen;
 use TON\Crypto\ParamsOfNaclSecretBox;
 use TON\Crypto\ParamsOfNaclSecretBoxOpen;
 use TON\Crypto\ParamsOfNaclSign;
+use TON\Crypto\ParamsOfNaclSignDetachedVerify;
 use TON\Crypto\ParamsOfNaclSignKeyPairFromSecret;
 use TON\Crypto\ParamsOfNaclSignOpen;
 use TON\Crypto\ParamsOfScrypt;
@@ -149,6 +150,12 @@ interface CryptoModuleAsyncInterface
      * @return AsyncResultOfNaclSignDetached
      */
     function naclSignDetachedAsync(ParamsOfNaclSign $params): AsyncResultOfNaclSignDetached;
+
+    /**
+     * @param ParamsOfNaclSignDetachedVerify $params
+     * @return AsyncResultOfNaclSignDetachedVerify
+     */
+    function naclSignDetachedVerifyAsync(ParamsOfNaclSignDetachedVerify $params): AsyncResultOfNaclSignDetachedVerify;
 
     /**
      * @return AsyncKeyPair

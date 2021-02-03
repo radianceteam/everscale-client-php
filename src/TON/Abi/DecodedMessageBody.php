@@ -47,24 +47,36 @@ class DecodedMessageBody implements JsonSerializable
         return $this->_header;
     }
 
+    /**
+     * @return self
+     */
     public function setBodyType(string $bodyType): self
     {
         $this->_bodyType = $bodyType;
         return $this;
     }
 
+    /**
+     * @return self
+     */
     public function setName(string $name): self
     {
         $this->_name = $name;
         return $this;
     }
 
+    /**
+     * @return self
+     */
     public function setValue($value): self
     {
         $this->_value = $value;
         return $this;
     }
 
+    /**
+     * @return self
+     */
     public function setHeader(?FunctionHeader $header): self
     {
         $this->_header = $header;

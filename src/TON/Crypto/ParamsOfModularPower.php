@@ -40,18 +40,27 @@ class ParamsOfModularPower implements JsonSerializable
         return $this->_modulus;
     }
 
+    /**
+     * @return self
+     */
     public function setBase(string $base): self
     {
         $this->_base = $base;
         return $this;
     }
 
+    /**
+     * @return self
+     */
     public function setExponent(string $exponent): self
     {
         $this->_exponent = $exponent;
         return $this;
     }
 
+    /**
+     * @return self
+     */
     public function setModulus(string $modulus): self
     {
         $this->_modulus = $modulus;

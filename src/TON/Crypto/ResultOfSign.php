@@ -33,12 +33,18 @@ class ResultOfSign implements JsonSerializable
         return $this->_signature;
     }
 
+    /**
+     * @return self
+     */
     public function setSigned(string $signed): self
     {
         $this->_signed = $signed;
         return $this;
     }
 
+    /**
+     * @return self
+     */
     public function setSignature(string $signature): self
     {
         $this->_signature = $signature;

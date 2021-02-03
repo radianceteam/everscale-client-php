@@ -26,6 +26,9 @@ class ParamsOfAppDebotBrowser_Switch extends ParamsOfAppDebotBrowser implements 
         return $this->_contextId;
     }
 
+    /**
+     * @return self
+     */
     public function setContextId(int $contextId): self
     {
         $this->_contextId = $contextId;

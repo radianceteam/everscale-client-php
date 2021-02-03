@@ -13,7 +13,7 @@ use stdClass;
 
 class ResultOfSigningBoxSign implements JsonSerializable
 {
-    /** Encoded with `base64`. */
+    /** Encoded with `hex`. */
     private string $_signature;
 
     public function __construct(?array $dto = null)
@@ -23,7 +23,7 @@ class ResultOfSigningBoxSign implements JsonSerializable
     }
 
     /**
-     * Encoded with `base64`.
+     * Encoded with `hex`.
      */
     public function getSignature(): string
     {
@@ -31,7 +31,8 @@ class ResultOfSigningBoxSign implements JsonSerializable
     }
 
     /**
-     * Encoded with `base64`.
+     * Encoded with `hex`.
+     * @return self
      */
     public function setSignature(string $signature): self
     {

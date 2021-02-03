@@ -32,6 +32,7 @@ class ParamsOfHash implements JsonSerializable
 
     /**
      * Encoded with `base64`.
+     * @return self
      */
     public function setData(string $data): self
     {

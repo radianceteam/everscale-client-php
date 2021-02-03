@@ -26,6 +26,9 @@ class ResultOfHDKeyDeriveFromXPrvPath implements JsonSerializable
         return $this->_xprv;
     }
 
+    /**
+     * @return self
+     */
     public function setXprv(string $xprv): self
     {
         $this->_xprv = $xprv;

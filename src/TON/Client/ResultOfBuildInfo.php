@@ -14,6 +14,8 @@ use stdClass;
 class ResultOfBuildInfo implements JsonSerializable
 {
     private int $_buildNumber;
+
+    /** @var BuildInfoDependency[] */
     private array $_dependencies;
 
     public function __construct(?array $dto = null)
@@ -28,17 +30,27 @@ class ResultOfBuildInfo implements JsonSerializable
         return $this->_buildNumber;
     }
 
+    /**
+     * @return BuildInfoDependency[]
+     */
     public function getDependencies(): array
     {
         return $this->_dependencies;
     }
 
+    /**
+     * @return self
+     */
     public function setBuildNumber(int $buildNumber): self
     {
         $this->_buildNumber = $buildNumber;
         return $this;
     }
 
+    /**
+     * @param BuildInfoDependency[] $dependencies
+     * @return self
+     */
     public function setDependencies(array $dependencies): self
     {
         $this->_dependencies = $dependencies;

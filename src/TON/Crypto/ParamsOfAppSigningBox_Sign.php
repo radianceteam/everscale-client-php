@@ -26,6 +26,9 @@ class ParamsOfAppSigningBox_Sign extends ParamsOfAppSigningBox implements JsonSe
         return $this->_unsigned;
     }
 
+    /**
+     * @return self
+     */
     public function setUnsigned(string $unsigned): self
     {
         $this->_unsigned = $unsigned;

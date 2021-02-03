@@ -40,18 +40,27 @@ class ParamsOfParseShardstate implements JsonSerializable
         return $this->_workchainId;
     }
 
+    /**
+     * @return self
+     */
     public function setBoc(string $boc): self
     {
         $this->_boc = $boc;
         return $this;
     }
 
+    /**
+     * @return self
+     */
     public function setId(string $id): self
     {
         $this->_id = $id;
         return $this;
     }
 
+    /**
+     * @return self
+     */
     public function setWorkchainId(int $workchainId): self
     {
         $this->_workchainId = $workchainId;

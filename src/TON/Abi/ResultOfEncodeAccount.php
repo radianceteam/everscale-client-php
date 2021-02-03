@@ -33,12 +33,18 @@ class ResultOfEncodeAccount implements JsonSerializable
         return $this->_id;
     }
 
+    /**
+     * @return self
+     */
     public function setAccount(string $account): self
     {
         $this->_account = $account;
         return $this;
     }
 
+    /**
+     * @return self
+     */
     public function setId(string $id): self
     {
         $this->_id = $id;

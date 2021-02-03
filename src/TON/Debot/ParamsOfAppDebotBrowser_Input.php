@@ -26,6 +26,9 @@ class ParamsOfAppDebotBrowser_Input extends ParamsOfAppDebotBrowser implements J
         return $this->_prompt;
     }
 
+    /**
+     * @return self
+     */
     public function setPrompt(string $prompt): self
     {
         $this->_prompt = $prompt;

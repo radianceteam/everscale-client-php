@@ -26,6 +26,9 @@ class ResultOfFindLastShardBlock implements JsonSerializable
         return $this->_blockId;
     }
 
+    /**
+     * @return self
+     */
     public function setBlockId(string $blockId): self
     {
         $this->_blockId = $blockId;

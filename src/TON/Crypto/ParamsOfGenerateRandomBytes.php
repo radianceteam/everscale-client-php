@@ -26,6 +26,9 @@ class ParamsOfGenerateRandomBytes implements JsonSerializable
         return $this->_length;
     }
 
+    /**
+     * @return self
+     */
     public function setLength(int $length): self
     {
         $this->_length = $length;

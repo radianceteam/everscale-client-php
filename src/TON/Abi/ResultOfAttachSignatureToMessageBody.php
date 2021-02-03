@@ -26,6 +26,9 @@ class ResultOfAttachSignatureToMessageBody implements JsonSerializable
         return $this->_body;
     }
 
+    /**
+     * @return self
+     */
     public function setBody(string $body): self
     {
         $this->_body = $body;

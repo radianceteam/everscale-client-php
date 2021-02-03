@@ -26,6 +26,9 @@ class ResultOfQueryCollection implements JsonSerializable
         return $this->_result;
     }
 
+    /**
+     * @return self
+     */
     public function setResult(array $result): self
     {
         $this->_result = $result;

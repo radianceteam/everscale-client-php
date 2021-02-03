@@ -47,24 +47,36 @@ class ParamsOfNaclBox implements JsonSerializable
         return $this->_secret;
     }
 
+    /**
+     * @return self
+     */
     public function setDecrypted(string $decrypted): self
     {
         $this->_decrypted = $decrypted;
         return $this;
     }
 
+    /**
+     * @return self
+     */
     public function setNonce(string $nonce): self
     {
         $this->_nonce = $nonce;
         return $this;
     }
 
+    /**
+     * @return self
+     */
     public function setTheirPublic(string $theirPublic): self
     {
         $this->_theirPublic = $theirPublic;
         return $this;
     }
 
+    /**
+     * @return self
+     */
     public function setSecret(string $secret): self
     {
         $this->_secret = $secret;

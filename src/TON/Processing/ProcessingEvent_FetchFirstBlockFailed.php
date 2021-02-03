@@ -27,6 +27,9 @@ class ProcessingEvent_FetchFirstBlockFailed extends ProcessingEvent implements J
         return $this->_error;
     }
 
+    /**
+     * @return self
+     */
     public function setError(?ClientError $error): self
     {
         $this->_error = $error;

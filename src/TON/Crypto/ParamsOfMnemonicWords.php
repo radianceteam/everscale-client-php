@@ -26,6 +26,9 @@ class ParamsOfMnemonicWords implements JsonSerializable
         return $this->_dictionary;
     }
 
+    /**
+     * @return self
+     */
     public function setDictionary(?int $dictionary): self
     {
         $this->_dictionary = $dictionary;

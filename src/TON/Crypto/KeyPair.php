@@ -33,12 +33,18 @@ class KeyPair implements JsonSerializable
         return $this->_secret;
     }
 
+    /**
+     * @return self
+     */
     public function setPublic(string $public): self
     {
         $this->_public = $public;
         return $this;
     }
 
+    /**
+     * @return self
+     */
     public function setSecret(string $secret): self
     {
         $this->_secret = $secret;

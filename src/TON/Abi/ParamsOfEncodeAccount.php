@@ -47,24 +47,36 @@ class ParamsOfEncodeAccount implements JsonSerializable
         return $this->_lastPaid;
     }
 
+    /**
+     * @return self
+     */
     public function setStateInit(?StateInitSource $stateInit): self
     {
         $this->_stateInit = $stateInit;
         return $this;
     }
 
+    /**
+     * @return self
+     */
     public function setBalance(?int $balance): self
     {
         $this->_balance = $balance;
         return $this;
     }
 
+    /**
+     * @return self
+     */
     public function setLastTransLt(?int $lastTransLt): self
     {
         $this->_lastTransLt = $lastTransLt;
         return $this;
     }
 
+    /**
+     * @return self
+     */
     public function setLastPaid(?int $lastPaid): self
     {
         $this->_lastPaid = $lastPaid;

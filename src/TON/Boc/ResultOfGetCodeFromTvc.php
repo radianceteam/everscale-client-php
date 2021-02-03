@@ -26,6 +26,9 @@ class ResultOfGetCodeFromTvc implements JsonSerializable
         return $this->_code;
     }
 
+    /**
+     * @return self
+     */
     public function setCode(string $code): self
     {
         $this->_code = $code;

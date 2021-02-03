@@ -26,6 +26,9 @@ class Abi_Serialized extends Abi implements JsonSerializable
         return $this->_value;
     }
 
+    /**
+     * @return self
+     */
     public function setValue(?AbiContract $value): self
     {
         $this->_value = $value;

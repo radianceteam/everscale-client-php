@@ -14,4 +14,7 @@ final class DebotErrorCode
     const DebotFetchFailed = 802;
     const DebotExecutionFailed = 803;
     const DebotInvalidHandle = 804;
+    const DebotInvalidJsonParams = 805;
+    const DebotInvalidFunctionId = 806;
+    const DebotInvalidAbi = 807;
 }

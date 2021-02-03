@@ -40,18 +40,27 @@ class ClientError implements JsonSerializable
         return $this->_data;
     }
 
+    /**
+     * @return self
+     */
     public function setCode(int $code): self
     {
         $this->_code = $code;
         return $this;
     }
 
+    /**
+     * @return self
+     */
     public function setMessage(string $message): self
     {
         $this->_message = $message;
         return $this;
     }
 
+    /**
+     * @return self
+     */
     public function setData($data): self
     {
         $this->_data = $data;

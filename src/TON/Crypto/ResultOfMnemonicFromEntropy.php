@@ -26,6 +26,9 @@ class ResultOfMnemonicFromEntropy implements JsonSerializable
         return $this->_phrase;
     }
 
+    /**
+     * @return self
+     */
     public function setPhrase(string $phrase): self
     {
         $this->_phrase = $phrase;

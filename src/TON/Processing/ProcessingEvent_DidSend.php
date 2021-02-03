@@ -40,18 +40,27 @@ class ProcessingEvent_DidSend extends ProcessingEvent implements JsonSerializabl
         return $this->_message;
     }
 
+    /**
+     * @return self
+     */
     public function setShardBlockId(string $shardBlockId): self
     {
         $this->_shardBlockId = $shardBlockId;
         return $this;
     }
 
+    /**
+     * @return self
+     */
     public function setMessageId(string $messageId): self
     {
         $this->_messageId = $messageId;
         return $this;
     }
 
+    /**
+     * @return self
+     */
     public function setMessage(string $message): self
     {
         $this->_message = $message;

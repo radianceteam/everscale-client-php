@@ -28,6 +28,12 @@ interface DebotModuleInterface
     function execute(ParamsOfExecute $params);
 
     /**
+     * Used by Debot Browser to send response on Dinterface call or from other Debots.
+     * @param ParamsOfSend $params
+     */
+    function send(ParamsOfSend $params);
+
+    /**
      * Removes handle from Client Context and drops debot engine referenced by that handle.
      * @param RegisteredDebot $params
      */

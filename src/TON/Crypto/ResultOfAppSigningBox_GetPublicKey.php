@@ -26,6 +26,9 @@ class ResultOfAppSigningBox_GetPublicKey extends ResultOfAppSigningBox implement
         return $this->_publicKey;
     }
 
+    /**
+     * @return self
+     */
     public function setPublicKey(string $publicKey): self
     {
         $this->_publicKey = $publicKey;

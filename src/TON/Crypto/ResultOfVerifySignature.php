@@ -26,6 +26,9 @@ class ResultOfVerifySignature implements JsonSerializable
         return $this->_unsigned;
     }
 
+    /**
+     * @return self
+     */
     public function setUnsigned(string $unsigned): self
     {
         $this->_unsigned = $unsigned;

@@ -26,6 +26,9 @@ class ResultOfHDKeyPublicFromXPrv implements JsonSerializable
         return $this->_public;
     }
 
+    /**
+     * @return self
+     */
     public function setPublic(string $public): self
     {
         $this->_public = $public;

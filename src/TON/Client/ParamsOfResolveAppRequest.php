@@ -33,12 +33,18 @@ class ParamsOfResolveAppRequest implements JsonSerializable
         return $this->_result;
     }
 
+    /**
+     * @return self
+     */
     public function setAppRequestId(int $appRequestId): self
     {
         $this->_appRequestId = $appRequestId;
         return $this;
     }
 
+    /**
+     * @return self
+     */
     public function setResult(?AppRequestResult $result): self
     {
         $this->_result = $result;

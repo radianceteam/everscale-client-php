@@ -48,24 +48,36 @@ class ProcessingEvent_SendFailed extends ProcessingEvent implements JsonSerializ
         return $this->_error;
     }
 
+    /**
+     * @return self
+     */
     public function setShardBlockId(string $shardBlockId): self
     {
         $this->_shardBlockId = $shardBlockId;
         return $this;
     }
 
+    /**
+     * @return self
+     */
     public function setMessageId(string $messageId): self
     {
         $this->_messageId = $messageId;
         return $this;
     }
 
+    /**
+     * @return self
+     */
     public function setMessage(string $message): self
     {
         $this->_message = $message;
         return $this;
     }
 
+    /**
+     * @return self
+     */
     public function setError(?ClientError $error): self
     {
         $this->_error = $error;

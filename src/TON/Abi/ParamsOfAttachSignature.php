@@ -47,24 +47,36 @@ class ParamsOfAttachSignature implements JsonSerializable
         return $this->_signature;
     }
 
+    /**
+     * @return self
+     */
     public function setAbi(?Abi $abi): self
     {
         $this->_abi = $abi;
         return $this;
     }
 
+    /**
+     * @return self
+     */
     public function setPublicKey(string $publicKey): self
     {
         $this->_publicKey = $publicKey;
         return $this;
     }
 
+    /**
+     * @return self
+     */
     public function setMessage(string $message): self
     {
         $this->_message = $message;
         return $this;
     }
 
+    /**
+     * @return self
+     */
     public function setSignature(string $signature): self
     {
         $this->_signature = $signature;

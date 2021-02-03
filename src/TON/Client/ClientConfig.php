@@ -40,18 +40,27 @@ class ClientConfig implements JsonSerializable
         return $this->_abi;
     }
 
+    /**
+     * @return self
+     */
     public function setNetwork(?NetworkConfig $network): self
     {
         $this->_network = $network;
         return $this;
     }
 
+    /**
+     * @return self
+     */
     public function setCrypto(?CryptoConfig $crypto): self
     {
         $this->_crypto = $crypto;
         return $this;
     }
 
+    /**
+     * @return self
+     */
     public function setAbi(?AbiConfig $abi): self
     {
         $this->_abi = $abi;

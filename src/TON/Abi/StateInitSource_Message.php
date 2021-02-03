@@ -26,6 +26,9 @@ class StateInitSource_Message extends StateInitSource implements JsonSerializabl
         return $this->_source;
     }
 
+    /**
+     * @return self
+     */
     public function setSource(?MessageSource $source): self
     {
         $this->_source = $source;

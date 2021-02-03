@@ -26,6 +26,9 @@ class ResultOfGetBlockchainConfig implements JsonSerializable
         return $this->_configBoc;
     }
 
+    /**
+     * @return self
+     */
     public function setConfigBoc(string $configBoc): self
     {
         $this->_configBoc = $configBoc;

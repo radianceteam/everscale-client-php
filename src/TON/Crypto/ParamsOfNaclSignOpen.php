@@ -39,6 +39,7 @@ class ParamsOfNaclSignOpen implements JsonSerializable
 
     /**
      * Encoded with `base64`.
+     * @return self
      */
     public function setSigned(string $signed): self
     {
@@ -46,6 +47,9 @@ class ParamsOfNaclSignOpen implements JsonSerializable
         return $this;
     }
 
+    /**
+     * @return self
+     */
     public function setPublic(string $public): self
     {
         $this->_public = $public;

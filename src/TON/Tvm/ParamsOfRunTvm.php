@@ -59,6 +59,7 @@ class ParamsOfRunTvm implements JsonSerializable
 
     /**
      * Must be encoded as base64.
+     * @return self
      */
     public function setMessage(string $message): self
     {
@@ -68,6 +69,7 @@ class ParamsOfRunTvm implements JsonSerializable
 
     /**
      * Must be encoded as base64.
+     * @return self
      */
     public function setAccount(string $account): self
     {
@@ -75,12 +77,18 @@ class ParamsOfRunTvm implements JsonSerializable
         return $this;
     }
 
+    /**
+     * @return self
+     */
     public function setExecutionOptions(?ExecutionOptions $executionOptions): self
     {
         $this->_executionOptions = $executionOptions;
         return $this;
     }
 
+    /**
+     * @return self
+     */
     public function setAbi(?Abi $abi): self
     {
         $this->_abi = $abi;

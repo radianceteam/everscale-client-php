@@ -26,6 +26,9 @@ class ResultOfAppSigningBox_Sign extends ResultOfAppSigningBox implements JsonSe
         return $this->_signature;
     }
 
+    /**
+     * @return self
+     */
     public function setSignature(string $signature): self
     {
         $this->_signature = $signature;

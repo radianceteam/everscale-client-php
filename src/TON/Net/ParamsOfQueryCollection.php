@@ -16,6 +16,8 @@ class ParamsOfQueryCollection implements JsonSerializable
     private string $_collection;
     private $_filter;
     private string $_result;
+
+    /** @var OrderBy[]|null */
     private ?array $_order;
     private ?int $_limit;
 
@@ -44,6 +46,9 @@ class ParamsOfQueryCollection implements JsonSerializable
         return $this->_result;
     }
 
+    /**
+     * @return OrderBy[]|null
+     */
     public function getOrder(): ?array
     {
         return $this->_order;
@@ -54,30 +59,46 @@ class ParamsOfQueryCollection implements JsonSerializable
         return $this->_limit;
     }
 
+    /**
+     * @return self
+     */
     public function setCollection(string $collection): self
     {
         $this->_collection = $collection;
         return $this;
     }
 
+    /**
+     * @return self
+     */
     public function setFilter($filter): self
     {
         $this->_filter = $filter;
         return $this;
     }
 
+    /**
+     * @return self
+     */
     public function setResult(string $result): self
     {
         $this->_result = $result;
         return $this;
     }
 
+    /**
+     * @param OrderBy[]|null $order
+     * @return self
+     */
     public function setOrder(?array $order): self
     {
         $this->_order = $order;
         return $this;
     }
 
+    /**
+     * @return self
+     */
     public function setLimit(?int $limit): self
     {
         $this->_limit = $limit;

@@ -26,6 +26,9 @@ class ParamsOfAppDebotBrowser_ShowAction extends ParamsOfAppDebotBrowser impleme
         return $this->_action;
     }
 
+    /**
+     * @return self
+     */
     public function setAction(?DebotAction $action): self
     {
         $this->_action = $action;

@@ -56,6 +56,7 @@ class StateInitSource_StateInit extends StateInitSource implements JsonSerializa
 
     /**
      * Encoded in `base64`.
+     * @return self
      */
     public function setCode(string $code): self
     {
@@ -65,6 +66,7 @@ class StateInitSource_StateInit extends StateInitSource implements JsonSerializa
 
     /**
      * Encoded in `base64`.
+     * @return self
      */
     public function setData(string $data): self
     {
@@ -74,6 +76,7 @@ class StateInitSource_StateInit extends StateInitSource implements JsonSerializa
 
     /**
      * Encoded in `base64`.
+     * @return self
      */
     public function setLibrary(?string $library): self
     {

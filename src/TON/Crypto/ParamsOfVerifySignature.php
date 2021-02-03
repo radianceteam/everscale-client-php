@@ -33,12 +33,18 @@ class ParamsOfVerifySignature implements JsonSerializable
         return $this->_public;
     }
 
+    /**
+     * @return self
+     */
     public function setSigned(string $signed): self
     {
         $this->_signed = $signed;
         return $this;
     }
 
+    /**
+     * @return self
+     */
     public function setPublic(string $public): self
     {
         $this->_public = $public;

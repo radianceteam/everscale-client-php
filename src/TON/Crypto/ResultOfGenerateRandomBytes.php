@@ -26,6 +26,9 @@ class ResultOfGenerateRandomBytes implements JsonSerializable
         return $this->_bytes;
     }
 
+    /**
+     * @return self
+     */
     public function setBytes(string $bytes): self
     {
         $this->_bytes = $bytes;

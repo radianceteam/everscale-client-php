@@ -86,6 +86,9 @@ class ParamsOfEncodeMessageBody implements JsonSerializable
         return $this->_processingTryIndex;
     }
 
+    /**
+     * @return self
+     */
     public function setAbi(?Abi $abi): self
     {
         $this->_abi = $abi;
@@ -96,6 +99,7 @@ class ParamsOfEncodeMessageBody implements JsonSerializable
      * Must be specified in non deploy message.
      *
      * In case of deploy message contains parameters of constructor.
+     * @return self
      */
     public function setCallSet(?CallSet $callSet): self
     {
@@ -103,12 +107,18 @@ class ParamsOfEncodeMessageBody implements JsonSerializable
         return $this;
     }
 
+    /**
+     * @return self
+     */
     public function setIsInternal(bool $isInternal): self
     {
         $this->_isInternal = $isInternal;
         return $this;
     }
 
+    /**
+     * @return self
+     */
     public function setSigner(?Signer $signer): self
     {
         $this->_signer = $signer;
@@ -124,6 +134,7 @@ class ParamsOfEncodeMessageBody implements JsonSerializable
      * Expiration timeouts will grow with every retry.
      *
      * Default value is 0.
+     * @return self
      */
     public function setProcessingTryIndex(?int $processingTryIndex): self
     {

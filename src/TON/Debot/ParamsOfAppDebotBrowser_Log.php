@@ -26,6 +26,9 @@ class ParamsOfAppDebotBrowser_Log extends ParamsOfAppDebotBrowser implements Jso
         return $this->_msg;
     }
 
+    /**
+     * @return self
+     */
     public function setMsg(string $msg): self
     {
         $this->_msg = $msg;

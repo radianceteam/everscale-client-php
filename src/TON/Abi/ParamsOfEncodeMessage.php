@@ -111,6 +111,9 @@ class ParamsOfEncodeMessage implements JsonSerializable
         return $this->_processingTryIndex;
     }
 
+    /**
+     * @return self
+     */
     public function setAbi(?Abi $abi): self
     {
         $this->_abi = $abi;
@@ -119,6 +122,7 @@ class ParamsOfEncodeMessage implements JsonSerializable
 
     /**
      * Must be specified in case of non-deploy message.
+     * @return self
      */
     public function setAddress(?string $address): self
     {
@@ -128,6 +132,7 @@ class ParamsOfEncodeMessage implements JsonSerializable
 
     /**
      * Must be specified in case of deploy message.
+     * @return self
      */
     public function setDeploySet(?DeploySet $deploySet): self
     {
@@ -140,6 +145,7 @@ class ParamsOfEncodeMessage implements JsonSerializable
      *
      * In case of deploy message it is optional and contains parameters
      * of the functions that will to be called upon deploy transaction.
+     * @return self
      */
     public function setCallSet(?CallSet $callSet): self
     {
@@ -147,6 +153,9 @@ class ParamsOfEncodeMessage implements JsonSerializable
         return $this;
     }
 
+    /**
+     * @return self
+     */
     public function setSigner(?Signer $signer): self
     {
         $this->_signer = $signer;
@@ -165,6 +174,7 @@ class ParamsOfEncodeMessage implements JsonSerializable
      * <.....add config parameter with default value here>
      *
      * Default value is 0.
+     * @return self
      */
     public function setProcessingTryIndex(?int $processingTryIndex): self
     {

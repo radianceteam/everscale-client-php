@@ -26,6 +26,9 @@ class ResultOfGetApiReference implements JsonSerializable
         return $this->_api;
     }
 
+    /**
+     * @return self
+     */
     public function setApi($api): self
     {
         $this->_api = $api;

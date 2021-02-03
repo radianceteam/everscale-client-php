@@ -40,18 +40,27 @@ class AbiConfig implements JsonSerializable
         return $this->_messageExpirationTimeoutGrowFactor;
     }
 
+    /**
+     * @return self
+     */
     public function setWorkchain(?int $workchain): self
     {
         $this->_workchain = $workchain;
         return $this;
     }
 
+    /**
+     * @return self
+     */
     public function setMessageExpirationTimeout(?int $messageExpirationTimeout): self
     {
         $this->_messageExpirationTimeout = $messageExpirationTimeout;
         return $this;
     }
 
+    /**
+     * @return self
+     */
     public function setMessageExpirationTimeoutGrowFactor(?float $messageExpirationTimeoutGrowFactor): self
     {
         $this->_messageExpirationTimeoutGrowFactor = $messageExpirationTimeoutGrowFactor;

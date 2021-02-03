@@ -33,12 +33,18 @@ class OrderBy implements JsonSerializable
         return $this->_direction;
     }
 
+    /**
+     * @return self
+     */
     public function setPath(string $path): self
     {
         $this->_path = $path;
         return $this;
     }
 
+    /**
+     * @return self
+     */
     public function setDirection(string $direction): self
     {
         $this->_direction = $direction;

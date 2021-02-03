@@ -26,6 +26,9 @@ class RegisteredDebot implements JsonSerializable
         return $this->_debotHandle;
     }
 
+    /**
+     * @return self
+     */
     public function setDebotHandle(int $debotHandle): self
     {
         $this->_debotHandle = $debotHandle;

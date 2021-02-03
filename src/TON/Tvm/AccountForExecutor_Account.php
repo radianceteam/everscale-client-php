@@ -16,7 +16,7 @@ class AccountForExecutor_Account extends AccountForExecutor implements JsonSeria
     /** Encoded as base64. */
     private string $_boc;
 
-    /** Can be used to calculatetransaction fees without balance check */
+    /** Can be used to calculate transaction fees without balance check */
     private ?bool $_unlimitedBalance;
 
     public function __construct(?array $dto = null)
@@ -35,7 +35,7 @@ class AccountForExecutor_Account extends AccountForExecutor implements JsonSeria
     }
 
     /**
-     * Can be used to calculatetransaction fees without balance check
+     * Can be used to calculate transaction fees without balance check
      */
     public function isUnlimitedBalance(): ?bool
     {
@@ -44,6 +44,7 @@ class AccountForExecutor_Account extends AccountForExecutor implements JsonSeria
 
     /**
      * Encoded as base64.
+     * @return self
      */
     public function setBoc(string $boc): self
     {
@@ -52,7 +53,8 @@ class AccountForExecutor_Account extends AccountForExecutor implements JsonSeria
     }
 
     /**
-     * Can be used to calculatetransaction fees without balance check
+     * Can be used to calculate transaction fees without balance check
+     * @return self
      */
     public function setUnlimitedBalance(?bool $unlimitedBalance): self
     {

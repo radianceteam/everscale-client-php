@@ -26,6 +26,9 @@ class ResultOfParse implements JsonSerializable
         return $this->_parsed;
     }
 
+    /**
+     * @return self
+     */
     public function setParsed($parsed): self
     {
         $this->_parsed = $parsed;

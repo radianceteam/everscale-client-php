@@ -47,6 +47,15 @@ class DebotModule implements DebotModuleInterface
     }
 
     /**
+     * Used by Debot Browser to send response on Dinterface call or from other Debots.
+     * @param ParamsOfSend $params
+     */
+    public function send(ParamsOfSend $params)
+    {
+        $this->_context->callFunction('debot.send', $params);
+    }
+
+    /**
      * Removes handle from Client Context and drops debot engine referenced by that handle.
      * @param RegisteredDebot $params
      */

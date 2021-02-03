@@ -46,6 +46,9 @@ class ResultOfEncodeMessageBody implements JsonSerializable
         return $this->_dataToSign;
     }
 
+    /**
+     * @return self
+     */
     public function setBody(string $body): self
     {
         $this->_body = $body;
@@ -57,6 +60,7 @@ class ResultOfEncodeMessageBody implements JsonSerializable
      * Presents when `message` is unsigned. Can be used for external
      * message signing. Is this case you need to sing this data and
      * produce signed message using `abi.attach_signature`.
+     * @return self
      */
     public function setDataToSign(?string $dataToSign): self
     {

@@ -47,24 +47,36 @@ class ParamsOfRunGet implements JsonSerializable
         return $this->_executionOptions;
     }
 
+    /**
+     * @return self
+     */
     public function setAccount(string $account): self
     {
         $this->_account = $account;
         return $this;
     }
 
+    /**
+     * @return self
+     */
     public function setFunctionName(string $functionName): self
     {
         $this->_functionName = $functionName;
         return $this;
     }
 
+    /**
+     * @return self
+     */
     public function setInput($input): self
     {
         $this->_input = $input;
         return $this;
     }
 
+    /**
+     * @return self
+     */
     public function setExecutionOptions(?ExecutionOptions $executionOptions): self
     {
         $this->_executionOptions = $executionOptions;

@@ -32,6 +32,7 @@ class ResultOfSigningBoxGetPublicKey implements JsonSerializable
 
     /**
      * Encoded with hex
+     * @return self
      */
     public function setPubkey(string $pubkey): self
     {

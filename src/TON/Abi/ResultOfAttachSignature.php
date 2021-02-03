@@ -33,12 +33,18 @@ class ResultOfAttachSignature implements JsonSerializable
         return $this->_messageId;
     }
 
+    /**
+     * @return self
+     */
     public function setMessage(string $message): self
     {
         $this->_message = $message;
         return $this;
     }
 
+    /**
+     * @return self
+     */
     public function setMessageId(string $messageId): self
     {
         $this->_messageId = $messageId;

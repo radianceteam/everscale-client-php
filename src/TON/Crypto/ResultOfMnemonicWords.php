@@ -26,6 +26,9 @@ class ResultOfMnemonicWords implements JsonSerializable
         return $this->_words;
     }
 
+    /**
+     * @return self
+     */
     public function setWords(string $words): self
     {
         $this->_words = $words;

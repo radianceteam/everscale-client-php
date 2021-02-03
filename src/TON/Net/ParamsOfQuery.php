@@ -15,7 +15,7 @@ class ParamsOfQuery implements JsonSerializable
 {
     private string $_query;
 
-    /** Must be a map with named values thatcan be used in query. */
+    /** Must be a map with named values that can be used in query. */
     private $_variables;
 
     public function __construct(?array $dto = null)
@@ -31,13 +31,16 @@ class ParamsOfQuery implements JsonSerializable
     }
 
     /**
-     * Must be a map with named values thatcan be used in query.
+     * Must be a map with named values that can be used in query.
      */
     public function getVariables()
     {
         return $this->_variables;
     }
 
+    /**
+     * @return self
+     */
     public function setQuery(string $query): self
     {
         $this->_query = $query;
@@ -45,7 +48,8 @@ class ParamsOfQuery implements JsonSerializable
     }
 
     /**
-     * Must be a map with named values thatcan be used in query.
+     * Must be a map with named values that can be used in query.
+     * @return self
      */
     public function setVariables($variables): self
     {

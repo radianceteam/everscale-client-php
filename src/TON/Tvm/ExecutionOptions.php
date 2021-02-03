@@ -47,24 +47,36 @@ class ExecutionOptions implements JsonSerializable
         return $this->_transactionLt;
     }
 
+    /**
+     * @return self
+     */
     public function setBlockchainConfig(?string $blockchainConfig): self
     {
         $this->_blockchainConfig = $blockchainConfig;
         return $this;
     }
 
+    /**
+     * @return self
+     */
     public function setBlockTime(?int $blockTime): self
     {
         $this->_blockTime = $blockTime;
         return $this;
     }
 
+    /**
+     * @return self
+     */
     public function setBlockLt(?int $blockLt): self
     {
         $this->_blockLt = $blockLt;
         return $this;
     }
 
+    /**
+     * @return self
+     */
     public function setTransactionLt(?int $transactionLt): self
     {
         $this->_transactionLt = $transactionLt;

@@ -22,4 +22,6 @@ final class NetErrorCode
     const WebsocketDisconnected = 610;
     const NotSupported = 611;
     const NoEndpointsProvided = 612;
+    const GraphqlWebsocketInitError = 613;
+    const NetworkModuleResumed = 614;
 }

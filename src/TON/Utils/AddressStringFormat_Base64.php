@@ -40,18 +40,27 @@ class AddressStringFormat_Base64 extends AddressStringFormat implements JsonSeri
         return $this->_bounce;
     }
 
+    /**
+     * @return self
+     */
     public function setUrl(bool $url): self
     {
         $this->_url = $url;
         return $this;
     }
 
+    /**
+     * @return self
+     */
     public function setTest(bool $test): self
     {
         $this->_test = $test;
         return $this;
     }
 
+    /**
+     * @return self
+     */
     public function setBounce(bool $bounce): self
     {
         $this->_bounce = $bounce;

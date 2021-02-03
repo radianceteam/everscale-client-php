@@ -561,4 +561,46 @@ class CryptoModuleTests extends AbstractModuleTestCase
 
         $this->assertEquals("Message", base64_decode($decrypted->getData()));
     }
+
+    public function testNaclSignDetachedVerify()
+    {
+        $result = $this->_crypto->naclSignDetachedVerify((new ParamsOfNaclSignDetachedVerify())
+            ->setUnsigned(base64_encode('Test Message'))
+            ->setSignature('fb0cfe40eea5d6c960652e6ceb904da8a72ee2fcf6e05089cf835203179ff65bb48c57ecf31dcfcd26510bea67e64f3e6898b7c58300dc14338254268cade103')
+            ->setPublic('1869b7ef29d58026217e9cf163cbfbd0de889bdf1bf4daebf5433a312f5b8d6e'));
+
+        $this->assertTrue($result->isSucceeded());
+    }
+
+    public function testNaclSignDetachedVerify_negativeCase()
+    {
+        $result = $this->_crypto->naclSignDetachedVerify((new ParamsOfNaclSignDetachedVerify())
+            ->setUnsigned(base64_encode('Test Message 1'))
+            ->setSignature('fb0cfe40eea5d6c960652e6ceb904da8a72ee2fcf6e05089cf835203179ff65bb48c57ecf31dcfcd26510bea67e64f3e6898b7c58300dc14338254268cade103')
+            ->setPublic('1869b7ef29d58026217e9cf163cbfbd0de889bdf1bf4daebf5433a312f5b8d6e'));
+
+        $this->assertFalse($result->isSucceeded());
+    }
+
+    public function testAsyncNaclSignDetachedVerify()
+    {
+        $result = $this->_crypto->async()->naclSignDetachedVerifyAsync((new ParamsOfNaclSignDetachedVerify())
+            ->setUnsigned(base64_encode('Test Message'))
+            ->setSignature('fb0cfe40eea5d6c960652e6ceb904da8a72ee2fcf6e05089cf835203179ff65bb48c57ecf31dcfcd26510bea67e64f3e6898b7c58300dc14338254268cade103')
+            ->setPublic('1869b7ef29d58026217e9cf163cbfbd0de889bdf1bf4daebf5433a312f5b8d6e'))
+            ->await();
+
+        $this->assertTrue($result->isSucceeded());
+    }
+
+    public function testAsyncNaclSignDetachedVerify_negativeCase()
+    {
+        $result = $this->_crypto->async()->naclSignDetachedVerifyAsync((new ParamsOfNaclSignDetachedVerify())
+            ->setUnsigned(base64_encode('Test Message 1'))
+            ->setSignature('fb0cfe40eea5d6c960652e6ceb904da8a72ee2fcf6e05089cf835203179ff65bb48c57ecf31dcfcd26510bea67e64f3e6898b7c58300dc14338254268cade103')
+            ->setPublic('1869b7ef29d58026217e9cf163cbfbd0de889bdf1bf4daebf5433a312f5b8d6e'))
+            ->await();
+
+        $this->assertFalse($result->isSucceeded());
+    }
 }

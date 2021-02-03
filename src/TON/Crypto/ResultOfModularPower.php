@@ -26,6 +26,9 @@ class ResultOfModularPower implements JsonSerializable
         return $this->_modularPower;
     }
 
+    /**
+     * @return self
+     */
     public function setModularPower(string $modularPower): self
     {
         $this->_modularPower = $modularPower;

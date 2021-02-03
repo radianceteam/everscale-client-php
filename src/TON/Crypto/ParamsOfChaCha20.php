@@ -56,6 +56,7 @@ class ParamsOfChaCha20 implements JsonSerializable
 
     /**
      * Must be encoded with `base64`.
+     * @return self
      */
     public function setData(string $data): self
     {
@@ -65,6 +66,7 @@ class ParamsOfChaCha20 implements JsonSerializable
 
     /**
      * Must be encoded with `hex`.
+     * @return self
      */
     public function setKey(string $key): self
     {
@@ -74,6 +76,7 @@ class ParamsOfChaCha20 implements JsonSerializable
 
     /**
      * Must be encoded with `hex`.
+     * @return self
      */
     public function setNonce(string $nonce): self
     {

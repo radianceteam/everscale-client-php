@@ -26,6 +26,9 @@ class ParamsOfGetBocHash implements JsonSerializable
         return $this->_boc;
     }
 
+    /**
+     * @return self
+     */
     public function setBoc(string $boc): self
     {
         $this->_boc = $boc;

@@ -40,18 +40,27 @@ class StateInitSource_Tvc extends StateInitSource implements JsonSerializable
         return $this->_initParams;
     }
 
+    /**
+     * @return self
+     */
     public function setTvc(string $tvc): self
     {
         $this->_tvc = $tvc;
         return $this;
     }
 
+    /**
+     * @return self
+     */
     public function setPublicKey(?string $publicKey): self
     {
         $this->_publicKey = $publicKey;
         return $this;
     }
 
+    /**
+     * @return self
+     */
     public function setInitParams(?StateInitParams $initParams): self
     {
         $this->_initParams = $initParams;

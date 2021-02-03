@@ -15,20 +15,25 @@ class NetworkConfig implements JsonSerializable
 {
     private ?string $_serverAddress;
 
-    /** Any correct URL format can be specified, including IP addresses */
+    /** Any correct URL format can be specified, including IP addresses This parameter is prevailing over `server_address`. */
     private ?array $_endpoints;
+
+    /** You must use `network.max_reconnect_timeout` that allows to specify maximum network resolving timeout. */
     private ?int $_networkRetriesCount;
+
+    /** Default value is 120000 (2 min) */
+    private ?int $_maxReconnectTimeout;
+    private ?int $_reconnectTimeout;
     private ?int $_messageRetriesCount;
     private ?int $_messageProcessingTimeout;
     private ?int $_waitForTimeout;
 
     /**
-     * If client's device time is out of sink and difference is more thanthe threshhold then error will occur. Also the error will occur if the specified threshhold is more than
+     * If client's device time is out of sync and difference is more than the threshold then error will occur. Also an error will occur if the specified threshold is more than
      * `message_processing_timeout/2`.
      * The default value is 15 sec.
      */
     private ?int $_outOfSyncThreshold;
-    private ?int $_reconnectTimeout;
 
     /** At the moment is not used in production */
     private ?string $_accessKey;
@@ -39,11 +44,12 @@ class NetworkConfig implements JsonSerializable
         $this->_serverAddress = $dto['server_address'] ?? null;
         $this->_endpoints = $dto['endpoints'] ?? null;
         $this->_networkRetriesCount = $dto['network_retries_count'] ?? null;
+        $this->_maxReconnectTimeout = $dto['max_reconnect_timeout'] ?? null;
+        $this->_reconnectTimeout = $dto['reconnect_timeout'] ?? null;
         $this->_messageRetriesCount = $dto['message_retries_count'] ?? null;
         $this->_messageProcessingTimeout = $dto['message_processing_timeout'] ?? null;
         $this->_waitForTimeout = $dto['wait_for_timeout'] ?? null;
         $this->_outOfSyncThreshold = $dto['out_of_sync_threshold'] ?? null;
-        $this->_reconnectTimeout = $dto['reconnect_timeout'] ?? null;
         $this->_accessKey = $dto['access_key'] ?? null;
     }
 
@@ -53,16 +59,32 @@ class NetworkConfig implements JsonSerializable
     }
 
     /**
-     * Any correct URL format can be specified, including IP addresses
+     * Any correct URL format can be specified, including IP addresses This parameter is prevailing over `server_address`.
      */
     public function getEndpoints(): ?array
     {
         return $this->_endpoints;
     }
 
+    /**
+     * You must use `network.max_reconnect_timeout` that allows to specify maximum network resolving timeout.
+     */
     public function getNetworkRetriesCount(): ?int
     {
         return $this->_networkRetriesCount;
+    }
+
+    /**
+     * Default value is 120000 (2 min)
+     */
+    public function getMaxReconnectTimeout(): ?int
+    {
+        return $this->_maxReconnectTimeout;
+    }
+
+    public function getReconnectTimeout(): ?int
+    {
+        return $this->_reconnectTimeout;
     }
 
     public function getMessageRetriesCount(): ?int
@@ -81,18 +103,13 @@ class NetworkConfig implements JsonSerializable
     }
 
     /**
-     * If client's device time is out of sink and difference is more thanthe threshhold then error will occur. Also the error will occur if the specified threshhold is more than
+     * If client's device time is out of sync and difference is more than the threshold then error will occur. Also an error will occur if the specified threshold is more than
      * `message_processing_timeout/2`.
      * The default value is 15 sec.
      */
     public function getOutOfSyncThreshold(): ?int
     {
         return $this->_outOfSyncThreshold;
-    }
-
-    public function getReconnectTimeout(): ?int
-    {
-        return $this->_reconnectTimeout;
     }
 
     /**
@@ -103,6 +120,9 @@ class NetworkConfig implements JsonSerializable
         return $this->_accessKey;
     }
 
+    /**
+     * @return self
+     */
     public function setServerAddress(?string $serverAddress): self
     {
         $this->_serverAddress = $serverAddress;
@@ -110,7 +130,8 @@ class NetworkConfig implements JsonSerializable
     }
 
     /**
-     * Any correct URL format can be specified, including IP addresses
+     * Any correct URL format can be specified, including IP addresses This parameter is prevailing over `server_address`.
+     * @return self
      */
     public function setEndpoints(?array $endpoints): self
     {
@@ -118,41 +139,29 @@ class NetworkConfig implements JsonSerializable
         return $this;
     }
 
+    /**
+     * You must use `network.max_reconnect_timeout` that allows to specify maximum network resolving timeout.
+     * @return self
+     */
     public function setNetworkRetriesCount(?int $networkRetriesCount): self
     {
         $this->_networkRetriesCount = $networkRetriesCount;
         return $this;
     }
 
-    public function setMessageRetriesCount(?int $messageRetriesCount): self
+    /**
+     * Default value is 120000 (2 min)
+     * @return self
+     */
+    public function setMaxReconnectTimeout(?int $maxReconnectTimeout): self
     {
-        $this->_messageRetriesCount = $messageRetriesCount;
-        return $this;
-    }
-
-    public function setMessageProcessingTimeout(?int $messageProcessingTimeout): self
-    {
-        $this->_messageProcessingTimeout = $messageProcessingTimeout;
-        return $this;
-    }
-
-    public function setWaitForTimeout(?int $waitForTimeout): self
-    {
-        $this->_waitForTimeout = $waitForTimeout;
+        $this->_maxReconnectTimeout = $maxReconnectTimeout;
         return $this;
     }
 
     /**
-     * If client's device time is out of sink and difference is more thanthe threshhold then error will occur. Also the error will occur if the specified threshhold is more than
-     * `message_processing_timeout/2`.
-     * The default value is 15 sec.
+     * @return self
      */
-    public function setOutOfSyncThreshold(?int $outOfSyncThreshold): self
-    {
-        $this->_outOfSyncThreshold = $outOfSyncThreshold;
-        return $this;
-    }
-
     public function setReconnectTimeout(?int $reconnectTimeout): self
     {
         $this->_reconnectTimeout = $reconnectTimeout;
@@ -160,7 +169,47 @@ class NetworkConfig implements JsonSerializable
     }
 
     /**
+     * @return self
+     */
+    public function setMessageRetriesCount(?int $messageRetriesCount): self
+    {
+        $this->_messageRetriesCount = $messageRetriesCount;
+        return $this;
+    }
+
+    /**
+     * @return self
+     */
+    public function setMessageProcessingTimeout(?int $messageProcessingTimeout): self
+    {
+        $this->_messageProcessingTimeout = $messageProcessingTimeout;
+        return $this;
+    }
+
+    /**
+     * @return self
+     */
+    public function setWaitForTimeout(?int $waitForTimeout): self
+    {
+        $this->_waitForTimeout = $waitForTimeout;
+        return $this;
+    }
+
+    /**
+     * If client's device time is out of sync and difference is more than the threshold then error will occur. Also an error will occur if the specified threshold is more than
+     * `message_processing_timeout/2`.
+     * The default value is 15 sec.
+     * @return self
+     */
+    public function setOutOfSyncThreshold(?int $outOfSyncThreshold): self
+    {
+        $this->_outOfSyncThreshold = $outOfSyncThreshold;
+        return $this;
+    }
+
+    /**
      * At the moment is not used in production
+     * @return self
      */
     public function setAccessKey(?string $accessKey): self
     {
@@ -174,11 +223,12 @@ class NetworkConfig implements JsonSerializable
         if ($this->_serverAddress !== null) $result['server_address'] = $this->_serverAddress;
         if ($this->_endpoints !== null) $result['endpoints'] = $this->_endpoints;
         if ($this->_networkRetriesCount !== null) $result['network_retries_count'] = $this->_networkRetriesCount;
+        if ($this->_maxReconnectTimeout !== null) $result['max_reconnect_timeout'] = $this->_maxReconnectTimeout;
+        if ($this->_reconnectTimeout !== null) $result['reconnect_timeout'] = $this->_reconnectTimeout;
         if ($this->_messageRetriesCount !== null) $result['message_retries_count'] = $this->_messageRetriesCount;
         if ($this->_messageProcessingTimeout !== null) $result['message_processing_timeout'] = $this->_messageProcessingTimeout;
         if ($this->_waitForTimeout !== null) $result['wait_for_timeout'] = $this->_waitForTimeout;
         if ($this->_outOfSyncThreshold !== null) $result['out_of_sync_threshold'] = $this->_outOfSyncThreshold;
-        if ($this->_reconnectTimeout !== null) $result['reconnect_timeout'] = $this->_reconnectTimeout;
         if ($this->_accessKey !== null) $result['access_key'] = $this->_accessKey;
         return !empty($result) ? $result : new stdClass();
     }

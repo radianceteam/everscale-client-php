@@ -51,6 +51,9 @@ class CallSet implements JsonSerializable
         return $this->_input;
     }
 
+    /**
+     * @return self
+     */
     public function setFunctionName(string $functionName): self
     {
         $this->_functionName = $functionName;
@@ -61,6 +64,7 @@ class CallSet implements JsonSerializable
      * If an application omits some header parameters required by the
      * contract's ABI, the library will set the default values for
      * them.
+     * @return self
      */
     public function setHeader(?FunctionHeader $header): self
     {
@@ -68,6 +72,9 @@ class CallSet implements JsonSerializable
         return $this;
     }
 
+    /**
+     * @return self
+     */
     public function setInput($input): self
     {
         $this->_input = $input;

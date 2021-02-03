@@ -26,6 +26,9 @@ class ResultOfConvertPublicKeyToTonSafeFormat implements JsonSerializable
         return $this->_tonPublicKey;
     }
 
+    /**
+     * @return self
+     */
     public function setTonPublicKey(string $tonPublicKey): self
     {
         $this->_tonPublicKey = $tonPublicKey;

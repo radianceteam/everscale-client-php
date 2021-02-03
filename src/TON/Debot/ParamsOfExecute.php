@@ -33,12 +33,18 @@ class ParamsOfExecute implements JsonSerializable
         return $this->_action;
     }
 
+    /**
+     * @return self
+     */
     public function setDebotHandle(int $debotHandle): self
     {
         $this->_debotHandle = $debotHandle;
         return $this;
     }
 
+    /**
+     * @return self
+     */
     public function setAction(?DebotAction $action): self
     {
         $this->_action = $action;

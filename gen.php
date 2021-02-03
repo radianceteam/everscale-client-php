@@ -333,6 +333,36 @@ function is_php_builtin_type(string $name): bool
     return false;
 }
 
+function get_array_item_ref(array $field): ?string
+{
+    if ($field['type'] === 'Optional') {
+        $field = $field['optional_inner'];
+    }
+    if ($field['type'] === 'Array' &&
+        $field['array_item']['type'] === 'Ref' &&
+        !is_unknown_type_name(isset($field['array_item']['ref_name']))) {
+        return $field['array_item']['ref_name'];
+    }
+    return null;
+}
+
+function get_array_type_phpdoc(array $field, ApiIndex $index): ?string
+{
+    if (get_php_type_name($field, $index) === 'array') {
+        $array_item_type_ref = get_array_item_ref($field);
+        $parsed_ref = parse_ref($array_item_type_ref);
+        if (count($parsed_ref) == 2) {
+            $ref_type_name = $parsed_ref[1];
+            if ($field['type'] === 'Optional') {
+                return "${ref_type_name}[]|null";
+            } else {
+                return "${ref_type_name}[]";
+            }
+        }
+    }
+    return null;
+}
+
 function get_php_type_name(array $type, ApiIndex $index): string
 {
     switch ($type['type']) {
@@ -407,6 +437,10 @@ function add_type_private_fields(array $module, array $type, ClassType $class, A
             ->setType(get_php_type_name($field, $index))
             ->setNullable(is_php_private_field_nullable($field, $index))
             ->setPrivate();
+        $array_phpdoc = get_array_type_phpdoc($field, $index);
+        if ($array_phpdoc) {
+            $property->setComment("@var ${array_phpdoc}");
+        }
         if (!empty($field['description'])) {
             $property->addComment($field['description']);
         }
@@ -427,6 +461,10 @@ function add_type_getters(array $type, ClassType $class, ApiIndex $index)
             ->setReturnNullable(is_php_private_field_nullable($field, $index));
         if (!empty($field['description'])) {
             $getter->addComment($field['description']);
+        }
+        $array_phpdoc = get_array_type_phpdoc($field, $index);
+        if ($array_phpdoc) {
+            $getter->addComment("@return ${array_phpdoc}");
         }
         $private_property_name = get_php_private_field_name($field_name);
         $getter->addBody("return \$this->${private_property_name};");
@@ -450,6 +488,11 @@ function add_type_setters(array $type, ClassType $class, ApiIndex $index)
         if (!empty($field['description'])) {
             $setter->addComment($field['description']);
         }
+        $array_phpdoc = get_array_type_phpdoc($field, $index);
+        if ($array_phpdoc) {
+            $setter->addComment("@param ${array_phpdoc} \$${parameter_name}");
+        }
+        $setter->addComment('@return self');
         $private_property_name = get_php_private_field_name($field_name);
         $setter->addBody("\$this->${private_property_name} = \$${parameter_name};");
         $setter->addBody("return \$this;");

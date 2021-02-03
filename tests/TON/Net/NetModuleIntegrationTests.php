@@ -10,6 +10,7 @@ use TON\Abi\Signer_Keys;
 use TON\AbstractIntegrationTest;
 use TON\Client\ClientConfig;
 use TON\Client\NetworkConfig;
+use TON\Net\Async\AsyncResultOfSubscribeCollection;
 use TON\Processing\ParamsOfProcessMessage;
 use TON\TestClient;
 use TON\TonClientBuilder;
@@ -176,7 +177,9 @@ class NetModuleIntegrationTests extends AbstractIntegrationTest
 
     public function testSuspendResume()
     {
-        $keys = self::$client->crypto()->generateRandomSignKeys();
+        $subscription_client = self::createClient();
+        $keys = $subscription_client->crypto()->generateRandomSignKeys();
+
         [$abi, $tvc] = TestClient::package('Hello');
 
         $deployParams = (new ParamsOfEncodeMessage())
@@ -185,9 +188,8 @@ class NetModuleIntegrationTests extends AbstractIntegrationTest
             ->setSigner((new Signer_Keys())->setKeys($keys))
             ->setCallSet((new CallSet())->setFunctionName("constructor"));
 
-        $msg = self::$client->abi()->encodeMessage($deployParams);
+        $msg = $subscription_client->abi()->encodeMessage($deployParams);
 
-        $subscription_client = self::createClient();
         $subscribePromise = $subscription_client->net()->async()
             ->subscribeCollectionAsync((new ParamsOfSubscribeCollection())
                 ->setCollection("transactions")
@@ -196,19 +198,19 @@ class NetModuleIntegrationTests extends AbstractIntegrationTest
                     "status" => ["eq" => 3] // Finalized
                 ])
                 ->setResult("id account_addr"));
-
-        $this->assertNotNull($subscribePromise);
         $handle = $subscribePromise->await();
 
+        // send grams to create first transaction
         TestClient::getGramsFromGiver(self::$client, $msg->getAddress());
 
+        // give some time for subscription to receive all data
         sleep(1);
-        $transactions = [];
-        foreach ($subscribePromise->getEvents(0) as $event) {
-            $transactions[] = $event;
-        }
 
-        $this->assertCount(1, $transactions);
+        $events = AsyncCollectionEvents::read($subscribePromise);
+        // check that transaction is received
+        $this->assertEquals(1, $events->getTransactionCount());
+        // and no error notifications
+        $this->assertEquals(0, $events->getNotificationCount());
 
         // suspend subscription
         $subscription_client->net()->suspend();
@@ -216,22 +218,37 @@ class NetModuleIntegrationTests extends AbstractIntegrationTest
         // deploy to create second transaction
         self::$client->processing()->async()
             ->processMessageAsync((new ParamsOfProcessMessage())
-                ->setMessageEncodeParams($deployParams))
+                ->setMessageEncodeParams($deployParams)
+                ->setSendEvents(false))
             ->await();
 
-        // check that second transaction is not received when subscription suspended
-        sleep(1);
-        foreach ($subscribePromise->getEvents(0) as $event) {
-            $transactions[] = $event;
-        }
+        // create second subscription while network is suspended
+        $subscribePromise2 = $subscription_client->net()->async()
+            ->subscribeCollectionAsync((new ParamsOfSubscribeCollection())
+                ->setCollection("transactions")
+                ->setFilter([
+                    "account_addr" => ["eq" => $msg->getAddress()],
+                    "status" => ["eq" => 3] // Finalized
+                ])
+                ->setResult("id account_addr"));
+        $handle2 = $subscribePromise2->await();
 
-        $this->assertCount(1, $transactions);
+        // give some time for subscription to receive all data
+        sleep(1);
+
+        // check that second transaction is not received when subscription suspended
+        foreach ([$subscribePromise, $subscribePromise2] as $promise) {
+            $events = AsyncCollectionEvents::read($promise);
+            $this->assertEquals(0, $events->getTransactionCount());
+            $this->assertEquals(1, $events->getNotificationCount());
+            $this->assertEquals([NetErrorCode::NetworkModuleSuspended], $events->getNotificationCodes());
+        }
 
         // resume subscription
         $subscription_client->net()->resume();
 
         // run contract function to create new transaction
-        self::$client->processing()->async()
+        $subscription_client->processing()->async()
             ->processMessageAsync((new ParamsOfProcessMessage())
                 ->setMessageEncodeParams((new ParamsOfEncodeMessage())
                     ->setAbi((new Abi_Contract())->setValue($abi))
@@ -242,17 +259,24 @@ class NetModuleIntegrationTests extends AbstractIntegrationTest
                 ->setSendEvents(false))
             ->await();
 
-        sleep(1);
-        foreach ($subscribePromise->getEvents(0) as $event) {
-            $transactions[] = $event;
+        // give some time for subscription to receive all data
+        sleep(5);
+
+        // check that third transaction is now received after resume
+        foreach ([$subscribePromise, $subscribePromise2] as $promise) {
+            $events = AsyncCollectionEvents::read($promise);
+            $this->assertEquals(1, $events->getTransactionCount());
+            $this->assertEquals(1, $events->getNotificationCount());
+            $this->assertEquals([NetErrorCode::NetworkModuleResumed], $events->getNotificationCodes());
         }
 
-        $transaction_ids = array_map(function ($t) {
-            return $t["result"]["id"];
-        }, $transactions);
-        $this->assertCount(2, array_unique($transaction_ids));
-
         $subscription_client->net()->unsubscribe($handle);
+        $subscription_client->net()->unsubscribe($handle2);
+    }
+
+    private function readAllEvents(AsyncResultOfSubscribeCollection $collection)
+    {
+
     }
 
     public function testFindLastShardBlock()
@@ -348,5 +372,89 @@ class NetModuleIntegrationTests extends AbstractIntegrationTest
         $this->assertCount(2, $endpoints);
         $this->assertContains("https://cinet.tonlabs.io/", $endpoints);
         $this->assertContains("https://cinet2.tonlabs.io/", $endpoints);
+    }
+
+    public function testBatchQuery()
+    {
+        $client = self::createClient();
+
+        $batch = $client->net()->batchQuery((new ParamsOfBatchQuery())
+            ->setOperations([
+                (new ParamsOfQueryOperation_QueryCollection())
+                    ->setCollection('blocks_signatures')
+                    ->setResult('id')
+                    ->setLimit(1),
+                (new ParamsOfQueryOperation_AggregateCollection())
+                    ->setCollection('accounts')
+                    ->setFields([
+                        (new FieldAggregation())
+                            ->setField('')
+                            ->setFn(AggregationFn::COUNT)
+                    ]),
+                (new ParamsOfQueryOperation_WaitForCollection())
+                    ->setCollection('transactions')
+                    ->setFilter(['now' => ['gt' => 20]])
+                    ->setResult('id now')
+            ]));
+
+        $this->assertCount(3, $batch->getResults());
+    }
+
+    public function testAsyncBatchQuery()
+    {
+        $client = self::createClient();
+
+        $batch = $client->net()->async()->batchQueryAsync((new ParamsOfBatchQuery())
+            ->setOperations([
+                (new ParamsOfQueryOperation_QueryCollection())
+                    ->setCollection('blocks_signatures')
+                    ->setResult('id')
+                    ->setLimit(1),
+                (new ParamsOfQueryOperation_AggregateCollection())
+                    ->setCollection('accounts')
+                    ->setFields([
+                        (new FieldAggregation())
+                            ->setField('')
+                            ->setFn(AggregationFn::COUNT)
+                    ]),
+                (new ParamsOfQueryOperation_WaitForCollection())
+                    ->setCollection('transactions')
+                    ->setFilter(['now' => ['gt' => 20]])
+                    ->setResult('id now')
+            ]))->await();
+
+        $this->assertCount(3, $batch->getResults());
+    }
+
+    public function testAggregates()
+    {
+        $client = self::createClient();
+
+        $result = $client->net()->aggregateCollection((new ParamsOfAggregateCollection())
+            ->setCollection('accounts')
+            ->setFields([
+                (new FieldAggregation())
+                    ->setField('')
+                    ->setFn(AggregationFn::COUNT)
+            ]));
+
+        $count = $result->getValues()[0];
+        $this->assertGreaterThan(0, $count);
+    }
+
+    public function testAsyncAggregates()
+    {
+        $client = self::createClient();
+
+        $result = $client->net()->async()->aggregateCollectionAsync((new ParamsOfAggregateCollection())
+            ->setCollection('accounts')
+            ->setFields([
+                (new FieldAggregation())
+                    ->setField('')
+                    ->setFn(AggregationFn::COUNT)
+            ]))->await();
+
+        $count = $result->getValues()[0];
+        $this->assertGreaterThan(0, $count);
     }
 }

@@ -41,18 +41,27 @@ class ProcessingEvent_MessageExpired extends ProcessingEvent implements JsonSeri
         return $this->_error;
     }
 
+    /**
+     * @return self
+     */
     public function setMessageId(string $messageId): self
     {
         $this->_messageId = $messageId;
         return $this;
     }
 
+    /**
+     * @return self
+     */
     public function setMessage(string $message): self
     {
         $this->_message = $message;
         return $this;
     }
 
+    /**
+     * @return self
+     */
     public function setError(?ClientError $error): self
     {
         $this->_error = $error;

@@ -14,7 +14,11 @@ use stdClass;
 class AbiFunction implements JsonSerializable
 {
     private string $_name;
+
+    /** @var AbiParam[] */
     private array $_inputs;
+
+    /** @var AbiParam[] */
     private array $_outputs;
     private ?string $_id;
 
@@ -32,11 +36,17 @@ class AbiFunction implements JsonSerializable
         return $this->_name;
     }
 
+    /**
+     * @return AbiParam[]
+     */
     public function getInputs(): array
     {
         return $this->_inputs;
     }
 
+    /**
+     * @return AbiParam[]
+     */
     public function getOutputs(): array
     {
         return $this->_outputs;
@@ -47,24 +57,38 @@ class AbiFunction implements JsonSerializable
         return $this->_id;
     }
 
+    /**
+     * @return self
+     */
     public function setName(string $name): self
     {
         $this->_name = $name;
         return $this;
     }
 
+    /**
+     * @param AbiParam[] $inputs
+     * @return self
+     */
     public function setInputs(array $inputs): self
     {
         $this->_inputs = $inputs;
         return $this;
     }
 
+    /**
+     * @param AbiParam[] $outputs
+     * @return self
+     */
     public function setOutputs(array $outputs): self
     {
         $this->_outputs = $outputs;
         return $this;
     }
 
+    /**
+     * @return self
+     */
     public function setId(?string $id): self
     {
         $this->_id = $id;

@@ -26,6 +26,9 @@ class ParamsOfStart implements JsonSerializable
         return $this->_address;
     }
 
+    /**
+     * @return self
+     */
     public function setAddress(string $address): self
     {
         $this->_address = $address;

@@ -26,6 +26,9 @@ class ResultOfAppDebotBrowser_Input extends ResultOfAppDebotBrowser implements J
         return $this->_value;
     }
 
+    /**
+     * @return self
+     */
     public function setValue(string $value): self
     {
         $this->_value = $value;

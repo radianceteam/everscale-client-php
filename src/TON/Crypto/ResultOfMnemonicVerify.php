@@ -26,6 +26,9 @@ class ResultOfMnemonicVerify implements JsonSerializable
         return $this->_valid;
     }
 
+    /**
+     * @return self
+     */
     public function setValid(bool $valid): self
     {
         $this->_valid = $valid;

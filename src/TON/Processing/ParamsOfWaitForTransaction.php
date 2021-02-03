@@ -75,6 +75,7 @@ class ParamsOfWaitForTransaction implements JsonSerializable
      * decoded according to this ABI.
      *
      * The `abi_decoded` result field will be filled out.
+     * @return self
      */
     public function setAbi(?Abi $abi): self
     {
@@ -84,6 +85,7 @@ class ParamsOfWaitForTransaction implements JsonSerializable
 
     /**
      * Encoded with `base64`.
+     * @return self
      */
     public function setMessage(string $message): self
     {
@@ -93,6 +95,7 @@ class ParamsOfWaitForTransaction implements JsonSerializable
 
     /**
      * You must provide the same value as the `send_message` has returned.
+     * @return self
      */
     public function setShardBlockId(string $shardBlockId): self
     {
@@ -100,6 +103,9 @@ class ParamsOfWaitForTransaction implements JsonSerializable
         return $this;
     }
 
+    /**
+     * @return self
+     */
     public function setSendEvents(bool $sendEvents): self
     {
         $this->_sendEvents = $sendEvents;

@@ -15,10 +15,10 @@ class FunctionHeader implements JsonSerializable
 {
     private ?int $_expire;
 
-    /** If not specified, `now` is used(if ABI includes `time` header). */
+    /** If not specified, `now` is used (if ABI includes `time` header). */
     private ?int $_time;
 
-    /** Encoded in `hex`.If not specified, method fails with exception (if ABI includes `pubkey` header).. */
+    /** Encoded in `hex`. If not specified, method fails with exception (if ABI includes `pubkey` header).. */
     private ?string $_pubkey;
 
     public function __construct(?array $dto = null)
@@ -35,7 +35,7 @@ class FunctionHeader implements JsonSerializable
     }
 
     /**
-     * If not specified, `now` is used(if ABI includes `time` header).
+     * If not specified, `now` is used (if ABI includes `time` header).
      */
     public function getTime(): ?int
     {
@@ -43,13 +43,16 @@ class FunctionHeader implements JsonSerializable
     }
 
     /**
-     * Encoded in `hex`.If not specified, method fails with exception (if ABI includes `pubkey` header)..
+     * Encoded in `hex`. If not specified, method fails with exception (if ABI includes `pubkey` header)..
      */
     public function getPubkey(): ?string
     {
         return $this->_pubkey;
     }
 
+    /**
+     * @return self
+     */
     public function setExpire(?int $expire): self
     {
         $this->_expire = $expire;
@@ -57,7 +60,8 @@ class FunctionHeader implements JsonSerializable
     }
 
     /**
-     * If not specified, `now` is used(if ABI includes `time` header).
+     * If not specified, `now` is used (if ABI includes `time` header).
+     * @return self
      */
     public function setTime(?int $time): self
     {
@@ -66,7 +70,8 @@ class FunctionHeader implements JsonSerializable
     }
 
     /**
-     * Encoded in `hex`.If not specified, method fails with exception (if ABI includes `pubkey` header)..
+     * Encoded in `hex`. If not specified, method fails with exception (if ABI includes `pubkey` header)..
+     * @return self
      */
     public function setPubkey(?string $pubkey): self
     {

@@ -10,6 +10,8 @@ namespace TON\Net\Async;
 
 use TON\AsyncResult;
 use TON\Net\EndpointsSet;
+use TON\Net\ParamsOfAggregateCollection;
+use TON\Net\ParamsOfBatchQuery;
 use TON\Net\ParamsOfFindLastShardBlock;
 use TON\Net\ParamsOfQuery;
 use TON\Net\ParamsOfQueryCollection;
@@ -26,6 +28,12 @@ interface NetModuleAsyncInterface
     function queryAsync(ParamsOfQuery $params): AsyncResultOfQuery;
 
     /**
+     * @param ParamsOfBatchQuery $params
+     * @return AsyncResultOfBatchQuery
+     */
+    function batchQueryAsync(ParamsOfBatchQuery $params): AsyncResultOfBatchQuery;
+
+    /**
      * Queries data that satisfies the `filter` conditions,
      * limits the number of returned records and orders them.
      * The projection fields are limited to `result` fields
@@ -33,6 +41,14 @@ interface NetModuleAsyncInterface
      * @return AsyncResultOfQueryCollection
      */
     function queryCollectionAsync(ParamsOfQueryCollection $params): AsyncResultOfQueryCollection;
+
+    /**
+     * Aggregates values from the specified `fields` for records
+     * that satisfies the `filter` conditions,
+     * @param ParamsOfAggregateCollection $params
+     * @return AsyncResultOfAggregateCollection
+     */
+    function aggregateCollectionAsync(ParamsOfAggregateCollection $params): AsyncResultOfAggregateCollection;
 
     /**
      * Triggers only once.

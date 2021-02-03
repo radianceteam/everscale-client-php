@@ -34,12 +34,18 @@ class ParamsOfProcessMessage implements JsonSerializable
         return $this->_sendEvents;
     }
 
+    /**
+     * @return self
+     */
     public function setMessageEncodeParams(?ParamsOfEncodeMessage $messageEncodeParams): self
     {
         $this->_messageEncodeParams = $messageEncodeParams;
         return $this;
     }
 
+    /**
+     * @return self
+     */
     public function setSendEvents(bool $sendEvents): self
     {
         $this->_sendEvents = $sendEvents;

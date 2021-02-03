@@ -67,6 +67,7 @@ class ResultOfProcessMessage implements JsonSerializable
      * In addition to the regular transaction fields there is a
      * `boc` field encoded with `base64` which contains source
      * transaction BOC.
+     * @return self
      */
     public function setTransaction($transaction): self
     {
@@ -76,6 +77,7 @@ class ResultOfProcessMessage implements JsonSerializable
 
     /**
      * Encoded as `base64`
+     * @return self
      */
     public function setOutMessages(array $outMessages): self
     {
@@ -83,12 +85,18 @@ class ResultOfProcessMessage implements JsonSerializable
         return $this;
     }
 
+    /**
+     * @return self
+     */
     public function setDecoded(?DecodedOutput $decoded): self
     {
         $this->_decoded = $decoded;
         return $this;
     }
 
+    /**
+     * @return self
+     */
     public function setFees(?TransactionFees $fees): self
     {
         $this->_fees = $fees;

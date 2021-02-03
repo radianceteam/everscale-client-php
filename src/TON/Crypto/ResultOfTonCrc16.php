@@ -26,6 +26,9 @@ class ResultOfTonCrc16 implements JsonSerializable
         return $this->_crc;
     }
 
+    /**
+     * @return self
+     */
     public function setCrc(int $crc): self
     {
         $this->_crc = $crc;

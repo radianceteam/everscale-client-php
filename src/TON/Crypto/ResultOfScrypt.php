@@ -32,6 +32,7 @@ class ResultOfScrypt implements JsonSerializable
 
     /**
      * Encoded with `hex`.
+     * @return self
      */
     public function setKey(string $key): self
     {

@@ -26,6 +26,9 @@ class ParamsOfFactorize implements JsonSerializable
         return $this->_composite;
     }
 
+    /**
+     * @return self
+     */
     public function setComposite(string $composite): self
     {
         $this->_composite = $composite;

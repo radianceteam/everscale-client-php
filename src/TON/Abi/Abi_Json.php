@@ -26,6 +26,9 @@ class Abi_Json extends Abi implements JsonSerializable
         return $this->_value;
     }
 
+    /**
+     * @return self
+     */
     public function setValue(string $value): self
     {
         $this->_value = $value;

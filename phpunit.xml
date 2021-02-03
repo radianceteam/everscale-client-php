@@ -12,6 +12,7 @@
     <testsuites>
         <testsuite name="Project Test Suite">
             <directory suffix="Tests.php">tests</directory>
+            <exclude>tests/TON/Debot/DebotModuleIntegrationTests.php</exclude>
         </testsuite>
     </testsuites>
 

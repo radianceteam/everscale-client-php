@@ -40,18 +40,27 @@ class ParamsOfDecodeMessageBody implements JsonSerializable
         return $this->_isInternal;
     }
 
+    /**
+     * @return self
+     */
     public function setAbi(?Abi $abi): self
     {
         $this->_abi = $abi;
         return $this;
     }
 
+    /**
+     * @return self
+     */
     public function setBody(string $body): self
     {
         $this->_body = $body;
         return $this;
     }
 
+    /**
+     * @return self
+     */
     public function setIsInternal(bool $isInternal): self
     {
         $this->_isInternal = $isInternal;

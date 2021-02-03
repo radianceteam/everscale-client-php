@@ -40,18 +40,27 @@ class CryptoConfig implements JsonSerializable
         return $this->_hdkeyDerivationPath;
     }
 
+    /**
+     * @return self
+     */
     public function setMnemonicDictionary(?int $mnemonicDictionary): self
     {
         $this->_mnemonicDictionary = $mnemonicDictionary;
         return $this;
     }
 
+    /**
+     * @return self
+     */
     public function setMnemonicWordCount(?int $mnemonicWordCount): self
     {
         $this->_mnemonicWordCount = $mnemonicWordCount;
         return $this;
     }
 
+    /**
+     * @return self
+     */
     public function setHdkeyDerivationPath(?string $hdkeyDerivationPath): self
     {
         $this->_hdkeyDerivationPath = $hdkeyDerivationPath;

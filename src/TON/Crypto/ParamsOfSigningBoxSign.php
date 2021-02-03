@@ -38,6 +38,9 @@ class ParamsOfSigningBoxSign implements JsonSerializable
         return $this->_unsigned;
     }
 
+    /**
+     * @return self
+     */
     public function setSigningBox(int $signingBox): self
     {
         $this->_signingBox = $signingBox;
@@ -46,6 +49,7 @@ class ParamsOfSigningBoxSign implements JsonSerializable
 
     /**
      * Must be encoded with `base64`.
+     * @return self
      */
     public function setUnsigned(string $unsigned): self
     {

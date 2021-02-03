@@ -32,6 +32,7 @@ class ResultOfHash implements JsonSerializable
 
     /**
      * Encoded with 'hex'.
+     * @return self
      */
     public function setHash(string $hash): self
     {

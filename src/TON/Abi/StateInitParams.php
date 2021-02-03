@@ -33,12 +33,18 @@ class StateInitParams implements JsonSerializable
         return $this->_value;
     }
 
+    /**
+     * @return self
+     */
     public function setAbi(?Abi $abi): self
     {
         $this->_abi = $abi;
         return $this;
     }
 
+    /**
+     * @return self
+     */
     public function setValue($value): self
     {
         $this->_value = $value;

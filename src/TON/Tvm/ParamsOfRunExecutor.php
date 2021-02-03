@@ -61,6 +61,7 @@ class ParamsOfRunExecutor implements JsonSerializable
 
     /**
      * Must be encoded as base64.
+     * @return self
      */
     public function setMessage(string $message): self
     {
@@ -68,24 +69,36 @@ class ParamsOfRunExecutor implements JsonSerializable
         return $this;
     }
 
+    /**
+     * @return self
+     */
     public function setAccount(?AccountForExecutor $account): self
     {
         $this->_account = $account;
         return $this;
     }
 
+    /**
+     * @return self
+     */
     public function setExecutionOptions(?ExecutionOptions $executionOptions): self
     {
         $this->_executionOptions = $executionOptions;
         return $this;
     }
 
+    /**
+     * @return self
+     */
     public function setAbi(?Abi $abi): self
     {
         $this->_abi = $abi;
         return $this;
     }
 
+    /**
+     * @return self
+     */
     public function setSkipTransactionCheck(?bool $skipTransactionCheck): self
     {
         $this->_skipTransactionCheck = $skipTransactionCheck;

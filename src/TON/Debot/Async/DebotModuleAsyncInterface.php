@@ -11,6 +11,7 @@ namespace TON\Debot\Async;
 use TON\AsyncResult;
 use TON\Debot\ParamsOfExecute;
 use TON\Debot\ParamsOfFetch;
+use TON\Debot\ParamsOfSend;
 use TON\Debot\ParamsOfStart;
 use TON\Debot\RegisteredDebot;
 
@@ -54,6 +55,13 @@ interface DebotModuleAsyncInterface
      * @return AsyncResult
      */
     function executeAsync(ParamsOfExecute $params): AsyncResult;
+
+    /**
+     * Used by Debot Browser to send response on Dinterface call or from other Debots.
+     * @param ParamsOfSend $params
+     * @return AsyncResult
+     */
+    function sendAsync(ParamsOfSend $params): AsyncResult;
 
     /**
      * Removes handle from Client Context and drops debot engine referenced by that handle.

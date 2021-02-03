@@ -66,6 +66,9 @@ class ParamsOfSendMessage implements JsonSerializable
         return $this->_sendEvents;
     }
 
+    /**
+     * @return self
+     */
     public function setMessage(string $message): self
     {
         $this->_message = $message;
@@ -83,6 +86,7 @@ class ParamsOfSendMessage implements JsonSerializable
      * Note, that specifying `abi` for ABI compliant contracts is
      * strongly recommended, so that proper processing strategy can be
      * chosen.
+     * @return self
      */
     public function setAbi(?Abi $abi): self
     {
@@ -90,6 +94,9 @@ class ParamsOfSendMessage implements JsonSerializable
         return $this;
     }
 
+    /**
+     * @return self
+     */
     public function setSendEvents(bool $sendEvents): self
     {
         $this->_sendEvents = $sendEvents;

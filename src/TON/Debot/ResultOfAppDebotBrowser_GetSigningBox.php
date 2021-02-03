@@ -32,6 +32,7 @@ class ResultOfAppDebotBrowser_GetSigningBox extends ResultOfAppDebotBrowser impl
 
     /**
      * Signing box is owned and disposed by debot engine
+     * @return self
      */
     public function setSigningBox(int $signingBox): self
     {

@@ -24,6 +24,7 @@ abstract class ParamsOfAppDebotBrowser implements JsonSerializable
         if ($dto['type'] === 'Input') return new ParamsOfAppDebotBrowser_Input($dto);
         if ($dto['type'] === 'GetSigningBox') return new ParamsOfAppDebotBrowser_GetSigningBox($dto);
         if ($dto['type'] === 'InvokeDebot') return new ParamsOfAppDebotBrowser_InvokeDebot($dto);
+        if ($dto['type'] === 'Send') return new ParamsOfAppDebotBrowser_Send($dto);
         throw new InvalidArgumentException("Unsupported ParamsOfAppDebotBrowser type: {$dto['type']}");
     }
 }

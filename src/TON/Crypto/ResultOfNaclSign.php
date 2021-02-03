@@ -26,6 +26,9 @@ class ResultOfNaclSign implements JsonSerializable
         return $this->_signed;
     }
 
+    /**
+     * @return self
+     */
     public function setSigned(string $signed): self
     {
         $this->_signed = $signed;

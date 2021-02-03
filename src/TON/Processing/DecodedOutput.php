@@ -44,6 +44,7 @@ class DecodedOutput implements JsonSerializable
     /**
      * If the message can't be decoded, then `None` will be stored in
      * the appropriate position.
+     * @return self
      */
     public function setOutMessages(array $outMessages): self
     {
@@ -51,6 +52,9 @@ class DecodedOutput implements JsonSerializable
         return $this;
     }
 
+    /**
+     * @return self
+     */
     public function setOutput($output): self
     {
         $this->_output = $output;

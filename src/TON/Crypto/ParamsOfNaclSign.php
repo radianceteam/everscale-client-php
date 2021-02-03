@@ -33,12 +33,18 @@ class ParamsOfNaclSign implements JsonSerializable
         return $this->_secret;
     }
 
+    /**
+     * @return self
+     */
     public function setUnsigned(string $unsigned): self
     {
         $this->_unsigned = $unsigned;
         return $this;
     }
 
+    /**
+     * @return self
+     */
     public function setSecret(string $secret): self
     {
         $this->_secret = $secret;

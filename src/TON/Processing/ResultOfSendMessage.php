@@ -37,6 +37,7 @@ class ResultOfSendMessage implements JsonSerializable
     /**
      * This block id must be used as a parameter of the
      * `wait_for_transaction`.
+     * @return self
      */
     public function setShardBlockId(string $shardBlockId): self
     {

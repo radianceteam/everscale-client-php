@@ -15,6 +15,8 @@ class AbiParam implements JsonSerializable
 {
     private string $_name;
     private string $_type;
+
+    /** @var AbiParam[]|null */
     private ?array $_components;
 
     public function __construct(?array $dto = null)
@@ -35,23 +37,36 @@ class AbiParam implements JsonSerializable
         return $this->_type;
     }
 
+    /**
+     * @return AbiParam[]|null
+     */
     public function getComponents(): ?array
     {
         return $this->_components;
     }
 
+    /**
+     * @return self
+     */
     public function setName(string $name): self
     {
         $this->_name = $name;
         return $this;
     }
 
+    /**
+     * @return self
+     */
     public function setType(string $type): self
     {
         $this->_type = $type;
         return $this;
     }
 
+    /**
+     * @param AbiParam[]|null $components
+     * @return self
+     */
     public function setComponents(?array $components): self
     {
         $this->_components = $components;

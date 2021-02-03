@@ -32,6 +32,7 @@ use TON\Crypto\ParamsOfNaclBoxOpen;
 use TON\Crypto\ParamsOfNaclSecretBox;
 use TON\Crypto\ParamsOfNaclSecretBoxOpen;
 use TON\Crypto\ParamsOfNaclSign;
+use TON\Crypto\ParamsOfNaclSignDetachedVerify;
 use TON\Crypto\ParamsOfNaclSignKeyPairFromSecret;
 use TON\Crypto\ParamsOfNaclSignOpen;
 use TON\Crypto\ParamsOfScrypt;
@@ -205,6 +206,15 @@ class AsyncCryptoModule implements CryptoModuleAsyncInterface
     public function naclSignDetachedAsync(ParamsOfNaclSign $params): AsyncResultOfNaclSignDetached
     {
         return new AsyncResultOfNaclSignDetached($this->_context->callFunctionAsync('crypto.nacl_sign_detached', $params));
+    }
+
+    /**
+     * @param ParamsOfNaclSignDetachedVerify $params
+     * @return AsyncResultOfNaclSignDetachedVerify
+     */
+    public function naclSignDetachedVerifyAsync(ParamsOfNaclSignDetachedVerify $params): AsyncResultOfNaclSignDetachedVerify
+    {
+        return new AsyncResultOfNaclSignDetachedVerify($this->_context->callFunctionAsync('crypto.nacl_sign_detached_verify', $params));
     }
 
     /**

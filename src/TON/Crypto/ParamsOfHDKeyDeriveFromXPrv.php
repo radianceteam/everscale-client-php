@@ -40,18 +40,27 @@ class ParamsOfHDKeyDeriveFromXPrv implements JsonSerializable
         return $this->_hardened;
     }
 
+    /**
+     * @return self
+     */
     public function setXprv(string $xprv): self
     {
         $this->_xprv = $xprv;
         return $this;
     }
 
+    /**
+     * @return self
+     */
     public function setChildIndex(int $childIndex): self
     {
         $this->_childIndex = $childIndex;
         return $this;
     }
 
+    /**
+     * @return self
+     */
     public function setHardened(bool $hardened): self
     {
         $this->_hardened = $hardened;

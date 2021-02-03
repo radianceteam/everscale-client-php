@@ -62,6 +62,9 @@ class ParamsOfAttachSignatureToMessageBody implements JsonSerializable
         return $this->_signature;
     }
 
+    /**
+     * @return self
+     */
     public function setAbi(?Abi $abi): self
     {
         $this->_abi = $abi;
@@ -70,6 +73,7 @@ class ParamsOfAttachSignatureToMessageBody implements JsonSerializable
 
     /**
      * Must be encoded with `hex`.
+     * @return self
      */
     public function setPublicKey(string $publicKey): self
     {
@@ -79,6 +83,7 @@ class ParamsOfAttachSignatureToMessageBody implements JsonSerializable
 
     /**
      * Must be encoded with `base64`.
+     * @return self
      */
     public function setMessage(string $message): self
     {
@@ -88,6 +93,7 @@ class ParamsOfAttachSignatureToMessageBody implements JsonSerializable
 
     /**
      * Must be encoded with `hex`.
+     * @return self
      */
     public function setSignature(string $signature): self
     {

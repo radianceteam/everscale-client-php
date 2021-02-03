@@ -33,12 +33,18 @@ class ParamsOfAppDebotBrowser_InvokeDebot extends ParamsOfAppDebotBrowser implem
         return $this->_action;
     }
 
+    /**
+     * @return self
+     */
     public function setDebotAddr(string $debotAddr): self
     {
         $this->_debotAddr = $debotAddr;
         return $this;
     }
 
+    /**
+     * @return self
+     */
     public function setAction(?DebotAction $action): self
     {
         $this->_action = $action;

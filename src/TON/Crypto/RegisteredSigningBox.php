@@ -26,6 +26,9 @@ class RegisteredSigningBox implements JsonSerializable
         return $this->_handle;
     }
 
+    /**
+     * @return self
+     */
     public function setHandle(int $handle): self
     {
         $this->_handle = $handle;
