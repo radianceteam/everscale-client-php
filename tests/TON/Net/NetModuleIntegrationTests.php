@@ -274,11 +274,6 @@ class NetModuleIntegrationTests extends AbstractIntegrationTest
         $subscription_client->net()->unsubscribe($handle2);
     }
 
-    private function readAllEvents(AsyncResultOfSubscribeCollection $collection)
-    {
-
-    }
-
     public function testFindLastShardBlock()
     {
         $block = self::$client->net()
