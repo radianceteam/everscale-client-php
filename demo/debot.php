@@ -33,6 +33,8 @@ use TON\TestClient;
 use TON\TonClientBuilder;
 use TON\TonClientInterface;
 
+// FIXME: this demo is BROKEN as of 1.6.0.
+
 // This demo contains example code for interaction with debot functions.
 // It uses command line to interact with the user.
 
