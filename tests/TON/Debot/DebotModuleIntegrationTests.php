@@ -7,6 +7,7 @@ use TON\Abi\CallSet;
 use TON\Abi\DeploySet;
 use TON\Abi\ParamsOfEncodeMessage;
 use TON\Abi\Signer_Keys;
+use TON\Abi\Signer_None;
 use TON\AbstractIntegrationTest;
 use TON\Crypto\KeyPair;
 use TON\TestClient;
@@ -15,6 +16,8 @@ use function json_encode;
 
 class DebotModuleIntegrationTests extends AbstractIntegrationTest
 {
+    private const EXIT_CHOICE = 9;
+
     private static string $debot_addr;
     private static string $target_addr;
     private static KeyPair $keys;
@@ -50,10 +53,17 @@ class DebotModuleIntegrationTests extends AbstractIntegrationTest
             ->setCallSet((new CallSet())
                 ->setFunctionName('constructor')
                 ->setInput([
-                    'debotAbi' => bin2hex(json_encode($debot_abi)),
                     'targetAbi' => bin2hex(json_encode($target_abi)),
                     'targetAddr' => self::$target_addr
                 ])));
+
+        TestClient::netProcessFunction(
+            self::$client,
+            self::$debot_addr,
+            (new Abi_Contract())->setValue($debot_abi),
+            "setAbi", [
+            "debotAbi" => bin2hex(json_encode($debot_abi))
+        ], new Signer_None());
 
         self::$browser = new TestBrowser(self::$client, self::$logger);
     }
@@ -71,7 +81,7 @@ class DebotModuleIntegrationTests extends AbstractIntegrationTest
             [
                 new DebotStep(1, [], ["Test Goto Action"]),
                 new DebotStep(1, [], ["Debot Tests"]),
-                new DebotStep(8, [], [])
+                new DebotStep(self::EXIT_CHOICE, [], [])
             ]
         );
     }
@@ -87,7 +97,7 @@ class DebotModuleIntegrationTests extends AbstractIntegrationTest
                 new DebotStep(1, [], ["test simple print"]),
                 new DebotStep(2, [], ["integer=1,addr=${target_addr},string=test_string_1"]),
                 new DebotStep(3, [], ["Debot Tests"]),
-                new DebotStep(8, [], [])
+                new DebotStep(self::EXIT_CHOICE, [], [])
             ]
         );
     }
@@ -104,7 +114,7 @@ class DebotModuleIntegrationTests extends AbstractIntegrationTest
                 new DebotStep(2, ["hello"], []),
                 new DebotStep(3, [], ["integer=2,addr=-1:1111111111111111111111111111111111111111111111111111111111111111,string=hello"]),
                 new DebotStep(4, [], ["Debot Tests"]),
-                new DebotStep(8, [], [])
+                new DebotStep(self::EXIT_CHOICE, [], [])
             ]
         );
     }
@@ -119,7 +129,7 @@ class DebotModuleIntegrationTests extends AbstractIntegrationTest
                 new DebotStep(1, [], []),
                 new DebotStep(2, [], ["data=64"]),
                 new DebotStep(3, [], ["Debot Tests"]),
-                new DebotStep(8, [], [])
+                new DebotStep(self::EXIT_CHOICE, [], [])
             ]
         );
     }
@@ -135,7 +145,7 @@ class DebotModuleIntegrationTests extends AbstractIntegrationTest
                 new DebotStep(2, [], []),
                 new DebotStep(3, [], ["data=100"]),
                 new DebotStep(4, [], ["Debot Tests"]),
-                new DebotStep(8, [], [])
+                new DebotStep(self::EXIT_CHOICE, [], [])
             ]
         );
     }
@@ -153,7 +163,7 @@ class DebotModuleIntegrationTests extends AbstractIntegrationTest
                         new DebotStep(1, [], ["Sending message {}", "Transaction succeeded."])
                     ]]),
                 new DebotStep(2, [], ["Debot Tests"]),
-                new DebotStep(8, [], [])
+                new DebotStep(self::EXIT_CHOICE, [], [])
             ]
         );
     }
@@ -171,7 +181,20 @@ class DebotModuleIntegrationTests extends AbstractIntegrationTest
                 new DebotStep(4, [], []),
                 new DebotStep(5, [], []),
                 new DebotStep(6, [], ["Debot Tests"]),
-                new DebotStep(8, [], [])
+                new DebotStep(self::EXIT_CHOICE, [], [])
+            ]
+        );
+    }
+
+    public function testDebotInterfaceCall()
+    {
+        self::$browser->execute(
+            self::$debot_addr,
+            self::$keys,
+            [
+                new DebotStep(8, [], ["", "test1 - call interface"]),
+                new DebotStep(1, [], ["Debot Tests"]),
+                new DebotStep(self::EXIT_CHOICE, [], [])
             ]
         );
     }

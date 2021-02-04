@@ -90,6 +90,6 @@ class ParamsOfQueryOperation_WaitForCollection extends ParamsOfQueryOperation im
         if ($this->_filter !== null) $result['filter'] = $this->_filter;
         if ($this->_result !== null) $result['result'] = $this->_result;
         if ($this->_timeout !== null) $result['timeout'] = $this->_timeout;
-        return !empty($result) ? ['WaitForCollection' => $result] : new stdClass(); // FIXME: manually written serialization code (see https://t.me/ton_sdk/6184?single)
+        return !empty($result) ? $result : new stdClass();
     }
 }

@@ -5,12 +5,47 @@ namespace TON\Debot;
 use InvalidArgumentException;
 use PHPUnit\Framework\Assert;
 use Psr\Log\LoggerInterface;
+use TON\Abi\Abi_Json;
+use TON\Abi\ParamsOfDecodeMessageBody;
+use TON\Boc\ParamsOfParse;
 use TON\Crypto\KeyPair;
 use TON\Debot\Async\AsyncRegisteredDebot;
 use TON\TonClientInterface;
 
 class TestBrowser
 {
+    private const DEBOT_WC = -31;
+    private const SUPPORTED_INTERFACE = "f6927c0d4bdb69e1b52d27f018d156ff04152f00558042ff674f0fec32e4369d";
+    private const INTERFACE_ABI = <<<EOT
+{
+	"ABI version": 2,
+	"header": ["time"],
+	"functions": [
+		{
+			"name": "echo",
+			"inputs": [
+				{"name":"answerId","type":"uint32"},
+{"name":"request","type":"bytes"}
+],
+"outputs": [
+				{"name":"response","type":"bytes"}
+			]
+		},
+		{
+            "name": "constructor",
+			"inputs": [
+        ],
+			"outputs": [
+        ]
+		}
+	],
+	"data": [
+],
+	"events": [
+]
+}
+EOT;
+
     private TonClientInterface $_client;
     private LoggerInterface $_logger;
 
@@ -52,6 +87,8 @@ class TestBrowser
         $debot = $this->start_debot($state, $start_function)->await();
 
         while (!$state->finished) {
+            $this->execute_interface_calls($debot, $state);
+
             $step = $state->current;
             $step->step = array_shift($state->next);
             $step->outputs = [];
@@ -112,6 +149,9 @@ class TestBrowser
                 case ParamsOfAppDebotBrowser_ShowAction::class:
                     $state->current->available_actions[] = $params->getAction();
                     return null;
+                case ParamsOfAppDebotBrowser_Send::class:
+                    array_push($state->msg_queue, $params->getMessage());
+                    return null;
                 case ParamsOfAppDebotBrowser_Input::class:
                     $value = array_shift($state->current->step->inputs);
                     return (new ResultOfAppDebotBrowser_Input())
@@ -145,5 +185,40 @@ class TestBrowser
                     throw new InvalidArgumentException("Unsupported parameter type " . get_class($params));
             }
         });
+    }
+
+    private function execute_interface_calls(RegisteredDebot $debot, BrowserData $data)
+    {
+        while (count($data->msg_queue) > 0) {
+            $msg = array_pop($data->msg_queue);
+            $parsed = $this->_client->boc()->parseMessage((new ParamsOfParse())
+                ->setBoc($msg));
+
+            $body = $parsed->getParsed()["body"];
+            $ifaceAddr = $parsed->getParsed()["dst"];
+            $wcAndAddr = explode(':', $ifaceAddr);
+            $wc = (int)$wcAndAddr[0];
+            Assert::assertEquals(self::DEBOT_WC, $wc);
+
+            $interfaceId = $wcAndAddr[1];
+            Assert::assertEquals(self::SUPPORTED_INTERFACE, $interfaceId);
+
+            $decoded = $this->_client->abi()->decodeMessageBody((new ParamsOfDecodeMessageBody())
+                ->setAbi((new Abi_Json())->setValue(self::INTERFACE_ABI))
+                ->setBody($body)
+                ->setIsInternal(true));
+
+            $this->_logger->info("call for interface id ${interfaceId}");
+            $this->_logger->info("request: {$decoded->getName()} (" . json_encode($decoded->getValue()) . ")");
+
+            [$funcId, $returnArgs] = DebotEcho::call($decoded->getName(), $decoded->getValue());
+            $this->_logger->info("response: {$funcId} (" . json_encode($returnArgs) . ")");
+
+            $this->_client->debot()->send((new ParamsOfSend())
+                ->setDebotHandle($debot->getDebotHandle())
+                ->setSource($ifaceAddr)
+                ->setFuncId($funcId)
+                ->setParams($returnArgs));
+        }
     }
 }

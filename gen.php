@@ -433,10 +433,13 @@ function add_type_private_fields(array $module, array $type, ClassType $class, A
             continue;
         }
         $private_field_name = get_php_private_field_name($field_name);
-        $property = $class->addProperty($private_field_name)
-            ->setType(get_php_type_name($field, $index))
-            ->setNullable(is_php_private_field_nullable($field, $index))
-            ->setPrivate();
+        $php_type_name = get_php_type_name($field, $index);
+        $is_nullable = is_php_private_field_nullable($field, $index);
+        $property = $class->addProperty($private_field_name)->setPrivate();
+        if ($php_type_name) {
+            $property->setType($php_type_name)
+                ->setNullable($is_nullable);
+        }
         $array_phpdoc = get_array_type_phpdoc($field, $index);
         if ($array_phpdoc) {
             $property->setComment("@var ${array_phpdoc}");
@@ -456,9 +459,11 @@ function add_type_getters(array $type, ClassType $class, ApiIndex $index)
         }
         $return_type = get_php_type_name($field, $index);
         $getter_name = get_php_getter_name($field_name, $return_type === 'bool');
-        $getter = $class->addMethod($getter_name)
-            ->setReturnType($return_type)
-            ->setReturnNullable(is_php_private_field_nullable($field, $index));
+        $getter = $class->addMethod($getter_name);
+        if ($return_type) {
+            $getter->setReturnType($return_type)
+                ->setReturnNullable(is_php_private_field_nullable($field, $index));
+        }
         if (!empty($field['description'])) {
             $getter->addComment($field['description']);
         }
@@ -482,9 +487,12 @@ function add_type_setters(array $type, ClassType $class, ApiIndex $index)
         $setter = $class->addMethod($setter_name)
             ->setReturnType('self');
         $parameter_name = get_php_identifier_name($field_name);
-        $setter->addParameter($parameter_name)
-            ->setType(get_php_type_name($field, $index))
-            ->setNullable(is_php_private_field_nullable($field, $index));
+        $php_type_name = get_php_type_name($field, $index);
+        $param = $setter->addParameter($parameter_name);
+        if ($php_type_name) {
+            $param->setType($php_type_name)
+                ->setNullable(is_php_private_field_nullable($field, $index));
+        }
         if (!empty($field['description'])) {
             $setter->addComment($field['description']);
         }

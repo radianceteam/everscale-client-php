@@ -39,14 +39,14 @@ jobs:
       
     - name: Install PHP Extension (Windows)
       if: matrix.operating-system == 'windows-latest'
-      run: php installer.php -v 1.6.1
+      run: php installer.php -v 1.6.2
 
     - name: Install PHP Extension (Ubuntu/Mac)
       if: matrix.operating-system != 'windows-latest'
-      run: sudo php installer.php -v 1.6.1
+      run: sudo php installer.php -v 1.6.2
 
     - name: Test PHP Extension
-      run: php installer.php -v 1.6.1 -T
+      run: php installer.php -v 1.6.2 -T
 
     - name: Check PHP Extensions
       run: php -m

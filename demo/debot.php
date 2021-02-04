@@ -33,8 +33,6 @@ use TON\TestClient;
 use TON\TonClientBuilder;
 use TON\TonClientInterface;
 
-// FIXME: this demo is BROKEN as of 1.6.0.
-
 // This demo contains example code for interaction with debot functions.
 // It uses command line to interact with the user.
 
@@ -76,7 +74,6 @@ $debot_addr = TestClient::deployWithGiver($client, (new ParamsOfEncodeMessage())
     ->setCallSet((new CallSet())
         ->setFunctionName('constructor')
         ->setInput([
-            'debotAbi' => bin2hex(json_encode($debot_abi)),
             'targetAbi' => bin2hex(json_encode($target_abi)),
             'targetAddr' => $target_addr
         ])));

@@ -113,6 +113,6 @@ class ParamsOfQueryOperation_QueryCollection extends ParamsOfQueryOperation impl
         if ($this->_result !== null) $result['result'] = $this->_result;
         if ($this->_order !== null) $result['order'] = $this->_order;
         if ($this->_limit !== null) $result['limit'] = $this->_limit;
-        return !empty($result) ? ['QueryCollection' => $result] : new stdClass(); // FIXME: manually written serialization code (see https://t.me/ton_sdk/6184?single)
+        return !empty($result) ? $result : new stdClass();
     }
 }

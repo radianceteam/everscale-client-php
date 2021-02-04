@@ -20,4 +20,9 @@ class BrowserData
     public bool $finished = false;
 
     public bool $switch_started = false;
+
+    /**
+     * @var string[]
+     */
+    public array $msg_queue = [];
 }
