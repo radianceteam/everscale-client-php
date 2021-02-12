@@ -109,4 +109,31 @@ class BocModule implements BocModuleInterface
     {
         return new ResultOfGetCodeFromTvc($this->_context->callFunction('boc.get_code_from_tvc', $params));
     }
+
+    /**
+     * @param ParamsOfBocCacheGet $params
+     * @return ResultOfBocCacheGet
+     */
+    public function cacheGet(ParamsOfBocCacheGet $params): ResultOfBocCacheGet
+    {
+        return new ResultOfBocCacheGet($this->_context->callFunction('boc.cache_get', $params));
+    }
+
+    /**
+     * @param ParamsOfBocCacheSet $params
+     * @return ResultOfBocCacheSet
+     */
+    public function cacheSet(ParamsOfBocCacheSet $params): ResultOfBocCacheSet
+    {
+        return new ResultOfBocCacheSet($this->_context->callFunction('boc.cache_set', $params));
+    }
+
+    /**
+     * BOCs which don't have another pins will be removed from cache
+     * @param ParamsOfBocCacheUnpin $params
+     */
+    public function cacheUnpin(ParamsOfBocCacheUnpin $params)
+    {
+        $this->_context->callFunction('boc.cache_unpin', $params);
+    }
 }

@@ -14,4 +14,7 @@ final class BocErrorCode
     const SerializationError = 202;
     const InappropriateBlock = 203;
     const MissingSourceBoc = 204;
+    const InsufficientCacheSize = 205;
+    const BocRefNotFound = 206;
+    const InvalidBocRef = 207;
 }

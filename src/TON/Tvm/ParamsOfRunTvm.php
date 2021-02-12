@@ -10,6 +10,7 @@ namespace TON\Tvm;
 
 use JsonSerializable;
 use TON\Abi\Abi;
+use TON\Boc\BocCacheType;
 use stdClass;
 
 class ParamsOfRunTvm implements JsonSerializable
@@ -22,6 +23,12 @@ class ParamsOfRunTvm implements JsonSerializable
     private ?ExecutionOptions $_executionOptions;
     private ?Abi $_abi;
 
+    /** The BOC intself returned if no cache type provided */
+    private ?BocCacheType $_bocCache;
+
+    /** Empty string is returned if the flag is `false` */
+    private ?bool $_returnUpdatedAccount;
+
     public function __construct(?array $dto = null)
     {
         if (!$dto) $dto = [];
@@ -29,6 +36,8 @@ class ParamsOfRunTvm implements JsonSerializable
         $this->_account = $dto['account'] ?? '';
         $this->_executionOptions = isset($dto['execution_options']) ? new ExecutionOptions($dto['execution_options']) : null;
         $this->_abi = isset($dto['abi']) ? Abi::create($dto['abi']) : null;
+        $this->_bocCache = isset($dto['boc_cache']) ? BocCacheType::create($dto['boc_cache']) : null;
+        $this->_returnUpdatedAccount = $dto['return_updated_account'] ?? null;
     }
 
     /**
@@ -55,6 +64,22 @@ class ParamsOfRunTvm implements JsonSerializable
     public function getAbi(): ?Abi
     {
         return $this->_abi;
+    }
+
+    /**
+     * The BOC intself returned if no cache type provided
+     */
+    public function getBocCache(): ?BocCacheType
+    {
+        return $this->_bocCache;
+    }
+
+    /**
+     * Empty string is returned if the flag is `false`
+     */
+    public function isReturnUpdatedAccount(): ?bool
+    {
+        return $this->_returnUpdatedAccount;
     }
 
     /**
@@ -95,6 +120,26 @@ class ParamsOfRunTvm implements JsonSerializable
         return $this;
     }
 
+    /**
+     * The BOC intself returned if no cache type provided
+     * @return self
+     */
+    public function setBocCache(?BocCacheType $bocCache): self
+    {
+        $this->_bocCache = $bocCache;
+        return $this;
+    }
+
+    /**
+     * Empty string is returned if the flag is `false`
+     * @return self
+     */
+    public function setReturnUpdatedAccount(?bool $returnUpdatedAccount): self
+    {
+        $this->_returnUpdatedAccount = $returnUpdatedAccount;
+        return $this;
+    }
+
     public function jsonSerialize()
     {
         $result = [];
@@ -102,6 +147,8 @@ class ParamsOfRunTvm implements JsonSerializable
         if ($this->_account !== null) $result['account'] = $this->_account;
         if ($this->_executionOptions !== null) $result['execution_options'] = $this->_executionOptions;
         if ($this->_abi !== null) $result['abi'] = $this->_abi;
+        if ($this->_bocCache !== null) $result['boc_cache'] = $this->_bocCache;
+        if ($this->_returnUpdatedAccount !== null) $result['return_updated_account'] = $this->_returnUpdatedAccount;
         return !empty($result) ? $result : new stdClass();
     }
 }

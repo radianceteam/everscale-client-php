@@ -16,6 +16,7 @@ class ClientConfig implements JsonSerializable
     private ?NetworkConfig $_network;
     private ?CryptoConfig $_crypto;
     private ?AbiConfig $_abi;
+    private ?BocConfig $_boc;
 
     public function __construct(?array $dto = null)
     {
@@ -23,6 +24,7 @@ class ClientConfig implements JsonSerializable
         $this->_network = isset($dto['network']) ? new NetworkConfig($dto['network']) : null;
         $this->_crypto = isset($dto['crypto']) ? new CryptoConfig($dto['crypto']) : null;
         $this->_abi = isset($dto['abi']) ? new AbiConfig($dto['abi']) : null;
+        $this->_boc = isset($dto['boc']) ? new BocConfig($dto['boc']) : null;
     }
 
     public function getNetwork(): ?NetworkConfig
@@ -38,6 +40,11 @@ class ClientConfig implements JsonSerializable
     public function getAbi(): ?AbiConfig
     {
         return $this->_abi;
+    }
+
+    public function getBoc(): ?BocConfig
+    {
+        return $this->_boc;
     }
 
     /**
@@ -67,12 +74,22 @@ class ClientConfig implements JsonSerializable
         return $this;
     }
 
+    /**
+     * @return self
+     */
+    public function setBoc(?BocConfig $boc): self
+    {
+        $this->_boc = $boc;
+        return $this;
+    }
+
     public function jsonSerialize()
     {
         $result = [];
         if ($this->_network !== null) $result['network'] = $this->_network;
         if ($this->_crypto !== null) $result['crypto'] = $this->_crypto;
         if ($this->_abi !== null) $result['abi'] = $this->_abi;
+        if ($this->_boc !== null) $result['boc'] = $this->_boc;
         return !empty($result) ? $result : new stdClass();
     }
 }

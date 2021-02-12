@@ -91,6 +91,29 @@ class AbiModule implements AbiModuleInterface
     }
 
     /**
+     * Allows to encode deploy and function call messages.
+     *
+     * Use cases include messages of any possible type:
+     * - deploy with initial function call (i.e. `constructor` or any other function that is used for some kind
+     * of initialization);
+     * - deploy without initial function call;
+     * - simple function call
+     *
+     * There is an optional public key can be provided in deploy set in order to substitute one
+     * in TVM file.
+     *
+     * Public key resolving priority:
+     * 1. Public key from deploy set.
+     * 2. Public key, specified in TVM file.
+     * @param ParamsOfEncodeInternalMessage $params
+     * @return ResultOfEncodeInternalMessage
+     */
+    public function encodeInternalMessage(ParamsOfEncodeInternalMessage $params): ResultOfEncodeInternalMessage
+    {
+        return new ResultOfEncodeInternalMessage($this->_context->callFunction('abi.encode_internal_message', $params));
+    }
+
+    /**
      * @param ParamsOfAttachSignature $params
      * @return ResultOfAttachSignature
      */

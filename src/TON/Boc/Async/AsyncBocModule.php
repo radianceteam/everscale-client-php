@@ -8,6 +8,10 @@ declare(strict_types=1);
 
 namespace TON\Boc\Async;
 
+use TON\AsyncResult;
+use TON\Boc\ParamsOfBocCacheGet;
+use TON\Boc\ParamsOfBocCacheSet;
+use TON\Boc\ParamsOfBocCacheUnpin;
 use TON\Boc\ParamsOfGetBlockchainConfig;
 use TON\Boc\ParamsOfGetBocHash;
 use TON\Boc\ParamsOfGetCodeFromTvc;
@@ -103,5 +107,33 @@ class AsyncBocModule implements BocModuleAsyncInterface
     public function getCodeFromTvcAsync(ParamsOfGetCodeFromTvc $params): AsyncResultOfGetCodeFromTvc
     {
         return new AsyncResultOfGetCodeFromTvc($this->_context->callFunctionAsync('boc.get_code_from_tvc', $params));
+    }
+
+    /**
+     * @param ParamsOfBocCacheGet $params
+     * @return AsyncResultOfBocCacheGet
+     */
+    public function cacheGetAsync(ParamsOfBocCacheGet $params): AsyncResultOfBocCacheGet
+    {
+        return new AsyncResultOfBocCacheGet($this->_context->callFunctionAsync('boc.cache_get', $params));
+    }
+
+    /**
+     * @param ParamsOfBocCacheSet $params
+     * @return AsyncResultOfBocCacheSet
+     */
+    public function cacheSetAsync(ParamsOfBocCacheSet $params): AsyncResultOfBocCacheSet
+    {
+        return new AsyncResultOfBocCacheSet($this->_context->callFunctionAsync('boc.cache_set', $params));
+    }
+
+    /**
+     * BOCs which don't have another pins will be removed from cache
+     * @param ParamsOfBocCacheUnpin $params
+     * @return AsyncResult
+     */
+    public function cacheUnpinAsync(ParamsOfBocCacheUnpin $params): AsyncResult
+    {
+        return new AsyncResult($this->_context->callFunctionAsync('boc.cache_unpin', $params));
     }
 }

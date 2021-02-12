@@ -87,7 +87,8 @@ class TvmModuleTests extends AbstractModuleTestCase
         $result = $this->_tvm->runExecutor((new ParamsOfRunExecutor())
             ->setAccount(new AccountForExecutor_None())
             ->setMessage("te6ccgEBAQEAXAAAs0gAV2lB0HI8/VEO/pBKDJJJeoOcIh+dL9JzpmRzM8PfdicAPGNEGwRWGaJsR6UYmnsFVC2llSo1ZZN5mgUnCiHf7ZaUBKgXyAAGFFhgAAAB69+UmQS/LjmiQA==")
-            ->setSkipTransactionCheck(true));
+            ->setSkipTransactionCheck(true)
+            ->setReturnUpdatedAccount(true));
 
         $parsed = $this->_boc->parseAccount((new ParamsOfParse())
             ->setBoc($result->getAccount()));
@@ -119,7 +120,8 @@ class TvmModuleTests extends AbstractModuleTestCase
 
         $result = $this->_tvm->runExecutor((new ParamsOfRunExecutor())
             ->setMessage($message->getMessage())
-            ->setAccount(new AccountForExecutor_Uninit()));
+            ->setAccount(new AccountForExecutor_Uninit())
+            ->setReturnUpdatedAccount(true));
 
         $parsed = $this->_boc->parseAccount((new ParamsOfParse())
             ->setBoc($result->getAccount()));

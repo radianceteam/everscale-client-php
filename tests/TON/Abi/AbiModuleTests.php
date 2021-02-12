@@ -3,6 +3,9 @@
 namespace TON\Abi;
 
 use TON\AbstractModuleTestCase;
+use TON\Boc\BocModule;
+use TON\Boc\ParamsOfGetCodeFromTvc;
+use TON\Boc\ParamsOfParse;
 use TON\Crypto\CryptoModule;
 use TON\Crypto\KeyPair;
 use TON\Crypto\ParamsOfNaclSign;
@@ -133,6 +136,46 @@ class AbiModuleTests extends AbstractModuleTestCase
             $signed->getMessage());
     }
 
+    public function testEncodeMessageBody()
+    {
+        $signed = $this->_module->encodeMessageBody((new ParamsOfEncodeMessageBody())
+            ->setAbi((new Abi_Contract())->setValue($this->_abi))
+            ->setIsInternal(false)
+            ->setCallSet((new CallSet())
+                ->setFunctionName("returnValue")
+                ->setHeader((new FunctionHeader())
+                    ->setTime(1599458364291)
+                    ->setExpire(1599458404))
+                ->setInput(["id" => "0"]))
+            ->setSigner((new Signer_External())
+                ->setPublicKey($this->_keys->getPublic())));
+
+        $this->assertNotNull($signed);
+        $this->assertEquals("te6ccgEBAgEAVgABYaY+IEf47vXcayAvdLzji1Cn7rZgQJIIPTDp4SrLhMpMgAAAujOS5cGvquYyCt8WCUABAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+            $signed->getBody());
+    }
+
+    public function testAsyncEncodeMessageBody()
+    {
+        $signed = $this->_module->async()->encodeMessageBodyAsync((new ParamsOfEncodeMessageBody())
+            ->setAbi((new Abi_Contract())->setValue($this->_abi))
+            ->setIsInternal(false)
+            ->setCallSet((new CallSet())
+                ->setFunctionName("returnValue")
+                ->setHeader((new FunctionHeader())
+                    ->setTime(1599458364291)
+                    ->setExpire(1599458404))
+                ->setInput(["id" => "0"]))
+            ->setSigner((new Signer_External())
+                ->setPublicKey($this->_keys->getPublic())))
+            ->await();
+
+        $this->assertNotNull($signed);
+        $this->assertEquals("te6ccgEBAgEAVgABYaY+IEf47vXcayAvdLzji1Cn7rZgQJIIPTDp4SrLhMpMgAAAujOS5cGvquYyCt8WCUABAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+            $signed->getBody());
+
+    }
+
     public function testDecodeMessage_returnValue()
     {
         $result = $this->_module->decodeMessage((new ParamsOfDecodeMessage())
@@ -190,6 +233,126 @@ class AbiModuleTests extends AbstractModuleTestCase
         $this->assertEquals("returnValue", $result->getName());
         $this->assertEquals(["value0" => "0x0000000000000000000000000000000000000000000000000000000000000000"], $result->getValue());
         $this->assertNull($result->getHeader());
+    }
+
+    /**
+     * @dataProvider encodeMessageInternal_deployDataProvider
+     * @param CallSet|null $callSet
+     * @param string $expectedBoc
+     */
+    public function testEncodeMessageInternal_deploy(?CallSet $callSet, string $expectedBoc)
+    {
+        [$abi, $tvc] = TestClient::package('Hello');
+
+        $result = $this->_module->encodeInternalMessage((new ParamsOfEncodeInternalMessage())
+            ->setAbi((new Abi_Contract())->setValue($abi))
+            ->setDeploySet((new DeploySet())
+                ->setTvc($tvc))
+            ->setCallSet($callSet)
+            ->setValue('0'));
+
+        $this->assertEquals($expectedBoc, $result->getMessage());
+
+        $bocModule = new BocModule($this->_context);
+        $parsed = $bocModule->parseMessage((new ParamsOfParse())
+            ->setBoc($result->getMessage()));
+
+        $this->assertNotNull($parsed);
+
+        $codeFromTvc = $bocModule->getCodeFromTvc((new ParamsOfGetCodeFromTvc())
+            ->setTvc($tvc));
+
+        $this->assertEquals($codeFromTvc->getCode(), $parsed->getParsed()['code']);
+    }
+
+    /**
+     * @dataProvider encodeMessageInternal_runDataProvider
+     * @param CallSet|null $callSet
+     * @param string $expectedBoc
+     */
+    public function testEncodeMessageInternal_run(?CallSet $callSet, string $expectedBoc)
+    {
+        $abi = TestClient::load_abi('Hello');
+        $address = '0:1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef';
+
+        $result = $this->_module->encodeInternalMessage((new ParamsOfEncodeInternalMessage())
+            ->setAbi((new Abi_Contract())->setValue($abi))
+            ->setAddress($address)
+            ->setCallSet($callSet)
+            ->setValue('1000000000')
+            ->setBounce(true));
+
+        $this->assertEquals($expectedBoc, $result->getMessage());
+
+        $bocModule = new BocModule($this->_context);
+        $parsed = $bocModule->parseMessage((new ParamsOfParse())
+            ->setBoc($result->getMessage()));
+
+        $this->assertNotNull($parsed);
+        $this->assertEquals('internal', $parsed->getParsed()['msg_type_name']);
+        $this->assertEquals('', $parsed->getParsed()['src']);
+        $this->assertEquals($address, $parsed->getParsed()['dst']);
+        $this->assertEquals('0x3b9aca00', $parsed->getParsed()['value']);
+        $this->assertTrue($parsed->getParsed()['bounce']);
+        $this->assertTrue($parsed->getParsed()['ihr_disabled']);
+    }
+
+    public function encodeMessageInternal_deployDataProvider(): array
+    {
+        return [
+            [
+                null,
+                "te6ccgECHAEABGkAAmFiADYO5IoxskLmUfURre2fOB04OmP32VjPwA/lDM/Cpvh8AAAAAAAAAAAAAAAAAAIyBg" .
+                "EBAcACAgPPIAUDAQHeBAAD0CAAQdgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAIm/wD0pCAiwAGS9" .
+                "KDhiu1TWDD0oQkHAQr0pCD0oQgAAAIBIAwKAej/fyHTAAGOJoECANcYIPkBAXDtRND0BYBA9A7yitcL/wHtRyJv" .
+                "de1XAwH5EPKo3u1E0CDXScIBjhb0BNM/0wDtRwFvcQFvdgFvcwFvcu1Xjhj0Be1HAW9ycG9zcG92yIAgz0DJ0G9" .
+                "x7Vfi0z8B7UdvEyG5IAsAYJ8wIPgjgQPoqIIIG3dAoLneme1HIW9TIO1XMJSANPLw4jDTHwH4I7zyudMfAfFAAQ" .
+                "IBIBgNAgEgEQ4BCbqLVfP4DwH67UdvYW6OO+1E0CDXScIBjhb0BNM/0wDtRwFvcQFvdgFvcwFvcu1Xjhj0Be1HA" .
+                "W9ycG9zcG92yIAgz0DJ0G9x7Vfi3u1HbxaS8jOX7Udxb1btV+IA+ADR+CO1H+1HIG8RMAHIyx/J0G9R7VftR28S" .
+                "yPQA7UdvE88LP+1HbxYQABzPCwDtR28RzxbJ7VRwagIBahUSAQm0ABrWwBMB/O1Hb2FujjvtRNAg10nCAY4W9AT" .
+                "TP9MA7UcBb3EBb3YBb3MBb3LtV44Y9AXtRwFvcnBvc3BvdsiAIM9AydBvce1X4t7tR29lIG6SMHDecO1HbxKAQP" .
+                "QO8orXC/+68uBk+AD6QNEgyMn7BIED6HCBAIDIcc8LASLPCgBxz0D4KBQAjs8WJM8WI/oCcc9AcPoCcPoCgEDPQ" .
+                "Pgjzwsfcs9AIMki+wBfBTDtR28SyPQA7UdvE88LP+1HbxbPCwDtR28RzxbJ7VRwatswAQm0ZfaLwBYB+O1Hb2Fu" .
+                "jjvtRNAg10nCAY4W9ATTP9MA7UcBb3EBb3YBb3MBb3LtV44Y9AXtRwFvcnBvc3BvdsiAIM9AydBvce1X4t7R7Ud" .
+                "vEdcLH8iCEFDL7ReCEIAAAACxzwsfIc8LH8hzzwsB+CjPFnLPQPglzws/gCHPQCDPNSLPMbwXAHiWcc9AIc8XlX" .
+                "HPQSHN4iDJcfsAWyHA/44e7UdvEsj0AO1HbxPPCz/tR28WzwsA7UdvEc8Wye1U3nFq2zACASAbGQEJu3MS5FgaA" .
+                "PjtR29hbo477UTQINdJwgGOFvQE0z/TAO1HAW9xAW92AW9zAW9y7VeOGPQF7UcBb3Jwb3Nwb3bIgCDPQMnQb3Ht" .
+                "V+Le+ADR+CO1H+1HIG8RMAHIyx/J0G9R7VftR28SyPQA7UdvE88LP+1HbxbPCwDtR28RzxbJ7VRwatswAMrdcCH" .
+                "XSSDBII4rIMAAjhwj0HPXIdcLACDAAZbbMF8H2zCW2zBfB9sw4wTZltswXwbbMOME2eAi0x80IHS7II4VMCCCEP" .
+                "////+6IJkwIIIQ/////rrf35bbMF8H2zDgIyHxQAFfBw=="
+            ],
+            [
+                (new CallSet())->setFunctionName('constructor'),
+                "te6ccgECHAEABG0AAmliADYO5IoxskLmUfURre2fOB04OmP32VjPwA/lDM/Cpvh8AAAAAAAAAAAAAAAAAAIxot" .
+                "V8/gYBAQHAAgIDzyAFAwEB3gQAA9AgAEHYAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQCJv8A9KQgI" .
+                "sABkvSg4YrtU1gw9KEJBwEK9KQg9KEIAAACASAMCgHo/38h0wABjiaBAgDXGCD5AQFw7UTQ9AWAQPQO8orXC/8B" .
+                "7Ucib3XtVwMB+RDyqN7tRNAg10nCAY4W9ATTP9MA7UcBb3EBb3YBb3MBb3LtV44Y9AXtRwFvcnBvc3BvdsiAIM9" .
+                "AydBvce1X4tM/Ae1HbxMhuSALAGCfMCD4I4ED6KiCCBt3QKC53pntRyFvUyDtVzCUgDTy8OIw0x8B+CO88rnTHw" .
+                "HxQAECASAYDQIBIBEOAQm6i1Xz+A8B+u1Hb2FujjvtRNAg10nCAY4W9ATTP9MA7UcBb3EBb3YBb3MBb3LtV44Y9" .
+                "AXtRwFvcnBvc3BvdsiAIM9AydBvce1X4t7tR28WkvIzl+1HcW9W7VfiAPgA0fgjtR/tRyBvETAByMsfydBvUe1X" .
+                "7UdvEsj0AO1HbxPPCz/tR28WEAAczwsA7UdvEc8Wye1UcGoCAWoVEgEJtAAa1sATAfztR29hbo477UTQINdJwgG" .
+                "OFvQE0z/TAO1HAW9xAW92AW9zAW9y7VeOGPQF7UcBb3Jwb3Nwb3bIgCDPQMnQb3HtV+Le7UdvZSBukjBw3nDtR2" .
+                "8SgED0DvKK1wv/uvLgZPgA+kDRIMjJ+wSBA+hwgQCAyHHPCwEizwoAcc9A+CgUAI7PFiTPFiP6AnHPQHD6AnD6A" .
+                "oBAz0D4I88LH3LPQCDJIvsAXwUw7UdvEsj0AO1HbxPPCz/tR28WzwsA7UdvEc8Wye1UcGrbMAEJtGX2i8AWAfjt" .
+                "R29hbo477UTQINdJwgGOFvQE0z/TAO1HAW9xAW92AW9zAW9y7VeOGPQF7UcBb3Jwb3Nwb3bIgCDPQMnQb3HtV+L" .
+                "e0e1HbxHXCx/IghBQy+0XghCAAAAAsc8LHyHPCx/Ic88LAfgozxZyz0D4Jc8LP4Ahz0AgzzUizzG8FwB4lnHPQC" .
+                "HPF5Vxz0EhzeIgyXH7AFshwP+OHu1HbxLI9ADtR28Tzws/7UdvFs8LAO1HbxHPFsntVN5xatswAgEgGxkBCbtzE" .
+                "uRYGgD47UdvYW6OO+1E0CDXScIBjhb0BNM/0wDtRwFvcQFvdgFvcwFvcu1Xjhj0Be1HAW9ycG9zcG92yIAgz0DJ" .
+                "0G9x7Vfi3vgA0fgjtR/tRyBvETAByMsfydBvUe1X7UdvEsj0AO1HbxPPCz/tR28WzwsA7UdvEc8Wye1UcGrbMAD" .
+                "K3XAh10kgwSCOKyDAAI4cI9Bz1yHXCwAgwAGW2zBfB9swltswXwfbMOME2ZbbMF8G2zDjBNngItMfNCB0uyCOFT" .
+                "AgghD/////uiCZMCCCEP////6639+W2zBfB9sw4CMh8UABXwc="
+            ]
+        ];
+    }
+
+    public function encodeMessageInternal_runDataProvider(): array
+    {
+        return [
+            [
+                (new CallSet())->setFunctionName('sayHello'),
+                "te6ccgEBAQEAOgAAcGIACRorPEhV5veJGis8SFXm94kaKzxIVeb3iRorPEhV5veh3NZQAAAAAAAAAAAAAAAAAABQy+0X"
+            ]
+        ];
     }
 
     private function getDeployParams(Signer $signer, ?string $public_key): ParamsOfEncodeMessage

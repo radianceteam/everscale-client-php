@@ -69,4 +69,22 @@ interface BocModuleInterface
      * @return ResultOfGetCodeFromTvc
      */
     function getCodeFromTvc(ParamsOfGetCodeFromTvc $params): ResultOfGetCodeFromTvc;
+
+    /**
+     * @param ParamsOfBocCacheGet $params
+     * @return ResultOfBocCacheGet
+     */
+    function cacheGet(ParamsOfBocCacheGet $params): ResultOfBocCacheGet;
+
+    /**
+     * @param ParamsOfBocCacheSet $params
+     * @return ResultOfBocCacheSet
+     */
+    function cacheSet(ParamsOfBocCacheSet $params): ResultOfBocCacheSet;
+
+    /**
+     * BOCs which don't have another pins will be removed from cache
+     * @param ParamsOfBocCacheUnpin $params
+     */
+    function cacheUnpin(ParamsOfBocCacheUnpin $params);
 }

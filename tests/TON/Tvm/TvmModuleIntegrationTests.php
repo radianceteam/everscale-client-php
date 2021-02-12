@@ -10,7 +10,6 @@ use TON\Abi\ParamsOfEncodeMessage;
 use TON\Abi\ResultOfEncodeMessage;
 use TON\Abi\Signer_Keys;
 use TON\AbstractIntegrationTest;
-use TON\Boc\ParamsOfParse;
 use TON\TestClient;
 
 class TvmModuleIntegrationTests extends AbstractIntegrationTest
@@ -18,24 +17,13 @@ class TvmModuleIntegrationTests extends AbstractIntegrationTest
     public function testRunExecutor()
     {
         $this->runMessage(function (ResultOfEncodeMessage $message, Abi $abi, string $account): string {
-            $parsed = self::$client->boc()->parseAccount((new ParamsOfParse())
-                ->setBoc($account));
-
-            $originalBalance = $parsed->getParsed()["balance"];
 
             $result = self::$client->tvm()->runExecutor((new ParamsOfRunExecutor())
                 ->setMessage($message->getMessage())
                 ->setAbi($abi)
                 ->setAccount((new AccountForExecutor_Account())
-                    ->setBoc($account)
-                    ->setUnlimitedBalance(true)));
-
-            $parsed = self::$client->boc()->parseAccount((new ParamsOfParse())
-                ->setBoc($result->getAccount()));
-
-            $this->assertEquals(
-                $originalBalance,
-                $parsed->getParsed()["balance"]);
+                    ->setBoc($account))
+                ->setReturnUpdatedAccount(true));
 
             $this->assertEquals(
                 $message->getMessageId(),
@@ -53,7 +41,8 @@ class TvmModuleIntegrationTests extends AbstractIntegrationTest
             $result = self::$client->tvm()->runTvm((new ParamsOfRunTvm())
                 ->setMessage($message->getMessage())
                 ->setAbi($abi)
-                ->setAccount($account));
+                ->setAccount($account)
+                ->setReturnUpdatedAccount(true));
             return $result->getAccount();
         });
     }

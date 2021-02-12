@@ -17,4 +17,7 @@ final class DebotErrorCode
     const DebotInvalidJsonParams = 805;
     const DebotInvalidFunctionId = 806;
     const DebotInvalidAbi = 807;
+    const DebotGetMethodFailed = 808;
+    const DebotInvalidMsg = 809;
+    const DebotExternaCallFailed = 810;
 }

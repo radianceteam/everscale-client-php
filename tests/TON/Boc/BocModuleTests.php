@@ -3,6 +3,10 @@
 namespace TON\Boc;
 
 use TON\AbstractModuleTestCase;
+use TON\Client\BocConfig;
+use TON\Client\ClientConfig;
+use TON\TestClient;
+use TON\TonClientBuilder;
 
 class BocModuleTests extends AbstractModuleTestCase
 {
@@ -131,5 +135,110 @@ class BocModuleTests extends AbstractModuleTestCase
         $this->assertNotNull($result);
         $this->assertEquals('te6ccgECFgEAA/8AAib/APSkICLAAZL0oOGK7VNYMPShAwEBCvSkIPShAgAAAgEgBgQB6P9/IdMAAY4mgQIA1xgg+QEBcO1E0PQFgED0DvKK1wv/Ae1HIm917VcDAfkQ8qje7UTQINdJwgGOFvQE0z/TAO1HAW9xAW92AW9zAW9y7VeOGPQF7UcBb3Jwb3Nwb3bIgCDPQMnQb3HtV+LTPwHtR28TIbkgBQBgnzAg+COBA+iogggbd0Cgud6Z7Uchb1Mg7VcwlIA08vDiMNMfAfgjvPK50x8B8UABAgEgEgcCASALCAEJuotV8/gJAfrtR29hbo477UTQINdJwgGOFvQE0z/TAO1HAW9xAW92AW9zAW9y7VeOGPQF7UcBb3Jwb3Nwb3bIgCDPQMnQb3HtV+Le7UdvFpLyM5ftR3FvVu1X4gD4ANH4I7Uf7UcgbxEwAcjLH8nQb1HtV+1HbxLI9ADtR28Tzws/7UdvFgoAHM8LAO1HbxHPFsntVHBqAgFqDwwBCbQAGtbADQH87UdvYW6OO+1E0CDXScIBjhb0BNM/0wDtRwFvcQFvdgFvcwFvcu1Xjhj0Be1HAW9ycG9zcG92yIAgz0DJ0G9x7Vfi3u1Hb2UgbpIwcN5w7UdvEoBA9A7yitcL/7ry4GT4APpA0SDIyfsEgQPocIEAgMhxzwsBIs8KAHHPQPgoDgCOzxYkzxYj+gJxz0Bw+gJw+gKAQM9A+CPPCx9yz0AgySL7AF8FMO1HbxLI9ADtR28Tzws/7UdvFs8LAO1HbxHPFsntVHBq2zABCbRl9ovAEAH47UdvYW6OO+1E0CDXScIBjhb0BNM/0wDtRwFvcQFvdgFvcwFvcu1Xjhj0Be1HAW9ycG9zcG92yIAgz0DJ0G9x7Vfi3tHtR28R1wsfyIIQUMvtF4IQgAAAALHPCx8hzwsfyHPPCwH4KM8Wcs9A+CXPCz+AIc9AIM81Is8xvBEAeJZxz0AhzxeVcc9BIc3iIMlx+wBbIcD/jh7tR28SyPQA7UdvE88LP+1HbxbPCwDtR28RzxbJ7VTecWrbMAIBIBUTAQm7cxLkWBQA+O1Hb2FujjvtRNAg10nCAY4W9ATTP9MA7UcBb3EBb3YBb3MBb3LtV44Y9AXtRwFvcnBvc3BvdsiAIM9AydBvce1X4t74ANH4I7Uf7UcgbxEwAcjLH8nQb1HtV+1HbxLI9ADtR28Tzws/7UdvFs8LAO1HbxHPFsntVHBq2zAAyt1wIddJIMEgjisgwACOHCPQc9ch1wsAIMABltswXwfbMJbbMF8H2zDjBNmW2zBfBtsw4wTZ4CLTHzQgdLsgjhUwIIIQ/////7ogmTAgghD////+ut/fltswXwfbMOAjIfFAAV8H',
             $result->getCode());
+    }
+
+    public function testPinnedCache()
+    {
+        $boc1 = TestClient::load_tvc('Hello');
+        $boc2 = TestClient::load_tvc('Events');
+
+        $pin1 = 'pin1';
+        $pin2 = 'pin2';
+
+        $ref1 = $this->_boc->cacheSet((new ParamsOfBocCacheSet())
+            ->setBoc($boc1)
+            ->setCacheType((new BocCacheType_Pinned())
+                ->setPin($pin1)));
+
+        $this->assertStringStartsWith('*', $ref1->getBocRef());
+        $this->assertEquals(65, strlen($ref1->getBocRef()));
+
+        $boc = $this->_boc->cacheGet((new ParamsOfBocCacheGet())
+            ->setBocRef($ref1->getBocRef()));
+        $this->assertEquals($boc1, $boc->getBoc());
+
+        $ref2 = $this->_boc->cacheSet((new ParamsOfBocCacheSet())
+            ->setBoc($boc2)
+            ->setCacheType((new BocCacheType_Pinned())
+                ->setPin($pin1)));
+
+        $this->assertNotEquals($ref1->getBocRef(), $ref2->getBocRef());
+
+        $ref3 = $this->_boc->cacheSet((new ParamsOfBocCacheSet())
+            ->setBoc($boc1)
+            ->setCacheType((new BocCacheType_Pinned())
+                ->setPin($pin2)));
+
+        $this->assertEquals($ref1->getBocRef(), $ref3->getBocRef());
+
+        $this->_boc->cacheUnpin((new ParamsOfBocCacheUnpin())
+            ->setPin($pin1));
+
+        $boc = $this->_boc->cacheGet((new ParamsOfBocCacheGet())
+            ->setBocRef($ref1->getBocRef()));
+        $this->assertEquals($boc1, $boc->getBoc());
+
+        $boc = $this->_boc->cacheGet((new ParamsOfBocCacheGet())
+            ->setBocRef($ref2->getBocRef()));
+        $this->assertNull($boc->getBoc());
+
+        $ref4 = $this->_boc->cacheSet((new ParamsOfBocCacheSet())
+            ->setBoc($boc2)
+            ->setCacheType((new BocCacheType_Pinned())
+                ->setPin($pin2)));
+
+        $this->_boc->cacheUnpin((new ParamsOfBocCacheUnpin())
+            ->setBocRef($ref4->getBocRef())
+            ->setPin($pin2));
+
+        $boc = $this->_boc->cacheGet((new ParamsOfBocCacheGet())
+            ->setBocRef($ref1->getBocRef()));
+        $this->assertEquals($boc1, $boc->getBoc());
+
+        $boc = $this->_boc->cacheGet((new ParamsOfBocCacheGet())
+            ->setBocRef($ref4->getBocRef()));
+        $this->assertNull($boc->getBoc());
+
+        $this->_boc->cacheUnpin((new ParamsOfBocCacheUnpin())
+            ->setPin($pin2));
+
+        $boc = $this->_boc->cacheGet((new ParamsOfBocCacheGet())
+            ->setBocRef($ref1->getBocRef()));
+        $this->assertNull($boc->getBoc());
+    }
+
+    public function testUnpinnedCache()
+    {
+        $boc1 = TestClient::load_tvc('testDebot');
+        $boc2 = TestClient::load_tvc('Subscription');
+
+        $bocMaxSize = max(strlen(base64_decode($boc1)), strlen(base64_decode($boc2)));
+        $cacheMaxSize = ((int)floor($bocMaxSize / 1024.)) + 1;
+
+        $client = TonClientBuilder::create()
+            ->withConfig((new ClientConfig())
+                ->setBoc((new BocConfig())
+                    ->setCacheMaxSize($cacheMaxSize)))
+            ->build();
+
+        $ref1 = $client->boc()->cacheSet((new ParamsOfBocCacheSet())
+            ->setBoc($boc1)
+            ->setCacheType(new BocCacheType_Unpinned()));
+
+        $boc = $client->boc()->cacheGet((new ParamsOfBocCacheGet())
+            ->setBocRef($ref1->getBocRef()));
+        $this->assertEquals($boc1, $boc->getBoc());
+
+        $ref2 = $client->boc()->cacheSet((new ParamsOfBocCacheSet())
+            ->setBoc($boc2)
+            ->setCacheType(new BocCacheType_Unpinned()));
+
+        $boc = $client->boc()->cacheGet((new ParamsOfBocCacheGet())
+            ->setBocRef($ref1->getBocRef()));
+        $this->assertNull($boc->getBoc());
+
+        $boc = $client->boc()->cacheGet((new ParamsOfBocCacheGet())
+            ->setBocRef($ref2->getBocRef()));
+        $this->assertEquals($boc2, $boc->getBoc());
     }
 }

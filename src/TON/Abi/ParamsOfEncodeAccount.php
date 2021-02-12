@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace TON\Abi;
 
 use JsonSerializable;
+use TON\Boc\BocCacheType;
 use stdClass;
 
 class ParamsOfEncodeAccount implements JsonSerializable
@@ -18,6 +19,9 @@ class ParamsOfEncodeAccount implements JsonSerializable
     private ?int $_lastTransLt;
     private ?int $_lastPaid;
 
+    /** The BOC intself returned if no cache type provided */
+    private ?BocCacheType $_bocCache;
+
     public function __construct(?array $dto = null)
     {
         if (!$dto) $dto = [];
@@ -25,6 +29,7 @@ class ParamsOfEncodeAccount implements JsonSerializable
         $this->_balance = $dto['balance'] ?? null;
         $this->_lastTransLt = $dto['last_trans_lt'] ?? null;
         $this->_lastPaid = $dto['last_paid'] ?? null;
+        $this->_bocCache = isset($dto['boc_cache']) ? BocCacheType::create($dto['boc_cache']) : null;
     }
 
     public function getStateInit(): ?StateInitSource
@@ -45,6 +50,14 @@ class ParamsOfEncodeAccount implements JsonSerializable
     public function getLastPaid(): ?int
     {
         return $this->_lastPaid;
+    }
+
+    /**
+     * The BOC intself returned if no cache type provided
+     */
+    public function getBocCache(): ?BocCacheType
+    {
+        return $this->_bocCache;
     }
 
     /**
@@ -83,6 +96,16 @@ class ParamsOfEncodeAccount implements JsonSerializable
         return $this;
     }
 
+    /**
+     * The BOC intself returned if no cache type provided
+     * @return self
+     */
+    public function setBocCache(?BocCacheType $bocCache): self
+    {
+        $this->_bocCache = $bocCache;
+        return $this;
+    }
+
     public function jsonSerialize()
     {
         $result = [];
@@ -90,6 +113,7 @@ class ParamsOfEncodeAccount implements JsonSerializable
         if ($this->_balance !== null) $result['balance'] = $this->_balance;
         if ($this->_lastTransLt !== null) $result['last_trans_lt'] = $this->_lastTransLt;
         if ($this->_lastPaid !== null) $result['last_paid'] = $this->_lastPaid;
+        if ($this->_bocCache !== null) $result['boc_cache'] = $this->_bocCache;
         return !empty($result) ? $result : new stdClass();
     }
 }

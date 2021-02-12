@@ -10,6 +10,7 @@ namespace TON\Tvm;
 
 use JsonSerializable;
 use TON\Abi\Abi;
+use TON\Boc\BocCacheType;
 use stdClass;
 
 class ParamsOfRunExecutor implements JsonSerializable
@@ -21,6 +22,12 @@ class ParamsOfRunExecutor implements JsonSerializable
     private ?Abi $_abi;
     private ?bool $_skipTransactionCheck;
 
+    /** The BOC intself returned if no cache type provided */
+    private ?BocCacheType $_bocCache;
+
+    /** Empty string is returned if the flag is `false` */
+    private ?bool $_returnUpdatedAccount;
+
     public function __construct(?array $dto = null)
     {
         if (!$dto) $dto = [];
@@ -29,6 +36,8 @@ class ParamsOfRunExecutor implements JsonSerializable
         $this->_executionOptions = isset($dto['execution_options']) ? new ExecutionOptions($dto['execution_options']) : null;
         $this->_abi = isset($dto['abi']) ? Abi::create($dto['abi']) : null;
         $this->_skipTransactionCheck = $dto['skip_transaction_check'] ?? null;
+        $this->_bocCache = isset($dto['boc_cache']) ? BocCacheType::create($dto['boc_cache']) : null;
+        $this->_returnUpdatedAccount = $dto['return_updated_account'] ?? null;
     }
 
     /**
@@ -57,6 +66,22 @@ class ParamsOfRunExecutor implements JsonSerializable
     public function isSkipTransactionCheck(): ?bool
     {
         return $this->_skipTransactionCheck;
+    }
+
+    /**
+     * The BOC intself returned if no cache type provided
+     */
+    public function getBocCache(): ?BocCacheType
+    {
+        return $this->_bocCache;
+    }
+
+    /**
+     * Empty string is returned if the flag is `false`
+     */
+    public function isReturnUpdatedAccount(): ?bool
+    {
+        return $this->_returnUpdatedAccount;
     }
 
     /**
@@ -105,6 +130,26 @@ class ParamsOfRunExecutor implements JsonSerializable
         return $this;
     }
 
+    /**
+     * The BOC intself returned if no cache type provided
+     * @return self
+     */
+    public function setBocCache(?BocCacheType $bocCache): self
+    {
+        $this->_bocCache = $bocCache;
+        return $this;
+    }
+
+    /**
+     * Empty string is returned if the flag is `false`
+     * @return self
+     */
+    public function setReturnUpdatedAccount(?bool $returnUpdatedAccount): self
+    {
+        $this->_returnUpdatedAccount = $returnUpdatedAccount;
+        return $this;
+    }
+
     public function jsonSerialize()
     {
         $result = [];
@@ -113,6 +158,8 @@ class ParamsOfRunExecutor implements JsonSerializable
         if ($this->_executionOptions !== null) $result['execution_options'] = $this->_executionOptions;
         if ($this->_abi !== null) $result['abi'] = $this->_abi;
         if ($this->_skipTransactionCheck !== null) $result['skip_transaction_check'] = $this->_skipTransactionCheck;
+        if ($this->_bocCache !== null) $result['boc_cache'] = $this->_bocCache;
+        if ($this->_returnUpdatedAccount !== null) $result['return_updated_account'] = $this->_returnUpdatedAccount;
         return !empty($result) ? $result : new stdClass();
     }
 }

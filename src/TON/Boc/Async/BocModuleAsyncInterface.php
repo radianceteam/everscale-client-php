@@ -8,6 +8,10 @@ declare(strict_types=1);
 
 namespace TON\Boc\Async;
 
+use TON\AsyncResult;
+use TON\Boc\ParamsOfBocCacheGet;
+use TON\Boc\ParamsOfBocCacheSet;
+use TON\Boc\ParamsOfBocCacheUnpin;
 use TON\Boc\ParamsOfGetBlockchainConfig;
 use TON\Boc\ParamsOfGetBocHash;
 use TON\Boc\ParamsOfGetCodeFromTvc;
@@ -68,4 +72,23 @@ interface BocModuleAsyncInterface
      * @return AsyncResultOfGetCodeFromTvc
      */
     function getCodeFromTvcAsync(ParamsOfGetCodeFromTvc $params): AsyncResultOfGetCodeFromTvc;
+
+    /**
+     * @param ParamsOfBocCacheGet $params
+     * @return AsyncResultOfBocCacheGet
+     */
+    function cacheGetAsync(ParamsOfBocCacheGet $params): AsyncResultOfBocCacheGet;
+
+    /**
+     * @param ParamsOfBocCacheSet $params
+     * @return AsyncResultOfBocCacheSet
+     */
+    function cacheSetAsync(ParamsOfBocCacheSet $params): AsyncResultOfBocCacheSet;
+
+    /**
+     * BOCs which don't have another pins will be removed from cache
+     * @param ParamsOfBocCacheUnpin $params
+     * @return AsyncResult
+     */
+    function cacheUnpinAsync(ParamsOfBocCacheUnpin $params): AsyncResult;
 }
