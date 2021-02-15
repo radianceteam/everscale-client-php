@@ -17,7 +17,7 @@ jobs:
       fail-fast: false
       matrix:
         operating-system: [ubuntu-latest, windows-latest, macos-latest]
-        php-versions: ['7.4']
+        php-versions: ['7.4', '8.0']
 
     name: PHP ${{ matrix.php-versions }} Test on ${{ matrix.operating-system }}
 
@@ -35,18 +35,18 @@ jobs:
     - name: Download PHP Installer
       run: |
         php -r "copy('https://raw.githubusercontent.com/radianceteam/ton-client-php-ext/master/installer.php', 'installer.php');"
-        php -r "if (hash_file('sha384', 'installer.php') === 'e2478dda0e179de7a7485fa360719685f11d6a2baf7931a315e6f06ded3771024732fca77677143eb086548cd2ebd36d') { echo 'Installer verified'; } else { echo 'Installer corrupt'; } echo PHP_EOL;"
+        php -r "if (hash_file('sha384', 'installer.php') === 'd1cacd76f088ee9f487a5c256afd8b739ba082ce677989d9c7f3f59f4c2f415bca14d6d88c72f15c49bbba418ad8fa7f') { echo 'Installer verified'; } else { echo 'Installer corrupt'; } echo PHP_EOL;"
       
     - name: Install PHP Extension (Windows)
       if: matrix.operating-system == 'windows-latest'
-      run: php installer.php -v 1.7.0
+      run: php installer.php -v 1.8.0
 
     - name: Install PHP Extension (Ubuntu/Mac)
       if: matrix.operating-system != 'windows-latest'
-      run: sudo php installer.php -v 1.7.0
+      run: sudo php installer.php -v 1.8.0
 
     - name: Test PHP Extension
-      run: php installer.php -v 1.7.0 -T
+      run: php installer.php -v 1.8.0 -T
 
     - name: Check PHP Extensions
       run: php -m
