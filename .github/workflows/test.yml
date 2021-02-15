@@ -35,7 +35,7 @@ jobs:
     - name: Download PHP Installer
       run: |
         php -r "copy('https://raw.githubusercontent.com/radianceteam/ton-client-php-ext/master/installer.php', 'installer.php');"
-        php -r "if (hash_file('sha384', 'installer.php') === 'd1cacd76f088ee9f487a5c256afd8b739ba082ce677989d9c7f3f59f4c2f415bca14d6d88c72f15c49bbba418ad8fa7f') { echo 'Installer verified'; } else { echo 'Installer corrupt'; } echo PHP_EOL;"
+        php -r "if (hash_file('sha384', 'installer.php') === '03586e200bc1c87f000c5a0eea27aa688eb451a5b946579205ca918bbffda7234359e2d0e176aa53e841c6a77b8de959') { echo 'Installer verified'; } else { echo 'Installer corrupt'; } echo PHP_EOL;"
       
     - name: Install PHP Extension (Windows)
       if: matrix.operating-system == 'windows-latest'
