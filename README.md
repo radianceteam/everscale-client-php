@@ -15,7 +15,7 @@ extension with multi-threading and blocking queues under the hood.
 ## Installation
 
 1. Install [TON Client PHP extension](https://github.com/radianceteam/ton-client-php-ext) as described
-   in [readme](https://github.com/radianceteam/ton-client-php-ext/blob/master/install.md).
+   in [readme](https://github.com/radianceteam/ton-client-php-ext/blob/master/INSTALL.md).
 2. Run `composer`:
 
 ```shell
