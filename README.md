@@ -9,7 +9,7 @@ extension with multi-threading and blocking queues under the hood.
 
 ## Requirements
 
-- PHP version 7.4 or higher.
+- PHP version 7.4+ or 8.0+.
 - Composer (https://getcomposer.org/)
 
 ## Installation
