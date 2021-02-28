@@ -129,6 +129,33 @@ foreach ($subscribePromise->getEvents() as $event) {
 
 See more examples in [demo](demo) folder.
 
+### Docker images
+
+All Docker images are based on `alpine` image. They contain the corresponding PHP interpreter from
+the [original PHP image](https://hub.docker.com/_/php)
+with [ton-client](https://github.com/radianceteam/ton-client-php-ext) extension preinstalled.
+
+#### How to use Docker images
+
+Use `radianceteam/ton-client-php` as a base image in your `Dockerfile`:
+
+```
+FROM radianceteam/ton-client-php:1.9.0-php7.4-cli
+COPY . /usr/src/myapp
+WORKDIR /usr/src/myapp
+CMD [ "php", "./your-script.php" ]
+```
+
+Basically, do anything you can do with the [original PHP image](https://hub.docker.com/_/php)
+by just replacing `FROM php:<PHP_VERSION>-<PHP_IMAGE_VARIANT>` with
+`FROM radianceteam/ton-client-php:1.9.0-php<PHP_VERSION>-<PHP_IMAGE_VARIANT>`.
+
+Note: only `cli`, `fpm` and `zts` variants are supported ATM.
+
+#### TODO
+
+Add `apache` variant based on Debian Buster image, as in the original PHP repo.
+
 ## Development
 
 See [Development notes](development.md).
