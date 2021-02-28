@@ -9,6 +9,12 @@
          stopOnFailure="false"
          testdox="true">
 
+    <groups>
+        <exclude>
+            <group>ignore</group>
+        </exclude>
+    </groups>
+
     <testsuites>
         <testsuite name="Project Test Suite">
             <directory suffix="Tests.php">tests</directory>

@@ -22,7 +22,7 @@ class ParamsOfRunExecutor implements JsonSerializable
     private ?Abi $_abi;
     private ?bool $_skipTransactionCheck;
 
-    /** The BOC intself returned if no cache type provided */
+    /** The BOC itself returned if no cache type provided */
     private ?BocCacheType $_bocCache;
 
     /** Empty string is returned if the flag is `false` */
@@ -69,7 +69,7 @@ class ParamsOfRunExecutor implements JsonSerializable
     }
 
     /**
-     * The BOC intself returned if no cache type provided
+     * The BOC itself returned if no cache type provided
      */
     public function getBocCache(): ?BocCacheType
     {
@@ -131,7 +131,7 @@ class ParamsOfRunExecutor implements JsonSerializable
     }
 
     /**
-     * The BOC intself returned if no cache type provided
+     * The BOC itself returned if no cache type provided
      * @return self
      */
     public function setBocCache(?BocCacheType $bocCache): self

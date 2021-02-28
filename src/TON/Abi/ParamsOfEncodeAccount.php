@@ -19,7 +19,7 @@ class ParamsOfEncodeAccount implements JsonSerializable
     private ?int $_lastTransLt;
     private ?int $_lastPaid;
 
-    /** The BOC intself returned if no cache type provided */
+    /** The BOC itself returned if no cache type provided */
     private ?BocCacheType $_bocCache;
 
     public function __construct(?array $dto = null)
@@ -53,7 +53,7 @@ class ParamsOfEncodeAccount implements JsonSerializable
     }
 
     /**
-     * The BOC intself returned if no cache type provided
+     * The BOC itself returned if no cache type provided
      */
     public function getBocCache(): ?BocCacheType
     {
@@ -97,7 +97,7 @@ class ParamsOfEncodeAccount implements JsonSerializable
     }
 
     /**
-     * The BOC intself returned if no cache type provided
+     * The BOC itself returned if no cache type provided
      * @return self
      */
     public function setBocCache(?BocCacheType $bocCache): self

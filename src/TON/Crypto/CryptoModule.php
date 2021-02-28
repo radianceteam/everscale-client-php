@@ -212,7 +212,7 @@ class CryptoModule implements CryptoModuleInterface
     }
 
     /**
-     * Encrypt and authenticate a message using the senders secret key, the recievers public
+     * Encrypt and authenticate a message using the senders secret key, the receivers public
      * key, and a nonce.
      * @param ParamsOfNaclBox $params
      * @return ResultOfNaclBox

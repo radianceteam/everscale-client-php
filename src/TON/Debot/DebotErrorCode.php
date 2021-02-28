@@ -19,5 +19,5 @@ final class DebotErrorCode
     const DebotInvalidAbi = 807;
     const DebotGetMethodFailed = 808;
     const DebotInvalidMsg = 809;
-    const DebotExternaCallFailed = 810;
+    const DebotExternalCallFailed = 810;
 }

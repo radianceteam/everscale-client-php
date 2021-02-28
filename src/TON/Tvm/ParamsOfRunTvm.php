@@ -23,7 +23,7 @@ class ParamsOfRunTvm implements JsonSerializable
     private ?ExecutionOptions $_executionOptions;
     private ?Abi $_abi;
 
-    /** The BOC intself returned if no cache type provided */
+    /** The BOC itself returned if no cache type provided */
     private ?BocCacheType $_bocCache;
 
     /** Empty string is returned if the flag is `false` */
@@ -67,7 +67,7 @@ class ParamsOfRunTvm implements JsonSerializable
     }
 
     /**
-     * The BOC intself returned if no cache type provided
+     * The BOC itself returned if no cache type provided
      */
     public function getBocCache(): ?BocCacheType
     {
@@ -121,7 +121,7 @@ class ParamsOfRunTvm implements JsonSerializable
     }
 
     /**
-     * The BOC intself returned if no cache type provided
+     * The BOC itself returned if no cache type provided
      * @return self
      */
     public function setBocCache(?BocCacheType $bocCache): self

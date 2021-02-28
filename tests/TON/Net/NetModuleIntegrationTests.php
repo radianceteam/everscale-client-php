@@ -10,7 +10,6 @@ use TON\Abi\Signer_Keys;
 use TON\AbstractIntegrationTest;
 use TON\Client\ClientConfig;
 use TON\Client\NetworkConfig;
-use TON\Net\Async\AsyncResultOfSubscribeCollection;
 use TON\Processing\ParamsOfProcessMessage;
 use TON\TestClient;
 use TON\TonClientBuilder;
@@ -295,6 +294,10 @@ class NetModuleIntegrationTests extends AbstractIntegrationTest
         $this->assertNotEmpty($block->getBlockId());
     }
 
+    /**
+     * Disabled since TON SDK 1.9.0
+     * @group ignore
+     */
     public function testFetchEndpoints()
     {
         $client = TonClientBuilder::create()
@@ -312,6 +315,10 @@ class NetModuleIntegrationTests extends AbstractIntegrationTest
         $this->assertContains("https://cinet2.tonlabs.io/", $endpoints);
     }
 
+    /**
+     * Disabled since TON SDK 1.9.0
+     * @group ignore
+     */
     public function testFetchEndpointsAsync()
     {
         $client = TonClientBuilder::create()
@@ -332,6 +339,10 @@ class NetModuleIntegrationTests extends AbstractIntegrationTest
         $this->assertContains("https://cinet2.tonlabs.io/", $endpoints);
     }
 
+    /**
+     * Disabled since TON SDK 1.9.0
+     * @group ignore
+     */
     public function testSetEndpoints()
     {
         $client = self::createClient();
@@ -348,6 +359,10 @@ class NetModuleIntegrationTests extends AbstractIntegrationTest
         $this->assertContains("https://cinet2.tonlabs.io/", $endpoints);
     }
 
+    /**
+     * Disabled since TON SDK 1.9.0
+     * @group ignore
+     */
     public function testSetEndpointsAsync()
     {
         $client = self::createClient();

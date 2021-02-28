@@ -351,6 +351,14 @@ class AbiModuleTests extends AbstractModuleTestCase
             [
                 (new CallSet())->setFunctionName('sayHello'),
                 "te6ccgEBAQEAOgAAcGIACRorPEhV5veJGis8SFXm94kaKzxIVeb3iRorPEhV5veh3NZQAAAAAAAAAAAAAAAAAABQy+0X"
+            ],
+            [
+                (new CallSet())->setFunctionName('0x50cbed17'), // sayHello func hex id
+                "te6ccgEBAQEAOgAAcGIACRorPEhV5veJGis8SFXm94kaKzxIVeb3iRorPEhV5veh3NZQAAAAAAAAAAAAAAAAAABQy+0X"
+            ],
+            [
+                (new CallSet())->setFunctionName('1355541783'), // sayHello func id
+                "te6ccgEBAQEAOgAAcGIACRorPEhV5veJGis8SFXm94kaKzxIVeb3iRorPEhV5veh3NZQAAAAAAAAAAAAAAAAAABQy+0X"
             ]
         ];
     }

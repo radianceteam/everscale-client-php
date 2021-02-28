@@ -21,4 +21,5 @@ final class AbiErrorCode
     const RequiredPublicKeyMissingForFunctionHeader = 309;
     const InvalidSigner = 310;
     const InvalidAbi = 311;
+    const InvalidFunctionId = 312;
 }
