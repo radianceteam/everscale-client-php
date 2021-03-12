@@ -267,17 +267,18 @@ class AbiModuleTests extends AbstractModuleTestCase
 
     /**
      * @dataProvider encodeMessageInternal_runDataProvider
+     * @param AbiContract|null $abi
      * @param CallSet|null $callSet
+     * @param string|null $src
+     * @param string|null $dst
      * @param string $expectedBoc
      */
-    public function testEncodeMessageInternal_run(?CallSet $callSet, string $expectedBoc)
+    public function testEncodeMessageInternal_run(?AbiContract $abi, ?CallSet $callSet, ?string $src, ?string $dst, string $expectedBoc)
     {
-        $abi = TestClient::load_abi('Hello');
-        $address = '0:1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef';
-
         $result = $this->_module->encodeInternalMessage((new ParamsOfEncodeInternalMessage())
-            ->setAbi((new Abi_Contract())->setValue($abi))
-            ->setAddress($address)
+            ->setAbi($abi ? (new Abi_Contract())->setValue($abi) : null)
+            ->setSrcAddress($src)
+            ->setAddress($dst)
             ->setCallSet($callSet)
             ->setValue('1000000000')
             ->setBounce(true));
@@ -290,8 +291,8 @@ class AbiModuleTests extends AbstractModuleTestCase
 
         $this->assertNotNull($parsed);
         $this->assertEquals('internal', $parsed->getParsed()['msg_type_name']);
-        $this->assertEquals('', $parsed->getParsed()['src']);
-        $this->assertEquals($address, $parsed->getParsed()['dst']);
+        $this->assertEquals($src ? $src : '', $parsed->getParsed()['src']);
+        $this->assertEquals($dst ? $dst : $result->getAddress(), $parsed->getParsed()['dst']);
         $this->assertEquals('0x3b9aca00', $parsed->getParsed()['value']);
         $this->assertTrue($parsed->getParsed()['bounce']);
         $this->assertTrue($parsed->getParsed()['ihr_disabled']);
@@ -347,18 +348,43 @@ class AbiModuleTests extends AbstractModuleTestCase
 
     public function encodeMessageInternal_runDataProvider(): array
     {
+        $abi = TestClient::load_abi('Hello');
         return [
             [
+                $abi,
                 (new CallSet())->setFunctionName('sayHello'),
+                null,
+                '0:1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef',
                 "te6ccgEBAQEAOgAAcGIACRorPEhV5veJGis8SFXm94kaKzxIVeb3iRorPEhV5veh3NZQAAAAAAAAAAAAAAAAAABQy+0X"
             ],
             [
+                $abi,
                 (new CallSet())->setFunctionName('0x50cbed17'), // sayHello func hex id
+                null,
+                '0:1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef',
                 "te6ccgEBAQEAOgAAcGIACRorPEhV5veJGis8SFXm94kaKzxIVeb3iRorPEhV5veh3NZQAAAAAAAAAAAAAAAAAABQy+0X"
             ],
             [
+                $abi,
                 (new CallSet())->setFunctionName('1355541783'), // sayHello func id
+                null,
+                '0:1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef',
                 "te6ccgEBAQEAOgAAcGIACRorPEhV5veJGis8SFXm94kaKzxIVeb3iRorPEhV5veh3NZQAAAAAAAAAAAAAAAAAABQy+0X"
+            ],
+            // test_encode_internal_message_empty_body
+            [
+                null,
+                null,
+                null,
+                '0:1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef',
+                'te6ccgEBAQEANgAAaGIACRorPEhV5veJGis8SFXm94kaKzxIVeb3iRorPEhV5veh3NZQAAAAAAAAAAAAAAAAAAA='
+            ],
+            [
+                null,
+                null,
+                '0:841288ed3b55d9cdafa806807f02a0ae0c169aa5edfe88a789a6482429756a94',
+                '0:1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef',
+                'te6ccgEBAQEAWAAAq2gBCCUR2nars5tfUA0A/gVBXBgtNUvb/RFPE0yQSFLq1SkABI0VniQq83vEjRWeJCrze8SNFZ4kKvN7xI0VniQq83vQ7msoAAAAAAAAAAAAAAAAAABA'
             ]
         ];
     }

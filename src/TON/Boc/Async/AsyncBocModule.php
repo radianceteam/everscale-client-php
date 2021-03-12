@@ -12,6 +12,7 @@ use TON\AsyncResult;
 use TON\Boc\ParamsOfBocCacheGet;
 use TON\Boc\ParamsOfBocCacheSet;
 use TON\Boc\ParamsOfBocCacheUnpin;
+use TON\Boc\ParamsOfEncodeBoc;
 use TON\Boc\ParamsOfGetBlockchainConfig;
 use TON\Boc\ParamsOfGetBocHash;
 use TON\Boc\ParamsOfGetCodeFromTvc;
@@ -135,5 +136,14 @@ class AsyncBocModule implements BocModuleAsyncInterface
     public function cacheUnpinAsync(ParamsOfBocCacheUnpin $params): AsyncResult
     {
         return new AsyncResult($this->_context->callFunctionAsync('boc.cache_unpin', $params));
+    }
+
+    /**
+     * @param ParamsOfEncodeBoc $params
+     * @return AsyncResultOfEncodeBoc
+     */
+    public function encodeBocAsync(ParamsOfEncodeBoc $params): AsyncResultOfEncodeBoc
+    {
+        return new AsyncResultOfEncodeBoc($this->_context->callFunctionAsync('boc.encode_boc', $params));
     }
 }

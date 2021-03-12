@@ -6,7 +6,9 @@ use InvalidArgumentException;
 use PHPUnit\Framework\Assert;
 use Psr\Log\LoggerInterface;
 use TON\Abi\Abi_Json;
+use TON\Abi\CallSet;
 use TON\Abi\ParamsOfDecodeMessageBody;
+use TON\Abi\ParamsOfEncodeInternalMessage;
 use TON\Boc\ParamsOfParse;
 use TON\Crypto\KeyPair;
 use TON\Debot\Async\AsyncRegisteredDebot;
@@ -74,7 +76,7 @@ EOT;
         $state->address = $address;
         $state->finished = false;
 
-        $this->execute_from_state($state, function (string $address, callable $callback): AsyncRegisteredDebot {
+        $this->execute_from_state($state, $address, function (string $address, callable $callback): AsyncRegisteredDebot {
             return $this->_client->debot()->async()
                 ->startAsync((new ParamsOfStart())
                     ->setAddress($address),
@@ -82,9 +84,26 @@ EOT;
         });
     }
 
-    public function execute_from_state(BrowserData $state, callable $start_function)
+    /**
+     * @param BrowserData $state
+     * @param string $address
+     * @param callable $start_function
+     * @return RegisteredDebot
+     */
+    private function fetch_debot(BrowserData $state, string $address, callable $start_function): RegisteredDebot
     {
-        $debot = $this->start_debot($state, $start_function)->await();
+        $debot = $this->start_debot($state, $address, $start_function)->await();
+
+        $state->bots[$address] = (new RegisteredDebot())
+            ->setDebotHandle($debot->getDebotHandle())
+            ->setDebotAbi($debot->getDebotAbi());
+
+        return $debot;
+    }
+
+    public function execute_from_state(BrowserData $state, string $address, callable $start_function)
+    {
+        $debot = $this->fetch_debot($state, $address, $start_function);
 
         while (!$state->finished) {
             $this->execute_interface_calls($debot, $state);
@@ -126,9 +145,9 @@ EOT;
         $this->_client->debot()->remove($debot);
     }
 
-    public function start_debot(BrowserData $state, callable $start_function): AsyncRegisteredDebot
+    public function start_debot(BrowserData $state, string $address, callable $start_function): AsyncRegisteredDebot
     {
-        return $start_function($state->address, function ($request) use ($state): ?ResultOfAppDebotBrowser {
+        return $start_function($address, function ($request) use ($state): ?ResultOfAppDebotBrowser {
             $params = ParamsOfAppDebotBrowser::create($request);
             switch (get_class($params)) {
                 case ParamsOfAppDebotBrowser_Log::class:
@@ -172,7 +191,7 @@ EOT;
                     $newState->address = $params->getDebotAddr();
                     $newState->finished = false;
 
-                    $this->execute_from_state($newState, function (string $address, callable $callback): AsyncRegisteredDebot {
+                    $this->execute_from_state($newState, $newState->address, function (string $address, callable $callback): AsyncRegisteredDebot {
                         return $this->_client->debot()->async()
                             ->fetchAsync((new ParamsOfFetch())
                                 ->setAddress($address),
@@ -195,30 +214,64 @@ EOT;
                 ->setBoc($msg));
 
             $body = $parsed->getParsed()["body"];
-            $ifaceAddr = $parsed->getParsed()["dst"];
-            $wcAndAddr = explode(':', $ifaceAddr);
+            $destAddr = $parsed->getParsed()["dst"];
+            $srcAddr = $parsed->getParsed()["src"];
+            $wcAndAddr = explode(':', $destAddr);
             $wc = (int)$wcAndAddr[0];
-            Assert::assertEquals(self::DEBOT_WC, $wc);
 
-            $interfaceId = $wcAndAddr[1];
-            Assert::assertEquals(self::SUPPORTED_INTERFACE, $interfaceId);
+            if ($wc == self::DEBOT_WC) {
+                $interfaceId = $wcAndAddr[1];
+                Assert::assertEquals(self::SUPPORTED_INTERFACE, $interfaceId);
 
-            $decoded = $this->_client->abi()->decodeMessageBody((new ParamsOfDecodeMessageBody())
-                ->setAbi((new Abi_Json())->setValue(self::INTERFACE_ABI))
-                ->setBody($body)
-                ->setIsInternal(true));
+                $decoded = $this->_client->abi()->decodeMessageBody((new ParamsOfDecodeMessageBody())
+                    ->setAbi((new Abi_Json())->setValue(self::INTERFACE_ABI))
+                    ->setBody($body)
+                    ->setIsInternal(true));
 
-            $this->_logger->info("call for interface id ${interfaceId}");
-            $this->_logger->info("request: {$decoded->getName()} (" . json_encode($decoded->getValue()) . ")");
+                $this->_logger->info("call for interface id ${interfaceId}");
+                $this->_logger->info("request: {$decoded->getName()} (" . json_encode($decoded->getValue()) . ")");
 
-            [$funcId, $returnArgs] = DebotEcho::call($decoded->getName(), $decoded->getValue());
-            $this->_logger->info("response: {$funcId} (" . json_encode($returnArgs) . ")");
+                [$funcId, $returnArgs] = DebotEcho::call($decoded->getName(), $decoded->getValue());
+                $this->_logger->info("response: {$funcId} (" . json_encode($returnArgs) . ")");
 
-            $this->_client->debot()->send((new ParamsOfSend())
-                ->setDebotHandle($debot->getDebotHandle())
-                ->setSource($ifaceAddr)
-                ->setFuncId($funcId)
-                ->setParams($returnArgs));
+                $srcDebot = $this->getDebot($data, $srcAddr);
+                Assert::assertNotEmpty($srcDebot);
+
+                $message = $this->_client->abi()
+                    ->encodeInternalMessage((new ParamsOfEncodeInternalMessage())
+                        ->setAbi((new Abi_Json())->setValue($srcDebot->getDebotAbi()))
+                        ->setAddress($srcAddr)
+                        ->setCallSet($funcId == 0
+                            ? null
+                            : (new CallSet())->setFunctionName("0x" . dechex($funcId))
+                                ->setInput($returnArgs))
+                        ->setValue('1000000000000000'))
+                    ->getMessage();
+
+                $this->_client->debot()->send((new ParamsOfSend())
+                    ->setDebotHandle($debot->getDebotHandle())
+                    ->setMessage($message));
+
+            } else {
+
+                if (!array_key_exists($destAddr, $data->bots)) {
+                    $this->fetch_debot($data, $destAddr, function (string $address, callable $callback): AsyncRegisteredDebot {
+                        return $this->_client->debot()->async()
+                            ->fetchAsync((new ParamsOfFetch())
+                                ->setAddress($address),
+                                $callback);
+                    });
+                }
+
+                $this->_client->debot()->send((new ParamsOfSend())
+                    ->setDebotHandle($debot->getDebotHandle())
+                    ->setMessage($msg));
+            }
         }
+    }
+
+    private function getDebot(BrowserData $data, string $address): RegisteredDebot
+    {
+        return $data->bots[$address];
     }
 }

@@ -87,4 +87,10 @@ interface BocModuleInterface
      * @param ParamsOfBocCacheUnpin $params
      */
     function cacheUnpin(ParamsOfBocCacheUnpin $params);
+
+    /**
+     * @param ParamsOfEncodeBoc $params
+     * @return ResultOfEncodeBoc
+     */
+    function encodeBoc(ParamsOfEncodeBoc $params): ResultOfEncodeBoc;
 }

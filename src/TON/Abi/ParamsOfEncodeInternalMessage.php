@@ -13,10 +13,12 @@ use stdClass;
 
 class ParamsOfEncodeInternalMessage implements JsonSerializable
 {
+    /** Can be None if both deploy_set and call_set are None. */
     private ?Abi $_abi;
 
     /** Must be specified in case of non-deploy message. */
     private ?string $_address;
+    private ?string $_srcAddress;
 
     /** Must be specified in case of deploy message. */
     private ?DeploySet $_deploySet;
@@ -41,6 +43,7 @@ class ParamsOfEncodeInternalMessage implements JsonSerializable
         if (!$dto) $dto = [];
         $this->_abi = isset($dto['abi']) ? Abi::create($dto['abi']) : null;
         $this->_address = $dto['address'] ?? null;
+        $this->_srcAddress = $dto['src_address'] ?? null;
         $this->_deploySet = isset($dto['deploy_set']) ? new DeploySet($dto['deploy_set']) : null;
         $this->_callSet = isset($dto['call_set']) ? new CallSet($dto['call_set']) : null;
         $this->_value = $dto['value'] ?? '';
@@ -48,6 +51,9 @@ class ParamsOfEncodeInternalMessage implements JsonSerializable
         $this->_enableIhr = $dto['enable_ihr'] ?? null;
     }
 
+    /**
+     * Can be None if both deploy_set and call_set are None.
+     */
     public function getAbi(): ?Abi
     {
         return $this->_abi;
@@ -59,6 +65,11 @@ class ParamsOfEncodeInternalMessage implements JsonSerializable
     public function getAddress(): ?string
     {
         return $this->_address;
+    }
+
+    public function getSrcAddress(): ?string
+    {
+        return $this->_srcAddress;
     }
 
     /**
@@ -102,6 +113,7 @@ class ParamsOfEncodeInternalMessage implements JsonSerializable
     }
 
     /**
+     * Can be None if both deploy_set and call_set are None.
      * @return self
      */
     public function setAbi(?Abi $abi): self
@@ -117,6 +129,15 @@ class ParamsOfEncodeInternalMessage implements JsonSerializable
     public function setAddress(?string $address): self
     {
         $this->_address = $address;
+        return $this;
+    }
+
+    /**
+     * @return self
+     */
+    public function setSrcAddress(?string $srcAddress): self
+    {
+        $this->_srcAddress = $srcAddress;
         return $this;
     }
 
@@ -177,6 +198,7 @@ class ParamsOfEncodeInternalMessage implements JsonSerializable
         $result = [];
         if ($this->_abi !== null) $result['abi'] = $this->_abi;
         if ($this->_address !== null) $result['address'] = $this->_address;
+        if ($this->_srcAddress !== null) $result['src_address'] = $this->_srcAddress;
         if ($this->_deploySet !== null) $result['deploy_set'] = $this->_deploySet;
         if ($this->_callSet !== null) $result['call_set'] = $this->_callSet;
         if ($this->_value !== null) $result['value'] = $this->_value;

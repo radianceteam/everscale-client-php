@@ -14,17 +14,13 @@ use stdClass;
 class ParamsOfSend implements JsonSerializable
 {
     private int $_debotHandle;
-    private string $_source;
-    private int $_funcId;
-    private string $_params;
+    private string $_message;
 
     public function __construct(?array $dto = null)
     {
         if (!$dto) $dto = [];
         $this->_debotHandle = $dto['debot_handle'] ?? 0;
-        $this->_source = $dto['source'] ?? '';
-        $this->_funcId = $dto['func_id'] ?? 0;
-        $this->_params = $dto['params'] ?? '';
+        $this->_message = $dto['message'] ?? '';
     }
 
     public function getDebotHandle(): int
@@ -32,19 +28,9 @@ class ParamsOfSend implements JsonSerializable
         return $this->_debotHandle;
     }
 
-    public function getSource(): string
+    public function getMessage(): string
     {
-        return $this->_source;
-    }
-
-    public function getFuncId(): int
-    {
-        return $this->_funcId;
-    }
-
-    public function getParams(): string
-    {
-        return $this->_params;
+        return $this->_message;
     }
 
     /**
@@ -59,27 +45,9 @@ class ParamsOfSend implements JsonSerializable
     /**
      * @return self
      */
-    public function setSource(string $source): self
+    public function setMessage(string $message): self
     {
-        $this->_source = $source;
-        return $this;
-    }
-
-    /**
-     * @return self
-     */
-    public function setFuncId(int $funcId): self
-    {
-        $this->_funcId = $funcId;
-        return $this;
-    }
-
-    /**
-     * @return self
-     */
-    public function setParams(string $params): self
-    {
-        $this->_params = $params;
+        $this->_message = $message;
         return $this;
     }
 
@@ -87,9 +55,7 @@ class ParamsOfSend implements JsonSerializable
     {
         $result = [];
         if ($this->_debotHandle !== null) $result['debot_handle'] = $this->_debotHandle;
-        if ($this->_source !== null) $result['source'] = $this->_source;
-        if ($this->_funcId !== null) $result['func_id'] = $this->_funcId;
-        if ($this->_params !== null) $result['params'] = $this->_params;
+        if ($this->_message !== null) $result['message'] = $this->_message;
         return !empty($result) ? $result : new stdClass();
     }
 }

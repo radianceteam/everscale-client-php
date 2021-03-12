@@ -8,9 +8,9 @@ class DebotEcho
 {
     public static function getEcho(int $answerId, string $request): array
     {
-        return [$answerId, json_encode([
+        return [$answerId, [
             'response' => bin2hex($request)
-        ])];
+        ]];
     }
 
     public static function call(string $func, array $args): array

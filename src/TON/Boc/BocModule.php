@@ -136,4 +136,13 @@ class BocModule implements BocModuleInterface
     {
         $this->_context->callFunction('boc.cache_unpin', $params);
     }
+
+    /**
+     * @param ParamsOfEncodeBoc $params
+     * @return ResultOfEncodeBoc
+     */
+    public function encodeBoc(ParamsOfEncodeBoc $params): ResultOfEncodeBoc
+    {
+        return new ResultOfEncodeBoc($this->_context->callFunction('boc.encode_boc', $params));
+    }
 }

@@ -241,4 +241,86 @@ class BocModuleTests extends AbstractModuleTestCase
             ->setBocRef($ref2->getBocRef()));
         $this->assertEquals($boc2, $boc->getBoc());
     }
+
+    public function testEncodeBoc()
+    {
+        function write_b(int $b): BuilderOp
+        {
+            return (new BuilderOp_Integer())
+                ->setSize(1)
+                ->setValue($b);
+        }
+
+        function write_u128(int $n): BuilderOp
+        {
+            return (new BuilderOp_Integer())
+                ->setSize(128)
+                ->setValue("$n");
+        }
+
+        function write_u8(int $n): BuilderOp
+        {
+            return (new BuilderOp_Integer())
+                ->setSize(8)
+                ->setValue($n);
+        }
+
+        function write_i8(int $n): BuilderOp
+        {
+            return (new BuilderOp_Integer())
+                ->setSize(8)
+                ->setValue($n);
+        }
+
+        function write_i($n, int $size): BuilderOp
+        {
+            return (new BuilderOp_Integer())
+                ->setSize($size)
+                ->setValue($n);
+        }
+
+        function write_bitstring(string $n): BuilderOp
+        {
+            return (new BuilderOp_BitString())
+                ->setValue($n);
+        }
+
+        /**
+         * @param BuilderOp[] $ops
+         * @return BuilderOp
+         */
+        function write_cell(array $ops): BuilderOp
+        {
+            return (new BuilderOp_Cell())
+                ->setBuilder($ops);
+        }
+
+        $result = $this->_boc->encodeBoc((new ParamsOfEncodeBoc())
+            ->setBuilder([
+                write_b(1),
+                write_b(0),
+                write_u8(255),
+                write_i8(127),
+                write_i8(-127),
+                write_u128(123456789123456789),
+                write_bitstring("8A_"),
+                write_bitstring("x{8A0_}"),
+                write_bitstring("123"),
+                write_bitstring("x2d9_"),
+                write_bitstring("80_"),
+                write_cell([
+                    write_bitstring("n101100111000"),
+                    write_bitstring("N100111000"),
+                    write_i(-1, 3),
+                    write_i(2, 3),
+                    write_i(0b100111000, 16),
+                    write_i("0x123", 16),
+                    write_i("0x123", 16),
+                    write_i("-0x123", 16)
+                ])
+            ]));
+
+        $this->assertNotNull($result);
+        $this->assertEquals('te6ccgEBAgEAKQABL7/f4EAAAAAAAAAAAG2m0us0F8ViiEjLZAEAF7OJx0AnACRgJH/bsA==', $result->getBoc());
+    }
 }

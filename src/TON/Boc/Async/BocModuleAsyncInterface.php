@@ -12,6 +12,7 @@ use TON\AsyncResult;
 use TON\Boc\ParamsOfBocCacheGet;
 use TON\Boc\ParamsOfBocCacheSet;
 use TON\Boc\ParamsOfBocCacheUnpin;
+use TON\Boc\ParamsOfEncodeBoc;
 use TON\Boc\ParamsOfGetBlockchainConfig;
 use TON\Boc\ParamsOfGetBocHash;
 use TON\Boc\ParamsOfGetCodeFromTvc;
@@ -91,4 +92,10 @@ interface BocModuleAsyncInterface
      * @return AsyncResult
      */
     function cacheUnpinAsync(ParamsOfBocCacheUnpin $params): AsyncResult;
+
+    /**
+     * @param ParamsOfEncodeBoc $params
+     * @return AsyncResultOfEncodeBoc
+     */
+    function encodeBocAsync(ParamsOfEncodeBoc $params): AsyncResultOfEncodeBoc;
 }

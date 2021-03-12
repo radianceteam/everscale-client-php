@@ -25,4 +25,9 @@ class BrowserData
      * @var string[]
      */
     public array $msg_queue = [];
+
+    /**
+     * @var array
+     */
+    public array $bots = [];
 }
