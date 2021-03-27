@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace TON\Utils\Async;
 
 use TON\TonContext;
+use TON\Utils\ParamsOfCalcStorageFee;
 use TON\Utils\ParamsOfConvertAddress;
 
 class AsyncUtilsModule implements UtilsModuleAsyncInterface
@@ -31,5 +32,14 @@ class AsyncUtilsModule implements UtilsModuleAsyncInterface
     public function convertAddressAsync(ParamsOfConvertAddress $params): AsyncResultOfConvertAddress
     {
         return new AsyncResultOfConvertAddress($this->_context->callFunctionAsync('utils.convert_address', $params));
+    }
+
+    /**
+     * @param ParamsOfCalcStorageFee $params
+     * @return AsyncResultOfCalcStorageFee
+     */
+    public function calcStorageFeeAsync(ParamsOfCalcStorageFee $params): AsyncResultOfCalcStorageFee
+    {
+        return new AsyncResultOfCalcStorageFee($this->_context->callFunctionAsync('utils.calc_storage_fee', $params));
     }
 }

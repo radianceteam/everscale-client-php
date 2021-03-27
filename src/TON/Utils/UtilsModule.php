@@ -41,4 +41,13 @@ class UtilsModule implements UtilsModuleInterface
     {
         return new ResultOfConvertAddress($this->_context->callFunction('utils.convert_address', $params));
     }
+
+    /**
+     * @param ParamsOfCalcStorageFee $params
+     * @return ResultOfCalcStorageFee
+     */
+    public function calcStorageFee(ParamsOfCalcStorageFee $params): ResultOfCalcStorageFee
+    {
+        return new ResultOfCalcStorageFee($this->_context->callFunction('utils.calc_storage_fee', $params));
+    }
 }

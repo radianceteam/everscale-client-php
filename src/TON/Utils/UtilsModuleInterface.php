@@ -22,4 +22,10 @@ interface UtilsModuleInterface
      * @return ResultOfConvertAddress
      */
     function convertAddress(ParamsOfConvertAddress $params): ResultOfConvertAddress;
+
+    /**
+     * @param ParamsOfCalcStorageFee $params
+     * @return ResultOfCalcStorageFee
+     */
+    function calcStorageFee(ParamsOfCalcStorageFee $params): ResultOfCalcStorageFee;
 }
