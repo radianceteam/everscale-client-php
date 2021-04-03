@@ -50,4 +50,22 @@ class UtilsModule implements UtilsModuleInterface
     {
         return new ResultOfCalcStorageFee($this->_context->callFunction('utils.calc_storage_fee', $params));
     }
+
+    /**
+     * @param ParamsOfCompressZstd $params
+     * @return ResultOfCompressZstd
+     */
+    public function compressZstd(ParamsOfCompressZstd $params): ResultOfCompressZstd
+    {
+        return new ResultOfCompressZstd($this->_context->callFunction('utils.compress_zstd', $params));
+    }
+
+    /**
+     * @param ParamsOfDecompressZstd $params
+     * @return ResultOfDecompressZstd
+     */
+    public function decompressZstd(ParamsOfDecompressZstd $params): ResultOfDecompressZstd
+    {
+        return new ResultOfDecompressZstd($this->_context->callFunction('utils.decompress_zstd', $params));
+    }
 }

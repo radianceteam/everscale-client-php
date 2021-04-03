@@ -28,4 +28,16 @@ interface UtilsModuleInterface
      * @return ResultOfCalcStorageFee
      */
     function calcStorageFee(ParamsOfCalcStorageFee $params): ResultOfCalcStorageFee;
+
+    /**
+     * @param ParamsOfCompressZstd $params
+     * @return ResultOfCompressZstd
+     */
+    function compressZstd(ParamsOfCompressZstd $params): ResultOfCompressZstd;
+
+    /**
+     * @param ParamsOfDecompressZstd $params
+     * @return ResultOfDecompressZstd
+     */
+    function decompressZstd(ParamsOfDecompressZstd $params): ResultOfDecompressZstd;
 }

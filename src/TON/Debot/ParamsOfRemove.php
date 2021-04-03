@@ -11,7 +11,7 @@ namespace TON\Debot;
 use JsonSerializable;
 use stdClass;
 
-class ParamsOfStart implements JsonSerializable
+class ParamsOfRemove implements JsonSerializable
 {
     private int $_debotHandle;
 

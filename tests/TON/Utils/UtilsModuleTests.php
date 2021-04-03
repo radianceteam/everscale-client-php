@@ -97,4 +97,21 @@ class UtilsModuleTests extends AbstractModuleTestCase
 
         $this->assertEquals("330", $result->getFee());
     }
+
+    public function testCompressZstd()
+    {
+        $result = $this->_utils->compressZstd((new ParamsOfCompressZstd())
+            ->setUncompressed(base64_encode('Lorem ipsum dolor sit amet'))
+            ->setLevel(21));
+
+        $this->assertEquals('KLUv/QCA0QAATG9yZW0gaXBzdW0gZG9sb3Igc2l0IGFtZXQ=', $result->getCompressed());
+    }
+
+    public function testDecompressZstd()
+    {
+        $result = $this->_utils->decompressZstd((new ParamsOfDecompressZstd())
+            ->setCompressed('KLUv/QCA0QAATG9yZW0gaXBzdW0gZG9sb3Igc2l0IGFtZXQ='));
+
+        $this->assertEquals('Lorem ipsum dolor sit amet', base64_decode($result->getDecompressed()));
+    }
 }

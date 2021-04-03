@@ -11,34 +11,34 @@ namespace TON\Debot;
 use JsonSerializable;
 use stdClass;
 
-class ParamsOfStart implements JsonSerializable
+class ResultOfFetch implements JsonSerializable
 {
-    private int $_debotHandle;
+    private ?DebotInfo $_info;
 
     public function __construct(?array $dto = null)
     {
         if (!$dto) $dto = [];
-        $this->_debotHandle = $dto['debot_handle'] ?? 0;
+        $this->_info = isset($dto['info']) ? new DebotInfo($dto['info']) : null;
     }
 
-    public function getDebotHandle(): int
+    public function getInfo(): ?DebotInfo
     {
-        return $this->_debotHandle;
+        return $this->_info;
     }
 
     /**
      * @return self
      */
-    public function setDebotHandle(int $debotHandle): self
+    public function setInfo(?DebotInfo $info): self
     {
-        $this->_debotHandle = $debotHandle;
+        $this->_info = $info;
         return $this;
     }
 
     public function jsonSerialize()
     {
         $result = [];
-        if ($this->_debotHandle !== null) $result['debot_handle'] = $this->_debotHandle;
+        if ($this->_info !== null) $result['info'] = $this->_info;
         return !empty($result) ? $result : new stdClass();
     }
 }

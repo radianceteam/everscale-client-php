@@ -20,4 +20,6 @@ final class DebotErrorCode
     const DebotGetMethodFailed = 808;
     const DebotInvalidMsg = 809;
     const DebotExternalCallFailed = 810;
+    const DebotBrowserCallbackFailed = 811;
+    const DebotOperationRejected = 812;
 }

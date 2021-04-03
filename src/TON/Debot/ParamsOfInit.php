@@ -11,34 +11,34 @@ namespace TON\Debot;
 use JsonSerializable;
 use stdClass;
 
-class ParamsOfStart implements JsonSerializable
+class ParamsOfInit implements JsonSerializable
 {
-    private int $_debotHandle;
+    private string $_address;
 
     public function __construct(?array $dto = null)
     {
         if (!$dto) $dto = [];
-        $this->_debotHandle = $dto['debot_handle'] ?? 0;
+        $this->_address = $dto['address'] ?? '';
     }
 
-    public function getDebotHandle(): int
+    public function getAddress(): string
     {
-        return $this->_debotHandle;
+        return $this->_address;
     }
 
     /**
      * @return self
      */
-    public function setDebotHandle(int $debotHandle): self
+    public function setAddress(string $address): self
     {
-        $this->_debotHandle = $debotHandle;
+        $this->_address = $address;
         return $this;
     }
 
     public function jsonSerialize()
     {
         $result = [];
-        if ($this->_debotHandle !== null) $result['debot_handle'] = $this->_debotHandle;
+        if ($this->_address !== null) $result['address'] = $this->_address;
         return !empty($result) ? $result : new stdClass();
     }
 }
