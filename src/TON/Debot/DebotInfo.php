@@ -16,7 +16,7 @@ class DebotInfo implements JsonSerializable
     private ?string $_name;
     private ?string $_version;
     private ?string $_publisher;
-    private ?string $_key;
+    private ?string $_caption;
     private ?string $_author;
     private ?string $_support;
     private ?string $_hello;
@@ -31,7 +31,7 @@ class DebotInfo implements JsonSerializable
         $this->_name = $dto['name'] ?? null;
         $this->_version = $dto['version'] ?? null;
         $this->_publisher = $dto['publisher'] ?? null;
-        $this->_key = $dto['key'] ?? null;
+        $this->_caption = $dto['caption'] ?? null;
         $this->_author = $dto['author'] ?? null;
         $this->_support = $dto['support'] ?? null;
         $this->_hello = $dto['hello'] ?? null;
@@ -56,9 +56,9 @@ class DebotInfo implements JsonSerializable
         return $this->_publisher;
     }
 
-    public function getKey(): ?string
+    public function getCaption(): ?string
     {
-        return $this->_key;
+        return $this->_caption;
     }
 
     public function getAuthor(): ?string
@@ -126,9 +126,9 @@ class DebotInfo implements JsonSerializable
     /**
      * @return self
      */
-    public function setKey(?string $key): self
+    public function setCaption(?string $caption): self
     {
-        $this->_key = $key;
+        $this->_caption = $caption;
         return $this;
     }
 
@@ -201,7 +201,7 @@ class DebotInfo implements JsonSerializable
         if ($this->_name !== null) $result['name'] = $this->_name;
         if ($this->_version !== null) $result['version'] = $this->_version;
         if ($this->_publisher !== null) $result['publisher'] = $this->_publisher;
-        if ($this->_key !== null) $result['key'] = $this->_key;
+        if ($this->_caption !== null) $result['caption'] = $this->_caption;
         if ($this->_author !== null) $result['author'] = $this->_author;
         if ($this->_support !== null) $result['support'] = $this->_support;
         if ($this->_hello !== null) $result['hello'] = $this->_hello;
