@@ -19,10 +19,17 @@ class ResultOfSendMessage implements JsonSerializable
      */
     private string $_shardBlockId;
 
+    /**
+     * This list id must be used as a parameter of the
+     * `wait_for_transaction`.
+     */
+    private array $_sendingEndpoints;
+
     public function __construct(?array $dto = null)
     {
         if (!$dto) $dto = [];
         $this->_shardBlockId = $dto['shard_block_id'] ?? '';
+        $this->_sendingEndpoints = $dto['sending_endpoints'] ?? [];
     }
 
     /**
@@ -32,6 +39,15 @@ class ResultOfSendMessage implements JsonSerializable
     public function getShardBlockId(): string
     {
         return $this->_shardBlockId;
+    }
+
+    /**
+     * This list id must be used as a parameter of the
+     * `wait_for_transaction`.
+     */
+    public function getSendingEndpoints(): array
+    {
+        return $this->_sendingEndpoints;
     }
 
     /**
@@ -45,10 +61,22 @@ class ResultOfSendMessage implements JsonSerializable
         return $this;
     }
 
+    /**
+     * This list id must be used as a parameter of the
+     * `wait_for_transaction`.
+     * @return self
+     */
+    public function setSendingEndpoints(array $sendingEndpoints): self
+    {
+        $this->_sendingEndpoints = $sendingEndpoints;
+        return $this;
+    }
+
     public function jsonSerialize()
     {
         $result = [];
         if ($this->_shardBlockId !== null) $result['shard_block_id'] = $this->_shardBlockId;
+        if ($this->_sendingEndpoints !== null) $result['sending_endpoints'] = $this->_sendingEndpoints;
         return !empty($result) ? $result : new stdClass();
     }
 }

@@ -29,6 +29,9 @@ class ParamsOfWaitForTransaction implements JsonSerializable
     private string $_shardBlockId;
     private bool $_sendEvents;
 
+    /** You must provide the same value as the `send_message` has returned. */
+    private ?array $_sendingEndpoints;
+
     public function __construct(?array $dto = null)
     {
         if (!$dto) $dto = [];
@@ -36,6 +39,7 @@ class ParamsOfWaitForTransaction implements JsonSerializable
         $this->_message = $dto['message'] ?? '';
         $this->_shardBlockId = $dto['shard_block_id'] ?? '';
         $this->_sendEvents = $dto['send_events'] ?? false;
+        $this->_sendingEndpoints = $dto['sending_endpoints'] ?? null;
     }
 
     /**
@@ -68,6 +72,14 @@ class ParamsOfWaitForTransaction implements JsonSerializable
     public function isSendEvents(): bool
     {
         return $this->_sendEvents;
+    }
+
+    /**
+     * You must provide the same value as the `send_message` has returned.
+     */
+    public function getSendingEndpoints(): ?array
+    {
+        return $this->_sendingEndpoints;
     }
 
     /**
@@ -112,6 +124,16 @@ class ParamsOfWaitForTransaction implements JsonSerializable
         return $this;
     }
 
+    /**
+     * You must provide the same value as the `send_message` has returned.
+     * @return self
+     */
+    public function setSendingEndpoints(?array $sendingEndpoints): self
+    {
+        $this->_sendingEndpoints = $sendingEndpoints;
+        return $this;
+    }
+
     public function jsonSerialize()
     {
         $result = [];
@@ -119,6 +141,7 @@ class ParamsOfWaitForTransaction implements JsonSerializable
         if ($this->_message !== null) $result['message'] = $this->_message;
         if ($this->_shardBlockId !== null) $result['shard_block_id'] = $this->_shardBlockId;
         if ($this->_sendEvents !== null) $result['send_events'] = $this->_sendEvents;
+        if ($this->_sendingEndpoints !== null) $result['sending_endpoints'] = $this->_sendingEndpoints;
         return !empty($result) ? $result : new stdClass();
     }
 }

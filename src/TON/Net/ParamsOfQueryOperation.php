@@ -20,6 +20,7 @@ abstract class ParamsOfQueryOperation implements JsonSerializable
         if ($dto['type'] === 'QueryCollection') return new ParamsOfQueryOperation_QueryCollection($dto);
         if ($dto['type'] === 'WaitForCollection') return new ParamsOfQueryOperation_WaitForCollection($dto);
         if ($dto['type'] === 'AggregateCollection') return new ParamsOfQueryOperation_AggregateCollection($dto);
+        if ($dto['type'] === 'QueryCounterparties') return new ParamsOfQueryOperation_QueryCounterparties($dto);
         throw new InvalidArgumentException("Unsupported ParamsOfQueryOperation type: {$dto['type']}");
     }
 }

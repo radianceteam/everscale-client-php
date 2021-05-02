@@ -35,7 +35,7 @@
   "require": {
     "php": ">=7.4",
     "ext-json": "*",
-    "ext-ton_client": ">=1.12.0",
+    "ext-ton_client": ">=1.13.0",
     "psr/log": "^1.1"
   },
   "scripts": {
@@ -45,6 +45,7 @@
   "require-dev": {
     "phpunit/phpunit": "^9.4",
     "nette/php-generator": "^3.5",
-    "monolog/monolog": "^2.1"
+    "monolog/monolog": "^2.1",
+    "ext-readline": "*"
   }
 }

@@ -34,6 +34,7 @@ class NetworkConfig implements JsonSerializable
      * The default value is 15 sec.
      */
     private ?int $_outOfSyncThreshold;
+    private ?int $_sendingEndpointCount;
 
     /** At the moment is not used in production */
     private ?string $_accessKey;
@@ -50,6 +51,7 @@ class NetworkConfig implements JsonSerializable
         $this->_messageProcessingTimeout = $dto['message_processing_timeout'] ?? null;
         $this->_waitForTimeout = $dto['wait_for_timeout'] ?? null;
         $this->_outOfSyncThreshold = $dto['out_of_sync_threshold'] ?? null;
+        $this->_sendingEndpointCount = $dto['sending_endpoint_count'] ?? null;
         $this->_accessKey = $dto['access_key'] ?? null;
     }
 
@@ -110,6 +112,11 @@ class NetworkConfig implements JsonSerializable
     public function getOutOfSyncThreshold(): ?int
     {
         return $this->_outOfSyncThreshold;
+    }
+
+    public function getSendingEndpointCount(): ?int
+    {
+        return $this->_sendingEndpointCount;
     }
 
     /**
@@ -208,6 +215,15 @@ class NetworkConfig implements JsonSerializable
     }
 
     /**
+     * @return self
+     */
+    public function setSendingEndpointCount(?int $sendingEndpointCount): self
+    {
+        $this->_sendingEndpointCount = $sendingEndpointCount;
+        return $this;
+    }
+
+    /**
      * At the moment is not used in production
      * @return self
      */
@@ -229,6 +245,7 @@ class NetworkConfig implements JsonSerializable
         if ($this->_messageProcessingTimeout !== null) $result['message_processing_timeout'] = $this->_messageProcessingTimeout;
         if ($this->_waitForTimeout !== null) $result['wait_for_timeout'] = $this->_waitForTimeout;
         if ($this->_outOfSyncThreshold !== null) $result['out_of_sync_threshold'] = $this->_outOfSyncThreshold;
+        if ($this->_sendingEndpointCount !== null) $result['sending_endpoint_count'] = $this->_sendingEndpointCount;
         if ($this->_accessKey !== null) $result['access_key'] = $this->_accessKey;
         return !empty($result) ? $result : new stdClass();
     }

@@ -23,8 +23,9 @@ use TON\Debot\ParamsOfAppDebotBrowser_ShowAction;
 use TON\Debot\ParamsOfAppDebotBrowser_Switch;
 use TON\Debot\ParamsOfExecute;
 use TON\Debot\ParamsOfFetch;
+use TON\Debot\ParamsOfInit;
+use TON\Debot\ParamsOfRemove;
 use TON\Debot\ParamsOfStart;
-use TON\Debot\RegisteredDebot;
 use TON\Debot\ResultOfAppDebotBrowser;
 use TON\Debot\ResultOfAppDebotBrowser_GetSigningBox;
 use TON\Debot\ResultOfAppDebotBrowser_Input;
@@ -92,6 +93,7 @@ class DemoDebot
     private LoggerInterface $_logger;
     private string $_address;
     private KeyPair $_keys;
+    private int $_handle;
 
     private array $_actions = [];
     private bool $_finished = false;
@@ -117,13 +119,19 @@ class DemoDebot
 
     public function start()
     {
-        $debot = ($this->_client->debot()->async()
-            ->startAsync((new ParamsOfStart())
+        $handle = ($this->_client->debot()->async()
+            ->initAsync((new ParamsOfInit())
                 ->setAddress($this->_address),
                 $this->getCallback()))
             ->await();
 
-        $this->loop($debot, function (): DebotAction {
+        $this->_client->debot()->async()
+            ->startAsync((new ParamsOfStart())
+                ->setDebotHandle($handle->getDebotHandle()));
+
+        $this->_handle = $handle->getDebotHandle();
+
+        $this->loop(function (): DebotAction {
             $actionCount = count($this->_actions);
             do {
                 $actionIndex = readline("Select action (1 - {$actionCount}):");
@@ -131,35 +139,8 @@ class DemoDebot
             return $this->_actions[$actionIndex - 1];
         });
 
-        $this->_client->debot()->remove($debot);
-    }
-
-    public function fetch(DebotAction $action)
-    {
-        $debot = ($this->_client->debot()->async()
-            ->fetchAsync((new ParamsOfFetch())
-                ->setAddress($this->_address),
-                $this->getCallback()))
-            ->await();
-
-        $this->loop($debot, function () use ($action): DebotAction {
-            return $action;
-        });
-
-        $this->_client->debot()->remove($debot);
-    }
-
-    private function loop(RegisteredDebot $debot, callable $actionCallback)
-    {
-        while (!$this->_finished && !empty($this->_actions)) {
-            $action = $actionCallback();
-            $this->_logger->info("Executing action: {$action->getDescription()}");
-            $this->_client->debot()->async()
-                ->executeAsync((new ParamsOfExecute())
-                    ->setDebotHandle($debot->getDebotHandle())
-                    ->setAction($action))
-                ->await();
-        }
+        $this->_client->debot()->remove((new ParamsOfRemove())
+            ->setDebotHandle($this->_handle));
     }
 
     /**
@@ -203,5 +184,33 @@ class DemoDebot
                     throw new InvalidArgumentException("Unsupported parameter type " . get_class($params));
             }
         };
+    }
+
+    public function fetch(DebotAction $action)
+    {
+        ($this->_client->debot()->async()
+            ->fetchAsync((new ParamsOfFetch())
+                ->setAddress($this->_address)))
+            ->await();
+
+        $this->loop(function () use ($action): DebotAction {
+            return $action;
+        });
+
+        $this->_client->debot()->remove((new ParamsOfRemove())
+            ->setDebotHandle($this->_handle));
+    }
+
+    private function loop(callable $actionCallback)
+    {
+        while (!$this->_finished && !empty($this->_actions)) {
+            $action = $actionCallback();
+            $this->_logger->info("Executing action: {$action->getDescription()}");
+            $this->_client->debot()->async()
+                ->executeAsync((new ParamsOfExecute())
+                    ->setDebotHandle($this->_handle)
+                    ->setAction($action))
+                ->await();
+        }
     }
 }

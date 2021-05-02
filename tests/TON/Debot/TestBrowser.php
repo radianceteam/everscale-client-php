@@ -75,35 +75,44 @@ EOT;
         $state->keys = $keys;
         $state->address = $address;
         $state->finished = false;
-
-        $this->execute_from_state($state, $address, function (string $address, callable $callback): AsyncRegisteredDebot {
-            return $this->_client->debot()->async()
-                ->startAsync((new ParamsOfStart())
-                    ->setAddress($address),
-                    $callback);
-        });
+        $this->execute_from_state($state, true);
     }
 
     /**
      * @param BrowserData $state
      * @param string $address
-     * @param callable $start_function
      * @return RegisteredDebot
      */
-    private function fetch_debot(BrowserData $state, string $address, callable $start_function): RegisteredDebot
+    private function fetch_debot(BrowserData $state, string $address): RegisteredDebot
     {
-        $debot = $this->start_debot($state, $address, $start_function)->await();
+        $handle = $this->_client->debot()->async()
+            ->initAsync((new ParamsOfInit())
+                ->setAddress($address),
+                $this->get_execute_callback($state))
+            ->await();
 
         $state->bots[$address] = (new RegisteredDebot())
-            ->setDebotHandle($debot->getDebotHandle())
-            ->setDebotAbi($debot->getDebotAbi());
+            ->setDebotHandle($handle->getDebotHandle())
+            ->setDebotAbi($handle->getDebotAbi());
 
-        return $debot;
+        return $handle;
     }
 
-    public function execute_from_state(BrowserData $state, string $address, callable $start_function)
+    public function execute_from_state(BrowserData $state, bool $callStart)
     {
-        $debot = $this->fetch_debot($state, $address, $start_function);
+        if ($callStart) {
+            $this->_client->debot()->async()
+                ->fetchAsync((new ParamsOfFetch())
+                    ->setAddress($state->address));
+        }
+
+        $debot = $this->fetch_debot($state, $state->address);
+
+        if ($callStart) {
+            $this->_client->debot()->async()
+                ->startAsync((new ParamsOfStart())
+                    ->setDebotHandle($debot->getDebotHandle()));
+        }
 
         while (!$state->finished) {
             $this->execute_interface_calls($debot, $state);
@@ -142,12 +151,13 @@ EOT;
 
         Assert::assertEmpty($state->next);
 
-        $this->_client->debot()->remove($debot);
+        $this->_client->debot()->remove((new ParamsOfRemove())
+            ->setDebotHandle($debot->getDebotHandle()));
     }
 
-    public function start_debot(BrowserData $state, string $address, callable $start_function): AsyncRegisteredDebot
+    public function get_execute_callback(BrowserData $state): callable
     {
-        return $start_function($address, function ($request) use ($state): ?ResultOfAppDebotBrowser {
+        return function ($request) use ($state): ?ResultOfAppDebotBrowser {
             $params = ParamsOfAppDebotBrowser::create($request);
             switch (get_class($params)) {
                 case ParamsOfAppDebotBrowser_Log::class:
@@ -191,19 +201,14 @@ EOT;
                     $newState->address = $params->getDebotAddr();
                     $newState->finished = false;
 
-                    $this->execute_from_state($newState, $newState->address, function (string $address, callable $callback): AsyncRegisteredDebot {
-                        return $this->_client->debot()->async()
-                            ->fetchAsync((new ParamsOfFetch())
-                                ->setAddress($address),
-                                $callback);
-                    });
+                    $this->execute_from_state($newState, false);
 
                     return new ResultOfAppDebotBrowser_InvokeDebot();
 
                 default:
                     throw new InvalidArgumentException("Unsupported parameter type " . get_class($params));
             }
-        });
+        };
     }
 
     private function execute_interface_calls(RegisteredDebot $debot, BrowserData $data)
@@ -255,12 +260,7 @@ EOT;
             } else {
 
                 if (!array_key_exists($destAddr, $data->bots)) {
-                    $this->fetch_debot($data, $destAddr, function (string $address, callable $callback): AsyncRegisteredDebot {
-                        return $this->_client->debot()->async()
-                            ->fetchAsync((new ParamsOfFetch())
-                                ->setAddress($address),
-                                $callback);
-                    });
+                    $this->fetch_debot($data, $destAddr);
                 }
 
                 $this->_client->debot()->send((new ParamsOfSend())

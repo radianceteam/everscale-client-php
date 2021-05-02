@@ -15,6 +15,7 @@ use TON\Net\ParamsOfBatchQuery;
 use TON\Net\ParamsOfFindLastShardBlock;
 use TON\Net\ParamsOfQuery;
 use TON\Net\ParamsOfQueryCollection;
+use TON\Net\ParamsOfQueryCounterparties;
 use TON\Net\ParamsOfSubscribeCollection;
 use TON\Net\ParamsOfWaitForCollection;
 use TON\Net\ResultOfSubscribeCollection;
@@ -188,5 +189,17 @@ class AsyncNetModule implements NetModuleAsyncInterface
     public function setEndpointsAsync(EndpointsSet $params): AsyncResult
     {
         return new AsyncResult($this->_context->callFunctionAsync('net.set_endpoints', $params));
+    }
+
+    /**
+     * *Attention* this query retrieves data from 'Counterparties' service which is not supported in
+     * the opensource version of DApp Server (and will not be supported) as well as in TON OS SE (will be supported in SE in future),
+     * but is always accessible via [TON OS Devnet/Mainnet Clouds](https://docs.ton.dev/86757ecb2/p/85c869-networks)
+     * @param ParamsOfQueryCounterparties $params
+     * @return AsyncResultOfQueryCollection
+     */
+    public function queryCounterpartiesAsync(ParamsOfQueryCounterparties $params): AsyncResultOfQueryCollection
+    {
+        return new AsyncResultOfQueryCollection($this->_context->callFunctionAsync('net.query_counterparties', $params));
     }
 }
