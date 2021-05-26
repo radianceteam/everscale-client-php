@@ -134,6 +134,14 @@ class NetModule implements NetModuleInterface
     }
 
     /**
+     * @return ResultOfGetEndpoints
+     */
+    public function getEndpoints(): ResultOfGetEndpoints
+    {
+        return new ResultOfGetEndpoints($this->_context->callFunction('net.get_endpoints'));
+    }
+
+    /**
      * *Attention* this query retrieves data from 'Counterparties' service which is not supported in
      * the opensource version of DApp Server (and will not be supported) as well as in TON OS SE (will be supported in SE in future),
      * but is always accessible via [TON OS Devnet/Mainnet Clouds](https://docs.ton.dev/86757ecb2/p/85c869-networks)

@@ -21,22 +21,43 @@ class NetworkConfig implements JsonSerializable
     /** You must use `network.max_reconnect_timeout` that allows to specify maximum network resolving timeout. */
     private ?int $_networkRetriesCount;
 
-    /** Default value is 120000 (2 min) */
+    /** Must be specified in milliseconds. Default is 120000 (2 min). */
     private ?int $_maxReconnectTimeout;
     private ?int $_reconnectTimeout;
+
+    /** Default is 5. */
     private ?int $_messageRetriesCount;
+
+    /** Must be specified in milliseconds. Default is 40000 (40 sec). */
     private ?int $_messageProcessingTimeout;
+
+    /** Must be specified in milliseconds. Default is 40000 (40 sec). */
     private ?int $_waitForTimeout;
 
     /**
      * If client's device time is out of sync and difference is more than the threshold then error will occur. Also an error will occur if the specified threshold is more than
      * `message_processing_timeout/2`.
-     * The default value is 15 sec.
+     *
+     * Must be specified in milliseconds. Default is 15000 (15 sec).
      */
     private ?int $_outOfSyncThreshold;
+
+    /** Default is 2. */
     private ?int $_sendingEndpointCount;
 
-    /** At the moment is not used in production */
+    /**
+     * Library periodically checks the current endpoint for blockchain data syncronization latency.
+     * If the latency (time-lag) is less then `NetworkConfig.max_latency`
+     * then library selects another endpoint.
+     *
+     * Must be specified in milliseconds. Default is 60000 (1 min).
+     */
+    private ?int $_latencyDetectionInterval;
+
+    /** Must be specified in milliseconds. Default is 60000 (1 min). */
+    private ?int $_maxLatency;
+
+    /** At the moment is not used in production. */
     private ?string $_accessKey;
 
     public function __construct(?array $dto = null)
@@ -52,6 +73,8 @@ class NetworkConfig implements JsonSerializable
         $this->_waitForTimeout = $dto['wait_for_timeout'] ?? null;
         $this->_outOfSyncThreshold = $dto['out_of_sync_threshold'] ?? null;
         $this->_sendingEndpointCount = $dto['sending_endpoint_count'] ?? null;
+        $this->_latencyDetectionInterval = $dto['latency_detection_interval'] ?? null;
+        $this->_maxLatency = $dto['max_latency'] ?? null;
         $this->_accessKey = $dto['access_key'] ?? null;
     }
 
@@ -77,7 +100,7 @@ class NetworkConfig implements JsonSerializable
     }
 
     /**
-     * Default value is 120000 (2 min)
+     * Must be specified in milliseconds. Default is 120000 (2 min).
      */
     public function getMaxReconnectTimeout(): ?int
     {
@@ -89,16 +112,25 @@ class NetworkConfig implements JsonSerializable
         return $this->_reconnectTimeout;
     }
 
+    /**
+     * Default is 5.
+     */
     public function getMessageRetriesCount(): ?int
     {
         return $this->_messageRetriesCount;
     }
 
+    /**
+     * Must be specified in milliseconds. Default is 40000 (40 sec).
+     */
     public function getMessageProcessingTimeout(): ?int
     {
         return $this->_messageProcessingTimeout;
     }
 
+    /**
+     * Must be specified in milliseconds. Default is 40000 (40 sec).
+     */
     public function getWaitForTimeout(): ?int
     {
         return $this->_waitForTimeout;
@@ -107,20 +139,44 @@ class NetworkConfig implements JsonSerializable
     /**
      * If client's device time is out of sync and difference is more than the threshold then error will occur. Also an error will occur if the specified threshold is more than
      * `message_processing_timeout/2`.
-     * The default value is 15 sec.
+     *
+     * Must be specified in milliseconds. Default is 15000 (15 sec).
      */
     public function getOutOfSyncThreshold(): ?int
     {
         return $this->_outOfSyncThreshold;
     }
 
+    /**
+     * Default is 2.
+     */
     public function getSendingEndpointCount(): ?int
     {
         return $this->_sendingEndpointCount;
     }
 
     /**
-     * At the moment is not used in production
+     * Library periodically checks the current endpoint for blockchain data syncronization latency.
+     * If the latency (time-lag) is less then `NetworkConfig.max_latency`
+     * then library selects another endpoint.
+     *
+     * Must be specified in milliseconds. Default is 60000 (1 min).
+     */
+    public function getLatencyDetectionInterval(): ?int
+    {
+        return $this->_latencyDetectionInterval;
+    }
+
+    /**
+     * Must be specified in milliseconds. Default is 60000 (1 min).
+     */
+    public function getMaxLatency(): ?int
+    {
+        return $this->_maxLatency;
+    }
+
+    /**
+     * At the moment is not used in production.
      */
     public function getAccessKey(): ?string
     {
@@ -157,7 +213,7 @@ class NetworkConfig implements JsonSerializable
     }
 
     /**
-     * Default value is 120000 (2 min)
+     * Must be specified in milliseconds. Default is 120000 (2 min).
      * @return self
      */
     public function setMaxReconnectTimeout(?int $maxReconnectTimeout): self
@@ -176,6 +232,7 @@ class NetworkConfig implements JsonSerializable
     }
 
     /**
+     * Default is 5.
      * @return self
      */
     public function setMessageRetriesCount(?int $messageRetriesCount): self
@@ -185,6 +242,7 @@ class NetworkConfig implements JsonSerializable
     }
 
     /**
+     * Must be specified in milliseconds. Default is 40000 (40 sec).
      * @return self
      */
     public function setMessageProcessingTimeout(?int $messageProcessingTimeout): self
@@ -194,6 +252,7 @@ class NetworkConfig implements JsonSerializable
     }
 
     /**
+     * Must be specified in milliseconds. Default is 40000 (40 sec).
      * @return self
      */
     public function setWaitForTimeout(?int $waitForTimeout): self
@@ -205,7 +264,8 @@ class NetworkConfig implements JsonSerializable
     /**
      * If client's device time is out of sync and difference is more than the threshold then error will occur. Also an error will occur if the specified threshold is more than
      * `message_processing_timeout/2`.
-     * The default value is 15 sec.
+     *
+     * Must be specified in milliseconds. Default is 15000 (15 sec).
      * @return self
      */
     public function setOutOfSyncThreshold(?int $outOfSyncThreshold): self
@@ -215,6 +275,7 @@ class NetworkConfig implements JsonSerializable
     }
 
     /**
+     * Default is 2.
      * @return self
      */
     public function setSendingEndpointCount(?int $sendingEndpointCount): self
@@ -224,7 +285,31 @@ class NetworkConfig implements JsonSerializable
     }
 
     /**
-     * At the moment is not used in production
+     * Library periodically checks the current endpoint for blockchain data syncronization latency.
+     * If the latency (time-lag) is less then `NetworkConfig.max_latency`
+     * then library selects another endpoint.
+     *
+     * Must be specified in milliseconds. Default is 60000 (1 min).
+     * @return self
+     */
+    public function setLatencyDetectionInterval(?int $latencyDetectionInterval): self
+    {
+        $this->_latencyDetectionInterval = $latencyDetectionInterval;
+        return $this;
+    }
+
+    /**
+     * Must be specified in milliseconds. Default is 60000 (1 min).
+     * @return self
+     */
+    public function setMaxLatency(?int $maxLatency): self
+    {
+        $this->_maxLatency = $maxLatency;
+        return $this;
+    }
+
+    /**
+     * At the moment is not used in production.
      * @return self
      */
     public function setAccessKey(?string $accessKey): self
@@ -246,6 +331,8 @@ class NetworkConfig implements JsonSerializable
         if ($this->_waitForTimeout !== null) $result['wait_for_timeout'] = $this->_waitForTimeout;
         if ($this->_outOfSyncThreshold !== null) $result['out_of_sync_threshold'] = $this->_outOfSyncThreshold;
         if ($this->_sendingEndpointCount !== null) $result['sending_endpoint_count'] = $this->_sendingEndpointCount;
+        if ($this->_latencyDetectionInterval !== null) $result['latency_detection_interval'] = $this->_latencyDetectionInterval;
+        if ($this->_maxLatency !== null) $result['max_latency'] = $this->_maxLatency;
         if ($this->_accessKey !== null) $result['access_key'] = $this->_accessKey;
         return !empty($result) ? $result : new stdClass();
     }

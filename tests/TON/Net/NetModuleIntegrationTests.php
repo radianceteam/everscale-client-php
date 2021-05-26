@@ -467,4 +467,20 @@ class NetModuleIntegrationTests extends AbstractIntegrationTest
         $count = $result->getValues()[0];
         $this->assertGreaterThan(0, $count);
     }
+
+    public function testGetEndpoints()
+    {
+        $client = self::createClient();
+        $result = $client->net()->getEndpoints();
+        $count = count($result->getEndpoints());
+        $this->assertGreaterThanOrEqual(1, $count);
+    }
+
+    public function testAsyncGetEndpoints()
+    {
+        $client = self::createClient();
+        $result = $client->net()->async()->getEndpointsAsync()->await();
+        $count = count($result->getEndpoints());
+        $this->assertGreaterThanOrEqual(1, $count);
+    }
 }

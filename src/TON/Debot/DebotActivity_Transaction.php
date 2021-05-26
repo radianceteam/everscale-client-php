@@ -21,6 +21,7 @@ class DebotActivity_Transaction extends DebotActivity implements JsonSerializabl
     private int $_fee;
     private bool $_setcode;
     private string $_signkey;
+    private int $_signingBoxHandle;
 
     public function __construct(?array $dto = null)
     {
@@ -31,6 +32,7 @@ class DebotActivity_Transaction extends DebotActivity implements JsonSerializabl
         $this->_fee = $dto['fee'] ?? 0;
         $this->_setcode = $dto['setcode'] ?? false;
         $this->_signkey = $dto['signkey'] ?? '';
+        $this->_signingBoxHandle = $dto['signing_box_handle'] ?? 0;
     }
 
     public function getMsg(): string
@@ -64,6 +66,11 @@ class DebotActivity_Transaction extends DebotActivity implements JsonSerializabl
     public function getSignkey(): string
     {
         return $this->_signkey;
+    }
+
+    public function getSigningBoxHandle(): int
+    {
+        return $this->_signingBoxHandle;
     }
 
     /**
@@ -121,6 +128,15 @@ class DebotActivity_Transaction extends DebotActivity implements JsonSerializabl
         return $this;
     }
 
+    /**
+     * @return self
+     */
+    public function setSigningBoxHandle(int $signingBoxHandle): self
+    {
+        $this->_signingBoxHandle = $signingBoxHandle;
+        return $this;
+    }
+
     public function jsonSerialize()
     {
         $result = ['type' => 'Transaction'];
@@ -130,6 +146,7 @@ class DebotActivity_Transaction extends DebotActivity implements JsonSerializabl
         if ($this->_fee !== null) $result['fee'] = $this->_fee;
         if ($this->_setcode !== null) $result['setcode'] = $this->_setcode;
         if ($this->_signkey !== null) $result['signkey'] = $this->_signkey;
+        if ($this->_signingBoxHandle !== null) $result['signing_box_handle'] = $this->_signingBoxHandle;
         return !empty($result) ? $result : new stdClass();
     }
 }
