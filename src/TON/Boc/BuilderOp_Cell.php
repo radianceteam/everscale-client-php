@@ -19,7 +19,7 @@ class BuilderOp_Cell extends BuilderOp implements JsonSerializable
     public function __construct(?array $dto = null)
     {
         if (!$dto) $dto = [];
-        $this->_builder = $dto['builder'] ?? [];
+        $this->_builder = isset($dto['builder']) ? array_map(function ($i) { return BuilderOp::create($i); }, $dto['builder']) : [];
     }
 
     /**

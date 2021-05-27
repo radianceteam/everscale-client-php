@@ -483,4 +483,88 @@ class NetModuleIntegrationTests extends AbstractIntegrationTest
         $count = count($result->getEndpoints());
         $this->assertGreaterThanOrEqual(1, $count);
     }
+
+    public function testQueryTransactionTree()
+    {
+        function collect(array $loaded_messages, array &$messages, array &$transactions)
+        {
+            foreach ($loaded_messages as $message) {
+                array_push($messages, $message);
+                if (isset($message['dst_transaction'])) {
+                    $tr = $message['dst_transaction'];
+                    array_push($transactions, $tr);
+                    if (isset($tr['out_messages'])) {
+                        collect($tr['out_messages'], $messages, $transactions);
+                    }
+                }
+            }
+        }
+
+        $client = self::createClient();
+        $messages = $client->net()->queryCollection((new ParamsOfQueryCollection())
+            ->setCollection('messages')
+            ->setFilter(['msg_type' => ['eq' => 1]])
+            ->setResult(<<<EOT
+            id dst
+            dst_transaction { id aborted
+              out_messages { id dst msg_type_name
+                dst_transaction { id aborted
+                  out_messages { id dst msg_type_name
+                    dst_transaction { id aborted
+                    }
+                  }
+                }
+              }
+            }
+EOT
+            ));
+
+        $abiRegistry = [
+            (new Abi_Contract())->setValue(TestClient::load_abi('GiverV2')),
+            (new Abi_Contract())->setValue(TestClient::load_abi('Subscription')),
+            (new Abi_Contract())->setValue(TestClient::load_abi('Hello')),
+            (new Abi_Contract())->setValue(TestClient::load_abi('Events')),
+            (new Abi_Contract())->setValue(TestClient::load_abi('testDebot')),
+            (new Abi_Contract())->setValue(TestClient::load_abi('testDebotTarget'))
+        ];
+
+        $hasDecodeBodies = false;
+
+        foreach ($messages->getResult() as $message) {
+            $result = $client->net()->queryTransactionTree((new ParamsOfQueryTransactionTree())
+                ->setInMsg($message['id'])
+                ->setAbiRegistry($abiRegistry));
+
+            $refMessages = [];
+            $refTransactions = [];
+            collect([$message], $refMessages, $refTransactions);
+
+            $refMessageIds = array_map(function ($item) {
+                return $item['id'];
+            }, $refMessages);
+
+            $refTransactionIds = array_map(function ($item) {
+                return $item['id'];
+            }, $refTransactions);
+
+            $actualMessageIds = array_map(function (MessageNode $node) {
+                return $node->getId();
+            }, $result->getMessages());
+
+            $actualTransactionIds = array_map(function (TransactionNode $node) {
+                return $node->getId();
+            }, $result->getTransactions());
+
+            $this->assertEqualsCanonicalizing($refMessageIds, $actualMessageIds);
+            $this->assertEqualsCanonicalizing($refTransactionIds, $actualTransactionIds);
+
+            foreach ($result->getMessages() as $msg) {
+                if ($msg->getDecodedBody()) {
+                    $hasDecodeBodies = true;
+                }
+            }
+        }
+
+        $this->assertTrue($hasDecodeBodies);
+    }
 }

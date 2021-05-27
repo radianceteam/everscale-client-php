@@ -28,7 +28,7 @@ class DebotActivity_Transaction extends DebotActivity implements JsonSerializabl
         if (!$dto) $dto = [];
         $this->_msg = $dto['msg'] ?? '';
         $this->_dst = $dto['dst'] ?? '';
-        $this->_out = $dto['out'] ?? [];
+        $this->_out = isset($dto['out']) ? array_map(function ($i) { return new Spending($i); }, $dto['out']) : [];
         $this->_fee = $dto['fee'] ?? 0;
         $this->_setcode = $dto['setcode'] ?? false;
         $this->_signkey = $dto['signkey'] ?? '';

@@ -22,7 +22,7 @@ class ResultOfBuildInfo implements JsonSerializable
     {
         if (!$dto) $dto = [];
         $this->_buildNumber = $dto['build_number'] ?? 0;
-        $this->_dependencies = $dto['dependencies'] ?? [];
+        $this->_dependencies = isset($dto['dependencies']) ? array_map(function ($i) { return new BuildInfoDependency($i); }, $dto['dependencies']) : [];
     }
 
     public function getBuildNumber(): int

@@ -16,6 +16,7 @@ use TON\Net\ParamsOfFindLastShardBlock;
 use TON\Net\ParamsOfQuery;
 use TON\Net\ParamsOfQueryCollection;
 use TON\Net\ParamsOfQueryCounterparties;
+use TON\Net\ParamsOfQueryTransactionTree;
 use TON\Net\ParamsOfSubscribeCollection;
 use TON\Net\ParamsOfWaitForCollection;
 use TON\Net\ResultOfSubscribeCollection;
@@ -209,5 +210,28 @@ class AsyncNetModule implements NetModuleAsyncInterface
     public function queryCounterpartiesAsync(ParamsOfQueryCounterparties $params): AsyncResultOfQueryCollection
     {
         return new AsyncResultOfQueryCollection($this->_context->callFunctionAsync('net.query_counterparties', $params));
+    }
+
+    /**
+     * Performs recursive retrieval of the transactions tree produced by the specific message:
+     * in_msg -> dst_transaction -> out_messages -> dst_transaction -> ...
+     *
+     * All retrieved messages and transactions will be included
+     * into `result.messages` and `result.transactions` respectively.
+     *
+     * The retrieval process will stop when the retrieved transaction count is more than 50.
+     *
+     * It is guaranteed that each message in `result.messages` has the corresponding transaction
+     * in the `result.transactions`.
+     *
+     * But there are no guaranties that all messages from transactions `out_msgs` are
+     * presented in `result.messages`.
+     * So the application have to continue retrieval for missing messages if it requires.
+     * @param ParamsOfQueryTransactionTree $params
+     * @return AsyncResultOfQueryTransactionTree
+     */
+    public function queryTransactionTreeAsync(ParamsOfQueryTransactionTree $params): AsyncResultOfQueryTransactionTree
+    {
+        return new AsyncResultOfQueryTransactionTree($this->_context->callFunctionAsync('net.query_transaction_tree', $params));
     }
 }

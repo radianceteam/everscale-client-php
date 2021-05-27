@@ -527,27 +527,45 @@ function add_type_constructor(array $module, array $type, ApiIndex $index, Class
 
         if (is_php_builtin_type($field_type_name)) {
 
-            if (is_php_nullable_type($field)) {
-                $constructor->addBody("\$this->${private_field_name} = \$dto['${field_name}'] ?? null;");
-                continue;
+            $default_value = 'null';
+            if (!is_php_nullable_type($field)) {
+                switch ($field_type_name) {
+                    case 'int':
+                    case 'float':
+                        $default_value = '0';
+                        break;
+                    case 'string':
+                        $default_value = "''";
+                        break;
+                    case 'array':
+                        $default_value = '[]';
+                        break;
+                    case 'bool':
+                        $default_value = 'false';
+                        break;
+                }
             }
 
-            $default_value = '';
-            switch ($field_type_name) {
-                case 'int':
-                case 'float':
-                    $default_value = '0';
-                    break;
-                case 'string':
-                    $default_value = "''";
-                    break;
-                case 'array':
-                    $default_value = '[]';
-                    break;
-                case 'bool':
-                    $default_value = 'false';
-                    break;
+            if ('array' === $field_type_name) {
+                $array_item_type_ref = get_array_item_ref($field);
+                if ($array_item_type_ref) {
+                    $ref = parse_ref($array_item_type_ref);
+                    if (!empty($ref) && count($ref) == 2) {
+                        [$item_type_module, $item_type_name] = $ref;
+                        $item_type = $index->getTypeSpec($item_type_module, $item_type_name);
+                        if (is_enum_of_types($item_type) || is_struct_type($item_type)) {
+                            $item_constructor =
+                                is_enum_of_types($item_type)
+                                    ? "${item_type_name}::create"
+                                    : "new ${item_type_name}";
+                            $constructor->addBody("\$this->${private_field_name} = isset(\$dto['${field_name}']) ? array_map(function (\$i) { return $item_constructor(\$i); }, \$dto['${field_name}']) : ${default_value};");
+                            continue;
+                        }
+
+                    }
+                }
             }
+
             $constructor->addBody("\$this->${private_field_name} = \$dto['${field_name}'] ?? ${default_value};");
             continue;
         }
@@ -629,13 +647,26 @@ function add_type_imports(array $module, array $type, ApiIndex $index, PhpNamesp
         if (empty($field_name)) {
             continue;
         }
-        $field_type_name = get_php_type_name($field, $index);
-        $field_module_name = get_php_type_module_name($field);
-        if ($field_module_name &&
-            $field_module_name !== $module['name'] && !
-            is_php_builtin_type($field_type_name)) {
-            $field_module = $index->getModuleSpec($field_module_name);
-            $ns->addUse(get_php_fq_class_name($field_module, $field_type_name));
+        $use_type_name = get_php_type_name($field, $index);
+        $use_module_name = get_php_type_module_name($field);
+        if (is_php_builtin_type($use_type_name)) {
+            if ('array' === $use_type_name) {
+                $item_ref = parse_ref(get_array_item_ref($field));
+                if ($item_ref && count($item_ref) === 2) {
+                    [$item_module_name, $item_type_name] = $item_ref;
+                    if ($item_module_name === $module['name']) {
+                        continue;
+                    }
+                    $use_module_name = $item_module_name;
+                    $use_type_name = $item_type_name;
+                }
+            } else {
+                continue;
+            }
+        }
+        if ($use_module_name && $use_module_name !== $module['name']) {
+            $field_module = $index->getModuleSpec($use_module_name);
+            $ns->addUse(get_php_fq_class_name($field_module, $use_type_name));
         }
     }
 }

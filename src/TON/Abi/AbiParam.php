@@ -24,7 +24,7 @@ class AbiParam implements JsonSerializable
         if (!$dto) $dto = [];
         $this->_name = $dto['name'] ?? '';
         $this->_type = $dto['type'] ?? '';
-        $this->_components = $dto['components'] ?? null;
+        $this->_components = isset($dto['components']) ? array_map(function ($i) { return new AbiParam($i); }, $dto['components']) : null;
     }
 
     public function getName(): string

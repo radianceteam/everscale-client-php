@@ -97,4 +97,24 @@ interface NetModuleInterface
      * @return ResultOfQueryCollection
      */
     function queryCounterparties(ParamsOfQueryCounterparties $params): ResultOfQueryCollection;
+
+    /**
+     * Performs recursive retrieval of the transactions tree produced by the specific message:
+     * in_msg -> dst_transaction -> out_messages -> dst_transaction -> ...
+     *
+     * All retrieved messages and transactions will be included
+     * into `result.messages` and `result.transactions` respectively.
+     *
+     * The retrieval process will stop when the retrieved transaction count is more than 50.
+     *
+     * It is guaranteed that each message in `result.messages` has the corresponding transaction
+     * in the `result.transactions`.
+     *
+     * But there are no guaranties that all messages from transactions `out_msgs` are
+     * presented in `result.messages`.
+     * So the application have to continue retrieval for missing messages if it requires.
+     * @param ParamsOfQueryTransactionTree $params
+     * @return ResultOfQueryTransactionTree
+     */
+    function queryTransactionTree(ParamsOfQueryTransactionTree $params): ResultOfQueryTransactionTree;
 }

@@ -24,7 +24,7 @@ class ParamsOfQueryOperation_AggregateCollection extends ParamsOfQueryOperation 
         if (!$dto) $dto = [];
         $this->_collection = $dto['collection'] ?? '';
         $this->_filter = $dto['filter'] ?? null;
-        $this->_fields = $dto['fields'] ?? null;
+        $this->_fields = isset($dto['fields']) ? array_map(function ($i) { return new FieldAggregation($i); }, $dto['fields']) : null;
     }
 
     public function getCollection(): string

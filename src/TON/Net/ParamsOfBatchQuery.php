@@ -19,7 +19,7 @@ class ParamsOfBatchQuery implements JsonSerializable
     public function __construct(?array $dto = null)
     {
         if (!$dto) $dto = [];
-        $this->_operations = $dto['operations'] ?? [];
+        $this->_operations = isset($dto['operations']) ? array_map(function ($i) { return ParamsOfQueryOperation::create($i); }, $dto['operations']) : [];
     }
 
     /**

@@ -26,8 +26,8 @@ class AbiFunction implements JsonSerializable
     {
         if (!$dto) $dto = [];
         $this->_name = $dto['name'] ?? '';
-        $this->_inputs = $dto['inputs'] ?? [];
-        $this->_outputs = $dto['outputs'] ?? [];
+        $this->_inputs = isset($dto['inputs']) ? array_map(function ($i) { return new AbiParam($i); }, $dto['inputs']) : [];
+        $this->_outputs = isset($dto['outputs']) ? array_map(function ($i) { return new AbiParam($i); }, $dto['outputs']) : [];
         $this->_id = $dto['id'] ?? null;
     }
 

@@ -32,9 +32,9 @@ class AbiContract implements JsonSerializable
         $this->_ABI_version = $dto['ABI version'] ?? null;
         $this->_abiVersion = $dto['abi_version'] ?? null;
         $this->_header = $dto['header'] ?? null;
-        $this->_functions = $dto['functions'] ?? null;
-        $this->_events = $dto['events'] ?? null;
-        $this->_data = $dto['data'] ?? null;
+        $this->_functions = isset($dto['functions']) ? array_map(function ($i) { return new AbiFunction($i); }, $dto['functions']) : null;
+        $this->_events = isset($dto['events']) ? array_map(function ($i) { return new AbiEvent($i); }, $dto['events']) : null;
+        $this->_data = isset($dto['data']) ? array_map(function ($i) { return new AbiData($i); }, $dto['data']) : null;
     }
 
     public function getABI_version(): ?int

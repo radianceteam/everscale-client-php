@@ -27,7 +27,7 @@ class ParamsOfQueryOperation_QueryCollection extends ParamsOfQueryOperation impl
         $this->_collection = $dto['collection'] ?? '';
         $this->_filter = $dto['filter'] ?? null;
         $this->_result = $dto['result'] ?? '';
-        $this->_order = $dto['order'] ?? null;
+        $this->_order = isset($dto['order']) ? array_map(function ($i) { return new OrderBy($i); }, $dto['order']) : null;
         $this->_limit = $dto['limit'] ?? null;
     }
 

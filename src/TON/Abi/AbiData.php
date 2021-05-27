@@ -26,7 +26,7 @@ class AbiData implements JsonSerializable
         $this->_key = $dto['key'] ?? 0;
         $this->_name = $dto['name'] ?? '';
         $this->_type = $dto['type'] ?? '';
-        $this->_components = $dto['components'] ?? null;
+        $this->_components = isset($dto['components']) ? array_map(function ($i) { return new AbiParam($i); }, $dto['components']) : null;
     }
 
     public function getKey(): int

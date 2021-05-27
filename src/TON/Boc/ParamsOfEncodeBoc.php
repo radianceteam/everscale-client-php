@@ -20,7 +20,7 @@ class ParamsOfEncodeBoc implements JsonSerializable
     public function __construct(?array $dto = null)
     {
         if (!$dto) $dto = [];
-        $this->_builder = $dto['builder'] ?? [];
+        $this->_builder = isset($dto['builder']) ? array_map(function ($i) { return BuilderOp::create($i); }, $dto['builder']) : [];
         $this->_bocCache = isset($dto['boc_cache']) ? BocCacheType::create($dto['boc_cache']) : null;
     }
 
