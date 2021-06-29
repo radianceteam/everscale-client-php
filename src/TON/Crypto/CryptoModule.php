@@ -34,6 +34,9 @@ class CryptoModule implements CryptoModuleInterface
     }
 
     /**
+     * Performs prime factorization – decomposition of a composite number
+     * into a product of smaller prime integers (factors).
+     * See [https://en.wikipedia.org/wiki/Integer_factorization]
      * @param ParamsOfFactorize $params
      * @return ResultOfFactorize
      */
@@ -43,6 +46,8 @@ class CryptoModule implements CryptoModuleInterface
     }
 
     /**
+     * Performs modular exponentiation for big integers (`base`^`exponent` mod `modulus`).
+     * See [https://en.wikipedia.org/wiki/Modular_exponentiation]
      * @param ParamsOfModularPower $params
      * @return ResultOfModularPower
      */
@@ -123,6 +128,9 @@ class CryptoModule implements CryptoModuleInterface
     }
 
     /**
+     * Derives key from `password` and `key` using `scrypt` algorithm.
+     * See [https://en.wikipedia.org/wiki/Scrypt].
+     *
      * # Arguments
      * - `log_n` - The log2 of the Scrypt parameter `N`
      * - `r` - The Scrypt parameter `r`
@@ -259,6 +267,7 @@ class CryptoModule implements CryptoModuleInterface
     }
 
     /**
+     * Generates a random mnemonic from the specified dictionary and word count
      * @param ParamsOfMnemonicFromRandom $params
      * @return ResultOfMnemonicFromRandom
      */
@@ -277,6 +286,8 @@ class CryptoModule implements CryptoModuleInterface
     }
 
     /**
+     * The phrase supplied will be checked for word length and validated according to the checksum
+     * specified in BIP0039.
      * @param ParamsOfMnemonicVerify $params
      * @return ResultOfMnemonicVerify
      */
@@ -286,6 +297,8 @@ class CryptoModule implements CryptoModuleInterface
     }
 
     /**
+     * Validates the seed phrase, generates master key and then derives
+     * the key pair from the master key and the specified path
      * @param ParamsOfMnemonicDeriveSignKeys $params
      * @return KeyPair
      */

@@ -10,6 +10,8 @@ use TON\Abi\ParamsOfEncodeMessage;
 use TON\Abi\Signer_Keys;
 use TON\AbstractIntegrationTest;
 use TON\TestClient;
+use TON\Tvm\AccountForExecutor_Account;
+use TON\Tvm\ParamsOfRunExecutor;
 
 class ProcessingModuleIntegrationTests extends AbstractIntegrationTest
 {
@@ -65,5 +67,63 @@ class ProcessingModuleIntegrationTests extends AbstractIntegrationTest
         while ($event = array_shift($events)) {
             $this->assertInstanceOf(ProcessingEvent_WillFetchNextBlock::class, $event);
         }
+    }
+
+    public function testFees()
+    {
+        [$abi, $tvc] = TestClient::package('GiverV2', 2);
+        $keys = self::$client->crypto()->generateRandomSignKeys();
+        $contract = (new Abi_Contract())->setValue($abi);
+
+        $address = TestClient::deployWithGiver(self::$client, (new ParamsOfEncodeMessage())
+            ->setAbi($contract)
+            ->setDeploySet((new DeploySet())
+                ->setTvc($tvc))
+            ->setCallSet((new CallSet())
+                ->setFunctionName("constructor"))
+            ->setSigner((new Signer_Keys())->setKeys($keys)));
+
+        $params = (new ParamsOfEncodeMessage())
+            ->setAbi($contract)
+            ->setAddress($address)
+            ->setCallSet((new CallSet())
+                ->setFunctionName("sendTransaction")
+                ->setInput([
+                    'dest' => $address,
+                    'value' => 100_000_000,
+                    'bounce' => true
+                ]))
+            ->setSigner((new Signer_Keys())->setKeys($keys));
+
+        $account = TestClient::fetchAccount(self::$client, $address)["boc"];
+        $message = self::$client->abi()->encodeMessage($params);
+
+        $localResult = self::$client->tvm()->runExecutor((new ParamsOfRunExecutor())
+            ->setAccount((new AccountForExecutor_Account())
+                ->setBoc($account))
+            ->setMessage($message->getMessage()));
+
+        $runResult = self::$client->processing()->async()
+            ->processMessageAsync((new ParamsOfProcessMessage())
+                ->setMessageEncodeParams($params)
+                ->setSendEvents(false))
+            ->await();
+
+        $this->assertEquals($localResult->getFees()->getGasFee(), $runResult->getFees()->getGasFee());
+        $this->assertEquals($localResult->getFees()->getOutMsgsFwdFee(), $runResult->getFees()->getOutMsgsFwdFee());
+        $this->assertEquals($localResult->getFees()->getInMsgFwdFee(), $runResult->getFees()->getInMsgFwdFee());
+        $this->assertEquals($localResult->getFees()->getTotalOutput(), $runResult->getFees()->getTotalOutput());
+        $this->assertEquals(100_000_000, $localResult->getFees()->getTotalOutput());
+
+        $this->assertEquals(
+            $localResult->getFees()->getTotalAccountFees() - $localResult->getFees()->getStorageFee(),
+            $runResult->getFees()->getTotalAccountFees() - $runResult->getFees()->getStorageFee(),
+        );
+
+        $this->assertGreaterThanOrEqual($localResult->getFees()->getStorageFee(), $runResult->getFees()->getStorageFee());
+        $this->assertGreaterThan(0, $localResult->getFees()->getGasFee());
+        $this->assertGreaterThan(0, $localResult->getFees()->getOutMsgsFwdFee());
+        $this->assertGreaterThan(0, $localResult->getFees()->getInMsgFwdFee());
+        $this->assertGreaterThan(0, $localResult->getFees()->getTotalAccountFees());
     }
 }

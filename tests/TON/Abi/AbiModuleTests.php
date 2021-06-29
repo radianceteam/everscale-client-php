@@ -11,6 +11,7 @@ use TON\Crypto\KeyPair;
 use TON\Crypto\ParamsOfNaclSign;
 use TON\Crypto\ParamsOfNaclSignKeyPairFromSecret;
 use TON\TestClient;
+use TON\TonClientException;
 
 class AbiModuleTests extends AbstractModuleTestCase
 {
@@ -296,6 +297,33 @@ class AbiModuleTests extends AbstractModuleTestCase
         $this->assertEquals('0x3b9aca00', $parsed->getParsed()['value']);
         $this->assertTrue($parsed->getParsed()['bounce']);
         $this->assertTrue($parsed->getParsed()['ihr_disabled']);
+    }
+
+    public function testTips()
+    {
+        [$abi, $tvc] = TestClient::package('Events');
+
+        try {
+            $this->_module->decodeMessage((new ParamsOfDecodeMessage())
+                ->setAbi((new Abi_Contract())->setValue($abi))
+                ->setMessage("te6ccgEBAgEAlgAB4a3f2/jCeWWvgMoAXOakv3VSD56sQrDPT76n1cbrSvpZ0BCs0KEUy2Duvo3zPExePONW3TYy0MCA1i+FFRXcSIXTHxAj/Hd67jWQF7peccWoU/dbMCBJBB6YdPCVZcJlJkAAAF0ZyXLg19VzGQVviwSgAQBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA="));
+            $this->fail();
+        } catch (TonClientException $e) {
+            $this->assertStringContainsString(
+                "Tip: Please check that you have specified the message's BOC, not body, as a parameter.",
+                $e->getMessage());
+        }
+
+        try {
+            $this->_module->decodeMessageBody((new ParamsOfDecodeMessageBody())
+                ->setAbi((new Abi_Contract())->setValue($abi))
+                ->setBody("te6ccgEBAwEAvAABRYgAC31qq9KF9Oifst6LU9U6FQSQQRlCSEMo+A3LN5MvphIMAQHhrd/b+MJ5Za+AygBc5qS/dVIPnqxCsM9PvqfVxutK+lnQEKzQoRTLYO6+jfM8TF4841bdNjLQwIDWL4UVFdxIhdMfECP8d3ruNZAXul5xxahT91swIEkEHph08JVlwmUmQAAAXRnJcuDX1XMZBW+LBKACAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=="));
+            $this->fail();
+        } catch (TonClientException $e) {
+            $this->assertStringContainsString(
+                "Tip: Please check that you specified message's body, not full BOC.",
+                $e->getMessage());
+        }
     }
 
     public function encodeMessageInternal_deployDataProvider(): array

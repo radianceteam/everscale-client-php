@@ -45,12 +45,17 @@ use TON\Crypto\RegisteredSigningBox;
 interface CryptoModuleAsyncInterface
 {
     /**
+     * Performs prime factorization – decomposition of a composite number
+     * into a product of smaller prime integers (factors).
+     * See [https://en.wikipedia.org/wiki/Integer_factorization]
      * @param ParamsOfFactorize $params
      * @return AsyncResultOfFactorize
      */
     function factorizeAsync(ParamsOfFactorize $params): AsyncResultOfFactorize;
 
     /**
+     * Performs modular exponentiation for big integers (`base`^`exponent` mod `modulus`).
+     * See [https://en.wikipedia.org/wiki/Modular_exponentiation]
      * @param ParamsOfModularPower $params
      * @return AsyncResultOfModularPower
      */
@@ -104,6 +109,9 @@ interface CryptoModuleAsyncInterface
     function sha512Async(ParamsOfHash $params): AsyncResultOfHash;
 
     /**
+     * Derives key from `password` and `key` using `scrypt` algorithm.
+     * See [https://en.wikipedia.org/wiki/Scrypt].
+     *
      * # Arguments
      * - `log_n` - The log2 of the Scrypt parameter `N`
      * - `r` - The Scrypt parameter `r`
@@ -201,6 +209,7 @@ interface CryptoModuleAsyncInterface
     function mnemonicWordsAsync(ParamsOfMnemonicWords $params): AsyncResultOfMnemonicWords;
 
     /**
+     * Generates a random mnemonic from the specified dictionary and word count
      * @param ParamsOfMnemonicFromRandom $params
      * @return AsyncResultOfMnemonicFromRandom
      */
@@ -213,12 +222,16 @@ interface CryptoModuleAsyncInterface
     function mnemonicFromEntropyAsync(ParamsOfMnemonicFromEntropy $params): AsyncResultOfMnemonicFromEntropy;
 
     /**
+     * The phrase supplied will be checked for word length and validated according to the checksum
+     * specified in BIP0039.
      * @param ParamsOfMnemonicVerify $params
      * @return AsyncResultOfMnemonicVerify
      */
     function mnemonicVerifyAsync(ParamsOfMnemonicVerify $params): AsyncResultOfMnemonicVerify;
 
     /**
+     * Validates the seed phrase, generates master key and then derives
+     * the key pair from the master key and the specified path
      * @param ParamsOfMnemonicDeriveSignKeys $params
      * @return AsyncKeyPair
      */

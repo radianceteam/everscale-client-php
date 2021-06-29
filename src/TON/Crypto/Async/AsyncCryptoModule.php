@@ -57,6 +57,9 @@ class AsyncCryptoModule implements CryptoModuleAsyncInterface
     }
 
     /**
+     * Performs prime factorization – decomposition of a composite number
+     * into a product of smaller prime integers (factors).
+     * See [https://en.wikipedia.org/wiki/Integer_factorization]
      * @param ParamsOfFactorize $params
      * @return AsyncResultOfFactorize
      */
@@ -66,6 +69,8 @@ class AsyncCryptoModule implements CryptoModuleAsyncInterface
     }
 
     /**
+     * Performs modular exponentiation for big integers (`base`^`exponent` mod `modulus`).
+     * See [https://en.wikipedia.org/wiki/Modular_exponentiation]
      * @param ParamsOfModularPower $params
      * @return AsyncResultOfModularPower
      */
@@ -146,6 +151,9 @@ class AsyncCryptoModule implements CryptoModuleAsyncInterface
     }
 
     /**
+     * Derives key from `password` and `key` using `scrypt` algorithm.
+     * See [https://en.wikipedia.org/wiki/Scrypt].
+     *
      * # Arguments
      * - `log_n` - The log2 of the Scrypt parameter `N`
      * - `r` - The Scrypt parameter `r`
@@ -282,6 +290,7 @@ class AsyncCryptoModule implements CryptoModuleAsyncInterface
     }
 
     /**
+     * Generates a random mnemonic from the specified dictionary and word count
      * @param ParamsOfMnemonicFromRandom $params
      * @return AsyncResultOfMnemonicFromRandom
      */
@@ -300,6 +309,8 @@ class AsyncCryptoModule implements CryptoModuleAsyncInterface
     }
 
     /**
+     * The phrase supplied will be checked for word length and validated according to the checksum
+     * specified in BIP0039.
      * @param ParamsOfMnemonicVerify $params
      * @return AsyncResultOfMnemonicVerify
      */
@@ -309,6 +320,8 @@ class AsyncCryptoModule implements CryptoModuleAsyncInterface
     }
 
     /**
+     * Validates the seed phrase, generates master key and then derives
+     * the key pair from the master key and the specified path
      * @param ParamsOfMnemonicDeriveSignKeys $params
      * @return AsyncKeyPair
      */

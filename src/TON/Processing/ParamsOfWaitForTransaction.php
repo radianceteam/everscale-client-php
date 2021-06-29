@@ -29,7 +29,11 @@ class ParamsOfWaitForTransaction implements JsonSerializable
     private string $_shardBlockId;
     private bool $_sendEvents;
 
-    /** You must provide the same value as the `send_message` has returned. */
+    /**
+     * Use this field to get more informative errors.
+     * Provide the same value as the `send_message` has returned.
+     * If the message was not delivered (expired), SDK will log the endpoint URLs, used for its sending.
+     */
     private ?array $_sendingEndpoints;
 
     public function __construct(?array $dto = null)
@@ -75,7 +79,9 @@ class ParamsOfWaitForTransaction implements JsonSerializable
     }
 
     /**
-     * You must provide the same value as the `send_message` has returned.
+     * Use this field to get more informative errors.
+     * Provide the same value as the `send_message` has returned.
+     * If the message was not delivered (expired), SDK will log the endpoint URLs, used for its sending.
      */
     public function getSendingEndpoints(): ?array
     {
@@ -125,7 +131,9 @@ class ParamsOfWaitForTransaction implements JsonSerializable
     }
 
     /**
-     * You must provide the same value as the `send_message` has returned.
+     * Use this field to get more informative errors.
+     * Provide the same value as the `send_message` has returned.
+     * If the message was not delivered (expired), SDK will log the endpoint URLs, used for its sending.
      * @return self
      */
     public function setSendingEndpoints(?array $sendingEndpoints): self
