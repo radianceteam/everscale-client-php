@@ -12,6 +12,9 @@ use TON\AsyncResult;
 use TON\Crypto\KeyPair;
 use TON\Crypto\ParamsOfChaCha20;
 use TON\Crypto\ParamsOfConvertPublicKeyToTonSafeFormat;
+use TON\Crypto\ParamsOfEncryptionBoxDecrypt;
+use TON\Crypto\ParamsOfEncryptionBoxEncrypt;
+use TON\Crypto\ParamsOfEncryptionBoxGetInfo;
 use TON\Crypto\ParamsOfFactorize;
 use TON\Crypto\ParamsOfGenerateRandomBytes;
 use TON\Crypto\ParamsOfHDKeyDeriveFromXPrv;
@@ -40,6 +43,7 @@ use TON\Crypto\ParamsOfSign;
 use TON\Crypto\ParamsOfSigningBoxSign;
 use TON\Crypto\ParamsOfTonCrc16;
 use TON\Crypto\ParamsOfVerifySignature;
+use TON\Crypto\RegisteredEncryptionBox;
 use TON\Crypto\RegisteredSigningBox;
 use TON\TonContext;
 
@@ -427,5 +431,50 @@ class AsyncCryptoModule implements CryptoModuleAsyncInterface
     public function removeSigningBoxAsync(RegisteredSigningBox $params): AsyncResult
     {
         return new AsyncResult($this->_context->callFunctionAsync('crypto.remove_signing_box', $params));
+    }
+
+    /**
+     * @param callable $callback Transforms app request to app response.
+     * @return AsyncRegisteredEncryptionBox
+     */
+    public function registerEncryptionBoxAsync(callable $callback): AsyncRegisteredEncryptionBox
+    {
+        return new AsyncRegisteredEncryptionBox($this->_context->callFunctionAsync('crypto.register_encryption_box', null, $callback));
+    }
+
+    /**
+     * @param RegisteredEncryptionBox $params
+     * @return AsyncResult
+     */
+    public function removeEncryptionBoxAsync(RegisteredEncryptionBox $params): AsyncResult
+    {
+        return new AsyncResult($this->_context->callFunctionAsync('crypto.remove_encryption_box', $params));
+    }
+
+    /**
+     * @param ParamsOfEncryptionBoxGetInfo $params
+     * @return AsyncResultOfEncryptionBoxGetInfo
+     */
+    public function encryptionBoxGetInfoAsync(ParamsOfEncryptionBoxGetInfo $params): AsyncResultOfEncryptionBoxGetInfo
+    {
+        return new AsyncResultOfEncryptionBoxGetInfo($this->_context->callFunctionAsync('crypto.encryption_box_get_info', $params));
+    }
+
+    /**
+     * @param ParamsOfEncryptionBoxEncrypt $params
+     * @return AsyncResultOfEncryptionBoxEncrypt
+     */
+    public function encryptionBoxEncryptAsync(ParamsOfEncryptionBoxEncrypt $params): AsyncResultOfEncryptionBoxEncrypt
+    {
+        return new AsyncResultOfEncryptionBoxEncrypt($this->_context->callFunctionAsync('crypto.encryption_box_encrypt', $params));
+    }
+
+    /**
+     * @param ParamsOfEncryptionBoxDecrypt $params
+     * @return AsyncResultOfEncryptionBoxDecrypt
+     */
+    public function encryptionBoxDecryptAsync(ParamsOfEncryptionBoxDecrypt $params): AsyncResultOfEncryptionBoxDecrypt
+    {
+        return new AsyncResultOfEncryptionBoxDecrypt($this->_context->callFunctionAsync('crypto.encryption_box_decrypt', $params));
     }
 }

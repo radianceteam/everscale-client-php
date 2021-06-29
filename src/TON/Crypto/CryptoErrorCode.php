@@ -30,4 +30,5 @@ final class CryptoErrorCode
     const MnemonicFromEntropyFailed = 120;
     const SigningBoxNotRegistered = 121;
     const InvalidSignature = 122;
+    const EncryptionBoxNotRegistered = 123;
 }

@@ -12,6 +12,9 @@ use TON\AsyncResult;
 use TON\Crypto\KeyPair;
 use TON\Crypto\ParamsOfChaCha20;
 use TON\Crypto\ParamsOfConvertPublicKeyToTonSafeFormat;
+use TON\Crypto\ParamsOfEncryptionBoxDecrypt;
+use TON\Crypto\ParamsOfEncryptionBoxEncrypt;
+use TON\Crypto\ParamsOfEncryptionBoxGetInfo;
 use TON\Crypto\ParamsOfFactorize;
 use TON\Crypto\ParamsOfGenerateRandomBytes;
 use TON\Crypto\ParamsOfHDKeyDeriveFromXPrv;
@@ -40,6 +43,7 @@ use TON\Crypto\ParamsOfSign;
 use TON\Crypto\ParamsOfSigningBoxSign;
 use TON\Crypto\ParamsOfTonCrc16;
 use TON\Crypto\ParamsOfVerifySignature;
+use TON\Crypto\RegisteredEncryptionBox;
 use TON\Crypto\RegisteredSigningBox;
 
 interface CryptoModuleAsyncInterface
@@ -302,4 +306,34 @@ interface CryptoModuleAsyncInterface
      * @return AsyncResult
      */
     function removeSigningBoxAsync(RegisteredSigningBox $params): AsyncResult;
+
+    /**
+     * @param callable $callback Transforms app request to app response.
+     * @return AsyncRegisteredEncryptionBox
+     */
+    function registerEncryptionBoxAsync(callable $callback): AsyncRegisteredEncryptionBox;
+
+    /**
+     * @param RegisteredEncryptionBox $params
+     * @return AsyncResult
+     */
+    function removeEncryptionBoxAsync(RegisteredEncryptionBox $params): AsyncResult;
+
+    /**
+     * @param ParamsOfEncryptionBoxGetInfo $params
+     * @return AsyncResultOfEncryptionBoxGetInfo
+     */
+    function encryptionBoxGetInfoAsync(ParamsOfEncryptionBoxGetInfo $params): AsyncResultOfEncryptionBoxGetInfo;
+
+    /**
+     * @param ParamsOfEncryptionBoxEncrypt $params
+     * @return AsyncResultOfEncryptionBoxEncrypt
+     */
+    function encryptionBoxEncryptAsync(ParamsOfEncryptionBoxEncrypt $params): AsyncResultOfEncryptionBoxEncrypt;
+
+    /**
+     * @param ParamsOfEncryptionBoxDecrypt $params
+     * @return AsyncResultOfEncryptionBoxDecrypt
+     */
+    function encryptionBoxDecryptAsync(ParamsOfEncryptionBoxDecrypt $params): AsyncResultOfEncryptionBoxDecrypt;
 }

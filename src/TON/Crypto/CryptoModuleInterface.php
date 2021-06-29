@@ -268,4 +268,27 @@ interface CryptoModuleInterface
      * @param RegisteredSigningBox $params
      */
     function removeSigningBox(RegisteredSigningBox $params);
+
+    /**
+     * @param RegisteredEncryptionBox $params
+     */
+    function removeEncryptionBox(RegisteredEncryptionBox $params);
+
+    /**
+     * @param ParamsOfEncryptionBoxGetInfo $params
+     * @return ResultOfEncryptionBoxGetInfo
+     */
+    function encryptionBoxGetInfo(ParamsOfEncryptionBoxGetInfo $params): ResultOfEncryptionBoxGetInfo;
+
+    /**
+     * @param ParamsOfEncryptionBoxEncrypt $params
+     * @return ResultOfEncryptionBoxEncrypt
+     */
+    function encryptionBoxEncrypt(ParamsOfEncryptionBoxEncrypt $params): ResultOfEncryptionBoxEncrypt;
+
+    /**
+     * @param ParamsOfEncryptionBoxDecrypt $params
+     * @return ResultOfEncryptionBoxDecrypt
+     */
+    function encryptionBoxDecrypt(ParamsOfEncryptionBoxDecrypt $params): ResultOfEncryptionBoxDecrypt;
 }

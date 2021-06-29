@@ -395,4 +395,39 @@ class CryptoModule implements CryptoModuleInterface
     {
         $this->_context->callFunction('crypto.remove_signing_box', $params);
     }
+
+    /**
+     * @param RegisteredEncryptionBox $params
+     */
+    public function removeEncryptionBox(RegisteredEncryptionBox $params)
+    {
+        $this->_context->callFunction('crypto.remove_encryption_box', $params);
+    }
+
+    /**
+     * @param ParamsOfEncryptionBoxGetInfo $params
+     * @return ResultOfEncryptionBoxGetInfo
+     */
+    public function encryptionBoxGetInfo(ParamsOfEncryptionBoxGetInfo $params): ResultOfEncryptionBoxGetInfo
+    {
+        return new ResultOfEncryptionBoxGetInfo($this->_context->callFunction('crypto.encryption_box_get_info', $params));
+    }
+
+    /**
+     * @param ParamsOfEncryptionBoxEncrypt $params
+     * @return ResultOfEncryptionBoxEncrypt
+     */
+    public function encryptionBoxEncrypt(ParamsOfEncryptionBoxEncrypt $params): ResultOfEncryptionBoxEncrypt
+    {
+        return new ResultOfEncryptionBoxEncrypt($this->_context->callFunction('crypto.encryption_box_encrypt', $params));
+    }
+
+    /**
+     * @param ParamsOfEncryptionBoxDecrypt $params
+     * @return ResultOfEncryptionBoxDecrypt
+     */
+    public function encryptionBoxDecrypt(ParamsOfEncryptionBoxDecrypt $params): ResultOfEncryptionBoxDecrypt
+    {
+        return new ResultOfEncryptionBoxDecrypt($this->_context->callFunction('crypto.encryption_box_decrypt', $params));
+    }
 }
