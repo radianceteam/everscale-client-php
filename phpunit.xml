@@ -19,7 +19,6 @@
         <testsuite name="Project Test Suite">
             <directory suffix="Tests.php">tests</directory>
             <exclude>tests/TON/Debot/DebotModuleIntegrationTests.php</exclude>
-            <exclude>tests/TON/Net/NetModuleIntegrationTests.php</exclude>
         </testsuite>
     </testsuites>
 

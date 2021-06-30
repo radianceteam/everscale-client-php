@@ -60,6 +60,7 @@ jobs:
     - name: Setup Environment (Ubuntu)
       if: matrix.operating-system == 'ubuntu-latest'
       run: |
+        docker pull tonlabs/local-node
         docker run -d --name local-node -e USER_AGREEMENT=yes -p8888:80 tonlabs/local-node
 
     - name: Install dependencies
