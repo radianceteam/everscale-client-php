@@ -2407,7 +2407,7 @@
     "platform": {
         "php": ">=7.4",
         "ext-json": "*",
-        "ext-ton_client": ">=1.17.0"
+        "ext-ton_client": ">=1.18.0"
     },
     "platform-dev": {
         "ext-readline": "*"
