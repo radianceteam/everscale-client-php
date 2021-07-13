@@ -10,6 +10,7 @@ namespace TON\Abi\Async;
 
 use TON\Abi\ParamsOfAttachSignature;
 use TON\Abi\ParamsOfAttachSignatureToMessageBody;
+use TON\Abi\ParamsOfDecodeAccountData;
 use TON\Abi\ParamsOfDecodeMessage;
 use TON\Abi\ParamsOfDecodeMessageBody;
 use TON\Abi\ParamsOfEncodeAccount;
@@ -113,4 +114,11 @@ interface AbiModuleAsyncInterface
      * @return AsyncResultOfEncodeAccount
      */
     function encodeAccountAsync(ParamsOfEncodeAccount $params): AsyncResultOfEncodeAccount;
+
+    /**
+     * Note: this feature requires ABI 2.1 or higher.
+     * @param ParamsOfDecodeAccountData $params
+     * @return AsyncResultOfDecodeData
+     */
+    function decodeAccountDataAsync(ParamsOfDecodeAccountData $params): AsyncResultOfDecodeData;
 }

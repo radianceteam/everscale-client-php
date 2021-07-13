@@ -26,6 +26,9 @@ class AbiContract implements JsonSerializable
     /** @var AbiData[]|null */
     private ?array $_data;
 
+    /** @var AbiParam[]|null */
+    private ?array $_fields;
+
     public function __construct(?array $dto = null)
     {
         if (!$dto) $dto = [];
@@ -35,6 +38,7 @@ class AbiContract implements JsonSerializable
         $this->_functions = isset($dto['functions']) ? array_map(function ($i) { return new AbiFunction($i); }, $dto['functions']) : null;
         $this->_events = isset($dto['events']) ? array_map(function ($i) { return new AbiEvent($i); }, $dto['events']) : null;
         $this->_data = isset($dto['data']) ? array_map(function ($i) { return new AbiData($i); }, $dto['data']) : null;
+        $this->_fields = isset($dto['fields']) ? array_map(function ($i) { return new AbiParam($i); }, $dto['fields']) : null;
     }
 
     public function getABI_version(): ?int
@@ -74,6 +78,14 @@ class AbiContract implements JsonSerializable
     public function getData(): ?array
     {
         return $this->_data;
+    }
+
+    /**
+     * @return AbiParam[]|null
+     */
+    public function getFields(): ?array
+    {
+        return $this->_fields;
     }
 
     /**
@@ -133,6 +145,16 @@ class AbiContract implements JsonSerializable
         return $this;
     }
 
+    /**
+     * @param AbiParam[]|null $fields
+     * @return self
+     */
+    public function setFields(?array $fields): self
+    {
+        $this->_fields = $fields;
+        return $this;
+    }
+
     public function jsonSerialize()
     {
         $result = [];
@@ -142,6 +164,7 @@ class AbiContract implements JsonSerializable
         if ($this->_functions !== null) $result['functions'] = $this->_functions;
         if ($this->_events !== null) $result['events'] = $this->_events;
         if ($this->_data !== null) $result['data'] = $this->_data;
+        if ($this->_fields !== null) $result['fields'] = $this->_fields;
         return !empty($result) ? $result : new stdClass();
     }
 }

@@ -22,4 +22,5 @@ final class AbiErrorCode
     const InvalidSigner = 310;
     const InvalidAbi = 311;
     const InvalidFunctionId = 312;
+    const InvalidData = 313;
 }

@@ -43,4 +43,5 @@ final class ClientErrorCode
     const UnexpectedCallbackResponse = 31;
     const CanNotParseNumber = 32;
     const InternalError = 33;
+    const InvalidHandle = 34;
 }

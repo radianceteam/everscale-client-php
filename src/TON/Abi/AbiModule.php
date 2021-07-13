@@ -151,4 +151,14 @@ class AbiModule implements AbiModuleInterface
     {
         return new ResultOfEncodeAccount($this->_context->callFunction('abi.encode_account', $params));
     }
+
+    /**
+     * Note: this feature requires ABI 2.1 or higher.
+     * @param ParamsOfDecodeAccountData $params
+     * @return ResultOfDecodeData
+     */
+    public function decodeAccountData(ParamsOfDecodeAccountData $params): ResultOfDecodeData
+    {
+        return new ResultOfDecodeData($this->_context->callFunction('abi.decode_account_data', $params));
+    }
 }

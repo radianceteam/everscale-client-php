@@ -111,4 +111,11 @@ interface AbiModuleInterface
      * @return ResultOfEncodeAccount
      */
     function encodeAccount(ParamsOfEncodeAccount $params): ResultOfEncodeAccount;
+
+    /**
+     * Note: this feature requires ABI 2.1 or higher.
+     * @param ParamsOfDecodeAccountData $params
+     * @return ResultOfDecodeData
+     */
+    function decodeAccountData(ParamsOfDecodeAccountData $params): ResultOfDecodeData;
 }
