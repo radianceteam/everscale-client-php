@@ -152,6 +152,9 @@ class CryptoModule implements CryptoModuleInterface
     }
 
     /**
+     * **NOTE:** In the result the secret key is actually the concatenation
+     * of secret and public keys (128 symbols hex string) by design of [NaCL](http://nacl.cr.yp.to/sign.html).
+     * See also [the stackexchange question](https://crypto.stackexchange.com/questions/54353/).
      * @param ParamsOfNaclSignKeyPairFromSecret $params
      * @return KeyPair
      */

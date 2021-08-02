@@ -14,8 +14,6 @@ use stdClass;
 class ParamsOfDecodeAccountData implements JsonSerializable
 {
     private ?Abi $_abi;
-
-    /** Must be encoded with base64 */
     private string $_data;
 
     public function __construct(?array $dto = null)
@@ -30,9 +28,6 @@ class ParamsOfDecodeAccountData implements JsonSerializable
         return $this->_abi;
     }
 
-    /**
-     * Must be encoded with base64
-     */
     public function getData(): string
     {
         return $this->_data;
@@ -48,7 +43,6 @@ class ParamsOfDecodeAccountData implements JsonSerializable
     }
 
     /**
-     * Must be encoded with base64
      * @return self
      */
     public function setData(string $data): self

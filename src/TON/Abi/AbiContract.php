@@ -15,6 +15,7 @@ class AbiContract implements JsonSerializable
 {
     private ?int $_ABI_version;
     private ?int $_abiVersion;
+    private ?string $_version;
     private ?array $_header;
 
     /** @var AbiFunction[]|null */
@@ -34,6 +35,7 @@ class AbiContract implements JsonSerializable
         if (!$dto) $dto = [];
         $this->_ABI_version = $dto['ABI version'] ?? null;
         $this->_abiVersion = $dto['abi_version'] ?? null;
+        $this->_version = $dto['version'] ?? null;
         $this->_header = $dto['header'] ?? null;
         $this->_functions = isset($dto['functions']) ? array_map(function ($i) { return new AbiFunction($i); }, $dto['functions']) : null;
         $this->_events = isset($dto['events']) ? array_map(function ($i) { return new AbiEvent($i); }, $dto['events']) : null;
@@ -49,6 +51,11 @@ class AbiContract implements JsonSerializable
     public function getAbiVersion(): ?int
     {
         return $this->_abiVersion;
+    }
+
+    public function getVersion(): ?string
+    {
+        return $this->_version;
     }
 
     public function getHeader(): ?array
@@ -109,6 +116,15 @@ class AbiContract implements JsonSerializable
     /**
      * @return self
      */
+    public function setVersion(?string $version): self
+    {
+        $this->_version = $version;
+        return $this;
+    }
+
+    /**
+     * @return self
+     */
     public function setHeader(?array $header): self
     {
         $this->_header = $header;
@@ -160,6 +176,7 @@ class AbiContract implements JsonSerializable
         $result = [];
         if ($this->_ABI_version !== null) $result['ABI version'] = $this->_ABI_version;
         if ($this->_abiVersion !== null) $result['abi_version'] = $this->_abiVersion;
+        if ($this->_version !== null) $result['version'] = $this->_version;
         if ($this->_header !== null) $result['header'] = $this->_header;
         if ($this->_functions !== null) $result['functions'] = $this->_functions;
         if ($this->_events !== null) $result['events'] = $this->_events;

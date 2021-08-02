@@ -57,6 +57,14 @@ class NetworkConfig implements JsonSerializable
     /** Must be specified in milliseconds. Default is 60000 (1 min). */
     private ?int $_maxLatency;
 
+    /**
+     * Is is used when no timeout specified for the request to limit the answer waiting time. If no answer received during the timeout requests ends with
+     * error.
+     *
+     * Must be specified in milliseconds. Default is 60000 (1 min).
+     */
+    private ?int $_queryTimeout;
+
     /** At the moment is not used in production. */
     private ?string $_accessKey;
 
@@ -75,6 +83,7 @@ class NetworkConfig implements JsonSerializable
         $this->_sendingEndpointCount = $dto['sending_endpoint_count'] ?? null;
         $this->_latencyDetectionInterval = $dto['latency_detection_interval'] ?? null;
         $this->_maxLatency = $dto['max_latency'] ?? null;
+        $this->_queryTimeout = $dto['query_timeout'] ?? null;
         $this->_accessKey = $dto['access_key'] ?? null;
     }
 
@@ -173,6 +182,17 @@ class NetworkConfig implements JsonSerializable
     public function getMaxLatency(): ?int
     {
         return $this->_maxLatency;
+    }
+
+    /**
+     * Is is used when no timeout specified for the request to limit the answer waiting time. If no answer received during the timeout requests ends with
+     * error.
+     *
+     * Must be specified in milliseconds. Default is 60000 (1 min).
+     */
+    public function getQueryTimeout(): ?int
+    {
+        return $this->_queryTimeout;
     }
 
     /**
@@ -309,6 +329,19 @@ class NetworkConfig implements JsonSerializable
     }
 
     /**
+     * Is is used when no timeout specified for the request to limit the answer waiting time. If no answer received during the timeout requests ends with
+     * error.
+     *
+     * Must be specified in milliseconds. Default is 60000 (1 min).
+     * @return self
+     */
+    public function setQueryTimeout(?int $queryTimeout): self
+    {
+        $this->_queryTimeout = $queryTimeout;
+        return $this;
+    }
+
+    /**
      * At the moment is not used in production.
      * @return self
      */
@@ -333,6 +366,7 @@ class NetworkConfig implements JsonSerializable
         if ($this->_sendingEndpointCount !== null) $result['sending_endpoint_count'] = $this->_sendingEndpointCount;
         if ($this->_latencyDetectionInterval !== null) $result['latency_detection_interval'] = $this->_latencyDetectionInterval;
         if ($this->_maxLatency !== null) $result['max_latency'] = $this->_maxLatency;
+        if ($this->_queryTimeout !== null) $result['query_timeout'] = $this->_queryTimeout;
         if ($this->_accessKey !== null) $result['access_key'] = $this->_accessKey;
         return !empty($result) ? $result : new stdClass();
     }
