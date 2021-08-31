@@ -284,14 +284,24 @@ interface CryptoModuleInterface
     function encryptionBoxGetInfo(ParamsOfEncryptionBoxGetInfo $params): ResultOfEncryptionBoxGetInfo;
 
     /**
+     * Block cipher algorithms pad data to cipher block size so encrypted data can be longer then original data. Client should store the original data size after encryption and use it after
+     * decryption to retrieve the original data from decrypted data.
      * @param ParamsOfEncryptionBoxEncrypt $params
      * @return ResultOfEncryptionBoxEncrypt
      */
     function encryptionBoxEncrypt(ParamsOfEncryptionBoxEncrypt $params): ResultOfEncryptionBoxEncrypt;
 
     /**
+     * Block cipher algorithms pad data to cipher block size so encrypted data can be longer then original data. Client should store the original data size after encryption and use it after
+     * decryption to retrieve the original data from decrypted data.
      * @param ParamsOfEncryptionBoxDecrypt $params
      * @return ResultOfEncryptionBoxDecrypt
      */
     function encryptionBoxDecrypt(ParamsOfEncryptionBoxDecrypt $params): ResultOfEncryptionBoxDecrypt;
+
+    /**
+     * @param ParamsOfCreateEncryptionBox $params
+     * @return RegisteredEncryptionBox
+     */
+    function createEncryptionBox(ParamsOfCreateEncryptionBox $params): RegisteredEncryptionBox;
 }

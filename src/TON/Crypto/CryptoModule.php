@@ -417,6 +417,8 @@ class CryptoModule implements CryptoModuleInterface
     }
 
     /**
+     * Block cipher algorithms pad data to cipher block size so encrypted data can be longer then original data. Client should store the original data size after encryption and use it after
+     * decryption to retrieve the original data from decrypted data.
      * @param ParamsOfEncryptionBoxEncrypt $params
      * @return ResultOfEncryptionBoxEncrypt
      */
@@ -426,11 +428,22 @@ class CryptoModule implements CryptoModuleInterface
     }
 
     /**
+     * Block cipher algorithms pad data to cipher block size so encrypted data can be longer then original data. Client should store the original data size after encryption and use it after
+     * decryption to retrieve the original data from decrypted data.
      * @param ParamsOfEncryptionBoxDecrypt $params
      * @return ResultOfEncryptionBoxDecrypt
      */
     public function encryptionBoxDecrypt(ParamsOfEncryptionBoxDecrypt $params): ResultOfEncryptionBoxDecrypt
     {
         return new ResultOfEncryptionBoxDecrypt($this->_context->callFunction('crypto.encryption_box_decrypt', $params));
+    }
+
+    /**
+     * @param ParamsOfCreateEncryptionBox $params
+     * @return RegisteredEncryptionBox
+     */
+    public function createEncryptionBox(ParamsOfCreateEncryptionBox $params): RegisteredEncryptionBox
+    {
+        return new RegisteredEncryptionBox($this->_context->callFunction('crypto.create_encryption_box', $params));
     }
 }

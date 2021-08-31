@@ -12,6 +12,7 @@ use TON\AsyncResult;
 use TON\Crypto\KeyPair;
 use TON\Crypto\ParamsOfChaCha20;
 use TON\Crypto\ParamsOfConvertPublicKeyToTonSafeFormat;
+use TON\Crypto\ParamsOfCreateEncryptionBox;
 use TON\Crypto\ParamsOfEncryptionBoxDecrypt;
 use TON\Crypto\ParamsOfEncryptionBoxEncrypt;
 use TON\Crypto\ParamsOfEncryptionBoxGetInfo;
@@ -464,6 +465,8 @@ class AsyncCryptoModule implements CryptoModuleAsyncInterface
     }
 
     /**
+     * Block cipher algorithms pad data to cipher block size so encrypted data can be longer then original data. Client should store the original data size after encryption and use it after
+     * decryption to retrieve the original data from decrypted data.
      * @param ParamsOfEncryptionBoxEncrypt $params
      * @return AsyncResultOfEncryptionBoxEncrypt
      */
@@ -473,11 +476,22 @@ class AsyncCryptoModule implements CryptoModuleAsyncInterface
     }
 
     /**
+     * Block cipher algorithms pad data to cipher block size so encrypted data can be longer then original data. Client should store the original data size after encryption and use it after
+     * decryption to retrieve the original data from decrypted data.
      * @param ParamsOfEncryptionBoxDecrypt $params
      * @return AsyncResultOfEncryptionBoxDecrypt
      */
     public function encryptionBoxDecryptAsync(ParamsOfEncryptionBoxDecrypt $params): AsyncResultOfEncryptionBoxDecrypt
     {
         return new AsyncResultOfEncryptionBoxDecrypt($this->_context->callFunctionAsync('crypto.encryption_box_decrypt', $params));
+    }
+
+    /**
+     * @param ParamsOfCreateEncryptionBox $params
+     * @return AsyncRegisteredEncryptionBox
+     */
+    public function createEncryptionBoxAsync(ParamsOfCreateEncryptionBox $params): AsyncRegisteredEncryptionBox
+    {
+        return new AsyncRegisteredEncryptionBox($this->_context->callFunctionAsync('crypto.create_encryption_box', $params));
     }
 }

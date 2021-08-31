@@ -31,4 +31,10 @@ final class CryptoErrorCode
     const SigningBoxNotRegistered = 121;
     const InvalidSignature = 122;
     const EncryptionBoxNotRegistered = 123;
+    const InvalidIvSize = 124;
+    const UnsupportedCipherMode = 125;
+    const CannotCreateCipher = 126;
+    const EncryptDataError = 127;
+    const DecryptDataError = 128;
+    const IvRequired = 129;
 }

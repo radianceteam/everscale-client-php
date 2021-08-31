@@ -13,6 +13,7 @@ use stdClass;
 
 class ResultOfEncryptionBoxEncrypt implements JsonSerializable
 {
+    /** Padded to cipher block size */
     private string $_data;
 
     public function __construct(?array $dto = null)
@@ -21,12 +22,16 @@ class ResultOfEncryptionBoxEncrypt implements JsonSerializable
         $this->_data = $dto['data'] ?? '';
     }
 
+    /**
+     * Padded to cipher block size
+     */
     public function getData(): string
     {
         return $this->_data;
     }
 
     /**
+     * Padded to cipher block size
      * @return self
      */
     public function setData(string $data): self
