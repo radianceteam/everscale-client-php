@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5bc204b61011639734582515e92756a0",
+    "content-hash": "312e08e196419e89385ba5f5da65efec",
     "packages": [
         {
             "name": "psr/log",
@@ -2410,7 +2410,7 @@
     "platform": {
         "php": ">=7.4",
         "ext-json": "*",
-        "ext-ton_client": ">=1.21.4"
+        "ext-ton_client": ">=1.21.5"
     },
     "platform-dev": {
         "ext-readline": "*"
