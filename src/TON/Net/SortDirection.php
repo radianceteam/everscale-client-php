@@ -10,6 +10,6 @@ namespace TON\Net;
 
 final class SortDirection
 {
-    const ASC = 'ASC';
-    const DESC = 'DESC';
+    public const ASC = 'ASC';
+    public const DESC = 'DESC';
 }

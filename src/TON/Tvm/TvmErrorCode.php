@@ -10,18 +10,18 @@ namespace TON\Tvm;
 
 final class TvmErrorCode
 {
-    const CanNotReadTransaction = 401;
-    const CanNotReadBlockchainConfig = 402;
-    const TransactionAborted = 403;
-    const InternalError = 404;
-    const ActionPhaseFailed = 405;
-    const AccountCodeMissing = 406;
-    const LowBalance = 407;
-    const AccountFrozenOrDeleted = 408;
-    const AccountMissing = 409;
-    const UnknownExecutionError = 410;
-    const InvalidInputStack = 411;
-    const InvalidAccountBoc = 412;
-    const InvalidMessageType = 413;
-    const ContractExecutionError = 414;
+    public const CanNotReadTransaction = 401;
+    public const CanNotReadBlockchainConfig = 402;
+    public const TransactionAborted = 403;
+    public const InternalError = 404;
+    public const ActionPhaseFailed = 405;
+    public const AccountCodeMissing = 406;
+    public const LowBalance = 407;
+    public const AccountFrozenOrDeleted = 408;
+    public const AccountMissing = 409;
+    public const UnknownExecutionError = 410;
+    public const InvalidInputStack = 411;
+    public const InvalidAccountBoc = 412;
+    public const InvalidMessageType = 413;
+    public const ContractExecutionError = 414;
 }

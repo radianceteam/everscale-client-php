@@ -10,18 +10,18 @@ namespace TON\Net;
 
 final class NetErrorCode
 {
-    const QueryFailed = 601;
-    const SubscribeFailed = 602;
-    const WaitForFailed = 603;
-    const GetSubscriptionResultFailed = 604;
-    const InvalidServerResponse = 605;
-    const ClockOutOfSync = 606;
-    const WaitForTimeout = 607;
-    const GraphqlError = 608;
-    const NetworkModuleSuspended = 609;
-    const WebsocketDisconnected = 610;
-    const NotSupported = 611;
-    const NoEndpointsProvided = 612;
-    const GraphqlWebsocketInitError = 613;
-    const NetworkModuleResumed = 614;
+    public const QueryFailed = 601;
+    public const SubscribeFailed = 602;
+    public const WaitForFailed = 603;
+    public const GetSubscriptionResultFailed = 604;
+    public const InvalidServerResponse = 605;
+    public const ClockOutOfSync = 606;
+    public const WaitForTimeout = 607;
+    public const GraphqlError = 608;
+    public const NetworkModuleSuspended = 609;
+    public const WebsocketDisconnected = 610;
+    public const NotSupported = 611;
+    public const NoEndpointsProvided = 612;
+    public const GraphqlWebsocketInitError = 613;
+    public const NetworkModuleResumed = 614;
 }

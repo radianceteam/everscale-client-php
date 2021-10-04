@@ -10,9 +10,9 @@ namespace TON\Crypto;
 
 final class CipherMode
 {
-    const CBC = 'CBC';
-    const CFB = 'CFB';
-    const CTR = 'CTR';
-    const ECB = 'ECB';
-    const OFB = 'OFB';
+    public const CBC = 'CBC';
+    public const CFB = 'CFB';
+    public const CTR = 'CTR';
+    public const ECB = 'ECB';
+    public const OFB = 'OFB';
 }

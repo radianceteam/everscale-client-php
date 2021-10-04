@@ -10,11 +10,11 @@ namespace TON\Boc;
 
 final class BocErrorCode
 {
-    const InvalidBoc = 201;
-    const SerializationError = 202;
-    const InappropriateBlock = 203;
-    const MissingSourceBoc = 204;
-    const InsufficientCacheSize = 205;
-    const BocRefNotFound = 206;
-    const InvalidBocRef = 207;
+    public const InvalidBoc = 201;
+    public const SerializationError = 202;
+    public const InappropriateBlock = 203;
+    public const MissingSourceBoc = 204;
+    public const InsufficientCacheSize = 205;
+    public const BocRefNotFound = 206;
+    public const InvalidBocRef = 207;
 }

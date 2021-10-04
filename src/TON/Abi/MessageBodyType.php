@@ -11,17 +11,17 @@ namespace TON\Abi;
 final class MessageBodyType
 {
     /** Message contains the input of the ABI function. */
-    const Input = 'Input';
+    public const Input = 'Input';
 
     /** Message contains the output of the ABI function. */
-    const Output = 'Output';
+    public const Output = 'Output';
 
     /**
      * Occurs when contract sends an internal message to other
      * contract.
      */
-    const InternalOutput = 'InternalOutput';
+    public const InternalOutput = 'InternalOutput';
 
     /** Message contains the input of the ABI event. */
-    const Event = 'Event';
+    public const Event = 'Event';
 }

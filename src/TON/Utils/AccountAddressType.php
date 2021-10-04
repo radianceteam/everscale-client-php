@@ -10,7 +10,7 @@ namespace TON\Utils;
 
 final class AccountAddressType
 {
-    const AccountId = 'AccountId';
-    const Hex = 'Hex';
-    const Base64 = 'Base64';
+    public const AccountId = 'AccountId';
+    public const Hex = 'Hex';
+    public const Base64 = 'Base64';
 }
