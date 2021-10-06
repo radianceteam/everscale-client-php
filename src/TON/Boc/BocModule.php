@@ -145,4 +145,50 @@ class BocModule implements BocModuleInterface
     {
         return new ResultOfEncodeBoc($this->_context->callFunction('boc.encode_boc', $params));
     }
+
+    /**
+     * @param ParamsOfGetCodeSalt $params
+     * @return ResultOfGetCodeSalt
+     */
+    public function getCodeSalt(ParamsOfGetCodeSalt $params): ResultOfGetCodeSalt
+    {
+        return new ResultOfGetCodeSalt($this->_context->callFunction('boc.get_code_salt', $params));
+    }
+
+    /**
+     * Returns the new contract code with salt.
+     * @param ParamsOfSetCodeSalt $params
+     * @return ResultOfSetCodeSalt
+     */
+    public function setCodeSalt(ParamsOfSetCodeSalt $params): ResultOfSetCodeSalt
+    {
+        return new ResultOfSetCodeSalt($this->_context->callFunction('boc.set_code_salt', $params));
+    }
+
+    /**
+     * @param ParamsOfDecodeTvc $params
+     * @return ResultOfDecodeTvc
+     */
+    public function decodeTvc(ParamsOfDecodeTvc $params): ResultOfDecodeTvc
+    {
+        return new ResultOfDecodeTvc($this->_context->callFunction('boc.decode_tvc', $params));
+    }
+
+    /**
+     * @param ParamsOfEncodeTvc $params
+     * @return ResultOfEncodeTvc
+     */
+    public function encodeTvc(ParamsOfEncodeTvc $params): ResultOfEncodeTvc
+    {
+        return new ResultOfEncodeTvc($this->_context->callFunction('boc.encode_tvc', $params));
+    }
+
+    /**
+     * @param ParamsOfGetCompilerVersion $params
+     * @return ResultOfGetCompilerVersion
+     */
+    public function getCompilerVersion(ParamsOfGetCompilerVersion $params): ResultOfGetCompilerVersion
+    {
+        return new ResultOfGetCompilerVersion($this->_context->callFunction('boc.get_compiler_version', $params));
+    }
 }

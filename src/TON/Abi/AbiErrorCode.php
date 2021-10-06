@@ -23,4 +23,5 @@ final class AbiErrorCode
     public const InvalidAbi = 311;
     public const InvalidFunctionId = 312;
     public const InvalidData = 313;
+    public const EncodeInitialDataFailed = 314;
 }

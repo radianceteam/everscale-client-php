@@ -93,4 +93,35 @@ interface BocModuleInterface
      * @return ResultOfEncodeBoc
      */
     function encodeBoc(ParamsOfEncodeBoc $params): ResultOfEncodeBoc;
+
+    /**
+     * @param ParamsOfGetCodeSalt $params
+     * @return ResultOfGetCodeSalt
+     */
+    function getCodeSalt(ParamsOfGetCodeSalt $params): ResultOfGetCodeSalt;
+
+    /**
+     * Returns the new contract code with salt.
+     * @param ParamsOfSetCodeSalt $params
+     * @return ResultOfSetCodeSalt
+     */
+    function setCodeSalt(ParamsOfSetCodeSalt $params): ResultOfSetCodeSalt;
+
+    /**
+     * @param ParamsOfDecodeTvc $params
+     * @return ResultOfDecodeTvc
+     */
+    function decodeTvc(ParamsOfDecodeTvc $params): ResultOfDecodeTvc;
+
+    /**
+     * @param ParamsOfEncodeTvc $params
+     * @return ResultOfEncodeTvc
+     */
+    function encodeTvc(ParamsOfEncodeTvc $params): ResultOfEncodeTvc;
+
+    /**
+     * @param ParamsOfGetCompilerVersion $params
+     * @return ResultOfGetCompilerVersion
+     */
+    function getCompilerVersion(ParamsOfGetCompilerVersion $params): ResultOfGetCompilerVersion;
 }

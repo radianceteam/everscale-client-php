@@ -11,12 +11,14 @@ namespace TON\Abi\Async;
 use TON\Abi\ParamsOfAttachSignature;
 use TON\Abi\ParamsOfAttachSignatureToMessageBody;
 use TON\Abi\ParamsOfDecodeAccountData;
+use TON\Abi\ParamsOfDecodeInitialData;
 use TON\Abi\ParamsOfDecodeMessage;
 use TON\Abi\ParamsOfDecodeMessageBody;
 use TON\Abi\ParamsOfEncodeAccount;
 use TON\Abi\ParamsOfEncodeInternalMessage;
 use TON\Abi\ParamsOfEncodeMessage;
 use TON\Abi\ParamsOfEncodeMessageBody;
+use TON\Abi\ParamsOfUpdateInitialData;
 
 interface AbiModuleAsyncInterface
 {
@@ -121,4 +123,16 @@ interface AbiModuleAsyncInterface
      * @return AsyncResultOfDecodeData
      */
     function decodeAccountDataAsync(ParamsOfDecodeAccountData $params): AsyncResultOfDecodeData;
+
+    /**
+     * @param ParamsOfUpdateInitialData $params
+     * @return AsyncResultOfUpdateInitialData
+     */
+    function updateInitialDataAsync(ParamsOfUpdateInitialData $params): AsyncResultOfUpdateInitialData;
+
+    /**
+     * @param ParamsOfDecodeInitialData $params
+     * @return AsyncResultOfDecodeInitialData
+     */
+    function decodeInitialDataAsync(ParamsOfDecodeInitialData $params): AsyncResultOfDecodeInitialData;
 }

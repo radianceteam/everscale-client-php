@@ -161,4 +161,22 @@ class AbiModule implements AbiModuleInterface
     {
         return new ResultOfDecodeData($this->_context->callFunction('abi.decode_account_data', $params));
     }
+
+    /**
+     * @param ParamsOfUpdateInitialData $params
+     * @return ResultOfUpdateInitialData
+     */
+    public function updateInitialData(ParamsOfUpdateInitialData $params): ResultOfUpdateInitialData
+    {
+        return new ResultOfUpdateInitialData($this->_context->callFunction('abi.update_initial_data', $params));
+    }
+
+    /**
+     * @param ParamsOfDecodeInitialData $params
+     * @return ResultOfDecodeInitialData
+     */
+    public function decodeInitialData(ParamsOfDecodeInitialData $params): ResultOfDecodeInitialData
+    {
+        return new ResultOfDecodeInitialData($this->_context->callFunction('abi.decode_initial_data', $params));
+    }
 }

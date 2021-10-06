@@ -118,4 +118,16 @@ interface AbiModuleInterface
      * @return ResultOfDecodeData
      */
     function decodeAccountData(ParamsOfDecodeAccountData $params): ResultOfDecodeData;
+
+    /**
+     * @param ParamsOfUpdateInitialData $params
+     * @return ResultOfUpdateInitialData
+     */
+    function updateInitialData(ParamsOfUpdateInitialData $params): ResultOfUpdateInitialData;
+
+    /**
+     * @param ParamsOfDecodeInitialData $params
+     * @return ResultOfDecodeInitialData
+     */
+    function decodeInitialData(ParamsOfDecodeInitialData $params): ResultOfDecodeInitialData;
 }

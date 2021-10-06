@@ -12,12 +12,17 @@ use TON\AsyncResult;
 use TON\Boc\ParamsOfBocCacheGet;
 use TON\Boc\ParamsOfBocCacheSet;
 use TON\Boc\ParamsOfBocCacheUnpin;
+use TON\Boc\ParamsOfDecodeTvc;
 use TON\Boc\ParamsOfEncodeBoc;
+use TON\Boc\ParamsOfEncodeTvc;
 use TON\Boc\ParamsOfGetBlockchainConfig;
 use TON\Boc\ParamsOfGetBocHash;
 use TON\Boc\ParamsOfGetCodeFromTvc;
+use TON\Boc\ParamsOfGetCodeSalt;
+use TON\Boc\ParamsOfGetCompilerVersion;
 use TON\Boc\ParamsOfParse;
 use TON\Boc\ParamsOfParseShardstate;
+use TON\Boc\ParamsOfSetCodeSalt;
 use TON\TonContext;
 
 class AsyncBocModule implements BocModuleAsyncInterface
@@ -145,5 +150,51 @@ class AsyncBocModule implements BocModuleAsyncInterface
     public function encodeBocAsync(ParamsOfEncodeBoc $params): AsyncResultOfEncodeBoc
     {
         return new AsyncResultOfEncodeBoc($this->_context->callFunctionAsync('boc.encode_boc', $params));
+    }
+
+    /**
+     * @param ParamsOfGetCodeSalt $params
+     * @return AsyncResultOfGetCodeSalt
+     */
+    public function getCodeSaltAsync(ParamsOfGetCodeSalt $params): AsyncResultOfGetCodeSalt
+    {
+        return new AsyncResultOfGetCodeSalt($this->_context->callFunctionAsync('boc.get_code_salt', $params));
+    }
+
+    /**
+     * Returns the new contract code with salt.
+     * @param ParamsOfSetCodeSalt $params
+     * @return AsyncResultOfSetCodeSalt
+     */
+    public function setCodeSaltAsync(ParamsOfSetCodeSalt $params): AsyncResultOfSetCodeSalt
+    {
+        return new AsyncResultOfSetCodeSalt($this->_context->callFunctionAsync('boc.set_code_salt', $params));
+    }
+
+    /**
+     * @param ParamsOfDecodeTvc $params
+     * @return AsyncResultOfDecodeTvc
+     */
+    public function decodeTvcAsync(ParamsOfDecodeTvc $params): AsyncResultOfDecodeTvc
+    {
+        return new AsyncResultOfDecodeTvc($this->_context->callFunctionAsync('boc.decode_tvc', $params));
+    }
+
+    /**
+     * @param ParamsOfEncodeTvc $params
+     * @return AsyncResultOfEncodeTvc
+     */
+    public function encodeTvcAsync(ParamsOfEncodeTvc $params): AsyncResultOfEncodeTvc
+    {
+        return new AsyncResultOfEncodeTvc($this->_context->callFunctionAsync('boc.encode_tvc', $params));
+    }
+
+    /**
+     * @param ParamsOfGetCompilerVersion $params
+     * @return AsyncResultOfGetCompilerVersion
+     */
+    public function getCompilerVersionAsync(ParamsOfGetCompilerVersion $params): AsyncResultOfGetCompilerVersion
+    {
+        return new AsyncResultOfGetCompilerVersion($this->_context->callFunctionAsync('boc.get_compiler_version', $params));
     }
 }

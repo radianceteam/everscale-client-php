@@ -12,12 +12,17 @@ use TON\AsyncResult;
 use TON\Boc\ParamsOfBocCacheGet;
 use TON\Boc\ParamsOfBocCacheSet;
 use TON\Boc\ParamsOfBocCacheUnpin;
+use TON\Boc\ParamsOfDecodeTvc;
 use TON\Boc\ParamsOfEncodeBoc;
+use TON\Boc\ParamsOfEncodeTvc;
 use TON\Boc\ParamsOfGetBlockchainConfig;
 use TON\Boc\ParamsOfGetBocHash;
 use TON\Boc\ParamsOfGetCodeFromTvc;
+use TON\Boc\ParamsOfGetCodeSalt;
+use TON\Boc\ParamsOfGetCompilerVersion;
 use TON\Boc\ParamsOfParse;
 use TON\Boc\ParamsOfParseShardstate;
+use TON\Boc\ParamsOfSetCodeSalt;
 
 interface BocModuleAsyncInterface
 {
@@ -98,4 +103,35 @@ interface BocModuleAsyncInterface
      * @return AsyncResultOfEncodeBoc
      */
     function encodeBocAsync(ParamsOfEncodeBoc $params): AsyncResultOfEncodeBoc;
+
+    /**
+     * @param ParamsOfGetCodeSalt $params
+     * @return AsyncResultOfGetCodeSalt
+     */
+    function getCodeSaltAsync(ParamsOfGetCodeSalt $params): AsyncResultOfGetCodeSalt;
+
+    /**
+     * Returns the new contract code with salt.
+     * @param ParamsOfSetCodeSalt $params
+     * @return AsyncResultOfSetCodeSalt
+     */
+    function setCodeSaltAsync(ParamsOfSetCodeSalt $params): AsyncResultOfSetCodeSalt;
+
+    /**
+     * @param ParamsOfDecodeTvc $params
+     * @return AsyncResultOfDecodeTvc
+     */
+    function decodeTvcAsync(ParamsOfDecodeTvc $params): AsyncResultOfDecodeTvc;
+
+    /**
+     * @param ParamsOfEncodeTvc $params
+     * @return AsyncResultOfEncodeTvc
+     */
+    function encodeTvcAsync(ParamsOfEncodeTvc $params): AsyncResultOfEncodeTvc;
+
+    /**
+     * @param ParamsOfGetCompilerVersion $params
+     * @return AsyncResultOfGetCompilerVersion
+     */
+    function getCompilerVersionAsync(ParamsOfGetCompilerVersion $params): AsyncResultOfGetCompilerVersion;
 }

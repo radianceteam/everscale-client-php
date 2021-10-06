@@ -11,12 +11,14 @@ namespace TON\Abi\Async;
 use TON\Abi\ParamsOfAttachSignature;
 use TON\Abi\ParamsOfAttachSignatureToMessageBody;
 use TON\Abi\ParamsOfDecodeAccountData;
+use TON\Abi\ParamsOfDecodeInitialData;
 use TON\Abi\ParamsOfDecodeMessage;
 use TON\Abi\ParamsOfDecodeMessageBody;
 use TON\Abi\ParamsOfEncodeAccount;
 use TON\Abi\ParamsOfEncodeInternalMessage;
 use TON\Abi\ParamsOfEncodeMessage;
 use TON\Abi\ParamsOfEncodeMessageBody;
+use TON\Abi\ParamsOfUpdateInitialData;
 use TON\TonContext;
 
 class AsyncAbiModule implements AbiModuleAsyncInterface
@@ -159,5 +161,23 @@ class AsyncAbiModule implements AbiModuleAsyncInterface
     public function decodeAccountDataAsync(ParamsOfDecodeAccountData $params): AsyncResultOfDecodeData
     {
         return new AsyncResultOfDecodeData($this->_context->callFunctionAsync('abi.decode_account_data', $params));
+    }
+
+    /**
+     * @param ParamsOfUpdateInitialData $params
+     * @return AsyncResultOfUpdateInitialData
+     */
+    public function updateInitialDataAsync(ParamsOfUpdateInitialData $params): AsyncResultOfUpdateInitialData
+    {
+        return new AsyncResultOfUpdateInitialData($this->_context->callFunctionAsync('abi.update_initial_data', $params));
+    }
+
+    /**
+     * @param ParamsOfDecodeInitialData $params
+     * @return AsyncResultOfDecodeInitialData
+     */
+    public function decodeInitialDataAsync(ParamsOfDecodeInitialData $params): AsyncResultOfDecodeInitialData
+    {
+        return new AsyncResultOfDecodeInitialData($this->_context->callFunctionAsync('abi.decode_initial_data', $params));
     }
 }
