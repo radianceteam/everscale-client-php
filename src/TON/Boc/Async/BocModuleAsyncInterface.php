@@ -16,6 +16,7 @@ use TON\Boc\ParamsOfDecodeTvc;
 use TON\Boc\ParamsOfEncodeBoc;
 use TON\Boc\ParamsOfEncodeTvc;
 use TON\Boc\ParamsOfGetBlockchainConfig;
+use TON\Boc\ParamsOfGetBocDepth;
 use TON\Boc\ParamsOfGetBocHash;
 use TON\Boc\ParamsOfGetCodeFromTvc;
 use TON\Boc\ParamsOfGetCodeSalt;
@@ -72,6 +73,12 @@ interface BocModuleAsyncInterface
      * @return AsyncResultOfGetBocHash
      */
     function getBocHashAsync(ParamsOfGetBocHash $params): AsyncResultOfGetBocHash;
+
+    /**
+     * @param ParamsOfGetBocDepth $params
+     * @return AsyncResultOfGetBocDepth
+     */
+    function getBocDepthAsync(ParamsOfGetBocDepth $params): AsyncResultOfGetBocDepth;
 
     /**
      * @param ParamsOfGetCodeFromTvc $params

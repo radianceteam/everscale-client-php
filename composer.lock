@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "514be65e31e948299414527974ef6cea",
+    "content-hash": "95607363045f93bddb6e1c90a1096650",
     "packages": [
         {
             "name": "psr/log",
@@ -286,16 +286,16 @@
         },
         {
             "name": "nette/php-generator",
-            "version": "v3.6.2",
+            "version": "v3.6.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nette/php-generator.git",
-                "reference": "bce6abcd4090ab5eec24b78f26c753c6525a425c"
+                "reference": "b8375ac20760c62b6816f8c2eaeabbbca305eed7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nette/php-generator/zipball/bce6abcd4090ab5eec24b78f26c753c6525a425c",
-                "reference": "bce6abcd4090ab5eec24b78f26c753c6525a425c",
+                "url": "https://api.github.com/repos/nette/php-generator/zipball/b8375ac20760c62b6816f8c2eaeabbbca305eed7",
+                "reference": "b8375ac20760c62b6816f8c2eaeabbbca305eed7",
                 "shasum": ""
             },
             "require": {
@@ -304,9 +304,9 @@
             },
             "require-dev": {
                 "nette/tester": "^2.4",
-                "nikic/php-parser": "^4.11",
+                "nikic/php-parser": "^4.13",
                 "phpstan/phpstan": "^0.12",
-                "tracy/tracy": "^2.3"
+                "tracy/tracy": "^2.8"
             },
             "suggest": {
                 "nikic/php-parser": "to use ClassType::withBodiesFrom() & GlobalFunction::withBodyFrom()"
@@ -348,9 +348,9 @@
             ],
             "support": {
                 "issues": "https://github.com/nette/php-generator/issues",
-                "source": "https://github.com/nette/php-generator/tree/v3.6.2"
+                "source": "https://github.com/nette/php-generator/tree/v3.6.4"
             },
-            "time": "2021-09-23T21:48:24+00:00"
+            "time": "2021-10-15T10:28:31+00:00"
         },
         {
             "name": "nette/utils",
@@ -659,16 +659,16 @@
         },
         {
             "name": "phpdocumentor/reflection-docblock",
-            "version": "5.2.2",
+            "version": "5.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpDocumentor/ReflectionDocBlock.git",
-                "reference": "069a785b2141f5bcf49f3e353548dc1cce6df556"
+                "reference": "622548b623e81ca6d78b721c5e029f4ce664f170"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpDocumentor/ReflectionDocBlock/zipball/069a785b2141f5bcf49f3e353548dc1cce6df556",
-                "reference": "069a785b2141f5bcf49f3e353548dc1cce6df556",
+                "url": "https://api.github.com/repos/phpDocumentor/ReflectionDocBlock/zipball/622548b623e81ca6d78b721c5e029f4ce664f170",
+                "reference": "622548b623e81ca6d78b721c5e029f4ce664f170",
                 "shasum": ""
             },
             "require": {
@@ -679,7 +679,8 @@
                 "webmozart/assert": "^1.9.1"
             },
             "require-dev": {
-                "mockery/mockery": "~1.3.2"
+                "mockery/mockery": "~1.3.2",
+                "psalm/phar": "^4.8"
             },
             "type": "library",
             "extra": {
@@ -709,9 +710,9 @@
             "description": "With this component, a library can provide support for annotations via DocBlocks or otherwise retrieve information that is embedded in a DocBlock.",
             "support": {
                 "issues": "https://github.com/phpDocumentor/ReflectionDocBlock/issues",
-                "source": "https://github.com/phpDocumentor/ReflectionDocBlock/tree/master"
+                "source": "https://github.com/phpDocumentor/ReflectionDocBlock/tree/5.3.0"
             },
-            "time": "2020-09-03T19:13:55+00:00"
+            "time": "2021-10-19T17:43:47+00:00"
         },
         {
             "name": "phpdocumentor/type-resolver",
@@ -2411,7 +2412,7 @@
     "platform": {
         "php": ">=7.4",
         "ext-json": "*",
-        "ext-ton_client": ">=1.23.0"
+        "ext-ton_client": ">=1.24.0"
     },
     "platform-dev": {
         "ext-readline": "*"

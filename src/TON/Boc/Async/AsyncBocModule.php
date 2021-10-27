@@ -16,6 +16,7 @@ use TON\Boc\ParamsOfDecodeTvc;
 use TON\Boc\ParamsOfEncodeBoc;
 use TON\Boc\ParamsOfEncodeTvc;
 use TON\Boc\ParamsOfGetBlockchainConfig;
+use TON\Boc\ParamsOfGetBocDepth;
 use TON\Boc\ParamsOfGetBocHash;
 use TON\Boc\ParamsOfGetCodeFromTvc;
 use TON\Boc\ParamsOfGetCodeSalt;
@@ -104,6 +105,15 @@ class AsyncBocModule implements BocModuleAsyncInterface
     public function getBocHashAsync(ParamsOfGetBocHash $params): AsyncResultOfGetBocHash
     {
         return new AsyncResultOfGetBocHash($this->_context->callFunctionAsync('boc.get_boc_hash', $params));
+    }
+
+    /**
+     * @param ParamsOfGetBocDepth $params
+     * @return AsyncResultOfGetBocDepth
+     */
+    public function getBocDepthAsync(ParamsOfGetBocDepth $params): AsyncResultOfGetBocDepth
+    {
+        return new AsyncResultOfGetBocDepth($this->_context->callFunctionAsync('boc.get_boc_depth', $params));
     }
 
     /**

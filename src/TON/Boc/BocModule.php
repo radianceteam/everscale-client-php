@@ -102,6 +102,15 @@ class BocModule implements BocModuleInterface
     }
 
     /**
+     * @param ParamsOfGetBocDepth $params
+     * @return ResultOfGetBocDepth
+     */
+    public function getBocDepth(ParamsOfGetBocDepth $params): ResultOfGetBocDepth
+    {
+        return new ResultOfGetBocDepth($this->_context->callFunction('boc.get_boc_depth', $params));
+    }
+
+    /**
      * @param ParamsOfGetCodeFromTvc $params
      * @return ResultOfGetCodeFromTvc
      */
