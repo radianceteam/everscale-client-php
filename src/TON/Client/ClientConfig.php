@@ -17,6 +17,8 @@ class ClientConfig implements JsonSerializable
     private ?CryptoConfig $_crypto;
     private ?AbiConfig $_abi;
     private ?BocConfig $_boc;
+    private ?ProofsConfig $_proofs;
+    private ?string $_localStoragePath;
 
     public function __construct(?array $dto = null)
     {
@@ -25,6 +27,8 @@ class ClientConfig implements JsonSerializable
         $this->_crypto = isset($dto['crypto']) ? new CryptoConfig($dto['crypto']) : null;
         $this->_abi = isset($dto['abi']) ? new AbiConfig($dto['abi']) : null;
         $this->_boc = isset($dto['boc']) ? new BocConfig($dto['boc']) : null;
+        $this->_proofs = isset($dto['proofs']) ? new ProofsConfig($dto['proofs']) : null;
+        $this->_localStoragePath = $dto['local_storage_path'] ?? null;
     }
 
     public function getNetwork(): ?NetworkConfig
@@ -45,6 +49,16 @@ class ClientConfig implements JsonSerializable
     public function getBoc(): ?BocConfig
     {
         return $this->_boc;
+    }
+
+    public function getProofs(): ?ProofsConfig
+    {
+        return $this->_proofs;
+    }
+
+    public function getLocalStoragePath(): ?string
+    {
+        return $this->_localStoragePath;
     }
 
     /**
@@ -83,6 +97,24 @@ class ClientConfig implements JsonSerializable
         return $this;
     }
 
+    /**
+     * @return self
+     */
+    public function setProofs(?ProofsConfig $proofs): self
+    {
+        $this->_proofs = $proofs;
+        return $this;
+    }
+
+    /**
+     * @return self
+     */
+    public function setLocalStoragePath(?string $localStoragePath): self
+    {
+        $this->_localStoragePath = $localStoragePath;
+        return $this;
+    }
+
     public function jsonSerialize()
     {
         $result = [];
@@ -90,6 +122,8 @@ class ClientConfig implements JsonSerializable
         if ($this->_crypto !== null) $result['crypto'] = $this->_crypto;
         if ($this->_abi !== null) $result['abi'] = $this->_abi;
         if ($this->_boc !== null) $result['boc'] = $this->_boc;
+        if ($this->_proofs !== null) $result['proofs'] = $this->_proofs;
+        if ($this->_localStoragePath !== null) $result['local_storage_path'] = $this->_localStoragePath;
         return !empty($result) ? $result : new stdClass();
     }
 }

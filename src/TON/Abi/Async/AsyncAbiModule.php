@@ -11,6 +11,7 @@ namespace TON\Abi\Async;
 use TON\Abi\ParamsOfAttachSignature;
 use TON\Abi\ParamsOfAttachSignatureToMessageBody;
 use TON\Abi\ParamsOfDecodeAccountData;
+use TON\Abi\ParamsOfDecodeBoc;
 use TON\Abi\ParamsOfDecodeInitialData;
 use TON\Abi\ParamsOfDecodeMessage;
 use TON\Abi\ParamsOfDecodeMessageBody;
@@ -156,11 +157,11 @@ class AsyncAbiModule implements AbiModuleAsyncInterface
     /**
      * Note: this feature requires ABI 2.1 or higher.
      * @param ParamsOfDecodeAccountData $params
-     * @return AsyncResultOfDecodeData
+     * @return AsyncResultOfDecodeAccountData
      */
-    public function decodeAccountDataAsync(ParamsOfDecodeAccountData $params): AsyncResultOfDecodeData
+    public function decodeAccountDataAsync(ParamsOfDecodeAccountData $params): AsyncResultOfDecodeAccountData
     {
-        return new AsyncResultOfDecodeData($this->_context->callFunctionAsync('abi.decode_account_data', $params));
+        return new AsyncResultOfDecodeAccountData($this->_context->callFunctionAsync('abi.decode_account_data', $params));
     }
 
     /**
@@ -179,5 +180,29 @@ class AsyncAbiModule implements AbiModuleAsyncInterface
     public function decodeInitialDataAsync(ParamsOfDecodeInitialData $params): AsyncResultOfDecodeInitialData
     {
         return new AsyncResultOfDecodeInitialData($this->_context->callFunctionAsync('abi.decode_initial_data', $params));
+    }
+
+    /**
+     * Solidity functions use ABI types for [builder encoding](https://github.com/tonlabs/TON-Solidity-Compiler/blob/master/API.md#tvmbuilderstore).
+     * The simplest way to decode such a BOC is to use ABI decoding.
+     * ABI has it own rules for fields layout in cells so manually encoded
+     * BOC can not be described in terms of ABI rules.
+     *
+     * To solve this problem we introduce a new ABI type `Ref(<ParamType>)`
+     * which allows to store `ParamType` ABI parameter in cell reference and, thus,
+     * decode manually encoded BOCs. This type is available only in `decode_boc` function
+     * and will not be available in ABI messages encoding until it is included into some ABI revision.
+     *
+     * Such BOC descriptions covers most users needs. If someone wants to decode some BOC which
+     * can not be described by these rules (i.e. BOC with TLB containing constructors of flags
+     * defining some parsing conditions) then they can decode the fields up to fork condition,
+     * check the parsed data manually, expand the parsing schema and then decode the whole BOC
+     * with the full schema.
+     * @param ParamsOfDecodeBoc $params
+     * @return AsyncResultOfDecodeBoc
+     */
+    public function decodeBocAsync(ParamsOfDecodeBoc $params): AsyncResultOfDecodeBoc
+    {
+        return new AsyncResultOfDecodeBoc($this->_context->callFunctionAsync('abi.decode_boc', $params));
     }
 }

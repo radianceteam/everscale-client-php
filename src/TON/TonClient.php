@@ -24,6 +24,9 @@ use TON\Net\NetModule;
 use TON\Net\NetModuleInterface;
 use TON\Processing\ProcessingModule;
 use TON\Processing\ProcessingModuleInterface;
+use TON\Proofs\ProofsModule;
+use TON\Proofs\ProofsModuleInterface;
+use TON\TonContext;
 use TON\Tvm\TvmModule;
 use TON\Tvm\TvmModuleInterface;
 use TON\Utils\UtilsModule;
@@ -41,6 +44,7 @@ class TonClient implements TonClientInterface
     private TvmModuleInterface $_tvm;
     private NetModuleInterface $_net;
     private DebotModuleInterface $_debot;
+    private ProofsModuleInterface $_proofs;
 
     public function __construct(?JsonSerializable $config = null, ?LoggerInterface $logger = null)
     {
@@ -54,6 +58,7 @@ class TonClient implements TonClientInterface
         $this->_tvm = new TvmModule($this->_context);
         $this->_net = new NetModule($this->_context);
         $this->_debot = new DebotModule($this->_context);
+        $this->_proofs = new ProofsModule($this->_context);
     }
 
     public function setLogger(LoggerInterface $logger)
@@ -108,5 +113,10 @@ class TonClient implements TonClientInterface
     public function debot(): DebotModuleInterface
     {
         return $this->_debot;
+    }
+
+    public function proofs(): ProofsModuleInterface
+    {
+        return $this->_proofs;
     }
 }

@@ -44,4 +44,5 @@ final class ClientErrorCode
     public const CanNotParseNumber = 32;
     public const InternalError = 33;
     public const InvalidHandle = 34;
+    public const LocalStorageError = 35;
 }
