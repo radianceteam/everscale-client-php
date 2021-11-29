@@ -22,4 +22,5 @@ final class DebotErrorCode
     public const DebotExternalCallFailed = 810;
     public const DebotBrowserCallbackFailed = 811;
     public const DebotOperationRejected = 812;
+    public const DebotNoCode = 813;
 }

@@ -24,6 +24,7 @@ class DebotInfo implements JsonSerializable
     private ?string $_dabi;
     private ?string $_icon;
     private array $_interfaces;
+    private string $_dabiVersion;
 
     public function __construct(?array $dto = null)
     {
@@ -39,6 +40,7 @@ class DebotInfo implements JsonSerializable
         $this->_dabi = $dto['dabi'] ?? null;
         $this->_icon = $dto['icon'] ?? null;
         $this->_interfaces = $dto['interfaces'] ?? [];
+        $this->_dabiVersion = $dto['dabiVersion'] ?? '';
     }
 
     public function getName(): ?string
@@ -94,6 +96,11 @@ class DebotInfo implements JsonSerializable
     public function getInterfaces(): array
     {
         return $this->_interfaces;
+    }
+
+    public function getDabiVersion(): string
+    {
+        return $this->_dabiVersion;
     }
 
     /**
@@ -195,6 +202,15 @@ class DebotInfo implements JsonSerializable
         return $this;
     }
 
+    /**
+     * @return self
+     */
+    public function setDabiVersion(string $dabiVersion): self
+    {
+        $this->_dabiVersion = $dabiVersion;
+        return $this;
+    }
+
     public function jsonSerialize()
     {
         $result = [];
@@ -209,6 +225,7 @@ class DebotInfo implements JsonSerializable
         if ($this->_dabi !== null) $result['dabi'] = $this->_dabi;
         if ($this->_icon !== null) $result['icon'] = $this->_icon;
         if ($this->_interfaces !== null) $result['interfaces'] = $this->_interfaces;
+        if ($this->_dabiVersion !== null) $result['dabiVersion'] = $this->_dabiVersion;
         return !empty($result) ? $result : new stdClass();
     }
 }

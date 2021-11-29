@@ -26,7 +26,6 @@ use TON\Processing\ProcessingModule;
 use TON\Processing\ProcessingModuleInterface;
 use TON\Proofs\ProofsModule;
 use TON\Proofs\ProofsModuleInterface;
-use TON\TonContext;
 use TON\Tvm\TvmModule;
 use TON\Tvm\TvmModuleInterface;
 use TON\Utils\UtilsModule;

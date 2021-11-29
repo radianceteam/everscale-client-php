@@ -16,7 +16,6 @@ use TON\Debot\DebotModuleInterface;
 use TON\Net\NetModuleInterface;
 use TON\Processing\ProcessingModuleInterface;
 use TON\Proofs\ProofsModuleInterface;
-use TON\TonContext;
 use TON\Tvm\TvmModuleInterface;
 use TON\Utils\UtilsModuleInterface;
 
