@@ -172,6 +172,16 @@ class AbiModule implements AbiModuleInterface
     }
 
     /**
+     * This function is analogue of `tvm.buildDataInit` function in Solidity.
+     * @param ParamsOfEncodeInitialData $params
+     * @return ResultOfEncodeInitialData
+     */
+    public function encodeInitialData(ParamsOfEncodeInitialData $params): ResultOfEncodeInitialData
+    {
+        return new ResultOfEncodeInitialData($this->_context->callFunction('abi.encode_initial_data', $params));
+    }
+
+    /**
      * @param ParamsOfDecodeInitialData $params
      * @return ResultOfDecodeInitialData
      */

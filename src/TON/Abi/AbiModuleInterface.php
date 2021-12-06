@@ -126,6 +126,13 @@ interface AbiModuleInterface
     function updateInitialData(ParamsOfUpdateInitialData $params): ResultOfUpdateInitialData;
 
     /**
+     * This function is analogue of `tvm.buildDataInit` function in Solidity.
+     * @param ParamsOfEncodeInitialData $params
+     * @return ResultOfEncodeInitialData
+     */
+    function encodeInitialData(ParamsOfEncodeInitialData $params): ResultOfEncodeInitialData;
+
+    /**
      * @param ParamsOfDecodeInitialData $params
      * @return ResultOfDecodeInitialData
      */

@@ -16,6 +16,7 @@ use TON\Abi\ParamsOfDecodeInitialData;
 use TON\Abi\ParamsOfDecodeMessage;
 use TON\Abi\ParamsOfDecodeMessageBody;
 use TON\Abi\ParamsOfEncodeAccount;
+use TON\Abi\ParamsOfEncodeInitialData;
 use TON\Abi\ParamsOfEncodeInternalMessage;
 use TON\Abi\ParamsOfEncodeMessage;
 use TON\Abi\ParamsOfEncodeMessageBody;
@@ -130,6 +131,13 @@ interface AbiModuleAsyncInterface
      * @return AsyncResultOfUpdateInitialData
      */
     function updateInitialDataAsync(ParamsOfUpdateInitialData $params): AsyncResultOfUpdateInitialData;
+
+    /**
+     * This function is analogue of `tvm.buildDataInit` function in Solidity.
+     * @param ParamsOfEncodeInitialData $params
+     * @return AsyncResultOfEncodeInitialData
+     */
+    function encodeInitialDataAsync(ParamsOfEncodeInitialData $params): AsyncResultOfEncodeInitialData;
 
     /**
      * @param ParamsOfDecodeInitialData $params
