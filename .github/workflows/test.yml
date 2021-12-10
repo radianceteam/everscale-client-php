@@ -34,19 +34,19 @@ jobs:
 
     - name: Download PHP Installer
       run: |
-        php -r "copy('https://raw.githubusercontent.com/radianceteam/ton-client-php-ext/1.27.0/installer.php', 'installer.php');"
+        php -r "copy('https://raw.githubusercontent.com/radianceteam/ton-client-php-ext/1.27.1/installer.php', 'installer.php');"
         php -r "if (hash_file('sha384', 'installer.php') === '03586e200bc1c87f000c5a0eea27aa688eb451a5b946579205ca918bbffda7234359e2d0e176aa53e841c6a77b8de959') { echo 'Installer verified'; } else { echo 'Installer corrupt'; } echo PHP_EOL;"
       
     - name: Install PHP Extension (Windows)
       if: matrix.operating-system == 'windows-latest'
-      run: php installer.php -v 1.27.0
+      run: php installer.php -v 1.27.1
 
     - name: Install PHP Extension (Ubuntu/Mac)
       if: matrix.operating-system != 'windows-latest'
-      run: sudo php installer.php -v 1.27.0
+      run: sudo php installer.php -v 1.27.1
 
     - name: Test PHP Extension
-      run: php installer.php -v 1.27.0 -T
+      run: php installer.php -v 1.27.1 -T
 
     - name: Check PHP Extensions
       run: php -m
