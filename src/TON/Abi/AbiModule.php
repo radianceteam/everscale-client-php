@@ -213,4 +213,13 @@ class AbiModule implements AbiModuleInterface
     {
         return new ResultOfDecodeBoc($this->_context->callFunction('abi.decode_boc', $params));
     }
+
+    /**
+     * @param ParamsOfAbiEncodeBoc $params
+     * @return ResultOfAbiEncodeBoc
+     */
+    public function encodeBoc(ParamsOfAbiEncodeBoc $params): ResultOfAbiEncodeBoc
+    {
+        return new ResultOfAbiEncodeBoc($this->_context->callFunction('abi.encode_boc', $params));
+    }
 }

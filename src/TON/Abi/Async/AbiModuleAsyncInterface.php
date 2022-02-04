@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace TON\Abi\Async;
 
+use TON\Abi\ParamsOfAbiEncodeBoc;
 use TON\Abi\ParamsOfAttachSignature;
 use TON\Abi\ParamsOfAttachSignatureToMessageBody;
 use TON\Abi\ParamsOfDecodeAccountData;
@@ -165,4 +166,10 @@ interface AbiModuleAsyncInterface
      * @return AsyncResultOfDecodeBoc
      */
     function decodeBocAsync(ParamsOfDecodeBoc $params): AsyncResultOfDecodeBoc;
+
+    /**
+     * @param ParamsOfAbiEncodeBoc $params
+     * @return AsyncResultOfAbiEncodeBoc
+     */
+    function encodeBocAsync(ParamsOfAbiEncodeBoc $params): AsyncResultOfAbiEncodeBoc;
 }

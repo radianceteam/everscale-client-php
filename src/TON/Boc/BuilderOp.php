@@ -21,6 +21,7 @@ abstract class BuilderOp implements JsonSerializable
         if ($dto['type'] === 'BitString') return new BuilderOp_BitString($dto);
         if ($dto['type'] === 'Cell') return new BuilderOp_Cell($dto);
         if ($dto['type'] === 'CellBoc') return new BuilderOp_CellBoc($dto);
+        if ($dto['type'] === 'Address') return new BuilderOp_Address($dto);
         throw new InvalidArgumentException("Unsupported BuilderOp type: {$dto['type']}");
     }
 }
