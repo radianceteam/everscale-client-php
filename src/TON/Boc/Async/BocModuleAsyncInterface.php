@@ -14,6 +14,7 @@ use TON\Boc\ParamsOfBocCacheSet;
 use TON\Boc\ParamsOfBocCacheUnpin;
 use TON\Boc\ParamsOfDecodeTvc;
 use TON\Boc\ParamsOfEncodeBoc;
+use TON\Boc\ParamsOfEncodeExternalInMessage;
 use TON\Boc\ParamsOfEncodeTvc;
 use TON\Boc\ParamsOfGetBlockchainConfig;
 use TON\Boc\ParamsOfGetBocDepth;
@@ -135,6 +136,13 @@ interface BocModuleAsyncInterface
      * @return AsyncResultOfEncodeTvc
      */
     function encodeTvcAsync(ParamsOfEncodeTvc $params): AsyncResultOfEncodeTvc;
+
+    /**
+     * Allows to encode any external inbound message.
+     * @param ParamsOfEncodeExternalInMessage $params
+     * @return AsyncResultOfEncodeExternalInMessage
+     */
+    function encodeExternalInMessageAsync(ParamsOfEncodeExternalInMessage $params): AsyncResultOfEncodeExternalInMessage;
 
     /**
      * @param ParamsOfGetCompilerVersion $params

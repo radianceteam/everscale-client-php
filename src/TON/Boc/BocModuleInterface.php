@@ -126,6 +126,13 @@ interface BocModuleInterface
     function encodeTvc(ParamsOfEncodeTvc $params): ResultOfEncodeTvc;
 
     /**
+     * Allows to encode any external inbound message.
+     * @param ParamsOfEncodeExternalInMessage $params
+     * @return ResultOfEncodeExternalInMessage
+     */
+    function encodeExternalInMessage(ParamsOfEncodeExternalInMessage $params): ResultOfEncodeExternalInMessage;
+
+    /**
      * @param ParamsOfGetCompilerVersion $params
      * @return ResultOfGetCompilerVersion
      */

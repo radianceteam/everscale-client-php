@@ -193,6 +193,16 @@ class BocModule implements BocModuleInterface
     }
 
     /**
+     * Allows to encode any external inbound message.
+     * @param ParamsOfEncodeExternalInMessage $params
+     * @return ResultOfEncodeExternalInMessage
+     */
+    public function encodeExternalInMessage(ParamsOfEncodeExternalInMessage $params): ResultOfEncodeExternalInMessage
+    {
+        return new ResultOfEncodeExternalInMessage($this->_context->callFunction('boc.encode_external_in_message', $params));
+    }
+
+    /**
      * @param ParamsOfGetCompilerVersion $params
      * @return ResultOfGetCompilerVersion
      */
