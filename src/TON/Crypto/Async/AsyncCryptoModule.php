@@ -12,12 +12,15 @@ use TON\AsyncResult;
 use TON\Crypto\KeyPair;
 use TON\Crypto\ParamsOfChaCha20;
 use TON\Crypto\ParamsOfConvertPublicKeyToTonSafeFormat;
+use TON\Crypto\ParamsOfCreateCryptoBox;
 use TON\Crypto\ParamsOfCreateEncryptionBox;
 use TON\Crypto\ParamsOfEncryptionBoxDecrypt;
 use TON\Crypto\ParamsOfEncryptionBoxEncrypt;
 use TON\Crypto\ParamsOfEncryptionBoxGetInfo;
 use TON\Crypto\ParamsOfFactorize;
 use TON\Crypto\ParamsOfGenerateRandomBytes;
+use TON\Crypto\ParamsOfGetEncryptionBoxFromCryptoBox;
+use TON\Crypto\ParamsOfGetSigningBoxFromCryptoBox;
 use TON\Crypto\ParamsOfHDKeyDeriveFromXPrv;
 use TON\Crypto\ParamsOfHDKeyDeriveFromXPrvPath;
 use TON\Crypto\ParamsOfHDKeyPublicFromXPrv;
@@ -44,6 +47,7 @@ use TON\Crypto\ParamsOfSign;
 use TON\Crypto\ParamsOfSigningBoxSign;
 use TON\Crypto\ParamsOfTonCrc16;
 use TON\Crypto\ParamsOfVerifySignature;
+use TON\Crypto\RegisteredCryptoBox;
 use TON\Crypto\RegisteredEncryptionBox;
 use TON\Crypto\RegisteredSigningBox;
 use TON\TonContext;
@@ -390,6 +394,85 @@ class AsyncCryptoModule implements CryptoModuleAsyncInterface
     public function chacha20Async(ParamsOfChaCha20 $params): AsyncResultOfChaCha20
     {
         return new AsyncResultOfChaCha20($this->_context->callFunctionAsync('crypto.chacha20', $params));
+    }
+
+    /**
+     * Crypto Box is a root crypto object, that encapsulates some secret (seed phrase usually)
+     * in encrypted form and acts as a factory for all crypto primitives used in SDK:
+     * keys for signing and encryption, derived from this secret.
+     *
+     * Crypto Box encrypts original Seed Phrase with salt and password that is retrieved
+     * from `password_provider` callback, implemented on Application side.
+     *
+     * When used, decrypted secret shows up in core library's memory for a very short period
+     * of time and then is immediately overwritten with zeroes.
+     * @param ParamsOfCreateCryptoBox $params
+     * @param callable $callback Transforms app request to app response.
+     * @return AsyncRegisteredCryptoBox
+     */
+    public function createCryptoBoxAsync(ParamsOfCreateCryptoBox $params, callable $callback): AsyncRegisteredCryptoBox
+    {
+        return new AsyncRegisteredCryptoBox($this->_context->callFunctionAsync('crypto.create_crypto_box', $params, $callback));
+    }
+
+    /**
+     * @param RegisteredCryptoBox $params
+     * @return AsyncResult
+     */
+    public function removeCryptoBoxAsync(RegisteredCryptoBox $params): AsyncResult
+    {
+        return new AsyncResult($this->_context->callFunctionAsync('crypto.remove_crypto_box', $params));
+    }
+
+    /**
+     * @param RegisteredCryptoBox $params
+     * @return AsyncResultOfGetCryptoBoxInfo
+     */
+    public function getCryptoBoxInfoAsync(RegisteredCryptoBox $params): AsyncResultOfGetCryptoBoxInfo
+    {
+        return new AsyncResultOfGetCryptoBoxInfo($this->_context->callFunctionAsync('crypto.get_crypto_box_info', $params));
+    }
+
+    /**
+     * Attention! Store this data in your application for a very short period of time and overwrite it with zeroes ASAP.
+     * @param RegisteredCryptoBox $params
+     * @return AsyncResultOfGetCryptoBoxSeedPhrase
+     */
+    public function getCryptoBoxSeedPhraseAsync(RegisteredCryptoBox $params): AsyncResultOfGetCryptoBoxSeedPhrase
+    {
+        return new AsyncResultOfGetCryptoBoxSeedPhrase($this->_context->callFunctionAsync('crypto.get_crypto_box_seed_phrase', $params));
+    }
+
+    /**
+     * @param ParamsOfGetSigningBoxFromCryptoBox $params
+     * @return AsyncRegisteredSigningBox
+     */
+    public function getSigningBoxFromCryptoBoxAsync(ParamsOfGetSigningBoxFromCryptoBox $params): AsyncRegisteredSigningBox
+    {
+        return new AsyncRegisteredSigningBox($this->_context->callFunctionAsync('crypto.get_signing_box_from_crypto_box', $params));
+    }
+
+    /**
+     * Derives encryption keypair from cryptobox secret and hdpath and
+     * stores it in cache for `secret_lifetime`
+     * or until explicitly cleared by `clear_crypto_box_secret_cache` method.
+     * If `secret_lifetime` is not specified - overwrites encryption secret with zeroes immediately after
+     * encryption operation.
+     * @param ParamsOfGetEncryptionBoxFromCryptoBox $params
+     * @return AsyncRegisteredEncryptionBox
+     */
+    public function getEncryptionBoxFromCryptoBoxAsync(ParamsOfGetEncryptionBoxFromCryptoBox $params): AsyncRegisteredEncryptionBox
+    {
+        return new AsyncRegisteredEncryptionBox($this->_context->callFunctionAsync('crypto.get_encryption_box_from_crypto_box', $params));
+    }
+
+    /**
+     * @param RegisteredCryptoBox $params
+     * @return AsyncResult
+     */
+    public function clearCryptoBoxSecretCacheAsync(RegisteredCryptoBox $params): AsyncResult
+    {
+        return new AsyncResult($this->_context->callFunctionAsync('crypto.clear_crypto_box_secret_cache', $params));
     }
 
     /**

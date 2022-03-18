@@ -37,4 +37,8 @@ final class CryptoErrorCode
     public const EncryptDataError = 127;
     public const DecryptDataError = 128;
     public const IvRequired = 129;
+    public const CryptoBoxNotRegistered = 130;
+    public const InvalidCryptoBoxType = 131;
+    public const CryptoBoxSecretSerializationError = 132;
+    public const CryptoBoxSecretDeserializationError = 133;
 }

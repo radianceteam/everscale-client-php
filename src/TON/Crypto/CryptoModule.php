@@ -365,6 +365,64 @@ class CryptoModule implements CryptoModuleInterface
     }
 
     /**
+     * @param RegisteredCryptoBox $params
+     */
+    public function removeCryptoBox(RegisteredCryptoBox $params)
+    {
+        $this->_context->callFunction('crypto.remove_crypto_box', $params);
+    }
+
+    /**
+     * @param RegisteredCryptoBox $params
+     * @return ResultOfGetCryptoBoxInfo
+     */
+    public function getCryptoBoxInfo(RegisteredCryptoBox $params): ResultOfGetCryptoBoxInfo
+    {
+        return new ResultOfGetCryptoBoxInfo($this->_context->callFunction('crypto.get_crypto_box_info', $params));
+    }
+
+    /**
+     * Attention! Store this data in your application for a very short period of time and overwrite it with zeroes ASAP.
+     * @param RegisteredCryptoBox $params
+     * @return ResultOfGetCryptoBoxSeedPhrase
+     */
+    public function getCryptoBoxSeedPhrase(RegisteredCryptoBox $params): ResultOfGetCryptoBoxSeedPhrase
+    {
+        return new ResultOfGetCryptoBoxSeedPhrase($this->_context->callFunction('crypto.get_crypto_box_seed_phrase', $params));
+    }
+
+    /**
+     * @param ParamsOfGetSigningBoxFromCryptoBox $params
+     * @return RegisteredSigningBox
+     */
+    public function getSigningBoxFromCryptoBox(ParamsOfGetSigningBoxFromCryptoBox $params): RegisteredSigningBox
+    {
+        return new RegisteredSigningBox($this->_context->callFunction('crypto.get_signing_box_from_crypto_box', $params));
+    }
+
+    /**
+     * Derives encryption keypair from cryptobox secret and hdpath and
+     * stores it in cache for `secret_lifetime`
+     * or until explicitly cleared by `clear_crypto_box_secret_cache` method.
+     * If `secret_lifetime` is not specified - overwrites encryption secret with zeroes immediately after
+     * encryption operation.
+     * @param ParamsOfGetEncryptionBoxFromCryptoBox $params
+     * @return RegisteredEncryptionBox
+     */
+    public function getEncryptionBoxFromCryptoBox(ParamsOfGetEncryptionBoxFromCryptoBox $params): RegisteredEncryptionBox
+    {
+        return new RegisteredEncryptionBox($this->_context->callFunction('crypto.get_encryption_box_from_crypto_box', $params));
+    }
+
+    /**
+     * @param RegisteredCryptoBox $params
+     */
+    public function clearCryptoBoxSecretCache(RegisteredCryptoBox $params)
+    {
+        $this->_context->callFunction('crypto.clear_crypto_box_secret_cache', $params);
+    }
+
+    /**
      * @param KeyPair $params
      * @return RegisteredSigningBox
      */

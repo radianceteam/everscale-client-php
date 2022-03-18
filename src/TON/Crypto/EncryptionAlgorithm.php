@@ -18,6 +18,9 @@ abstract class EncryptionAlgorithm implements JsonSerializable
         if ($dto === null) return null;
         if (!isset($dto['type'])) return null;
         if ($dto['type'] === 'AES') return new EncryptionAlgorithm_AES($dto);
+        if ($dto['type'] === 'ChaCha20') return new EncryptionAlgorithm_ChaCha20($dto);
+        if ($dto['type'] === 'NaclBox') return new EncryptionAlgorithm_NaclBox($dto);
+        if ($dto['type'] === 'NaclSecretBox') return new EncryptionAlgorithm_NaclSecretBox($dto);
         throw new InvalidArgumentException("Unsupported EncryptionAlgorithm type: {$dto['type']}");
     }
 }

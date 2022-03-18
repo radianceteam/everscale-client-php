@@ -12,12 +12,15 @@ use TON\AsyncResult;
 use TON\Crypto\KeyPair;
 use TON\Crypto\ParamsOfChaCha20;
 use TON\Crypto\ParamsOfConvertPublicKeyToTonSafeFormat;
+use TON\Crypto\ParamsOfCreateCryptoBox;
 use TON\Crypto\ParamsOfCreateEncryptionBox;
 use TON\Crypto\ParamsOfEncryptionBoxDecrypt;
 use TON\Crypto\ParamsOfEncryptionBoxEncrypt;
 use TON\Crypto\ParamsOfEncryptionBoxGetInfo;
 use TON\Crypto\ParamsOfFactorize;
 use TON\Crypto\ParamsOfGenerateRandomBytes;
+use TON\Crypto\ParamsOfGetEncryptionBoxFromCryptoBox;
+use TON\Crypto\ParamsOfGetSigningBoxFromCryptoBox;
 use TON\Crypto\ParamsOfHDKeyDeriveFromXPrv;
 use TON\Crypto\ParamsOfHDKeyDeriveFromXPrvPath;
 use TON\Crypto\ParamsOfHDKeyPublicFromXPrv;
@@ -44,6 +47,7 @@ use TON\Crypto\ParamsOfSign;
 use TON\Crypto\ParamsOfSigningBoxSign;
 use TON\Crypto\ParamsOfTonCrc16;
 use TON\Crypto\ParamsOfVerifySignature;
+use TON\Crypto\RegisteredCryptoBox;
 use TON\Crypto\RegisteredEncryptionBox;
 use TON\Crypto\RegisteredSigningBox;
 
@@ -280,6 +284,64 @@ interface CryptoModuleAsyncInterface
      * @return AsyncResultOfChaCha20
      */
     function chacha20Async(ParamsOfChaCha20 $params): AsyncResultOfChaCha20;
+
+    /**
+     * Crypto Box is a root crypto object, that encapsulates some secret (seed phrase usually)
+     * in encrypted form and acts as a factory for all crypto primitives used in SDK:
+     * keys for signing and encryption, derived from this secret.
+     *
+     * Crypto Box encrypts original Seed Phrase with salt and password that is retrieved
+     * from `password_provider` callback, implemented on Application side.
+     *
+     * When used, decrypted secret shows up in core library's memory for a very short period
+     * of time and then is immediately overwritten with zeroes.
+     * @param ParamsOfCreateCryptoBox $params
+     * @param callable $callback Transforms app request to app response.
+     * @return AsyncRegisteredCryptoBox
+     */
+    function createCryptoBoxAsync(ParamsOfCreateCryptoBox $params, callable $callback): AsyncRegisteredCryptoBox;
+
+    /**
+     * @param RegisteredCryptoBox $params
+     * @return AsyncResult
+     */
+    function removeCryptoBoxAsync(RegisteredCryptoBox $params): AsyncResult;
+
+    /**
+     * @param RegisteredCryptoBox $params
+     * @return AsyncResultOfGetCryptoBoxInfo
+     */
+    function getCryptoBoxInfoAsync(RegisteredCryptoBox $params): AsyncResultOfGetCryptoBoxInfo;
+
+    /**
+     * Attention! Store this data in your application for a very short period of time and overwrite it with zeroes ASAP.
+     * @param RegisteredCryptoBox $params
+     * @return AsyncResultOfGetCryptoBoxSeedPhrase
+     */
+    function getCryptoBoxSeedPhraseAsync(RegisteredCryptoBox $params): AsyncResultOfGetCryptoBoxSeedPhrase;
+
+    /**
+     * @param ParamsOfGetSigningBoxFromCryptoBox $params
+     * @return AsyncRegisteredSigningBox
+     */
+    function getSigningBoxFromCryptoBoxAsync(ParamsOfGetSigningBoxFromCryptoBox $params): AsyncRegisteredSigningBox;
+
+    /**
+     * Derives encryption keypair from cryptobox secret and hdpath and
+     * stores it in cache for `secret_lifetime`
+     * or until explicitly cleared by `clear_crypto_box_secret_cache` method.
+     * If `secret_lifetime` is not specified - overwrites encryption secret with zeroes immediately after
+     * encryption operation.
+     * @param ParamsOfGetEncryptionBoxFromCryptoBox $params
+     * @return AsyncRegisteredEncryptionBox
+     */
+    function getEncryptionBoxFromCryptoBoxAsync(ParamsOfGetEncryptionBoxFromCryptoBox $params): AsyncRegisteredEncryptionBox;
+
+    /**
+     * @param RegisteredCryptoBox $params
+     * @return AsyncResult
+     */
+    function clearCryptoBoxSecretCacheAsync(RegisteredCryptoBox $params): AsyncResult;
 
     /**
      * @param callable $callback Transforms app request to app response.

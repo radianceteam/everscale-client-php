@@ -250,6 +250,46 @@ interface CryptoModuleInterface
     function chacha20(ParamsOfChaCha20 $params): ResultOfChaCha20;
 
     /**
+     * @param RegisteredCryptoBox $params
+     */
+    function removeCryptoBox(RegisteredCryptoBox $params);
+
+    /**
+     * @param RegisteredCryptoBox $params
+     * @return ResultOfGetCryptoBoxInfo
+     */
+    function getCryptoBoxInfo(RegisteredCryptoBox $params): ResultOfGetCryptoBoxInfo;
+
+    /**
+     * Attention! Store this data in your application for a very short period of time and overwrite it with zeroes ASAP.
+     * @param RegisteredCryptoBox $params
+     * @return ResultOfGetCryptoBoxSeedPhrase
+     */
+    function getCryptoBoxSeedPhrase(RegisteredCryptoBox $params): ResultOfGetCryptoBoxSeedPhrase;
+
+    /**
+     * @param ParamsOfGetSigningBoxFromCryptoBox $params
+     * @return RegisteredSigningBox
+     */
+    function getSigningBoxFromCryptoBox(ParamsOfGetSigningBoxFromCryptoBox $params): RegisteredSigningBox;
+
+    /**
+     * Derives encryption keypair from cryptobox secret and hdpath and
+     * stores it in cache for `secret_lifetime`
+     * or until explicitly cleared by `clear_crypto_box_secret_cache` method.
+     * If `secret_lifetime` is not specified - overwrites encryption secret with zeroes immediately after
+     * encryption operation.
+     * @param ParamsOfGetEncryptionBoxFromCryptoBox $params
+     * @return RegisteredEncryptionBox
+     */
+    function getEncryptionBoxFromCryptoBox(ParamsOfGetEncryptionBoxFromCryptoBox $params): RegisteredEncryptionBox;
+
+    /**
+     * @param RegisteredCryptoBox $params
+     */
+    function clearCryptoBoxSecretCache(RegisteredCryptoBox $params);
+
+    /**
      * @param KeyPair $params
      * @return RegisteredSigningBox
      */
