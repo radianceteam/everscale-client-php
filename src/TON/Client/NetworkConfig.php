@@ -65,6 +65,12 @@ class NetworkConfig implements JsonSerializable
      */
     private ?int $_queryTimeout;
 
+    /**
+     * `HTTP` or `WS`.
+     * Default is `HTTP`.
+     */
+    private ?string $_queriesProtocol;
+
     /** At the moment is not used in production. */
     private ?string $_accessKey;
 
@@ -84,6 +90,7 @@ class NetworkConfig implements JsonSerializable
         $this->_latencyDetectionInterval = $dto['latency_detection_interval'] ?? null;
         $this->_maxLatency = $dto['max_latency'] ?? null;
         $this->_queryTimeout = $dto['query_timeout'] ?? null;
+        $this->_queriesProtocol = $dto['queries_protocol'] ?? null;
         $this->_accessKey = $dto['access_key'] ?? null;
     }
 
@@ -193,6 +200,15 @@ class NetworkConfig implements JsonSerializable
     public function getQueryTimeout(): ?int
     {
         return $this->_queryTimeout;
+    }
+
+    /**
+     * `HTTP` or `WS`.
+     * Default is `HTTP`.
+     */
+    public function getQueriesProtocol(): ?string
+    {
+        return $this->_queriesProtocol;
     }
 
     /**
@@ -342,6 +358,17 @@ class NetworkConfig implements JsonSerializable
     }
 
     /**
+     * `HTTP` or `WS`.
+     * Default is `HTTP`.
+     * @return self
+     */
+    public function setQueriesProtocol(?string $queriesProtocol): self
+    {
+        $this->_queriesProtocol = $queriesProtocol;
+        return $this;
+    }
+
+    /**
      * At the moment is not used in production.
      * @return self
      */
@@ -367,6 +394,7 @@ class NetworkConfig implements JsonSerializable
         if ($this->_latencyDetectionInterval !== null) $result['latency_detection_interval'] = $this->_latencyDetectionInterval;
         if ($this->_maxLatency !== null) $result['max_latency'] = $this->_maxLatency;
         if ($this->_queryTimeout !== null) $result['query_timeout'] = $this->_queryTimeout;
+        if ($this->_queriesProtocol !== null) $result['queries_protocol'] = $this->_queriesProtocol;
         if ($this->_accessKey !== null) $result['access_key'] = $this->_accessKey;
         return !empty($result) ? $result : new stdClass();
     }
