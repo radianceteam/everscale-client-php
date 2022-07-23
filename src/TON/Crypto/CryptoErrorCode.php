@@ -41,4 +41,5 @@ final class CryptoErrorCode
     public const InvalidCryptoBoxType = 131;
     public const CryptoBoxSecretSerializationError = 132;
     public const CryptoBoxSecretDeserializationError = 133;
+    public const InvalidNonceSize = 134;
 }

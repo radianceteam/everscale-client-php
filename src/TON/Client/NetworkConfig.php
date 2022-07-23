@@ -15,7 +15,10 @@ class NetworkConfig implements JsonSerializable
 {
     private ?string $_serverAddress;
 
-    /** Any correct URL format can be specified, including IP addresses This parameter is prevailing over `server_address`. */
+    /**
+     * Any correct URL format can be specified, including IP addresses. This parameter is prevailing over `server_address`.
+     * Check the full list of [supported network endpoints](../ton-os-api/networks.md).
+     */
     private ?array $_endpoints;
 
     /** You must use `network.max_reconnect_timeout` that allows to specify maximum network resolving timeout. */
@@ -42,7 +45,7 @@ class NetworkConfig implements JsonSerializable
      */
     private ?int $_outOfSyncThreshold;
 
-    /** Default is 2. */
+    /** Default is 1. */
     private ?int $_sendingEndpointCount;
 
     /**
@@ -71,6 +74,20 @@ class NetworkConfig implements JsonSerializable
      */
     private ?string $_queriesProtocol;
 
+    /**
+     * First REMP status awaiting timeout. If no status recieved during the timeout than fallback transaction scenario is activated.
+     *
+     * Must be specified in milliseconds. Default is 1000 (1 sec).
+     */
+    private ?int $_firstRempStatusTimeout;
+
+    /**
+     * Subsequent REMP status awaiting timeout. If no status recieved during the timeout than fallback transaction scenario is activated.
+     *
+     * Must be specified in milliseconds. Default is 5000 (5 sec).
+     */
+    private ?int $_nextRempStatusTimeout;
+
     /** At the moment is not used in production. */
     private ?string $_accessKey;
 
@@ -91,6 +108,8 @@ class NetworkConfig implements JsonSerializable
         $this->_maxLatency = $dto['max_latency'] ?? null;
         $this->_queryTimeout = $dto['query_timeout'] ?? null;
         $this->_queriesProtocol = $dto['queries_protocol'] ?? null;
+        $this->_firstRempStatusTimeout = $dto['first_remp_status_timeout'] ?? null;
+        $this->_nextRempStatusTimeout = $dto['next_remp_status_timeout'] ?? null;
         $this->_accessKey = $dto['access_key'] ?? null;
     }
 
@@ -100,7 +119,8 @@ class NetworkConfig implements JsonSerializable
     }
 
     /**
-     * Any correct URL format can be specified, including IP addresses This parameter is prevailing over `server_address`.
+     * Any correct URL format can be specified, including IP addresses. This parameter is prevailing over `server_address`.
+     * Check the full list of [supported network endpoints](../ton-os-api/networks.md).
      */
     public function getEndpoints(): ?array
     {
@@ -164,7 +184,7 @@ class NetworkConfig implements JsonSerializable
     }
 
     /**
-     * Default is 2.
+     * Default is 1.
      */
     public function getSendingEndpointCount(): ?int
     {
@@ -212,6 +232,26 @@ class NetworkConfig implements JsonSerializable
     }
 
     /**
+     * First REMP status awaiting timeout. If no status recieved during the timeout than fallback transaction scenario is activated.
+     *
+     * Must be specified in milliseconds. Default is 1000 (1 sec).
+     */
+    public function getFirstRempStatusTimeout(): ?int
+    {
+        return $this->_firstRempStatusTimeout;
+    }
+
+    /**
+     * Subsequent REMP status awaiting timeout. If no status recieved during the timeout than fallback transaction scenario is activated.
+     *
+     * Must be specified in milliseconds. Default is 5000 (5 sec).
+     */
+    public function getNextRempStatusTimeout(): ?int
+    {
+        return $this->_nextRempStatusTimeout;
+    }
+
+    /**
      * At the moment is not used in production.
      */
     public function getAccessKey(): ?string
@@ -229,7 +269,8 @@ class NetworkConfig implements JsonSerializable
     }
 
     /**
-     * Any correct URL format can be specified, including IP addresses This parameter is prevailing over `server_address`.
+     * Any correct URL format can be specified, including IP addresses. This parameter is prevailing over `server_address`.
+     * Check the full list of [supported network endpoints](../ton-os-api/networks.md).
      * @return self
      */
     public function setEndpoints(?array $endpoints): self
@@ -311,7 +352,7 @@ class NetworkConfig implements JsonSerializable
     }
 
     /**
-     * Default is 2.
+     * Default is 1.
      * @return self
      */
     public function setSendingEndpointCount(?int $sendingEndpointCount): self
@@ -369,6 +410,30 @@ class NetworkConfig implements JsonSerializable
     }
 
     /**
+     * First REMP status awaiting timeout. If no status recieved during the timeout than fallback transaction scenario is activated.
+     *
+     * Must be specified in milliseconds. Default is 1000 (1 sec).
+     * @return self
+     */
+    public function setFirstRempStatusTimeout(?int $firstRempStatusTimeout): self
+    {
+        $this->_firstRempStatusTimeout = $firstRempStatusTimeout;
+        return $this;
+    }
+
+    /**
+     * Subsequent REMP status awaiting timeout. If no status recieved during the timeout than fallback transaction scenario is activated.
+     *
+     * Must be specified in milliseconds. Default is 5000 (5 sec).
+     * @return self
+     */
+    public function setNextRempStatusTimeout(?int $nextRempStatusTimeout): self
+    {
+        $this->_nextRempStatusTimeout = $nextRempStatusTimeout;
+        return $this;
+    }
+
+    /**
      * At the moment is not used in production.
      * @return self
      */
@@ -395,6 +460,8 @@ class NetworkConfig implements JsonSerializable
         if ($this->_maxLatency !== null) $result['max_latency'] = $this->_maxLatency;
         if ($this->_queryTimeout !== null) $result['query_timeout'] = $this->_queryTimeout;
         if ($this->_queriesProtocol !== null) $result['queries_protocol'] = $this->_queriesProtocol;
+        if ($this->_firstRempStatusTimeout !== null) $result['first_remp_status_timeout'] = $this->_firstRempStatusTimeout;
+        if ($this->_nextRempStatusTimeout !== null) $result['next_remp_status_timeout'] = $this->_nextRempStatusTimeout;
         if ($this->_accessKey !== null) $result['access_key'] = $this->_accessKey;
         return !empty($result) ? $result : new stdClass();
     }

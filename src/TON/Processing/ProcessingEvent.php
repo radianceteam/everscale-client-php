@@ -25,6 +25,11 @@ abstract class ProcessingEvent implements JsonSerializable
         if ($dto['type'] === 'WillFetchNextBlock') return new ProcessingEvent_WillFetchNextBlock($dto);
         if ($dto['type'] === 'FetchNextBlockFailed') return new ProcessingEvent_FetchNextBlockFailed($dto);
         if ($dto['type'] === 'MessageExpired') return new ProcessingEvent_MessageExpired($dto);
+        if ($dto['type'] === 'RempSentToValidators') return new ProcessingEvent_RempSentToValidators($dto);
+        if ($dto['type'] === 'RempIncludedIntoBlock') return new ProcessingEvent_RempIncludedIntoBlock($dto);
+        if ($dto['type'] === 'RempIncludedIntoAcceptedBlock') return new ProcessingEvent_RempIncludedIntoAcceptedBlock($dto);
+        if ($dto['type'] === 'RempOther') return new ProcessingEvent_RempOther($dto);
+        if ($dto['type'] === 'RempError') return new ProcessingEvent_RempError($dto);
         throw new InvalidArgumentException("Unsupported ProcessingEvent type: {$dto['type']}");
     }
 }
