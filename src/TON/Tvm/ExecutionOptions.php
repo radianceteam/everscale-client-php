@@ -17,6 +17,7 @@ class ExecutionOptions implements JsonSerializable
     private ?int $_blockTime;
     private ?int $_blockLt;
     private ?int $_transactionLt;
+    private ?bool $_chksigAlwaysSucceed;
 
     public function __construct(?array $dto = null)
     {
@@ -25,6 +26,7 @@ class ExecutionOptions implements JsonSerializable
         $this->_blockTime = $dto['block_time'] ?? null;
         $this->_blockLt = $dto['block_lt'] ?? null;
         $this->_transactionLt = $dto['transaction_lt'] ?? null;
+        $this->_chksigAlwaysSucceed = $dto['chksig_always_succeed'] ?? null;
     }
 
     public function getBlockchainConfig(): ?string
@@ -45,6 +47,11 @@ class ExecutionOptions implements JsonSerializable
     public function getTransactionLt(): ?int
     {
         return $this->_transactionLt;
+    }
+
+    public function isChksigAlwaysSucceed(): ?bool
+    {
+        return $this->_chksigAlwaysSucceed;
     }
 
     /**
@@ -83,6 +90,15 @@ class ExecutionOptions implements JsonSerializable
         return $this;
     }
 
+    /**
+     * @return self
+     */
+    public function setChksigAlwaysSucceed(?bool $chksigAlwaysSucceed): self
+    {
+        $this->_chksigAlwaysSucceed = $chksigAlwaysSucceed;
+        return $this;
+    }
+
     public function jsonSerialize()
     {
         $result = [];
@@ -90,6 +106,7 @@ class ExecutionOptions implements JsonSerializable
         if ($this->_blockTime !== null) $result['block_time'] = $this->_blockTime;
         if ($this->_blockLt !== null) $result['block_lt'] = $this->_blockLt;
         if ($this->_transactionLt !== null) $result['transaction_lt'] = $this->_transactionLt;
+        if ($this->_chksigAlwaysSucceed !== null) $result['chksig_always_succeed'] = $this->_chksigAlwaysSucceed;
         return !empty($result) ? $result : new stdClass();
     }
 }

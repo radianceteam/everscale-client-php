@@ -19,7 +19,7 @@ class ClientModuleTests extends AbstractModuleTestCase
         $result = $this->_client->version();
         $this->assertNotNull($result);
         $this->assertMatchesRegularExpression('/^\d+\.\d+\.\d+$/', $result->getVersion());
-        $this->assertEquals('1.34.3', $result->getVersion());
+        $this->assertEquals('1.35.0', $result->getVersion());
     }
 
     public function testGetApiReference()

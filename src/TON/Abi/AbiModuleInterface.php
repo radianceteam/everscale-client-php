@@ -164,4 +164,10 @@ interface AbiModuleInterface
      * @return ResultOfAbiEncodeBoc
      */
     function encodeBoc(ParamsOfAbiEncodeBoc $params): ResultOfAbiEncodeBoc;
+
+    /**
+     * @param ParamsOfCalcFunctionId $params
+     * @return ResultOfCalcFunctionId
+     */
+    function calcFunctionId(ParamsOfCalcFunctionId $params): ResultOfCalcFunctionId;
 }

@@ -11,6 +11,7 @@ namespace TON\Abi\Async;
 use TON\Abi\ParamsOfAbiEncodeBoc;
 use TON\Abi\ParamsOfAttachSignature;
 use TON\Abi\ParamsOfAttachSignatureToMessageBody;
+use TON\Abi\ParamsOfCalcFunctionId;
 use TON\Abi\ParamsOfDecodeAccountData;
 use TON\Abi\ParamsOfDecodeBoc;
 use TON\Abi\ParamsOfDecodeInitialData;
@@ -225,5 +226,14 @@ class AsyncAbiModule implements AbiModuleAsyncInterface
     public function encodeBocAsync(ParamsOfAbiEncodeBoc $params): AsyncResultOfAbiEncodeBoc
     {
         return new AsyncResultOfAbiEncodeBoc($this->_context->callFunctionAsync('abi.encode_boc', $params));
+    }
+
+    /**
+     * @param ParamsOfCalcFunctionId $params
+     * @return AsyncResultOfCalcFunctionId
+     */
+    public function calcFunctionIdAsync(ParamsOfCalcFunctionId $params): AsyncResultOfCalcFunctionId
+    {
+        return new AsyncResultOfCalcFunctionId($this->_context->callFunctionAsync('abi.calc_function_id', $params));
     }
 }

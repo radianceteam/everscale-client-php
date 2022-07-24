@@ -222,4 +222,13 @@ class AbiModule implements AbiModuleInterface
     {
         return new ResultOfAbiEncodeBoc($this->_context->callFunction('abi.encode_boc', $params));
     }
+
+    /**
+     * @param ParamsOfCalcFunctionId $params
+     * @return ResultOfCalcFunctionId
+     */
+    public function calcFunctionId(ParamsOfCalcFunctionId $params): ResultOfCalcFunctionId
+    {
+        return new ResultOfCalcFunctionId($this->_context->callFunction('abi.calc_function_id', $params));
+    }
 }
