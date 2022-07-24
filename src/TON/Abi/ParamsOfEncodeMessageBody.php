@@ -36,6 +36,13 @@ class ParamsOfEncodeMessageBody implements JsonSerializable
      */
     private ?int $_processingTryIndex;
 
+    /**
+     * Since ABI version 2.3 destination address of external inbound message is used in message
+     * body signature calculation. Should be provided when signed external inbound message body is
+     * created. Otherwise can be omitted.
+     */
+    private ?string $_address;
+
     public function __construct(?array $dto = null)
     {
         if (!$dto) $dto = [];
@@ -44,6 +51,7 @@ class ParamsOfEncodeMessageBody implements JsonSerializable
         $this->_isInternal = $dto['is_internal'] ?? false;
         $this->_signer = isset($dto['signer']) ? Signer::create($dto['signer']) : null;
         $this->_processingTryIndex = $dto['processing_try_index'] ?? null;
+        $this->_address = $dto['address'] ?? null;
     }
 
     public function getAbi(): ?Abi
@@ -84,6 +92,16 @@ class ParamsOfEncodeMessageBody implements JsonSerializable
     public function getProcessingTryIndex(): ?int
     {
         return $this->_processingTryIndex;
+    }
+
+    /**
+     * Since ABI version 2.3 destination address of external inbound message is used in message
+     * body signature calculation. Should be provided when signed external inbound message body is
+     * created. Otherwise can be omitted.
+     */
+    public function getAddress(): ?string
+    {
+        return $this->_address;
     }
 
     /**
@@ -142,6 +160,18 @@ class ParamsOfEncodeMessageBody implements JsonSerializable
         return $this;
     }
 
+    /**
+     * Since ABI version 2.3 destination address of external inbound message is used in message
+     * body signature calculation. Should be provided when signed external inbound message body is
+     * created. Otherwise can be omitted.
+     * @return self
+     */
+    public function setAddress(?string $address): self
+    {
+        $this->_address = $address;
+        return $this;
+    }
+
     public function jsonSerialize()
     {
         $result = [];
@@ -150,6 +180,7 @@ class ParamsOfEncodeMessageBody implements JsonSerializable
         if ($this->_isInternal !== null) $result['is_internal'] = $this->_isInternal;
         if ($this->_signer !== null) $result['signer'] = $this->_signer;
         if ($this->_processingTryIndex !== null) $result['processing_try_index'] = $this->_processingTryIndex;
+        if ($this->_address !== null) $result['address'] = $this->_address;
         return !empty($result) ? $result : new stdClass();
     }
 }
