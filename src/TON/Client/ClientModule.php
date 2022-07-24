@@ -50,6 +50,14 @@ class ClientModule implements ClientModuleInterface
     }
 
     /**
+     * @return ClientConfig
+     */
+    public function config(): ClientConfig
+    {
+        return new ClientConfig($this->_context->callFunction('client.config'));
+    }
+
+    /**
      * @return ResultOfBuildInfo
      */
     public function buildInfo(): ResultOfBuildInfo

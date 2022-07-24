@@ -24,6 +24,11 @@ interface ClientModuleAsyncInterface
     function versionAsync(): AsyncResultOfVersion;
 
     /**
+     * @return AsyncClientConfig
+     */
+    function configAsync(): AsyncClientConfig;
+
+    /**
      * @return AsyncResultOfBuildInfo
      */
     function buildInfoAsync(): AsyncResultOfBuildInfo;

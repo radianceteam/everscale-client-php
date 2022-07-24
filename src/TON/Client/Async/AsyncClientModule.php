@@ -42,6 +42,14 @@ class AsyncClientModule implements ClientModuleAsyncInterface
     }
 
     /**
+     * @return AsyncClientConfig
+     */
+    public function configAsync(): AsyncClientConfig
+    {
+        return new AsyncClientConfig($this->_context->callFunctionAsync('client.config'));
+    }
+
+    /**
      * @return AsyncResultOfBuildInfo
      */
     public function buildInfoAsync(): AsyncResultOfBuildInfo

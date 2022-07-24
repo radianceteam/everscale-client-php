@@ -28,6 +28,11 @@ interface ClientModuleInterface
     function version(): ResultOfVersion;
 
     /**
+     * @return ClientConfig
+     */
+    function config(): ClientConfig;
+
+    /**
      * @return ResultOfBuildInfo
      */
     function buildInfo(): ResultOfBuildInfo;
