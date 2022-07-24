@@ -35,7 +35,7 @@
   "require": {
     "php": ">=7.4",
     "ext-json": "*",
-    "ext-ton_client": ">=1.34.2",
+    "ext-ton_client": ">=1.34.3",
     "psr/log": "^1.1"
   },
   "scripts": {
