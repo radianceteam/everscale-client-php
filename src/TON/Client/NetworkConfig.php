@@ -88,7 +88,7 @@ class NetworkConfig implements JsonSerializable
      */
     private ?int $_nextRempStatusTimeout;
 
-    /** At the moment is not used in production. */
+    /** You can specify here Evercloud project secret ot serialized JWT. */
     private ?string $_accessKey;
 
     public function __construct(?array $dto = null)
@@ -252,7 +252,7 @@ class NetworkConfig implements JsonSerializable
     }
 
     /**
-     * At the moment is not used in production.
+     * You can specify here Evercloud project secret ot serialized JWT.
      */
     public function getAccessKey(): ?string
     {
@@ -434,7 +434,7 @@ class NetworkConfig implements JsonSerializable
     }
 
     /**
-     * At the moment is not used in production.
+     * You can specify here Evercloud project secret ot serialized JWT.
      * @return self
      */
     public function setAccessKey(?string $accessKey): self
