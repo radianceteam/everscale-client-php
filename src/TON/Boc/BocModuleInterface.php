@@ -89,7 +89,6 @@ interface BocModuleInterface
     function cacheSet(ParamsOfBocCacheSet $params): ResultOfBocCacheSet;
 
     /**
-     * BOCs which don't have another pins will be removed from cache
      * @param ParamsOfBocCacheUnpin $params
      */
     function cacheUnpin(ParamsOfBocCacheUnpin $params);

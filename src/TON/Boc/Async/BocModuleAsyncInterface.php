@@ -100,7 +100,6 @@ interface BocModuleAsyncInterface
     function cacheSetAsync(ParamsOfBocCacheSet $params): AsyncResultOfBocCacheSet;
 
     /**
-     * BOCs which don't have another pins will be removed from cache
      * @param ParamsOfBocCacheUnpin $params
      * @return AsyncResult
      */

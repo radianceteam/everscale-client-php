@@ -13,7 +13,7 @@ use stdClass;
 
 class TransactionFees implements JsonSerializable
 {
-    /** Left for backward compatibility. Does not participate in account transaction fees calculation. */
+    /** Contains the same data as ext_in_msg_fee field */
     private int $_inMsgFwdFee;
     private int $_storageFee;
     private int $_gasFee;
@@ -21,14 +21,7 @@ class TransactionFees implements JsonSerializable
     /** Contains the same data as total_fwd_fees field. Deprecated because of its confusing name, that is not the same with GraphQL API Transaction type's field. */
     private int $_outMsgsFwdFee;
 
-    /**
-     * This is the field that is named as `total_fees` in GraphQL API Transaction type. `total_account_fees` name is misleading, because it does not mean account fees, instead it means
-     * validators total fees received for the transaction execution. It does not include some forward fees that account
-     * actually pays now, but validators will receive later during value delivery to another account (not even in the receiving
-     * transaction).
-     * Because of all of this, this field is not interesting for those who wants to understand
-     * the real account fees, this is why it is deprecated and left for backward compatibility.
-     */
+    /** Contains the same data as account_fees field */
     private int $_totalAccountFees;
     private int $_totalOutput;
     private int $_extInMsgFee;
@@ -50,7 +43,7 @@ class TransactionFees implements JsonSerializable
     }
 
     /**
-     * Left for backward compatibility. Does not participate in account transaction fees calculation.
+     * Contains the same data as ext_in_msg_fee field
      */
     public function getInMsgFwdFee(): int
     {
@@ -76,12 +69,7 @@ class TransactionFees implements JsonSerializable
     }
 
     /**
-     * This is the field that is named as `total_fees` in GraphQL API Transaction type. `total_account_fees` name is misleading, because it does not mean account fees, instead it means
-     * validators total fees received for the transaction execution. It does not include some forward fees that account
-     * actually pays now, but validators will receive later during value delivery to another account (not even in the receiving
-     * transaction).
-     * Because of all of this, this field is not interesting for those who wants to understand
-     * the real account fees, this is why it is deprecated and left for backward compatibility.
+     * Contains the same data as account_fees field
      */
     public function getTotalAccountFees(): int
     {
@@ -109,7 +97,7 @@ class TransactionFees implements JsonSerializable
     }
 
     /**
-     * Left for backward compatibility. Does not participate in account transaction fees calculation.
+     * Contains the same data as ext_in_msg_fee field
      * @return self
      */
     public function setInMsgFwdFee(int $inMsgFwdFee): self
@@ -147,12 +135,7 @@ class TransactionFees implements JsonSerializable
     }
 
     /**
-     * This is the field that is named as `total_fees` in GraphQL API Transaction type. `total_account_fees` name is misleading, because it does not mean account fees, instead it means
-     * validators total fees received for the transaction execution. It does not include some forward fees that account
-     * actually pays now, but validators will receive later during value delivery to another account (not even in the receiving
-     * transaction).
-     * Because of all of this, this field is not interesting for those who wants to understand
-     * the real account fees, this is why it is deprecated and left for backward compatibility.
+     * Contains the same data as account_fees field
      * @return self
      */
     public function setTotalAccountFees(int $totalAccountFees): self

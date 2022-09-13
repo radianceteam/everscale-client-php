@@ -145,7 +145,6 @@ class AsyncBocModule implements BocModuleAsyncInterface
     }
 
     /**
-     * BOCs which don't have another pins will be removed from cache
      * @param ParamsOfBocCacheUnpin $params
      * @return AsyncResult
      */
