@@ -13,60 +13,32 @@ use stdClass;
 
 class EncryptionAlgorithm_ChaCha20 extends EncryptionAlgorithm implements JsonSerializable
 {
-    /** Must be encoded with `hex`. */
-    private string $_key;
-
-    /** Must be encoded with `hex`. */
-    private string $_nonce;
+    private ?ChaCha20ParamsEB $_value;
 
     public function __construct(?array $dto = null)
     {
         if (!$dto) $dto = [];
-        $this->_key = $dto['key'] ?? '';
-        $this->_nonce = $dto['nonce'] ?? '';
+        $this->_value = isset($dto['value']) ? new ChaCha20ParamsEB($dto['value']) : null;
     }
 
-    /**
-     * Must be encoded with `hex`.
-     */
-    public function getKey(): string
+    public function getValue(): ?ChaCha20ParamsEB
     {
-        return $this->_key;
+        return $this->_value;
     }
 
     /**
-     * Must be encoded with `hex`.
-     */
-    public function getNonce(): string
-    {
-        return $this->_nonce;
-    }
-
-    /**
-     * Must be encoded with `hex`.
      * @return self
      */
-    public function setKey(string $key): self
+    public function setValue(?ChaCha20ParamsEB $value): self
     {
-        $this->_key = $key;
-        return $this;
-    }
-
-    /**
-     * Must be encoded with `hex`.
-     * @return self
-     */
-    public function setNonce(string $nonce): self
-    {
-        $this->_nonce = $nonce;
+        $this->_value = $value;
         return $this;
     }
 
     public function jsonSerialize()
     {
         $result = ['type' => 'ChaCha20'];
-        if ($this->_key !== null) $result['key'] = $this->_key;
-        if ($this->_nonce !== null) $result['nonce'] = $this->_nonce;
+        if ($this->_value !== null) $result['value'] = $this->_value;
         return !empty($result) ? $result : new stdClass();
     }
 }

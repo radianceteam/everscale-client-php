@@ -13,60 +13,32 @@ use stdClass;
 
 class BoxEncryptionAlgorithm_NaclBox extends BoxEncryptionAlgorithm implements JsonSerializable
 {
-    /** Must be encoded with `hex`. */
-    private string $_theirPublic;
-
-    /** Must be encoded with `hex`. */
-    private string $_nonce;
+    private ?NaclBoxParamsCB $_value;
 
     public function __construct(?array $dto = null)
     {
         if (!$dto) $dto = [];
-        $this->_theirPublic = $dto['their_public'] ?? '';
-        $this->_nonce = $dto['nonce'] ?? '';
+        $this->_value = isset($dto['value']) ? new NaclBoxParamsCB($dto['value']) : null;
     }
 
-    /**
-     * Must be encoded with `hex`.
-     */
-    public function getTheirPublic(): string
+    public function getValue(): ?NaclBoxParamsCB
     {
-        return $this->_theirPublic;
+        return $this->_value;
     }
 
     /**
-     * Must be encoded with `hex`.
-     */
-    public function getNonce(): string
-    {
-        return $this->_nonce;
-    }
-
-    /**
-     * Must be encoded with `hex`.
      * @return self
      */
-    public function setTheirPublic(string $theirPublic): self
+    public function setValue(?NaclBoxParamsCB $value): self
     {
-        $this->_theirPublic = $theirPublic;
-        return $this;
-    }
-
-    /**
-     * Must be encoded with `hex`.
-     * @return self
-     */
-    public function setNonce(string $nonce): self
-    {
-        $this->_nonce = $nonce;
+        $this->_value = $value;
         return $this;
     }
 
     public function jsonSerialize()
     {
         $result = ['type' => 'NaclBox'];
-        if ($this->_theirPublic !== null) $result['their_public'] = $this->_theirPublic;
-        if ($this->_nonce !== null) $result['nonce'] = $this->_nonce;
+        if ($this->_value !== null) $result['value'] = $this->_value;
         return !empty($result) ? $result : new stdClass();
     }
 }

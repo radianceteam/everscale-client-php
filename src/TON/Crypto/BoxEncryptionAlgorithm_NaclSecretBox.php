@@ -13,32 +13,32 @@ use stdClass;
 
 class BoxEncryptionAlgorithm_NaclSecretBox extends BoxEncryptionAlgorithm implements JsonSerializable
 {
-    private string $_nonce;
+    private ?NaclSecretBoxParamsCB $_value;
 
     public function __construct(?array $dto = null)
     {
         if (!$dto) $dto = [];
-        $this->_nonce = $dto['nonce'] ?? '';
+        $this->_value = isset($dto['value']) ? new NaclSecretBoxParamsCB($dto['value']) : null;
     }
 
-    public function getNonce(): string
+    public function getValue(): ?NaclSecretBoxParamsCB
     {
-        return $this->_nonce;
+        return $this->_value;
     }
 
     /**
      * @return self
      */
-    public function setNonce(string $nonce): self
+    public function setValue(?NaclSecretBoxParamsCB $value): self
     {
-        $this->_nonce = $nonce;
+        $this->_value = $value;
         return $this;
     }
 
     public function jsonSerialize()
     {
         $result = ['type' => 'NaclSecretBox'];
-        if ($this->_nonce !== null) $result['nonce'] = $this->_nonce;
+        if ($this->_value !== null) $result['value'] = $this->_value;
         return !empty($result) ? $result : new stdClass();
     }
 }

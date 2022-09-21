@@ -13,66 +13,32 @@ use stdClass;
 
 class EncryptionAlgorithm_AES extends EncryptionAlgorithm implements JsonSerializable
 {
-    private string $_mode;
-    private string $_key;
-    private ?string $_iv;
+    private ?AesParamsEB $_value;
 
     public function __construct(?array $dto = null)
     {
         if (!$dto) $dto = [];
-        $this->_mode = $dto['mode'] ?? '';
-        $this->_key = $dto['key'] ?? '';
-        $this->_iv = $dto['iv'] ?? null;
+        $this->_value = isset($dto['value']) ? new AesParamsEB($dto['value']) : null;
     }
 
-    public function getMode(): string
+    public function getValue(): ?AesParamsEB
     {
-        return $this->_mode;
-    }
-
-    public function getKey(): string
-    {
-        return $this->_key;
-    }
-
-    public function getIv(): ?string
-    {
-        return $this->_iv;
+        return $this->_value;
     }
 
     /**
      * @return self
      */
-    public function setMode(string $mode): self
+    public function setValue(?AesParamsEB $value): self
     {
-        $this->_mode = $mode;
-        return $this;
-    }
-
-    /**
-     * @return self
-     */
-    public function setKey(string $key): self
-    {
-        $this->_key = $key;
-        return $this;
-    }
-
-    /**
-     * @return self
-     */
-    public function setIv(?string $iv): self
-    {
-        $this->_iv = $iv;
+        $this->_value = $value;
         return $this;
     }
 
     public function jsonSerialize()
     {
         $result = ['type' => 'AES'];
-        if ($this->_mode !== null) $result['mode'] = $this->_mode;
-        if ($this->_key !== null) $result['key'] = $this->_key;
-        if ($this->_iv !== null) $result['iv'] = $this->_iv;
+        if ($this->_value !== null) $result['value'] = $this->_value;
         return !empty($result) ? $result : new stdClass();
     }
 }

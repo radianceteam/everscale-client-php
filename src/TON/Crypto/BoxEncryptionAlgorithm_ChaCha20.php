@@ -13,37 +13,32 @@ use stdClass;
 
 class BoxEncryptionAlgorithm_ChaCha20 extends BoxEncryptionAlgorithm implements JsonSerializable
 {
-    /** Must be encoded with `hex`. */
-    private string $_nonce;
+    private ?ChaCha20ParamsCB $_value;
 
     public function __construct(?array $dto = null)
     {
         if (!$dto) $dto = [];
-        $this->_nonce = $dto['nonce'] ?? '';
+        $this->_value = isset($dto['value']) ? new ChaCha20ParamsCB($dto['value']) : null;
     }
 
-    /**
-     * Must be encoded with `hex`.
-     */
-    public function getNonce(): string
+    public function getValue(): ?ChaCha20ParamsCB
     {
-        return $this->_nonce;
+        return $this->_value;
     }
 
     /**
-     * Must be encoded with `hex`.
      * @return self
      */
-    public function setNonce(string $nonce): self
+    public function setValue(?ChaCha20ParamsCB $value): self
     {
-        $this->_nonce = $nonce;
+        $this->_value = $value;
         return $this;
     }
 
     public function jsonSerialize()
     {
         $result = ['type' => 'ChaCha20'];
-        if ($this->_nonce !== null) $result['nonce'] = $this->_nonce;
+        if ($this->_value !== null) $result['value'] = $this->_value;
         return !empty($result) ? $result : new stdClass();
     }
 }

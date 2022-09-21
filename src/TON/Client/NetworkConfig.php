@@ -88,7 +88,11 @@ class NetworkConfig implements JsonSerializable
      */
     private ?int $_nextRempStatusTimeout;
 
-    /** You can specify here Evercloud project secret ot serialized JWT. */
+    /**
+     * You can specify here Basic Auth secret (Evercloud project secret) in hex string
+     * or serialized JWT in base64 string.
+     * Will be passed on as Authorization: Basic ... or Authorization: Bearer ... header.
+     */
     private ?string $_accessKey;
 
     public function __construct(?array $dto = null)
@@ -252,7 +256,9 @@ class NetworkConfig implements JsonSerializable
     }
 
     /**
-     * You can specify here Evercloud project secret ot serialized JWT.
+     * You can specify here Basic Auth secret (Evercloud project secret) in hex string
+     * or serialized JWT in base64 string.
+     * Will be passed on as Authorization: Basic ... or Authorization: Bearer ... header.
      */
     public function getAccessKey(): ?string
     {
@@ -434,7 +440,9 @@ class NetworkConfig implements JsonSerializable
     }
 
     /**
-     * You can specify here Evercloud project secret ot serialized JWT.
+     * You can specify here Basic Auth secret (Evercloud project secret) in hex string
+     * or serialized JWT in base64 string.
+     * Will be passed on as Authorization: Basic ... or Authorization: Bearer ... header.
      * @return self
      */
     public function setAccessKey(?string $accessKey): self
