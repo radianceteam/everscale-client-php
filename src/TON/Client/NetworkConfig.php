@@ -17,7 +17,7 @@ class NetworkConfig implements JsonSerializable
 
     /**
      * Any correct URL format can be specified, including IP addresses. This parameter is prevailing over `server_address`.
-     * Check the full list of [supported network endpoints](../ton-os-api/networks.md).
+     * Check the full list of [supported network endpoints](https://docs.everos.dev/ever-sdk/reference/ever-os-api/networks).
      */
     private ?array $_endpoints;
 
@@ -87,12 +87,6 @@ class NetworkConfig implements JsonSerializable
      * Must be specified in milliseconds. Default is 5000 (5 sec).
      */
     private ?int $_nextRempStatusTimeout;
-
-    /**
-     * You can specify here Basic Auth secret (Evercloud project secret) in hex string
-     * or serialized JWT in base64 string.
-     * Will be passed on as Authorization: Basic ... or Authorization: Bearer ... header.
-     */
     private ?string $_accessKey;
 
     public function __construct(?array $dto = null)
@@ -124,7 +118,7 @@ class NetworkConfig implements JsonSerializable
 
     /**
      * Any correct URL format can be specified, including IP addresses. This parameter is prevailing over `server_address`.
-     * Check the full list of [supported network endpoints](../ton-os-api/networks.md).
+     * Check the full list of [supported network endpoints](https://docs.everos.dev/ever-sdk/reference/ever-os-api/networks).
      */
     public function getEndpoints(): ?array
     {
@@ -255,11 +249,6 @@ class NetworkConfig implements JsonSerializable
         return $this->_nextRempStatusTimeout;
     }
 
-    /**
-     * You can specify here Basic Auth secret (Evercloud project secret) in hex string
-     * or serialized JWT in base64 string.
-     * Will be passed on as Authorization: Basic ... or Authorization: Bearer ... header.
-     */
     public function getAccessKey(): ?string
     {
         return $this->_accessKey;
@@ -276,7 +265,7 @@ class NetworkConfig implements JsonSerializable
 
     /**
      * Any correct URL format can be specified, including IP addresses. This parameter is prevailing over `server_address`.
-     * Check the full list of [supported network endpoints](../ton-os-api/networks.md).
+     * Check the full list of [supported network endpoints](https://docs.everos.dev/ever-sdk/reference/ever-os-api/networks).
      * @return self
      */
     public function setEndpoints(?array $endpoints): self
@@ -440,9 +429,6 @@ class NetworkConfig implements JsonSerializable
     }
 
     /**
-     * You can specify here Basic Auth secret (Evercloud project secret) in hex string
-     * or serialized JWT in base64 string.
-     * Will be passed on as Authorization: Basic ... or Authorization: Bearer ... header.
      * @return self
      */
     public function setAccessKey(?string $accessKey): self

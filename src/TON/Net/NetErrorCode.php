@@ -24,4 +24,5 @@ final class NetErrorCode
     public const NoEndpointsProvided = 612;
     public const GraphqlWebsocketInitError = 613;
     public const NetworkModuleResumed = 614;
+    public const Unauthorized = 615;
 }
